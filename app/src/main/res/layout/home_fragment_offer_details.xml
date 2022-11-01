@@ -1,0 +1,245 @@
+<?xml
+    version="1.0"
+    encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.brandsin.user.ui.menu.offers.offersdetails.OfferDetailsViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/btn_buyOffer"
+            android:paddingBottom="@dimen/_8sdp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:paddingBottom="@dimen/_24sdp"
+                android:paddingTop="@dimen/_16sdp"
+                android:layout_height="match_parent">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/Img_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_150sdp"
+                    app:cardElevation="0dp"
+                    app:cardCornerRadius="@dimen/_8sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription" >
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        offerImg="@{viewModel.offerData.image}"
+                        android:src="@drawable/app_logo" />
+
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:id="@+id/tv_offerName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_24sdp"
+                    android:fontFamily="@font/cairo_semibold"
+                    android:layout_marginStart="@dimen/_24sdp"
+                    android:scaleType="centerCrop"
+                    android:textAlignment="viewStart"
+                    android:text="@{viewModel.offerData.name}"
+                    android:src="@drawable/app_logo"
+                    tools:text="باكتس الاحتفال"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_14ssp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/Img_layout" />
+
+                <TextView
+                    android:id="@+id/tv_storeName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/cairoregular"
+                    android:textAlignment="viewStart"
+                    android:text="@{viewModel.offerData.store.name}"
+                    android:scaleType="centerCrop"
+                    android:textColor="#7D7D7D"
+                    android:src="@drawable/app_logo"
+                    tools:text="كنتاكي"
+                    android:textSize="@dimen/_10ssp"
+                    app:layout_constraintStart_toStartOf="@id/tv_offerName"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_offerName" />
+
+                <TextView
+                    android:id="@+id/tv_offerPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/cairo_semibold"
+                    android:layout_marginEnd="@dimen/_24sdp"
+                    android:gravity="center"
+                    android:scaleType="centerCrop"
+                    android:text="@{viewModel.obsPrice}"
+                    android:src="@drawable/app_logo"
+                    tools:text="200 ج.م"
+                    android:textColor="#1976D2"
+                    android:textSize="@dimen/_12ssp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_offerName"
+                    app:layout_constraintTop_toTopOf="@+id/tv_offerName" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_1sdp"
+                    android:id="@+id/seperator"
+                    android:layout_marginStart="@dimen/_16sdp"
+                    android:layout_marginEnd="@dimen/_16sdp"
+                    android:background="#C9C9C9"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_storeName" />
+
+                <TextView
+                    android:id="@+id/text_starteDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/cairoregular"
+                    android:layout_marginEnd="@dimen/_24sdp"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:gravity="center"
+                    android:textColor="#AFAFAF"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/app_logo"
+                    android:text="@string/start_date"
+                    android:textSize="@dimen/_11ssp"
+                    app:layout_constraintStart_toStartOf="@id/tv_offerName"
+                    app:layout_constraintTop_toBottomOf="@+id/seperator" />
+
+                <TextView
+                    android:id="@+id/tv_startDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/cairo_semibold"
+                    android:gravity="center"
+                    android:scaleType="centerCrop"
+                    android:text="@{viewModel.offerData.startDate}"
+                    android:textColor="@color/black"
+                    android:src="@drawable/app_logo"
+                    tools:text="2,10,202  02:30"
+                    android:textSize="@dimen/_12ssp"
+                    app:layout_constraintStart_toStartOf="@id/text_starteDate"
+                    app:layout_constraintTop_toBottomOf="@+id/text_starteDate" />
+
+                <TextView
+                    android:id="@+id/text_endDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/cairoregular"
+                    android:layout_marginEnd="@dimen/_24sdp"
+                    android:gravity="center"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/app_logo"
+                    android:text="@string/end_date"
+                    android:textColor="#AFAFAF"
+                    android:textSize="@dimen/_11ssp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@id/text_starteDate"
+                    app:layout_constraintTop_toTopOf="@+id/text_starteDate" />
+
+                <TextView
+                    android:id="@+id/tv_endDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/cairo_semibold"
+                    android:gravity="center"
+                    android:scaleType="centerCrop"
+                    android:textColor="@color/black"
+                    android:text="@{viewModel.offerData.endDate}"
+                    android:src="@drawable/app_logo"
+                    tools:text="4,10,2020  05:35"
+                    android:textSize="@dimen/_12ssp"
+                    app:layout_constraintEnd_toEndOf="@id/text_endDate"
+                    app:layout_constraintTop_toBottomOf="@+id/text_endDate" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_1sdp"
+                    android:id="@+id/seperator2"
+                    android:layout_marginStart="@dimen/_16sdp"
+                    android:layout_marginEnd="@dimen/_16sdp"
+                    android:background="#C9C9C9"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_endDate" />
+
+                <TextView
+                    android:id="@+id/text_products"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/cairo_semibold"
+                    android:layout_marginEnd="@dimen/_24sdp"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:gravity="center"
+                    android:textColor="#AFAFAF"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/app_logo"
+                    android:text="@string/products"
+                    android:textSize="@dimen/_14ssp"
+                    app:layout_constraintStart_toStartOf="@id/tv_offerName"
+                    app:layout_constraintTop_toBottomOf="@+id/seperator2" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_offerProducts"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:layout_marginStart="@dimen/_16sdp"
+                    android:layout_marginEnd="@dimen/_16sdp"
+                    adapter="@{viewModel.offerProductAdapter}"
+                    android:orientation="vertical"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/text_products"
+                    app:layout_constraintTop_toBottomOf="@+id/text_products"
+                    tools:itemCount="5"
+                    tools:listitem="@layout/raw_offer_product_item" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_buyOffer"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_42sdp"
+            android:fontFamily="@font/cairo_semibold"
+            android:layout_marginStart="@dimen/_24sdp"
+            android:layout_marginEnd="@dimen/_24sdp"
+            android:onClick="@{() -> viewModel.onBuyOfferClicked()}"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:text="@string/buy_offer"
+            android:textAllCaps="false"
+            android:layout_marginBottom="@dimen/_8sdp"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_14ssp"
+            app:cornerRadius="@dimen/_6sdp"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

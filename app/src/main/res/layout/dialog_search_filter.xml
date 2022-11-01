@@ -1,0 +1,250 @@
+<?xml
+    version="1.0"
+    encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.brandsin.user.ui.dialogs.filter.DialogFilterViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_450sdp"
+            app:cardElevation="@dimen/_8sdp"
+            android:background="@drawable/product_simple_bg"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:backgroundTint="@color/white"
+                android:background="@drawable/product_simple_bg">
+
+                <androidx.core.widget.NestedScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" >
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/cairo_semibold"
+                        android:text="@string/refine_your_search"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_14ssp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageButton
+                        android:id="@+id/ib_close"
+                        android:layout_width="@dimen/_30sdp"
+                        android:layout_height="@dimen/_30sdp"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:background="?actionBarItemBackground"
+                        android:padding="@dimen/_8sdp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/close"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+
+
+                    <TextView
+                        android:id="@+id/tv_sort_by"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_8sdp"
+                        android:layout_marginEnd="@dimen/_8sdp"
+                        android:fontFamily="@font/cairo_semibold"
+                        android:text="@string/sort_by"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12ssp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv"/>
+
+                <RadioGroup
+                    android:id="@+id/rg_sort"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_sort_by" >
+
+                    <RadioButton
+                        android:id="@+id/the_nearest"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/the_nearest"
+                        android:textSize="@dimen/_10ssp"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/cairoregular"
+                        android:maxLines="1"
+                        android:ellipsize="end"/>
+
+                    <RadioButton
+                        android:id="@+id/minimum_order"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/minimum_order"
+                        android:textSize="@dimen/_10ssp"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/cairoregular"
+                        android:maxLines="1"
+                        android:ellipsize="end" />
+
+                    <RadioButton
+                        android:id="@+id/fastest_delivery"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/fastest_delivery"
+                        android:textSize="@dimen/_10ssp"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/cairoregular"
+                        android:maxLines="1"
+                        android:ellipsize="end"/>
+
+                    <RadioButton
+                        android:id="@+id/a_to_z"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/a_to_z"
+                        android:textSize="@dimen/_10ssp"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/cairoregular"
+                        android:maxLines="1"
+                        android:ellipsize="end" />
+
+                    <RadioButton
+                        android:id="@+id/rating"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/rating"
+                        android:textSize="@dimen/_10ssp"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/cairoregular"
+                        android:maxLines="1"
+                        android:ellipsize="end" />
+                </RadioGroup>
+
+                <TextView
+                    android:id="@+id/tv_filter_by"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:layout_marginEnd="@dimen/_8sdp"
+                    android:fontFamily="@font/cairo_semibold"
+                    android:text="@string/filter_by"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12ssp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rg_sort" />
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_filter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    visibleGone="@{viewModel.obsHideRecycler}"
+                    adapter="@{viewModel.filterAdapter}"
+                    android:orientation="vertical"
+                    tools:listitem="@layout/item_filter"
+                    tools:itemCount="5"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_filter_by"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <LinearLayout
+                    android:id="@+id/lin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginStart="@dimen/_16sdp"
+                    android:layout_marginEnd="@dimen/_16sdp"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    app:layout_constraintTop_toBottomOf="@+id/rv_filter"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="@dimen/_40sdp"
+                        android:insetTop="0dp"
+                        android:id="@+id/btn_confirm"
+                        android:insetBottom="0dp"
+                        style="@style/Widget.MaterialComponents.Button"
+                        app:cornerRadius="@dimen/_8sdp"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:layout_marginEnd="@dimen/_5sdp"
+                        android:src="@drawable/ic_order_duccess"
+                        android:fontFamily="@font/cairo_semibold"
+                        android:textColor="@color/white"
+                        android:textAllCaps="false"
+                        android:textSize="@dimen/_11ssp"
+                        android:text="@string/confirm" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="@dimen/_40sdp"
+                        android:insetTop="0dp"
+                        android:id="@+id/btn_delete"
+                        android:textAllCaps="false"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        app:cornerRadius="@dimen/_8sdp"
+                        app:strokeColor="@color/color_primary"
+                        app:strokeWidth="@dimen/_1sdp"
+                        android:insetBottom="0dp"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:layout_marginEnd="@dimen/_5sdp"
+                        android:src="@drawable/ic_order_duccess"
+                        android:fontFamily="@font/cairo_semibold"
+                        android:textColor="@color/color_primary"
+                        android:textSize="@dimen/_11ssp"
+                        android:text="@string/delete" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/txt"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_10sdp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/lin" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.core.widget.NestedScrollView>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

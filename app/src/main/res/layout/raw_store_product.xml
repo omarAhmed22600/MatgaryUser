@@ -1,0 +1,144 @@
+<?xml
+    version="1.0"
+    encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.brandsin.user.ui.main.order.storedetails.products.ItemStoreProductViewModel" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_12sdp"
+        android:id="@+id/raw_layout"
+        app:cardElevation="@dimen/_4sdp"
+        android:background="?selectableItemBackground"
+        app:cardCornerRadius="@dimen/_8sdp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/_5sdp">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="@dimen/_60sdp"
+                android:layout_height="@dimen/_60sdp"
+                android:elevation="@dimen/_4sdp"
+                android:id="@+id/img_product"
+                app:cardCornerRadius="@dimen/_6sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:src="@drawable/app_logo"
+                    android:scaleType="centerCrop"
+                    storeImg="@{viewModel.item.image}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:textAlignment="viewStart"
+                android:lineSpacingExtra="-8dp"
+                android:maxLines="2"
+                android:fontFamily="@font/cairo_semibold"
+                android:textColor="@color/black"
+                android:text="@{viewModel.item.name}"
+                android:textSize="@dimen/_11ssp"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:paddingEnd="@dimen/_4sdp"
+                app:layout_constraintStart_toEndOf="@+id/img_product"
+                app:layout_constraintTop_toTopOf="@id/img_product"
+                tools:text="بطاطس ماكدونالز" />
+
+
+            <TextView
+                android:id="@+id/tv_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:textAlignment="viewStart"
+                android:lineSpacingExtra="-8dp"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:fontFamily="@font/cairo_semibold"
+                android:textColor="@color/grey"
+                android:text="@{viewModel.item.description}"
+                android:textSize="@dimen/_10ssp"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:paddingEnd="@dimen/_4sdp"
+                app:layout_constraintStart_toEndOf="@+id/img_product"
+                app:layout_constraintTop_toBottomOf="@id/tv_title"
+                tools:text="بطاطس ماكدونالز" />
+
+            <TextView
+                android:id="@+id/tv_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_16sdp"
+                android:ellipsize="end"
+                android:fontFamily="@font/cairo_semibold"
+                android:maxLines="2"
+                android:paddingEnd="@dimen/_4sdp"
+                android:text="@{viewModel.obsProductPrice}"
+                android:textAlignment="viewStart"
+                android:textColor="#1976D2"
+                android:textSize="@dimen/_10ssp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/tv_description"
+                app:layout_constraintTop_toBottomOf="@+id/tv_description"
+                tools:text="7 جنيه" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:src="@drawable/ic_increase_order_quantity"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.936"
+                app:layout_constraintStart_toEndOf="@+id/tv_price"
+                app:layout_constraintTop_toBottomOf="@+id/tv_description" />
+
+            <!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                app:strokeWidth="@dimen/_1sdp"-->
+<!--                android:insetTop="0dp"-->
+<!--                android:id="@+id/btn_add"-->
+<!--                android:insetBottom="0dp"-->
+<!--                android:paddingStart="@dimen/_13sdp"-->
+<!--                android:paddingEnd="@dimen/_13sdp"-->
+<!--                android:paddingTop="@dimen/_2sdp"-->
+<!--                android:paddingBottom="@dimen/_2sdp"-->
+<!--                android:background="@drawable/btn_add_unselected"-->
+<!--                android:text="@string/add"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:fontFamily="@font/cairo_semibold"-->
+<!--                android:layout_marginEnd="@dimen/_2sdp"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                tools:text="اضافة" />-->
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>
+

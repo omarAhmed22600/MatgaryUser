@@ -1,0 +1,244 @@
+<?xml
+    version="1.0"
+    encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.brandsin.user.ui.main.order.orderstatus.OrderStatusViewModel" />
+    </data>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:layout_width="match_parent"
+        android:id="@+id/swipe_layout"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <!-- Orders List layout -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                isFull="@{viewModel.obsIsFull}">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:layout_marginBottom="@dimen/_8sdp"
+                    android:layout_marginStart="@dimen/_16sdp"
+                    android:layout_marginEnd="@dimen/_16sdp"
+                    app:cardCornerRadius="@dimen/_8sdp"
+                    android:elevation="@dimen/_8sdp"
+                    app:strokeWidth="@dimen/_1sdp"
+                    app:strokeColor="#C9C9C9"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:cardElevation="@dimen/_8sdp">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="@dimen/_12sdp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/tv_orderCode"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            android:text="@{@string/order_number + `: ` + viewModel.orderDetails.order.orderNumber}"
+                            tools:text="كود الطلب : 523648952178"
+                            android:textColor="#00C7BD"
+                            android:textSize="@dimen/_12ssp"
+                            android:fontFamily="@font/cairo_semibold" />
+
+                        <!-- List Layout -->
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rv_orderContents"
+                            adapter="@{viewModel.itemsAdapter}"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_16sdp"
+                            android:layout_marginStart="@dimen/_8sdp"
+                            android:layout_marginEnd="@dimen/_8sdp"
+                            android:orientation="vertical"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/tv_orderCode"
+                            tools:itemCount="3"
+                            tools:listitem="@layout/raw_order_item" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/status_layout"
+                            android:gravity="center_vertical"
+                            android:layout_marginStart="@dimen/_8sdp"
+                            android:layout_marginEnd="@dimen/_8sdp"
+                            android:layout_marginTop="@dimen/_24sdp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/rv_orderContents"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:id="@+id/img_pending"
+                                android:layout_height="@dimen/_45sdp"
+                                android:src="@drawable/ic_store_24px"
+                                android:tint="@color/color_primary"
+                                android:scaleType="centerCrop"
+                                android:padding="@dimen/_12sdp"
+                                android:background="@drawable/status_completed_bg"
+                                tools:ignore="ContentDescription" />
+
+                            <ImageView
+                                android:layout_width="@dimen/_45sdp"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/line_onRoad"
+                                android:tint="@color/color_primary"
+                                android:src="@drawable/ic_status_completed"
+                                tools:ignore="ContentDescription" />
+
+                            <ImageView
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="@dimen/_45sdp"
+                                android:id="@+id/img_onRoad"
+                                android:src="@drawable/ic_local_shipping_24px"
+                                android:scaleType="centerCrop"
+                                android:padding="@dimen/_12sdp"
+                                android:background="@drawable/status_not_completed_bg"
+                                tools:ignore="ContentDescription" />
+
+                            <ImageView
+                                android:layout_width="@dimen/_45sdp"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/line_delivered"
+                                android:src="@drawable/ic_status_not_completed"
+                                tools:ignore="ContentDescription" />
+
+                            <ImageView
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:id="@+id/img_delivered"
+                                android:layout_height="@dimen/_45sdp"
+                                android:src="@drawable/ic_place_24px"
+                                android:scaleType="centerCrop"
+                                android:padding="@dimen/_12sdp"
+                                android:background="@drawable/status_not_completed_bg"
+                                tools:ignore="ContentDescription" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:layout_marginStart="@dimen/_8sdp"
+                            android:layout_marginEnd="@dimen/_8sdp"
+                            android:layout_marginTop="@dimen/_8sdp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/status_layout"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/color_primary"
+                                android:textSize="@dimen/_8ssp"
+                                android:id="@+id/tv_pendingin"
+                                android:src="@drawable/ic_store_24px"
+                                android:fontFamily="@font/cairo_semibold"
+                                android:text="@string/preparing"
+                                tools:ignore="ContentDescription"
+                                android:gravity="center"/>
+
+                            <ImageView
+                                android:layout_width="@dimen/_45sdp"
+                                android:layout_height="wrap_content"
+                                android:visibility="invisible"
+                                android:src="@drawable/ic_status_completed"
+                                tools:ignore="ContentDescription" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:textColor="#AFAFAF"
+                                android:textSize="@dimen/_8ssp"
+                                android:id="@+id/tv_onRoad"
+                                android:src="@drawable/ic_store_24px"
+                                android:fontFamily="@font/cairo_semibold"
+                                android:text="@string/on_way"
+                                tools:ignore="ContentDescription"
+                                android:gravity="center"/>
+
+                            <ImageView
+                                android:layout_width="@dimen/_45sdp"
+                                android:layout_height="wrap_content"
+                                android:visibility="invisible"
+                                android:src="@drawable/ic_status_not_completed"
+                                tools:ignore="ContentDescription" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:textColor="#AFAFAF"
+                                android:textSize="@dimen/_8ssp"
+                                android:id="@+id/tv_delivered"
+                                android:src="@drawable/ic_store_24px"
+                                android:gravity="center"
+                                android:fontFamily="@font/cairo_semibold"
+                                android:text="@string/delivered"
+                                tools:ignore="ContentDescription" />
+
+                        </LinearLayout>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- Shimmer Layout -->
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmerFrameLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="#FAFAFA"
+                isLoading="@{viewModel.obsIsLoading}"
+                android:orientation="vertical"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <!-- Adding 15 rows of placeholders -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <include layout="@layout/shimmer_order_status"/>
+                    <include layout="@layout/shimmer_order_status"/>
+                    <include layout="@layout/shimmer_order_status"/>
+                    <include layout="@layout/shimmer_order_status"/>
+                    <include layout="@layout/shimmer_order_status"/>
+
+                </LinearLayout>
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</layout>

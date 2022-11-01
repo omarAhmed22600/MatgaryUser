@@ -1,0 +1,51 @@
+<?xml
+    version="1.0"
+    encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.brandsin.user.ui.main.home.story.ItemStoryViewModel" />
+    </data>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/item"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/_3sdp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/store_img"
+        android:layout_width="@dimen/_60sdp"
+        android:layout_height="@dimen/_60sdp"
+        android:src="@drawable/app_logo"
+        app:civ_border_color="@color/red"
+        app:civ_border_overlay="false"
+        app:civ_border_width="@dimen/_2sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/store_name"
+        android:layout_width="@dimen/_60sdp"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="@dimen/_12ssp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/cairo_semibold"
+        android:gravity="center"
+        android:maxLines="1"
+        android:ellipsize="end"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/store_img"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

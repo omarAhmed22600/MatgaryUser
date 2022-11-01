@@ -1,0 +1,62 @@
+<?xml
+    version="1.0"
+    encoding="utf-8"?>
+
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_offers"
+            android:icon="@drawable/offer_img"
+            android:title="@string/offers" />
+
+<!--        <item-->
+<!--            android:id="@+id/nav_favourits"-->
+<!--            android:icon="@drawable/ic_baseline_favorite_border_24"-->
+<!--            android:iconTint="@color/color_primary"-->
+<!--            android:title="@string/favourits_stores" />-->
+
+<!--        <item-->
+<!--            android:id="@+id/nav_discover"-->
+<!--            android:icon="@drawable/discover_ic"-->
+<!--            android:iconTint="@color/color_primary"-->
+<!--            android:title="@string/discover" />-->
+
+        <item
+            android:id="@+id/nav_notifications"
+            android:icon="@drawable/notifications_img"
+            android:title="@string/notifications" />
+
+        <item
+            android:id="@+id/nav_my_orders"
+            android:icon="@drawable/my_orders"
+            android:title="@string/my_order" />
+
+        <item
+            android:id="@+id/nav_payment"
+            android:icon="@drawable/payment_icon"
+            android:title="@string/hajaty_wallet" />
+
+
+
+        <item
+            android:id="@+id/nav_help"
+            android:icon="@drawable/help_img"
+            android:title="@string/help" />
+
+        <item
+            android:id="@+id/nav_about"
+            android:icon="@drawable/about_icon"
+            android:title="@string/about_app" />
+
+        <item
+            android:id="@+id/nav_contact"
+            android:icon="@drawable/contact_img"
+            android:title="@string/contact" />
+    </group>
+
+</menu>

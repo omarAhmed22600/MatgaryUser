@@ -1,0 +1,449 @@
+<?xml
+    version="1.0"
+    encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.brandsin.user.ui.main.homenew.HomeNewViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/appbarlayout"
+            app:elevation="0dp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:background="@color/white"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageButton
+                        android:id="@+id/ib_search"
+                        android:layout_width="@dimen/_30sdp"
+                        android:layout_height="@dimen/_30sdp"
+                        android:background="?actionBarItemBackground"
+                        android:padding="@dimen/_7sdp"
+                        android:scaleType="fitCenter"
+                        android:onClick="@{() -> viewModel.onSearchClicked()}"
+                        android:layout_marginEnd="@dimen/_4sdp"
+                        android:src="@drawable/ic_search_24px"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="ContentDescription" />
+
+                    <!-- CART COUNT LAYOUT -->
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="@dimen/_42sdp"
+                        android:layout_height="@dimen/_42sdp"
+                        android:layout_gravity="center"
+                        android:id="@+id/cart_layout"
+                        android:onClick="@{() -> viewModel.onCartClicked()}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/ib_search"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:id="@+id/imageView10"
+                            android:layout_width="@dimen/_30sdp"
+                            android:layout_height="@dimen/_30sdp"
+                            android:src="@drawable/ic_shopping_cart_24px"
+                            android:layout_gravity="center"
+                            android:padding="@dimen/_5sdp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:ignore="ContentDescription" />
+
+                        <TextView
+                            android:id="@+id/tv_servicesCount"
+                            android:layout_width="@dimen/_16sdp"
+                            android:layout_height="@dimen/_16sdp"
+                            android:background="@drawable/cart_count_bg"
+                            android:backgroundTint="@color/color_primary"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            android:gravity="center"
+                            android:text="@{viewModel.obsCartCount + ``}"
+                            android:layout_alignParentEnd="true"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/_8ssp"
+                            android:textStyle="bold"
+                            android:visibility="gone"/>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:layout_marginEnd="@dimen/_8sdp"
+                        android:background="@drawable/login_field_bg"
+                        android:onClick="@{() -> viewModel.onLocationClicked()}"
+                        android:padding="@dimen/_5sdp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/cart_layout"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:id="@+id/_tv_deliveredTo"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/cairoregular"
+                            android:maxLines="1"
+                            android:paddingStart="@dimen/_4sdp"
+                            android:paddingEnd="@dimen/_4sdp"
+                            android:text="@string/delivered_to"
+                            android:textAlignment="viewStart"
+                            android:textSize="@dimen/_7ssp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/cairoregular"
+                            android:lineSpacingExtra="-8dp"
+                            android:maxLines="2"
+                            android:paddingStart="@dimen/_4sdp"
+                            android:paddingEnd="@dimen/_4sdp"
+                            android:text="@{viewModel.obsAddress}"
+                            android:textAlignment="viewStart"
+                            android:textColor="#7737A9"
+                            android:textSize="@dimen/_9ssp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/_tv_deliveredTo"
+                            tools:text="@string/address" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+<!--                    <ImageButton-->
+<!--                        android:id="@+id/ib_menu"-->
+<!--                        android:layout_width="@dimen/_30sdp"-->
+<!--                        android:layout_height="@dimen/_30sdp"-->
+<!--                        android:background="?actionBarItemBackground"-->
+<!--                        android:padding="@dimen/_7sdp"-->
+<!--                        android:scaleType="fitCenter"-->
+<!--                        android:layout_marginEnd="@dimen/_8sdp"-->
+<!--                        android:src="@drawable/ic_menu_24px"-->
+<!--                        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                        app:layout_constraintStart_toStartOf="parent"-->
+<!--                        app:layout_constraintTop_toTopOf="parent"-->
+<!--                        tools:ignore="ContentDescription" />-->
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.appbar.MaterialToolbar>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <!-- Home layouts -->
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:id="@+id/swipe_layout"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/appbarlayout">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <!-- Home details layout -->
+                <androidx.core.widget.NestedScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    isFull="@{viewModel.obsIsFull}"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent">
+
+                    <!-- Data layout -->
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingBottom="@dimen/_50sdp"
+                        tools:ignore="RtlSymmetry">
+
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/store_header_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_160sdp"
+                            android:layout_margin="@dimen/_8sdp"
+                            android:background="@drawable/banner_bg"
+                            android:backgroundTint="@android:color/transparent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <com.google.android.material.card.MaterialCardView
+                                android:id="@+id/slider_layout"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                app:cardElevation="0dp"
+                                app:layout_constraintTop_toTopOf="parent">
+
+                                <com.smarteist.autoimageslider.SliderView
+                                    android:id="@+id/bannerSlider"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    app:sliderAnimationDuration="600"
+                                    app:sliderAutoCycleDirection="back_and_forth"
+                                    app:sliderAutoCycleEnabled="true"
+                                    app:sliderIndicatorAnimationDuration="600"
+                                    app:sliderIndicatorGravity="center_horizontal|bottom"
+                                    app:sliderIndicatorMargin="15dp"
+                                    app:sliderIndicatorOrientation="horizontal"
+                                    app:sliderIndicatorPadding="3dp"
+                                    app:sliderIndicatorRadius="2dp"
+                                    app:sliderIndicatorSelectedColor="@color/color_primary"
+                                    app:sliderIndicatorUnselectedColor="@color/grey_subcategory"
+                                    app:sliderScrollTimeInSec="1"
+                                    app:sliderStartAutoCycle="true" />
+
+                            </com.google.android.material.card.MaterialCardView>
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                        <TextView
+                            android:id="@+id/text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_16sdp"
+                            android:fontFamily="@font/cairo_bold"
+                            android:scaleType="centerCrop"
+                            android:text="@string/what_do_you_want_to_order"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_15ssp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/store_header_layout" />
+
+                        <!-- Categories RecyclerView -->
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:id="@+id/rv_categories"
+                            android:paddingStart="@dimen/_16sdp"
+                            adapter="@{viewModel.categoriesAdapter}"
+                            visibleGone="@{viewModel.obsHideRecycler}"
+                            android:orientation="horizontal"
+                            tools:listitem="@layout/item_home_category"
+                            tools:itemCount="3"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            app:layout_constraintTop_toBottomOf="@+id/text"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent" />
+
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/layoutStories"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            visibleGone="@{viewModel.obsHideRecycler}"
+                            android:visibility="gone"
+                            android:background="#F2F2F2"
+                            android:paddingBottom="6dp"
+                            android:layout_marginTop="10dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/rv_categories">
+
+                            <TextView
+                                android:id="@+id/textstory"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_16sdp"
+                                android:layout_marginTop="@dimen/_10sdp"
+                                android:fontFamily="@font/cairo_bold"
+                                android:scaleType="centerCrop"
+                                android:text="@string/special_stories"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_15ssp"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <!-- stories RecyclerView -->
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rv_stories"
+                                adapter="@{viewModel.storiesAdapter}"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:layout_marginBottom="6dp"
+                                android:orientation="horizontal"
+                                android:paddingStart="@dimen/_16sdp"
+                                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/textstory"
+                                tools:itemCount="3"
+                                tools:listitem="@layout/item_home_category" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                        <!-- Shimmer Stores layout -->
+                        <com.facebook.shimmer.ShimmerFrameLayout
+                            android:id="@+id/shimmer_stores_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:paddingBottom="@dimen/_16sdp"
+                            android:visibility="gone"
+                            isLoading="@{viewModel.obsIsLoadingStores}"
+                            app:layout_constraintTop_toBottomOf="@id/layoutStories"
+                            app:shimmer_demo_angle="20"
+                            app:shimmer_demo_layout="@layout/shimmer_home"
+                            app:shimmer_demo_layout_manager_type="linear_vertical"
+                            app:shimmer_demo_shimmer_color="@color/shimmer_color"
+                            app:shimmer_demo_view_holder_item_background="@drawable/bg_sharp_card" >
+
+                            <include layout="@layout/shimmer_get_stores"/>
+
+                        </com.facebook.shimmer.ShimmerFrameLayout>
+
+                        <!-- Ads Items-->
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:id="@+id/rv_ads"
+                            adapter="@{viewModel.adsAdapter}"
+                            app:disableItemChangedAnimation="@{true}"
+                            android:orientation="horizontal"
+                            android:paddingStart="@dimen/_16sdp"
+                            tools:listitem="@layout/item_home_ads"
+                            tools:itemCount="2"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            app:layout_constraintTop_toBottomOf="@+id/layoutStories"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:visibility="gone"/>
+
+                        <!-- More Items -->
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:id="@+id/rv_more"
+                            visibleGone="@{viewModel.obsHideRecycler}"
+                            adapter="@{viewModel.moreAdapter}"
+                            android:paddingStart="@dimen/_16sdp"
+                            android:orientation="vertical"
+                            tools:listitem="@layout/item_home_more"
+                            tools:itemCount="5"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            app:layout_constraintTop_toBottomOf="@+id/rv_ads"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent" />
+
+                        <!-- Empty products list -->
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_400sdp"
+                            isEmpty="@{viewModel.obsIsEmpty}"
+                            android:paddingStart="@dimen/_24sdp"
+                            android:paddingEnd="@dimen/_24sdp"
+                            android:orientation="vertical"
+                            android:visibility="gone"
+                            android:paddingTop="@dimen/_16sdp"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            app:layout_constraintTop_toBottomOf="@+id/rv_ads"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent">
+
+                            <ImageView
+                                android:id="@+id/img_empty"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/empty_img"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                android:layout_marginBottom="@dimen/_24sdp"
+                                app:layout_constraintBottom_toTopOf="@+id/tv_offersTitle"
+                                tools:ignore="ContentDescription" />
+
+                            <TextView
+                                android:id="@+id/tv_offersTitle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_24sdp"
+                                android:fontFamily="@font/cairo_semibold"
+                                android:textColor="@color/black"
+                                android:text="@string/no_stores"
+                                android:textSize="@dimen/_12ssp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="0.5"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintVertical_bias="0.5" />
+
+                            <TextView
+                                android:id="@+id/tv_offersDesc"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_8sdp"
+                                android:fontFamily="@font/cairoregular"
+                                android:text="@string/all_stores_will_be_shows_here"
+                                android:textSize="@dimen/_12ssp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="0.5"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/tv_offersTitle" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.core.widget.NestedScrollView>
+
+                <!-- Shimmer layout layout -->
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/shimmer_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:paddingBottom="@dimen/_50sdp"
+                    android:visibility="gone"
+                    isLoading="@{viewModel.obsIsLoading}"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:shimmer_demo_angle="20"
+                    app:shimmer_demo_layout="@layout/shimmer_home"
+                    app:shimmer_demo_layout_manager_type="linear_vertical"
+                    app:shimmer_demo_shimmer_color="@color/white"
+                    app:shimmer_demo_view_holder_item_background="@drawable/bg_sharp_card" >
+
+                    <include layout="@layout/shimmer_home"/>
+
+                </com.facebook.shimmer.ShimmerFrameLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,0 +1,100 @@
+<?xml
+    version="1.0"
+    encoding="utf-8"?>
+
+<layout
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.brandsin.user.ui.main.order.orderdetails.ItemOrderContentViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_8sdp">
+        <ImageView
+            android:id="@+id/iv_offers"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            storeImg="@{viewModel.item.image}"
+            android:src="@drawable/french_fries"
+            android:scaleType="fitCenter"
+            android:layout_marginStart="@dimen/_8sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/tv_quantity"
+            android:layout_width="@dimen/_16sdp"
+            android:layout_height="@dimen/_16sdp"
+           android:layout_marginStart="@dimen/_10sdp"
+            android:fontFamily="@font/cairoregular"
+            android:text="@{`x` + viewModel.item.quantity}"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintStart_toEndOf="@+id/iv_offers"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription"
+            tools:text="1x" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@+id/tv_quantity"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="@dimen/_8sdp"
+            app:layout_constraintBottom_toTopOf="@id/rv_contents"
+            android:id="@+id/tv_orderName"
+            android:textColor="@color/black"
+            android:text="@{viewModel.item.productName}"
+            tools:text="بطاطس ماكدونالدز"
+            android:textSize="@dimen/_12ssp"
+            android:fontFamily="@font/cairo_semibold"
+            tools:ignore="ContentDescription" />
+
+
+        <TextView
+            android:id="@+id/tv_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/cairo_semibold"
+            android:text="@{viewModel.item.amount+@string/egp }"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12ssp"
+            android:layout_marginEnd="@dimen/_15sdp"
+            app:layout_constraintBottom_toTopOf="@id/rv_contents"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription"
+            tools:text="@string/egp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_contents"
+            adapter="@{viewModel.orderDetailsAddonsAdapter}"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/tv_quantity"
+            app:layout_constraintTop_toBottomOf="@+id/tv_orderName"
+            tools:itemCount="2"
+            tools:listitem="@layout/raw_order_details_addons" />
+
+        <View
+            android:id="@+id/seperator"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1sdp"
+            android:layout_marginStart="@dimen/_16sdp"
+            android:background="#C9C9C9"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

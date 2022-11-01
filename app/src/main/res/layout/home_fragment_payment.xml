@@ -1,0 +1,273 @@
+<?xml
+    version="1.0"
+    encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.brandsin.user.ui.menu.payment.PaymentViewModel" />
+    </data>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <!-- Payment Layout -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraintLayout2"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_80sdp"
+                    android:background="@drawable/contact_bg2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/materialCardView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_20sdp"
+                    android:backgroundTint="#7737A9"
+                    app:cardCornerRadius="@dimen/_8sdp"
+                    app:layout_constraintBottom_toBottomOf="@+id/constraintLayout2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/contact_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <!--                        <TextView-->
+                        <!--                            android:id="@+id/tv_credit"-->
+                        <!--                            android:layout_width="wrap_content"-->
+                        <!--                            android:layout_height="wrap_content"-->
+                        <!--                            android:layout_marginTop="@dimen/_36sdp"-->
+                        <!--                            android:layout_marginStart="@dimen/_16sdp"-->
+                        <!--                            android:text="@string/available_credit"-->
+                        <!--                            android:textSize="@dimen/_14ssp"-->
+                        <!--                            android:textAlignment="viewStart"-->
+                        <!--                            android:fontFamily="@font/cairo_semibold"-->
+                        <!--                            android:textColor="@color/black"-->
+                        <!--                            app:layout_constraintStart_toStartOf="parent"-->
+                        <!--                            app:layout_constraintTop_toTopOf="parent" />-->
+
+                        <TextView
+                            android:id="@+id/textView6"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_15sdp"
+                            android:fontFamily="@font/cairo_bold"
+                            android:lineSpacingExtra="-5dp"
+                            android:text="50.00 ج.م"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/white"
+                            android:layout_marginBottom="@dimen/_10sdp"
+                            android:textSize="@dimen/_16ssp"
+                            app:layout_constraintBottom_toTopOf="@+id/tv_cards"
+                            app:layout_constraintStart_toEndOf="@+id/img_cards"
+                            app:layout_constraintTop_toTopOf="@+id/img_cards" />
+
+                        <ImageView
+                            android:id="@+id/img_cards"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="@dimen/_30sdp"
+                            android:layout_marginStart="40dp"
+                            android:background="@drawable/item_back_bg2"
+                            android:backgroundTint="#A360D6"
+                            android:padding="20dp"
+                            android:tint="@color/white"
+                            android:src="@drawable/credit_card"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/tv_cards"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_15sdp"
+                            android:fontFamily="@font/cairoregular"
+                            android:lineSpacingExtra="-5dp"
+                            android:text="@string/wallet_balance"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/_15sdp"
+                            app:layout_constraintBottom_toBottomOf="@+id/img_cards"
+                            app:layout_constraintStart_toEndOf="@+id/img_cards" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/materialCardView2">
+
+                    <ImageView
+                        android:id="@+id/img_circle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_16sdp"
+                        android:layout_marginTop="@dimen/_36sdp"
+                        android:src="@drawable/ic_payment_circle"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="ContentDescription" />
+
+                    <TextView
+                        android:id="@+id/tv_card"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_16sdp"
+                        android:layout_marginTop="@dimen/_24sdp"
+                        android:fontFamily="@font/cairo_semibold"
+                        android:text="إنتهاء صلاحية رصيدك"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_14ssp"
+                        app:layout_constraintStart_toEndOf="@+id/img_circle"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_cardDesc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_16sdp"
+                        android:fontFamily="@font/cairoregular"
+                        android:text="تنتهي الصلاحية في  30/10/2020"
+                        android:textAlignment="viewStart"
+                        android:textSize="@dimen/_12ssp"
+                        app:layout_constraintStart_toEndOf="@+id/img_circle"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_card" />
+
+                    <View
+                        android:id="@+id/view_seperator"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_1sdp"
+                        android:layout_marginStart="@dimen/_24sdp"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:layout_marginEnd="@dimen/_24sdp"
+                        android:background="@color/seperator_color"
+                        app:layout_constraintTop_toBottomOf="@id/tv_cardDesc" />
+
+                    <TextView
+                        android:id="@+id/tv_recentTrans"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:fontFamily="@font/cairo_semibold"
+                        android:text="التحويلات الاخيرة"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_14ssp"
+                        app:layout_constraintStart_toEndOf="@+id/img_circle"
+                        app:layout_constraintTop_toBottomOf="@id/view_seperator" />
+
+                    <TextView
+                        android:id="@+id/tv_transDesc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_16sdp"
+                        android:fontFamily="@font/cairoregular"
+                        android:text="سبتمبر 2020"
+                        android:textAlignment="viewStart"
+                        android:textSize="@dimen/_12ssp"
+                        app:layout_constraintStart_toEndOf="@+id/img_circle"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_recentTrans" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- NOT LOGIN -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/not_login"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="#FAFAFA"
+                tools:visibility="gone"
+                isLogin="@{viewModel.obsIsLogin}"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/img_empty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/empty_payment"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/cairoregular"
+                    android:id="@+id/tv_title"
+                    android:text="@string/login_to_see_credit"
+                    android:textSize="@dimen/_12ssp"
+                    android:layout_marginTop="@dimen/_24sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/img_empty" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_42sdp"
+                    android:id="@+id/btn_login"
+                    android:layout_marginStart="@dimen/_24sdp"
+                    android:layout_marginEnd="@dimen/_24sdp"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:text="@string/login"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_title"
+                    style="@style/Widget.MaterialComponents.Button"
+                    app:cornerRadius="@dimen/_6sdp"
+                    android:fontFamily="@font/cairo_semibold"
+                    android:textSize="@dimen/_14ssp" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+</layout>

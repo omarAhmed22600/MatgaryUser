@@ -1,0 +1,695 @@
+<?xml
+    version="1.0"
+    encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.brandsin.user.ui.main.order.confirmorder.ConfirmOrderViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FAFAFA"
+        android:orientation="vertical">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/total_prices_layout">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="@dimen/_24sdp"
+                android:paddingStart="@dimen/_16sdp"
+                android:paddingEnd="@dimen/_16sdp">
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_42sdp"
+                    android:id="@+id/add_address"
+                    android:insetTop="0dp"
+                    android:onClick="@{() -> viewModel.onAddAddressClicked()}"
+                    android:insetBottom="0dp"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:text="@string/add_address"
+                    style="@style/Widget.MaterialComponents.Button"
+                    app:cornerRadius="@dimen/_6sdp"
+                    android:fontFamily="@font/cairo_semibold"
+                    android:textSize="@dimen/_14ssp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginBottom="@dimen/_8sdp"
+                    android:visibility="gone"/>
+
+                <!-- Address Layout -->
+              <androidx.constraintlayout.widget.ConstraintLayout
+                  android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/location_layout"
+                    app:layout_constraintTop_toBottomOf="@+id/add_address"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginBottom="@dimen/_8sdp"
+                    android:background="@drawable/about_item_bg">
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_110sdp"
+                            android:id="@+id/tv_title"
+                            app:cardCornerRadius="@dimen/_8sdp"
+                            android:background="@drawable/about_item_bg"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent">
+
+                            <fragment
+                                android:id="@+id/map_view"
+                                android:name="com.google.android.gms.maps.SupportMapFragment"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent" />
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/tv_answer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:duplicateParentState="false"
+                        android:textColor="@color/black"
+                        android:paddingTop="@dimen/_8sdp"
+                        android:paddingStart="@dimen/_8sdp"
+                        android:paddingEnd="@dimen/_1sdp"
+                        android:paddingBottom="@dimen/_8sdp"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_title"
+                        tools:text="@tools:sample/lorem/random" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/btn_change"
+                            android:fontFamily="@font/cairoregular"
+                            android:textSize="@dimen/_12ssp"
+                            android:clickable="@{viewModel.obsIsClickable}"
+                            android:onClick="@{() -> viewModel.changeLocationClicked()}"
+                            android:textColor="@color/color_primary"
+                            android:layout_marginEnd="@dimen/_8sdp"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:text="@string/change" />
+
+                        <ImageView
+                            android:id="@+id/iv_location"
+                            android:layout_width="@dimen/_30sdp"
+                            android:layout_height="@dimen/_30sdp"
+                            android:background="?actionBarItemBackground"
+                            android:padding="@dimen/_7sdp"
+                            android:scaleType="fitCenter"
+                            android:layout_marginEnd="@dimen/_4sdp"
+                            android:src="@drawable/ic_place"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:ignore="ContentDescription" />
+
+                        <TextView
+                            android:id="@+id/tv_location"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/cairo_semibold"
+                            tools:text="@string/address_fake"
+                            android:text="@{viewModel.obsAddressTitle}"
+                            android:textAlignment="viewStart"
+                            android:layout_marginEnd="@dimen/_8sdp"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_10ssp"
+                            app:layout_constraintEnd_toStartOf="@+id/btn_change"
+                            app:layout_constraintStart_toEndOf="@+id/iv_location"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/tv_address"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:text="@{viewModel.obsAddressDesc}"
+                            android:maxLines="3"
+                            android:lineSpacingExtra="-8dp"
+                            android:textAlignment="viewStart"
+                            android:fontFamily="@font/cairo_light"
+                            tools:text="@string/address_fake_desc"
+                            android:textSize="@dimen/_10ssp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/tv_location"
+                            app:layout_constraintStart_toEndOf="@+id/iv_location" />
+
+                        <TextView
+                            android:id="@+id/tv_loginTitle"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/cairo_light"
+                            tools:text="@string/phone_fake"
+                            android:text="@{viewModel.obsPhoneNumber}"
+                            android:layout_marginEnd="@dimen/_8sdp"
+                            android:textAlignment="viewStart"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:textSize="@dimen/_12ssp"
+                            app:layout_constraintTop_toBottomOf="@+id/tv_address"
+                            app:layout_constraintStart_toEndOf="@+id/iv_location" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <!-- Delivery time layout -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_deliveryTime"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/location_layout"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:text="@string/delivery_time"
+                    android:fontFamily="@font/cairo_semibold"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12ssp" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/deliveryTime_layout"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_deliveryTime">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/TextInputLayoutBorder"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/delivery_time"
+                            android:text="@{viewModel.obsDeliveryTime}"
+                            android:focusable="false"
+                            android:inputType="none"
+                            android:clickable="true"
+                            android:textAlignment="viewStart"
+                            android:fontFamily="@font/cairoregular"
+                            android:textColor="@color/black" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tv_orderLater"
+                        android:fontFamily="@font/cairoregular"
+                        android:textSize="@dimen/_12ssp"
+                        android:clickable="@{viewModel.obsIsClickable}"
+                        android:onClick="@{() -> viewModel.onSelectTimeClicked()}"
+                        android:textColor="@color/color_primary"
+                        android:layout_marginEnd="@dimen/_8sdp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:text="@string/pre_order" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <!-- Coupon layout  -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_code"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/deliveryTime_layout"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:text="@string/discount_code"
+                    android:fontFamily="@font/cairo_semibold"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12ssp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toEndOf="@+id/tv_code"
+                    app:layout_constraintTop_toTopOf="@id/tv_code"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_code"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:text="@string/if_exist"
+                    android:fontFamily="@font/cairo_light"
+                    android:textSize="@dimen/_12ssp"
+                    />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/discount_layout"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_code">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/TextInputLayoutBorder"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAlignment="viewStart"
+                            android:hint="@string/enter_discount_code"
+                            android:text="@={viewModel.obsCouponCode}"
+                            android:fontFamily="@font/cairoregular"
+                            android:textColor="@color/black"
+                            />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tv_applyCoupon"
+                        android:fontFamily="@font/cairoregular"
+                        android:textSize="@dimen/_12ssp"
+                        android:clickable="@{viewModel.obsIsClickable}"
+                        android:onClick="@{() -> viewModel.onApplyCouponClicked()}"
+                        android:textColor="@color/color_primary"
+                        android:layout_marginEnd="@dimen/_8sdp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:text="@string/apply_coupon" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <!-- Payment layout -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_paymentWay"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/discount_layout"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:text="@string/payment_way"
+                    android:fontFamily="@font/cairo_semibold"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12ssp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/rv_paymentWays"
+                    adapter="@{viewModel.paymentWaysAdapter}"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    tools:listitem="@layout/raw_order_payment_way"
+                    tools:itemCount="4"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:spanCount="4"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_paymentWay"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+
+                <!--  Prices and cost layout -->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/_16sdp"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    android:id="@+id/raw_payment_cash"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    app:layout_constraintTop_toBottomOf="@+id/rv_paymentWays"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/cairo_light"
+                        android:textSize="@dimen/_12ssp"
+                        android:id="@+id/tv_payment_desc"
+                        android:text="@string/qr_desc"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/raw_payment_visa"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:paddingBottom="@dimen/_24sdp"
+                    android:paddingTop="@dimen/_16sdp"
+                    android:background="@drawable/ic_visa_border"
+                    app:layout_constraintTop_toBottomOf="@+id/rv_paymentWays"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/name_layout"
+                        app:hintEnabled="false"
+                        android:layout_marginStart="@dimen/_16sdp"
+                        android:layout_marginEnd="@dimen/_16sdp"
+                        style="@style/TextInputLayoutNoBorder"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:background="@android:color/transparent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/et_name"
+                            android:hint="@string/visa_name"
+                            android:textColorHint="@color/hint_color"
+                            android:fontFamily="@font/cairoregular"
+                            android:textColor="@color/black"
+                            android:background="@android:color/transparent">
+
+                        </com.google.android.material.textfield.TextInputEditText>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/number_layout"
+                        android:layout_marginStart="@dimen/_16sdp"
+                        android:layout_marginEnd="@dimen/_16sdp"
+                        style="@style/TextInputLayoutNoBorder"
+                        app:hintEnabled="false"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:background="@android:color/transparent"
+                        app:layout_constraintTop_toBottomOf="@+id/name_layout">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/et_visaNumber"
+                            android:hint="@string/visa_number"
+                            android:textColorHint="@color/hint_color"
+                            android:fontFamily="@font/cairoregular"
+                            android:textColor="@color/black"
+                            android:background="@android:color/transparent">
+
+                        </com.google.android.material.textfield.TextInputEditText>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_16sdp"
+                        android:layout_marginEnd="@dimen/_16sdp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:baselineAligned="false"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/number_layout"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/year_layout"
+                            android:layout_marginStart="@dimen/_6sdp"
+                            android:layout_marginEnd="@dimen/_6sdp"
+                            style="@style/TextInputLayoutNoBorder"
+                            app:hintEnabled="false"
+                            android:layout_marginTop="@dimen/_8sdp"
+                            android:background="@android:color/transparent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/number_layout">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/et_year"
+                                android:gravity="end"
+                                android:hint="@string/year_hint"
+                                android:textColorHint="@color/hint_color"
+                                android:fontFamily="@font/cairoregular"
+                                android:textColor="@color/black"
+                                android:background="@android:color/transparent">
+
+                            </com.google.android.material.textfield.TextInputEditText>
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/cvv_layout"
+                            android:layout_marginStart="@dimen/_6sdp"
+                            android:layout_marginEnd="@dimen/_6sdp"
+                            style="@style/TextInputLayoutNoBorder"
+                            android:layout_marginTop="@dimen/_8sdp"
+                            app:hintEnabled="false"
+                            android:background="@android:color/transparent"
+                            app:layout_constraintTop_toBottomOf="@+id/number_layout"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/year_layout">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/et_cvv"
+                                android:gravity="end"
+                                android:hint="@string/cvv_hint"
+                                android:textColorHint="@color/hint_color"
+                                android:fontFamily="@font/cairoregular"
+                                android:textColor="@color/black"
+                                android:background="@android:color/transparent">
+
+                            </com.google.android.material.textfield.TextInputEditText>
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/month_layout"
+                            android:layout_marginStart="@dimen/_6sdp"
+                            android:layout_marginEnd="@dimen/_6sdp"
+                            style="@style/TextInputLayoutNoBorder"
+                            app:hintEnabled="false"
+                            android:layout_marginTop="@dimen/_8sdp"
+                            android:background="@android:color/transparent"
+                            app:layout_constraintTop_toBottomOf="@+id/number_layout"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toStartOf="@+id/year_layout">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/et_month"
+                                android:gravity="end"
+                                android:hint="@string/month_hint"
+                                android:textColorHint="@color/hint_color"
+                                android:fontFamily="@font/cairoregular"
+                                android:textColor="@color/black"
+                                android:background="@android:color/transparent">
+
+                            </com.google.android.material.textfield.TextInputEditText>
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </LinearLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/total_prices_layout"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@drawable/cart_total_bg"
+            android:backgroundTint="@color/offers_bg_color"
+            app:cardElevation="@dimen/_8sdp"
+            android:elevation="@dimen/_8sdp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingStart="@dimen/_16sdp"
+                android:paddingTop="@dimen/_8sdp"
+                android:paddingBottom="@dimen/_16sdp"
+                android:backgroundTint="@color/offers_bg_color"
+                android:background="@drawable/order_prices_bg"
+                android:paddingEnd="@dimen/_16sdp"
+                android:orientation="vertical">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="@string/total_cost"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:textSize="@dimen/_12ssp"
+                        android:fontFamily="@font/cairo_semibold"
+                        android:textColor="@color/black"
+                        android:gravity="start" />
+
+                    <ImageButton
+                        android:layout_width="@dimen/_30sdp"
+                        android:layout_height="@dimen/_30sdp"
+                        android:gravity="end"
+                        isCollapse="@{viewModel.obsShowOrderPrices}"
+                        android:onClick="@{() -> viewModel.showHidePrices()}"
+                        android:id="@+id/ib_show_hide"
+                        android:padding="@dimen/_6sdp"
+                        android:src="@drawable/ic_sow_prices"
+                        android:background="?actionBarItemBackground"
+                        android:scaleType="fitCenter"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        tools:ignore="ContentDescription" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/prices_details_layout"
+                    visibleGone="@{viewModel.obsShowOrderPrices}"
+                    android:orientation="vertical">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="@string/sum"
+                            app:layout_constraintStart_toStartOf="parent"
+                            android:textSize="@dimen/_12ssp"
+                            android:fontFamily="@font/cairoregular"
+                            android:textColor="@color/black"
+                            android:gravity="start" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="end"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:textSize="@dimen/_12ssp"
+                            android:fontFamily="@font/cairoregular"
+                            android:textColor="@color/black"
+                            android:text="@{viewModel.obsItemsPrice + ` ` + @string/currency}"
+                            tools:text="@string/_75" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            android:text="@string/extra_fees"
+                            android:textSize="@dimen/_12ssp"
+                            android:fontFamily="@font/cairoregular"
+                            android:textColor="@color/black" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:textSize="@dimen/_12ssp"
+                            android:fontFamily="@font/cairoregular"
+                            android:textColor="@color/black"
+                            android:text="@{viewModel.obsExtraFees + ` ` + @string/currency}"
+                            tools:text="@string/_15_50" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            android:text="@string/total"
+                            android:textSize="@dimen/_12ssp"
+                            android:fontFamily="@font/cairo_semibold"
+                            android:textColor="@color/black"
+                            android:gravity="start" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:textSize="@dimen/_12ssp"
+                            android:fontFamily="@font/cairo_semibold"
+                            android:textColor="@color/black"
+                            android:text="@{viewModel.obsTotalPrice + ` ` + @string/currency}"
+                            tools:text="@string/_90_50" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </LinearLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_42sdp"
+                    android:id="@+id/btnConfirmOrder"
+                    android:insetTop="0dp"
+                    android:onClick="@{() -> viewModel.onConfirmOrderClicked()}"
+                    android:insetBottom="0dp"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:text="@string/confirm_order"
+                    style="@style/Widget.MaterialComponents.Button"
+                    app:cornerRadius="@dimen/_6sdp"
+                    android:fontFamily="@font/cairo_semibold"
+                    android:textSize="@dimen/_14ssp" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            isVisible="@{viewModel.obsIsVisible}"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

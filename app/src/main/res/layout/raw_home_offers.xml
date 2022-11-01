@@ -1,0 +1,97 @@
+<?xml
+    version="1.0"
+    encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.brandsin.user.ui.menu.offers.ItemOffersViewModel" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_8sdp"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:layout_marginEnd="@dimen/_16sdp"
+        android:id="@+id/raw_layout"
+        app:cardCornerRadius="@dimen/_6sdp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="@dimen/_8sdp"
+            android:background="?selectableItemBackground">
+
+            <ImageView
+                android:id="@+id/iv_offers"
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_50sdp"
+                android:src="@drawable/coffer_img"
+                offerImg="@{viewModel.item.image}"
+                android:layout_marginStart="@dimen/_8sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_16sdp"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:fontFamily="@font/cairo_semibold"
+                android:text='@{(@string/lang).toString().equals("en")?viewModel.item.nameEn:viewModel.item.name}'
+                android:textColor="@color/black"
+                android:textAlignment="viewStart"
+                android:maxLines="2"
+                android:paddingEnd="@dimen/_8sdp"
+                android:ellipsize="end"
+                android:textSize="@dimen/_12ssp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/iv_offers"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="خصم 20% علي صلصة" />
+
+            <TextView
+                android:id="@+id/tv_desc"
+                android:text='@{(@string/lang).toString().equals("en")?viewModel.item.descriptionEn:viewModel.item.description}'
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_16sdp"
+                android:textSize="@dimen/_9ssp"
+                android:textAlignment="viewStart"
+                android:maxLines="2"
+                android:paddingEnd="@dimen/_8sdp"
+                android:ellipsize="end"
+                android:fontFamily="@font/cairoregular"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/iv_offers"
+                app:layout_constraintTop_toBottomOf="@+id/tv_title"
+                tools:text="صلصة" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_16sdp"
+                android:fontFamily="@font/cairoregular"
+                android:text="@{viewModel.obsPrice}"
+                android:textSize="@dimen/_10ssp"
+                android:textColor="@color/black"
+                android:paddingEnd="@dimen/_8sdp"
+                android:textAlignment="viewStart"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/iv_offers"
+                app:layout_constraintTop_toBottomOf="@+id/tv_desc"
+                tools:text="السعر حسب الاختيار" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>
+

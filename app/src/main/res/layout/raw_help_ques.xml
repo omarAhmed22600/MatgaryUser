@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.brandsin.user.ui.menu.help.helpques.ItemHelpViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/raw_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?selectableItemBackground"
+        android:padding="@dimen/_6sdp"
+       >
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:duplicateParentState="false"
+            android:ellipsize="end"
+            android:fontFamily="@font/cairoregular"
+            android:maxLines="2"
+            android:padding="@dimen/_8sdp"
+            android:paddingStart="@dimen/_8sdp"
+            android:paddingEnd="@dimen/_8sdp"
+            android:text="@{viewModel.item.title}"
+            android:textAlignment="viewStart"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintEnd_toStartOf="@+id/img_arrow"
+            app:layout_constraintStart_toEndOf="@+id/img_circle"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="انا بحاجة للمساعدة في طلب حالي" />
+
+        <ImageView
+            android:id="@+id/img_circle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_16sdp"
+            android:src="@drawable/ic_circle"
+            android:tint="@color/color_primary"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_title"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/img_arrow"
+            android:layout_width="@dimen/_14sdp"
+            android:layout_height="@dimen/_14sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:duplicateParentState="false"
+            android:rotation="@{viewModel.item.isExpanded?0:270}"
+            android:tint="@color/color_primary"
+            android:src="@drawable/ic_expand_down_arrow"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_title"
+            tools:ignore="ContentDescription" />
+
+        <LinearLayout
+            android:id="@+id/answer_scrollview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            visibleGone="@{viewModel.item.isExpanded}"
+            android:layout_marginBottom="8dp"
+            android:paddingBottom="@dimen/_16sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_title">
+
+            <TextView
+                android:id="@+id/tv_answer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/cairoregular"
+                android:scaleType="centerCrop"
+                android:src="@drawable/app_logo"
+                android:text="@{viewModel.item.content}"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_11ssp"
+                tools:text="@string/terms_text" />
+
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

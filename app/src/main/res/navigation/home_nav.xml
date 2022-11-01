@@ -1,0 +1,513 @@
+<?xml
+    version="1.0"
+    encoding="utf-8"?>
+
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home_new">
+
+    <fragment
+        android:id="@+id/nav_home_new"
+        android:name="com.brandsin.user.ui.main.homenew.HomeNewFragment"
+        android:label="@string/home"
+        tools:layout="@layout/home_fragment_home_new" >
+
+        <action android:id="@+id/home_new_to_cart"
+            app:destination="@+id/nav_cart"/>
+
+        <action android:id="@+id/home_new_to_profile"
+            app:destination="@+id/nav_profile"/>
+
+        <action android:id="@+id/home_new_to_store_details"
+            app:destination="@+id/nav_store_details"/>
+
+        <action android:id="@+id/home_new_to_search"
+            app:destination="@+id/nav_search"/>
+
+        <action android:id="@+id/home_new_to_home"
+            app:destination="@+id/nav_home"/>
+
+        <action android:id="@+id/home_to_profile"
+            app:destination="@+id/nav_profile"/>
+
+        <action android:id="@+id/home_new__to_order_details"
+            app:destination="@+id/nav_order_details"/>
+        <action
+            android:id="@+id/home_new_to_added_stories"
+            app:destination="@id/nav_added_stories" />
+
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.brandsin.user.ui.main.home.HomeFragment"
+        android:label="@string/home"
+        tools:layout="@layout/home_fragment_home" >
+        <action
+            android:id="@+id/home_to_added_stories"
+            app:destination="@id/nav_added_stories" />
+        <action android:id="@+id/home_to_cart"
+            app:destination="@+id/nav_cart"/>
+
+        <action android:id="@+id/home_to_store_details"
+            app:destination="@+id/nav_store_details"/>
+
+        <action android:id="@+id/home_to_search"
+            app:destination="@+id/nav_search"/>
+
+        <action android:id="@+id/home_to_show_story"
+            app:destination="@+id/nav_show_story"/>
+
+        <argument
+            android:name="category_id"
+            app:argType="string" />
+
+        <argument
+            android:name="category_img"
+            app:argType="string" />
+
+        <argument
+            android:name="store_ids"
+            app:argType="string[]" />
+
+        <action android:id="@+id/home_to_self"
+            app:destination="@+id/nav_home"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_search"
+        android:name="com.brandsin.user.ui.main.search.SearchFragment"
+        tools:layout="@layout/home_fragment_search" >
+
+        <action android:id="@+id/search_to_store_details"
+            app:destination="@+id/nav_store_details"/>
+
+        <argument
+            android:name="from"
+            app:argType="string" />
+
+        <argument
+            android:name="category_id"
+            app:argType="string" />
+
+        <argument
+            android:name="data"
+            app:argType="com.brandsin.user.model.order.homepage.HomePageResponse" />
+
+        <argument
+            android:name="data_new"
+            app:argType="com.brandsin.user.model.order.homenew.HomeNewResponse" />
+
+        <argument
+            android:name="data_store_new"
+            app:argType="com.brandsin.user.model.order.storedetails.StoreDetailsData" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_store_details"
+        android:name="com.brandsin.user.ui.main.order.storedetails.StoreDetailsFragment"
+        tools:layout="@layout/home_fragment_store_details" >
+
+        <action android:id="@+id/store_to_cart"
+            app:destination="@+id/nav_cart"/>
+
+        <action android:id="@+id/store_to_self"
+            app:destination="@+id/nav_store_details"/>
+
+        <action android:id="@+id/store_details_to_added_stories"
+            app:destination="@+id/nav_added_stories"/>
+
+        <action android:id="@+id/store_details_to_store_information"
+            app:destination="@+id/nav_store_information"/>
+
+        <action android:id="@+id/store_details_to_search"
+            app:destination="@+id/nav_search"/>
+
+        <argument
+            android:name="store_id"
+            app:argType="integer" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_store_information"
+        android:name="com.brandsin.user.ui.main.order.storedetails.information.StoreInformationFragment"
+        tools:layout="@layout/home_fragment_store_information" >
+
+
+
+
+        <argument
+            android:name="store_details_data"
+            app:argType="com.brandsin.user.model.order.storedetails.StoreDetailsData" />
+    </fragment>
+
+    <!-- Cart layout -->
+    <fragment
+        android:id="@+id/nav_cart"
+        android:name="com.brandsin.user.ui.main.order.cart.CartsFragment"
+        tools:layout="@layout/home_fragment_cart" >
+
+        <action android:id="@+id/cart_to_store_details"
+            app:destination="@id/nav_store_details"/>
+
+        <action android:id="@+id/cart_to_confirm_order"
+            app:destination="@+id/nav_confirm_order"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_confirm_order"
+        android:name="com.brandsin.user.ui.main.order.confirmorder.ConfirmOrderFragment"
+        tools:layout="@layout/home_fragment_confirm_order" >
+
+        <action android:id="@+id/confirm_order_to_review"
+            app:destination="@+id/nav_reveiew"/>
+
+        <action android:id="@+id/confirm_order_to_order_status"
+            app:destination="@+id/nav_order_status"/>
+        <argument
+            android:name="cart_data"
+            app:argType="com.brandsin.user.model.order.cart.UserCart" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_order_status"
+        android:name="com.brandsin.user.ui.main.order.orderstatus.OrderStatusFragment"
+        tools:layout="@layout/home_fragment_order_status" >
+        <argument
+            android:name="order_id"
+            app:argType="integer" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_reveiew"
+        android:name="com.brandsin.user.ui.main.order.orderreview.OrderReviewFragment"
+        tools:layout="@layout/home_fragment_order_review" >
+
+        <action android:id="@+id/review_to_details"
+            app:destination="@id/nav_order_details"
+            />
+        <action android:id="@+id/review_to_home"
+            app:destination="@id/nav_home"
+            />
+
+        <action android:id="@+id/review_to_my_orders"
+            app:destination="@+id/nav_my_orders"/>
+
+        <argument
+            android:name="time"
+            app:argType="string" />
+
+        <argument
+            android:name="order_data"
+            app:argType="com.brandsin.user.model.order.confirmorder.createorder.OrderRequestParcelableClass" />
+        <action
+            android:id="@+id/action_nav_reveiew_to_nav_cart"
+            app:popUpTo="@id/nav_cart" />
+    </fragment>
+
+    <!--  NAVIGATION OFFERS -->
+    <fragment
+        android:id="@+id/nav_offers"
+        android:name="com.brandsin.user.ui.menu.offers.OffersFragment"
+        android:label="@string/offers"
+        tools:layout="@layout/home_fragment_offers" >
+        <action android:id="@+id/offers_to_offer_details"
+            app:destination="@+id/nav_offer_details"/>
+        <action
+            android:id="@+id/offers_to_added_stories"
+            app:destination="@id/nav_added_stories" />
+
+
+        <action android:id="@+id/offers_to_home"
+            app:destination="@+id/nav_home"/>
+        <action android:id="@+id/offers_to_store_details"
+            app:destination="@+id/nav_store_details"/>
+    </fragment>
+
+    <!--  NAVIGATION FAVOURITS -->
+    <fragment
+        android:id="@+id/nav_favourits"
+        android:name="com.brandsin.user.ui.menu.favourits.FavouritsFragment"
+        android:label="@string/favourits"
+        tools:layout="@layout/home_fragment_favourits" >
+
+        <action
+            android:id="@+id/favourits_to_added_stories"
+            app:destination="@id/nav_added_stories" />
+
+        <action android:id="@+id/favourits_to_store_details"
+            app:destination="@+id/nav_store_details"/>
+
+    </fragment>
+
+
+    <!--  NAVIGATION FAVOURITS -->
+    <fragment
+        android:id="@+id/nav_discover"
+        android:name="com.brandsin.user.ui.menu.discover.DiscoverFragment"
+        android:label="@string/discover"
+        tools:layout="@layout/home_fragment_discover" >
+
+        <action android:id="@+id/discover_to_store_details"
+            app:destination="@+id/nav_store_details"/>
+        <action
+            android:id="@+id/discover_to_added_stories"
+            app:destination="@id/nav_added_stories" />
+
+    </fragment>
+
+
+
+    <fragment
+        android:id="@+id/nav_offer_details"
+        android:name="com.brandsin.user.ui.menu.offers.offersdetails.OfferDetailsFragment"
+        tools:layout="@layout/home_fragment_offer_details" >
+        <action android:id="@+id/offer_details_to_cart"
+            app:destination="@+id/nav_cart"/>
+
+
+
+        <argument
+            android:name="offer_details"
+            app:argType="com.brandsin.user.model.menu.offers.OffersItemDetails" />
+
+    </fragment>
+
+    <!--  NAVIGATION NOTIFICATIONS -->
+    <fragment
+        android:id="@+id/nav_notifications"
+        android:name="com.brandsin.user.ui.menu.notifications.NotificationFragment"
+        android:label="@string/notifications"
+        tools:layout="@layout/home_fragment_notifications" >
+        <action android:id="@+id/notification_to_order_details"
+            app:destination="@id/nav_order_details"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_my_orders"
+        android:name="com.brandsin.user.ui.main.order.myorders.MyOrdersFragment"
+        android:label="@string/my_orders"
+        tools:layout="@layout/home_fragment_myorders" >
+
+        <action android:id="@+id/my_orders_to_rate_order"
+            app:destination="@+id/nav_rate_order"/>
+
+        <action android:id="@+id/my_orders_to_cart"
+            app:destination="@+id/nav_cart"/>
+
+        <action android:id="@+id/my_orders_to_order_details"
+            app:destination="@+id/nav_order_details"/>
+
+        <action android:id="@+id/my_orders_to_order_status"
+            app:destination="@+id/nav_order_status"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_order_details"
+        android:name="com.brandsin.user.ui.main.order.orderdetails.OrderDetailsFragment"
+        tools:layout="@layout/home_fragment_order_details" >
+        <argument
+            android:name="order_id"
+            app:argType="integer" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_rate_order"
+        android:name="com.brandsin.user.ui.main.order.rateorder.RateOrderFragment"
+        tools:layout="@layout/home_fragment_rate_order" >
+        <action
+            android:id="@+id/rate_to_my_orders"
+            app:destination="@+id/nav_my_orders" />
+        <argument
+            android:name="order_id"
+            app:argType="integer" />
+
+    </fragment>
+
+    <!--  NAVIGATION HELP -->
+    <fragment
+        android:id="@+id/nav_help"
+        android:name="com.brandsin.user.ui.menu.help.helpques.HelpFragment"
+        android:label="@string/help"
+        tools:layout="@layout/home_fragment_help" >
+
+        <action
+            android:id="@+id/help_to_answers"
+            app:destination="@+id/nav_help_answer"/>
+
+        <action
+            android:id="@+id/help_to_contact"
+            app:destination="@+id/nav_contact"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_help_answer"
+        android:name="com.brandsin.user.ui.menu.help.helpanswer.HelpAnswerFragment"
+        tools:layout="@layout/home_fragment_help_answer" >
+        <argument
+            android:name="help_ques"
+            app:argType="com.brandsin.user.model.menu.help.HelpQuesItem" />
+        <argument
+            android:name="phone_number"
+            app:argType="string" />
+
+
+    </fragment>
+
+    <!-- NAVIGATION ABOUT -->
+    <fragment
+        android:id="@+id/nav_about"
+        android:name="com.brandsin.user.ui.menu.about.AboutFragment"
+        android:label="@string/about"
+        tools:layout="@layout/home_fragment_about" >
+
+        <action android:id="@+id/about_to_common_questions"
+            app:destination="@+id/nav_common_questions"/>
+
+        <action android:id="@+id/about_to_rate_app"
+            app:destination="@+id/nav_rate_app"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_common_questions"
+        android:name="com.brandsin.user.ui.menu.coomonquestions.CommonQuestionFragment"
+        tools:layout="@layout/home_fragment_about_ques" />
+
+    <fragment
+        android:id="@+id/nav_rate_app"
+        android:name="com.brandsin.user.ui.menu.rateapp.RateAppFragment"
+        tools:layout="@layout/home_fragment_rate_app" />
+
+    <!-- NAVIGATION CONTACT US  -->
+    <fragment
+        android:id="@+id/nav_contact"
+        android:name="com.brandsin.user.ui.menu.contact.ContactFragment"
+        android:label="@string/contact"
+        tools:layout="@layout/home_fragment_contact" />
+
+    <!-- NAVIGATION PAYMENT  -->
+    <fragment
+        android:id="@+id/nav_payment"
+        android:name="com.brandsin.user.ui.menu.payment.PaymentFragment"
+        android:label="@string/payment"
+        tools:layout="@layout/home_fragment_payment" />
+
+    <!-- NAVIGATION PROFILE  -->
+    <fragment
+        android:id="@+id/nav_profile"
+        android:name="com.brandsin.user.ui.profile.ProfileFragment"
+        tools:layout="@layout/profile_fragment_edit" >
+
+        <action android:id="@+id/profile_to_update"
+            app:destination="@id/nav_update_profile"/>
+
+        <action android:id="@+id/profile_to_address"
+            app:destination="@+id/nav_address"/>
+
+        <action android:id="@+id/profile_to_change_pass"
+            app:destination="@+id/nav_change_pass"/>
+
+    </fragment>
+
+<!--    change_pass-->
+    <fragment
+        android:id="@+id/nav_change_pass"
+        android:name="com.brandsin.user.ui.profile.changepass.ChangePassFragment"
+        tools:layout="@layout/profile_fragment_change_pass" />
+
+<!--    update_profile-->
+    <fragment
+        android:id="@+id/nav_update_profile"
+        android:name="com.brandsin.user.ui.profile.updateprofile.UpdateProfileFragment"
+        tools:layout="@layout/profile_fragment_update_profile" />
+
+    <fragment
+        android:id="@+id/nav_show_story"
+        android:name="com.brandsin.user.ui.main.home.showstory.ShowStoryFragment"
+        tools:layout="@layout/home_fragment_show_story" >
+
+        <action android:id="@+id/show_story_to_added_stories"
+            app:destination="@+id/nav_added_stories"/>
+
+        <action android:id="@+id/show_story_to_store_details"
+            app:destination="@+id/nav_store_details"/>
+
+        <argument
+            android:name="stories_item"
+            app:argType="com.brandsin.user.model.order.homepage.StoriesItem" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_added_stories"
+        android:name="com.brandsin.user.ui.main.home.addedstories.AddedStoriesFragment"
+        tools:layout="@layout/home_fragment_added_stories" >
+
+        <action android:id="@+id/add_stories_to_show_story_all"
+            app:destination="@+id/nav_show_story_all" />
+
+        <argument
+            android:name="store_id"
+            app:argType="integer" />
+
+        <argument
+            android:name="stories_item"
+            app:argType="com.brandsin.user.model.order.homepage.StoriesItem" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_show_story_all"
+        android:name="com.brandsin.user.ui.main.home.addedstories.showstory.ShowStoryFragment"
+        tools:layout="@layout/profile_fragment_show_story" >
+
+        <action android:id="@+id/show_story_to_add_stories"
+            app:destination="@+id/nav_add_stories" />
+
+        <argument
+            android:name="store_id"
+            app:argType="integer" />
+
+        <argument
+            android:name="stories_item"
+            app:argType="com.brandsin.user.model.order.homepage.StoriesItem" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/profileButtomNavFragment"
+        android:name="com.brandsin.user.ui.profile.ProfileButtomNavFragment"
+        android:label="ProfileButtomNavFragment" >
+
+        <action android:id="@+id/home_to_profile"
+            app:destination="@+id/nav_profile"/>
+        <action
+            android:id="@+id/nav_offers"
+            app:destination="@id/nav_offers" />
+        <action
+            android:id="@+id/nav_notifications"
+            app:destination="@id/nav_notifications" />
+        <action
+            android:id="@+id/nav_my_orders"
+            app:destination="@id/nav_my_orders" />
+        <action
+            android:id="@+id/nav_payment"
+            app:destination="@id/nav_payment" />
+        <action
+            android:id="@+id/nav_help"
+            app:destination="@id/nav_help" />
+        <action
+            android:id="@+id/nav_about"
+            app:destination="@id/nav_about" />
+        <action
+            android:id="@+id/nav_contact"
+            app:destination="@id/nav_contact" />
+    </fragment>
+
+</navigation>

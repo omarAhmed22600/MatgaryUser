@@ -1,0 +1,62 @@
+<?xml
+    version="1.0"
+    encoding="utf-8"?>
+
+<layout
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.brandsin.user.ui.main.order.orderreview.ItemOrderReviewViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_8sdp">
+
+        <TextView
+            android:layout_width="@dimen/_16sdp"
+            android:layout_height="@dimen/_16sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="@dimen/_16sdp"
+            android:id="@+id/tv_quantity"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="@{`x` + viewModel.item.productQuantity}"
+            tools:text="1x"
+            android:fontFamily="@font/cairoregular"
+            android:textSize="@dimen/_12ssp"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@+id/tv_quantity"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="@dimen/_8sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:id="@+id/tv_orderName"
+            android:textColor="@color/black"
+            android:text="@{viewModel.item.productName}"
+            tools:text="بطاطس ماكدونالدز"
+            android:textSize="@dimen/_12ssp"
+            android:fontFamily="@font/cairo_semibold"
+            tools:ignore="ContentDescription" />
+
+        <View
+            android:id="@+id/seperator"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1sdp"
+            android:background="#C9C9C9"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginStart="@dimen/_16sdp"
+            android:layout_marginEnd="@dimen/_16sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_orderName" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_home_new"
+        android:icon="@drawable/home_icon"
+        android:title="@string/home"
+        android:fontFamily="@font/cairo_semibold" />
+
+    <item
+        android:id="@+id/nav_favourits"
+        android:icon="@drawable/hurt"
+        android:title="@string/favourits"
+        android:fontFamily="@font/cairo_semibold" />
+
+    <item
+        android:id="@+id/nav_discover"
+        android:icon="@drawable/discover_icon"
+        android:title="@string/discover"
+        android:fontFamily="@font/cairo_semibold" />
+
+    <item
+        android:id="@+id/profileButtomNavFragment"
+        android:icon="@drawable/profile2"
+        android:title="@string/profile"
+        android:fontFamily="@font/cairo_semibold" />
+</menu>
