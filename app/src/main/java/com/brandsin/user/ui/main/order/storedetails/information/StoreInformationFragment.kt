@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
@@ -16,6 +17,7 @@ import com.brandsin.user.ui.activity.home.BaseHomeFragment
 class StoreInformationFragment : BaseHomeFragment(), Observer<Any?> {
     private lateinit var viewModel: StoreInformationsViewModel
     lateinit var binding: HomeFragmentStoreInformationBinding
+
     private val storeInformationArgs: StoreInformationFragmentArgs by navArgs()
     var storeDetailsData = StoreDetailsData()
 
@@ -43,6 +45,7 @@ class StoreInformationFragment : BaseHomeFragment(), Observer<Any?> {
         storeDetailsData = storeInformationArgs.storeDetailsData
         viewModel.mutableLiveData.observe(viewLifecycleOwner, this)
         viewModel.storeData =storeDetailsData
+
         setBarName(getString(R.string.store_information))
 
 

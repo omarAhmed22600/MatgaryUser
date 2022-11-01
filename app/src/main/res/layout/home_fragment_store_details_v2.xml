@@ -171,6 +171,7 @@
 
 
             <LinearLayout
+                android:id="@+id/linearLayout4"
                 android:layout_width="0dp"
                 android:layout_height="23dp"
                 android:layout_marginStart="@dimen/_10sdp"
@@ -212,7 +213,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_20sdp"
                 android:fontFamily="@font/cairo_semibold"
                 android:text="@{viewModel.storeData.name}"
                 android:textColor="@color/white"
@@ -222,27 +223,40 @@
                 app:layout_constraintTop_toTopOf="@+id/materialCardView"
                 tools:text="كنتاكي" />
 
-            <TextView
+<!--            <TextView-->
+<!--                android:id="@+id/storeInformation"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="@dimen/_10sdp"-->
+<!--                android:fontFamily="@font/cairo_semibold"-->
+<!--                android:text="@string/store_information"-->
+<!--                android:background="?selectableItemBackground"-->
+<!--                android:textColor="@color/white"-->
+<!--                android:textSize="@dimen/_10ssp"-->
+<!--                android:translationY="-20dp"-->
+<!--                app:layout_constraintStart_toEndOf="@+id/materialCardView"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/textView20"-->
+<!--                tools:text="@string/store_information" />-->
+
+            <ImageView
                 android:id="@+id/storeInformation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:fontFamily="@font/cairo_semibold"
-                android:text="@string/store_information"
-                android:background="?selectableItemBackground"
-                android:textColor="@color/white"
-                android:textSize="@dimen/_10ssp"
-                android:translationY="-20dp"
-                app:layout_constraintStart_toEndOf="@+id/materialCardView"
-                app:layout_constraintTop_toBottomOf="@+id/textView20"
-                tools:text="@string/store_information" />
+                android:layout_width="40dp"
+                android:layout_height="@dimen/_30sdp"
+                android:src="@drawable/info"
+                android:padding="@dimen/_5sdp"
+                android:background="@drawable/info_bg_shap"
+                android:layout_marginEnd="@dimen/_4sdp"
+                app:layout_constraintBottom_toBottomOf="@+id/textView20"
+                app:layout_constraintEnd_toStartOf="@+id/followStore"
+                app:layout_constraintTop_toTopOf="@+id/materialCardView" />
+
+
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/followStore"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="8dp"
-
+                app:cardCornerRadius="10dp"
                 android:backgroundTint="@{viewModel.isFollowed()?@color/color_primary:@color/white}"
                 android:layout_marginEnd="@dimen/_10sdp"
                 app:layout_constraintBottom_toBottomOf="@+id/textView20"
@@ -260,10 +274,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="@dimen/_10sdp"
                         android:layout_marginVertical="@dimen/_5sdp"
-                        android:src="@drawable/hurt"
                         android:background="?selectableItemBackground"
-                        android:fontFamily="@font/cairo_semibold"
                         android:backgroundTint="@{viewModel.isFollowed()?@color/white:@color/color_primary}"
+                        android:fontFamily="@font/cairo_semibold"
+                        android:src="@drawable/hurt"
                         app:layout_constraintStart_toEndOf="@+id/materialCardView"
                         app:layout_constraintTop_toBottomOf="@+id/textView20" />
 

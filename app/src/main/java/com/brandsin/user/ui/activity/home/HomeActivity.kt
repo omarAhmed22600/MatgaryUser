@@ -31,7 +31,7 @@ import com.brandsin.user.ui.activity.auth.AuthActivity
 import com.brandsin.user.ui.main.homenew.HomeNewFragmentDirections
 import com.brandsin.user.utils.PrefMethods
 
-class HomeActivity : ParentActivity(), Observer<Any?>, NavController.OnDestinationChangedListener {
+class HomeActivity : ParentActivity(), Observer<Any?> {
     private lateinit var binding: ActivityHomeBinding
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var navView: NavigationView
@@ -68,7 +68,6 @@ class HomeActivity : ParentActivity(), Observer<Any?>, NavController.OnDestinati
         binding.viewModel = viewModel
         navController = findNavController(R.id.nav_home_host_fragment)
         val navView: BottomNavigationView = binding.navView
-        navController.addOnDestinationChangedListener(this)
         viewModel?.mutableLiveData!!.observe(this, this)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -101,23 +100,23 @@ class HomeActivity : ParentActivity(), Observer<Any?>, NavController.OnDestinati
         setUpToolbarAndStatusBar()
         //navView.setupWithNavController(navController)
         //setupNavHeader()
-//        binding.ibBack.setOnClickListener {
-//            when (navController.currentDestination?.id) {
-//                R.id.nav_home -> {
-//                    finishAffinity()
-//                }
-//                R.id.nav_order_status -> {
-//                    navController.navigate(R.id.nav_my_orders)
-//                }
+        binding.ibBack.setOnClickListener {
+            when (navController.currentDestination?.id) {
+                R.id.nav_home -> {
+                    finishAffinity()
+                }
+                R.id.nav_order_status -> {
+                    navController.navigate(R.id.nav_my_orders)
+                }
 //                R.id.nav_my_orders -> {
 //                    startActivity(Intent(this, HomeActivity::class.java))
 //                    finishAffinity()
 //                }
-//                else -> {
-//                    navController.navigateUp()
-//                }
-//            }
-//        }
+                else -> {
+                    navController.navigateUp()
+                }
+            }
+        }
 
         when (PrefMethods.getUserData()) {
             null -> {
@@ -147,10 +146,22 @@ class HomeActivity : ParentActivity(), Observer<Any?>, NavController.OnDestinati
     private fun setUpToolbarAndStatusBar() {
         navController.addOnDestinationChangedListener { controller, destination, arguments ->
             when (destination.id) {
-                R.id.nav_home_new, R.id.nav_home, R.id.nav_search, R.id.nav_store_details, R.id.nav_notifications -> {
+                R.id.profileButtomNavFragment,R.id.nav_home_new -> {
                     //customBarColor(ContextCompat.getColor(this, R.color.white))
                     viewModel?.obsShowToolbar!!.set(false)
+                    binding.navView.visibility=View.VISIBLE
                 }
+               R.id.nav_home, R.id.nav_search, R.id.nav_store_details -> {
+                    //customBarColor(ContextCompat.getColor(this, R.color.white))
+                    viewModel?.obsShowToolbar!!.set(false)
+                    binding.navView.visibility=View.GONE
+                }
+                R.id.nav_favourits, R.id.nav_discover, R.id.nav_notifications, R.layout.home_fragment_store_information -> {
+                    //customBarColor(ContextCompat.getColor(this, R.color.white))
+                    viewModel?.obsShowToolbar!!.set(true)
+                    binding.navView.visibility=View.GONE
+                }
+
                 R.id.nav_cart -> {
                     //customBarColor(ContextCompat.getColor(this, R.color.offers_bg_color))
                     viewModel?.obsShowToolbar!!.set(false)
@@ -159,10 +170,14 @@ class HomeActivity : ParentActivity(), Observer<Any?>, NavController.OnDestinati
                     viewModel?.obsShowToolbar!!.set(true)
                     when {
                         PrefMethods.getUserData() != null -> {
-                            customBarColor(ContextCompat.getColor(this, R.color.payment_color))
+                            //customBarColor(ContextCompat.getColor(this, R.color.payment_color))
+                            binding.navView.visibility=View.GONE
+
                         }
                         else -> {
-                            customBarColor(ContextCompat.getColor(this, R.color.offers_bg_color))
+                            //customBarColor(ContextCompat.getColor(this, R.color.offers_bg_color))
+                            binding.navView.visibility=View.GONE
+
                         }
                     }
                 }
@@ -178,15 +193,17 @@ class HomeActivity : ParentActivity(), Observer<Any?>, NavController.OnDestinati
                     }
                 }
                 R.id.nav_contact -> {
-                    customBarColor(ContextCompat.getColor(this, R.color.payment_color))
                     viewModel?.obsShowToolbar!!.set(true)
+                    //customBarColor(ContextCompat.getColor(this, R.color.color_primary))
+                    binding.navView.visibility=View.GONE
                 }
-                R.id.nav_offers, R.id.nav_confirm_order -> {
+                R.id.nav_offers, R.id.nav_confirm_order,R.id.nav_help -> {
                     //customBarColor(ContextCompat.getColor(this, R.color.offers_bg_color))
                     viewModel?.obsShowToolbar!!.set(true)
                 }
                 else -> {
                     viewModel?.obsShowToolbar!!.set(true)
+                    binding.navView.visibility=View.GONE
                     //customBarColor(ContextCompat.getColor(this, R.color.white))
                 }
             }
@@ -332,22 +349,6 @@ class HomeActivity : ParentActivity(), Observer<Any?>, NavController.OnDestinati
             else -> {
                 navController.navigateUp()
             }
-        }
-    }
-
-    override fun onDestinationChanged(
-        controller: NavController,
-        destination: NavDestination,
-        arguments: Bundle?
-    ) {
-        when(destination.id){
-            R.id.nav_home_new, R.id.nav_favourits,R.id.nav_discover,R.id.profileButtomNavFragment->{
-                binding.navView.visibility=View.VISIBLE
-            }else->{
-                binding.navView.visibility=View.GONE
-            }
-
-
         }
     }
 }
