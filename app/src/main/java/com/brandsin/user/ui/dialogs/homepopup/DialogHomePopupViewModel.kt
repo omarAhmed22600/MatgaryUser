@@ -7,4 +7,5 @@ class DialogHomePopupViewModel : BaseViewModel() {
 
     var sliderAdapter = PopupSliderAdapter()
 
+
 }

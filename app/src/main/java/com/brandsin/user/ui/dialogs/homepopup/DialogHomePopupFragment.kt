@@ -9,19 +9,22 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import com.brandsin.user.R
 
 import com.brandsin.user.databinding.DialogHomePopupBinding
 import com.brandsin.user.model.constants.Codes
 import com.brandsin.user.model.constants.Params
 import com.brandsin.user.model.order.homenew.HomeNewResponse
 import com.brandsin.user.model.order.homenew.PopupsItem
+import com.brandsin.user.ui.main.order.storedetails.StoreDetailsFragmentDirections
 import com.brandsin.user.utils.PrefMethods
 import com.brandsin.user.utils.map.observe
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType
 import com.smarteist.autoimageslider.SliderAnimations
 import com.smarteist.autoimageslider.SliderView
 
-class DialogHomePopupFragment : DialogFragment(), Observer<Any?>
+class DialogHomePopupFragment : DialogFragment(), Observer<Any?>, PopDialogInterface
 {
     lateinit  var  binding: DialogHomePopupBinding
     lateinit var viewModel: DialogHomePopupViewModel
@@ -55,19 +58,33 @@ class DialogHomePopupFragment : DialogFragment(), Observer<Any?>
 
         observe(viewModel.sliderAdapter.popupSliderLiveData) {
             when(it) {
-                is PopupsItem -> {
-                    PrefMethods.saveHomePopup(false)
-                    val intent = Intent()
-                    intent.putExtra(Params.DIALOG_CLICK_ACTION, 1)
-                    intent.putExtra(Params.DIALOG_HOME_POPUP, it)
-                    requireActivity().setResult(Codes.DIALOG_HOME_POPUP, intent)
-                    requireActivity().finish()
-                }
+//                is PopupsItem -> {
+//                    PrefMethods.saveHomePopup(false)
+//                    val intent = Intent()
+//                    intent.putExtra(Params.DIALOG_CLICK_ACTION, 1)
+//                    intent.putExtra(Params.DIALOG_HOME_POPUP, it)
+//                    requireActivity().setResult(Codes.DIALOG_HOME_POPUP, intent)
+//                    requireActivity().finish()
+//                }
             }
         }
 
-        binding.close.setOnClickListener {
+//        binding.close.setOnClickListener {
+//            PrefMethods.saveHomePopup(false)
+//            requireActivity().finish()
+//        }
+
+        binding.btnIgnore.setOnClickListener {
             PrefMethods.saveHomePopup(false)
+            requireActivity().finish()
+        }
+
+        binding.btnBuyOffer.setOnClickListener {
+            PrefMethods.saveHomePopup(false)
+            val intent = Intent()
+            intent.putExtra(Params.DIALOG_CLICK_ACTION, 1)
+            intent.putExtra(Params.DIALOG_HOME_POPUP, popupList[binding.bannerSlider.currentPagePosition])
+            requireActivity().setResult(Codes.DIALOG_HOME_POPUP, intent)
             requireActivity().finish()
         }
 

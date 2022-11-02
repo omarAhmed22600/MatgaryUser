@@ -260,14 +260,14 @@ class HomeNewFragment : BaseHomeFragment(), Observer<Any?>,StoryView.StoryViewLi
                                     data.getIntExtra(Params.DIALOG_CLICK_ACTION, 1) == 1 -> {
                                         val sliderItem =
                                             data.getSerializableExtra(Params.DIALOG_HOME_POPUP) as PopupsItem
-                                        if (sliderItem.storeIds!=null && sliderItem.storeIds.isNotEmpty()){
-                                            if(sliderItem.storeIds.size > 1) {
-                                                val action = HomeNewFragmentDirections.homeNewToHome("", "", sliderItem.storeIds.toTypedArray())
+                                        if (sliderItem.storeId!=null){
+//                                            if(sliderItem.storeIds.size > 1) {
+//                                                val action = HomeNewFragmentDirections.homeNewToHome("", "", sliderItem.storeIds.toTypedArray())
+//                                                findNavController().navigate(action)
+//                                            }else{
+                                                val action = HomeNewFragmentDirections.homeNewToStoreDetails(sliderItem.storeId)
                                                 findNavController().navigate(action)
-                                            }else{
-                                                val action = HomeNewFragmentDirections.homeNewToStoreDetails(sliderItem.storeIds[0]!!.toInt())
-                                                findNavController().navigate(action)
-                                            }
+                                            //}
                                         }
                                     }
                                 }
