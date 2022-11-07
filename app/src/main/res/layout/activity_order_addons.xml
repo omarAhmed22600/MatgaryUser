@@ -85,6 +85,16 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+
+                <ProgressBar
+                    android:id="@+id/progress_loader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    visibleGone="@{viewModel.obsIsLoading}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
                 <TextView
                     android:layout_width="@dimen/_280sdp"
                     android:layout_height="wrap_content"

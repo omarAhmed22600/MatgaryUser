@@ -73,7 +73,7 @@ class DialogOrderAddonsViewModel : BaseViewModel()
     }
 
     fun getProductDetails(productId: Int) {
-
+        obsIsLoading.set(true)
         requestCall<ProductDetailsResponse?>({
             withContext(Dispatchers.IO) {
                 return@withContext getApiRepo()
@@ -83,6 +83,7 @@ class DialogOrderAddonsViewModel : BaseViewModel()
         { res ->
             when (res!!.success) {
                 true -> {
+                    obsIsLoading.set(false)
                     obsIsVisible.set(false)
 
                     productItem = res.data!!

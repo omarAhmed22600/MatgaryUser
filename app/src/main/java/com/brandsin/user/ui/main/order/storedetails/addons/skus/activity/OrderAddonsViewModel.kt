@@ -119,6 +119,7 @@ class OrderAddonsViewModel : BaseViewModel() {
     }
 
     fun getProductDetails(productId: Int) {
+        obsIsLoading.set(true)
 
         requestCall<ProductDetailsResponse?>({
             withContext(Dispatchers.IO) {
@@ -129,6 +130,7 @@ class OrderAddonsViewModel : BaseViewModel() {
         { res ->
             when (res!!.success) {
                 true -> {
+                    obsIsLoading.set(false)
                     obsIsVisible.set(false)
 
                     productItem = res.data!!
@@ -163,6 +165,7 @@ class OrderAddonsViewModel : BaseViewModel() {
 
 
     fun getSearchProductAtrrSelected(ProductId :Int,skuId:String,attr:String,value:String){
+        obsIsLoading.set(true)
         requestCall<SearchProductAttResponse?>({
             withContext(Dispatchers.IO) {
                 return@withContext getApiRepo().getSearch_product_attrSelected(ProductId,
@@ -173,6 +176,7 @@ class OrderAddonsViewModel : BaseViewModel() {
         { res ->
             when  {
                 res!!.attributes.isNotEmpty() -> {
+                    obsIsLoading.set(false)
                     SkuParentAdapter.updateList(res.attributes)
                     search_product_attr=res.sku
                     getProductPrice2()

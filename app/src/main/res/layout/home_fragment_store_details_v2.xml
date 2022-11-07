@@ -61,7 +61,14 @@
                         app:sliderIndicatorSelectedColor="@color/color_primary"
                         app:sliderIndicatorUnselectedColor="@color/grey_subcategory"
                         app:sliderScrollTimeInSec="1"
-                        app:sliderStartAutoCycle="true" />
+                        app:sliderStartAutoCycle="true" >
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/store_gradient_bg" />
+                    </com.smarteist.autoimageslider.SliderView>
 
                 </com.google.android.material.card.MaterialCardView>
 
@@ -113,15 +120,6 @@
                     android:textSize="@dimen/_10ssp"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/ib_back" />
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/store_gradient_bg"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
