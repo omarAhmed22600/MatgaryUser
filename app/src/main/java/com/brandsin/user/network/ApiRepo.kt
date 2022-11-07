@@ -84,13 +84,20 @@ class ApiRepo(private val apiInterface: ApiInterface) {
                           tags : ArrayList<Int>) =
         apiInterface.getSearch(lat, lng, distance,locale, categoryId, keyword, sort, tags)
 
-    suspend fun followStore(storeId: Int?, userId: Int)=
-        apiInterface.followStore(storeId, userId)
+    suspend fun followStore(storeId: Int?, userId: Int)= apiInterface.followStore(storeId, userId)
 
     suspend  fun getFavourits(id: Int?, language: String): FavouritsResponse? =apiInterface.getFavourits(id,language)
     suspend  fun getOffersStories(): FavouritsResponse? =apiInterface.getOffersStories()
 
 
     suspend fun getDiscover(latitude: String, longitude: String)=apiInterface.getDiscover(latitude,longitude)
+
+    suspend fun getProductDetails(productId : Int , locale : String) = apiInterface.getProductDetails(productId , locale)
+
+    suspend fun getSearch_product_attr(product_id: Int?, return_json: Int)= apiInterface.getSearch_product_attr(product_id, return_json)
+
+
+    suspend fun getSearch_product_attrSelected(product_id: Int?, return_json: Int,sku_id:String,attr:String,
+                                               value:String)= apiInterface.getSearch_product_attrSelected(product_id, return_json,sku_id,attr,value)
 
 }

@@ -363,4 +363,6 @@
     <string name="SelectBirthDate">حدد تاريخ الميلاد</string>
     <string name="checkout">الدفع</string>
     <string name="add_items">اضافة منتجات</string>
+    <string name="quantity">الكمية</string>
+
 </resources>

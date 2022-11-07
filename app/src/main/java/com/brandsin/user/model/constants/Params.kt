@@ -51,4 +51,7 @@ object Params
 
     const val DIALOG_FILTER_TAGS = "DIALOG_FILTER_TAGS"
     const val DIALOG_FILTER_SORT = "DIALOG_FILTER_SORT"
+
+    const val SEARCH_PRODUCT_ITEM = "SEARCH_PRODUCT_ITEM"
+
 }

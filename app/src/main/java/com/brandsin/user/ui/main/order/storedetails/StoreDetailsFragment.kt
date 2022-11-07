@@ -287,8 +287,7 @@ class StoreDetailsFragment : BaseHomeFragment(), Observer<Any?>,
                                                         viewModel.addProductToCart(cartItem)
                                                         storeProductItem?.let {
                                                             viewModel.productsAdapter.notifyItemSelected(
-                                                                it
-                                                            )
+                                                                it)
                                                         }
                                                     }
                                                 }

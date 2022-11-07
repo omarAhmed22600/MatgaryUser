@@ -69,7 +69,6 @@
                 android:paddingStart="0dp"
                 android:fontFamily="@font/cairo_semibold"
                 android:textColor="@color/grey"
-                android:text="@{viewModel.item.productDescription}"
                 android:textSize="@dimen/_10ssp"
                 android:textAlignment="viewStart"
                 android:maxLines="2"

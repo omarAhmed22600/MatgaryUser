@@ -1,5 +1,6 @@
 package com.brandsin.user.model.order.storedetails
 
+import com.brandsin.user.model.order.SearchProdactAttr.StoreItemColors
 import com.google.gson.annotations.SerializedName
 import com.brandsin.user.model.order.homepage.StoriesItem
 import java.io.Serializable
@@ -427,9 +428,18 @@ data class StoreSkusItem(
     @field:SerializedName("status")
     val status: String? = null,
 
-    var isSelected: Boolean = false
+    var isSelected: Boolean = false,
+
+    @field:SerializedName("key")
+    val key: String?=null,
+
+    @field:SerializedName("values")
+    val values: List<StoreItemColors>
+
 
 ) : Serializable
+
+
 
 data class MediaItem(
 

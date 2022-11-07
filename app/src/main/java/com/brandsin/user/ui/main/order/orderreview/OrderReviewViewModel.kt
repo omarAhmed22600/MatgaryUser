@@ -1,5 +1,6 @@
 package com.brandsin.user.ui.main.order.orderreview
 
+import android.util.Log
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
@@ -124,7 +125,7 @@ class OrderReviewViewModel : BaseViewModel()
         data.user_id = PrefMethods.getUserData()!!.id!!.toInt()
 
         createOrderRequest.data = Gson().toJson(arrayListOf(data))
-
+        Log.d("ordery",createOrderRequest.toString())
         return createOrderRequest
     }
 }

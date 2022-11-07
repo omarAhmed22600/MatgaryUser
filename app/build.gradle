@@ -27,8 +27,8 @@ android {
         applicationId "com.brandsin.user"
         minSdk 21
         targetSdk 32
-        versionCode 10
-        versionName "1.10"
+        versionCode 11
+        versionName "1.11"
         archivesBaseName = "brandsinUser_v_" + versionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -288,5 +288,14 @@ dependencies {
 //    implementation 'com.amazonaws:aws-java-sdk-ec2:1.11.78'
 //Thanks for using https://jar-download.com
 
+
+    //fonts
+    implementation 'io.github.inflationx:calligraphy3:3.1.1'
+    implementation 'io.github.inflationx:viewpump:2.0.3'
+
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    // hib to convert from html in android
+    implementation 'org.jsoup:jsoup:1.13.1'
 
 }

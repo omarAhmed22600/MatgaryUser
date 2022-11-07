@@ -40,6 +40,7 @@ import com.brandsin.user.model.menu.notifications.ReadNotificationResponse
 import com.brandsin.user.model.menu.offers.OffersResponse
 import com.brandsin.user.model.menu.settings.PhoneNumberResponse
 import com.brandsin.user.model.menu.settings.SocialLinksResponse
+import com.brandsin.user.model.order.SearchProdactAttr.SearchProductAttResponse
 import com.brandsin.user.model.order.cancel.CancelOrderRequest
 import com.brandsin.user.model.order.cancel.CancelOrderResponse
 import com.brandsin.user.model.order.myorders.MyOrdersResponse
@@ -51,6 +52,7 @@ import com.brandsin.user.model.order.confirmorder.verifyphome.SendCodeResponse
 import com.brandsin.user.model.order.details.OrderDetailsResponse
 import com.brandsin.user.model.order.homenew.HomeNewResponse
 import com.brandsin.user.model.order.homepage.addedstories.liststories.ListStoriesResponse
+import com.brandsin.user.model.order.productdetails.ProductDetailsResponse
 import com.brandsin.user.model.order.rate.RateOrderRequest
 import com.brandsin.user.model.order.rate.RateOrderResponse
 import com.brandsin.user.model.order.reorder.ReOrderResponse
@@ -257,6 +259,21 @@ interface ApiInterface
     suspend fun getDiscover(@Query("lat") latitude: String,
                             @Query("lng") longitude: String): FavouritsResponse?
 
+    @GET("api/hajaty/product/show")
+    suspend fun getProductDetails(@Query("id") productId: Int, @Query("locale") locale: String): ProductDetailsResponse
+
+
+    @POST("/api/search_product_attr")
+    suspend fun getSearch_product_attr(@Query("product_id") product_id: Int?,
+                                       @Query("return_json") return_json: Int): SearchProductAttResponse
+
+
+    @POST("/api/search_product_attr")
+    suspend fun getSearch_product_attrSelected(@Query("product_id") product_id: Int?,
+                                       @Query("return_json") return_json: Int,
+                                               @Query("sku_id") sku_id: String,
+                                               @Query("attr") attr: String,
+                                               @Query("value") value: String): SearchProductAttResponse
 
 }
 

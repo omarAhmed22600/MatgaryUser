@@ -5,12 +5,15 @@ import com.brandsin.user.R
 import com.brandsin.user.database.BaseViewModel
 import com.brandsin.user.model.constants.Codes
 import com.brandsin.user.model.follow.FollowResponse
+import com.brandsin.user.model.order.SearchProdactAttr.SearchProductAttResponse
 import com.brandsin.user.model.order.cart.*
 import com.brandsin.user.model.order.homepage.StoriesItem
+import com.brandsin.user.model.order.storedetails.StoreProductItem
 import com.brandsin.user.model.order.storedetails.*
 import com.brandsin.user.network.ApiResponse
 import com.brandsin.user.network.requestCall
 import com.brandsin.user.ui.main.home.story.StoriesAdapter
+import com.brandsin.user.ui.main.order.storedetails.addons.skus.adapter.OrderSkusAdapter
 import com.brandsin.user.ui.main.order.storedetails.banners.BannersAdapter
 import com.brandsin.user.ui.main.order.storedetails.products.StoreProductsAdapter
 import com.brandsin.user.ui.main.order.storedetails.categories.StoreCatAdapter
@@ -173,8 +176,7 @@ class StoreDetailsViewModel : BaseViewModel()
     fun onCartClicked() {
         setValue(Codes.CART_CLICKED)
     }
-    fun
-            followStore() {
+    fun followStore() {
         isFollowed.set(!(isFollowed.get() as Boolean))
         storeData.isFollowed= isFollowed.get()!!
         requestCall<FollowResponse?>({
@@ -255,4 +257,6 @@ class StoreDetailsViewModel : BaseViewModel()
             }
         }
     }
+
+
 }

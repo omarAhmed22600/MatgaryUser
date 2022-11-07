@@ -33,7 +33,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/_5sdp"
-                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginStart="@dimen/_4sdp"
                 android:layout_marginTop="6dp"
                 android:fontFamily="@font/cairo_semibold"
                 android:paddingStart="@dimen/_3sdp"

@@ -34,7 +34,7 @@
             android:id="@+id/tv_quantity"
             android:layout_width="@dimen/_16sdp"
             android:layout_height="@dimen/_16sdp"
-           android:layout_marginStart="@dimen/_10sdp"
+           android:layout_marginStart="@dimen/_6sdp"
             android:fontFamily="@font/cairoregular"
             android:text="@{`x` + viewModel.item.quantity}"
             android:textSize="@dimen/_12ssp"
@@ -44,33 +44,31 @@
             tools:text="1x" />
 
         <TextView
+            android:id="@+id/tv_orderName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:fontFamily="@font/cairo_semibold"
+            android:text="@{viewModel.item.productName}"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12ssp"
             app:layout_constraintStart_toEndOf="@+id/tv_quantity"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginStart="@dimen/_8sdp"
-            app:layout_constraintBottom_toTopOf="@id/rv_contents"
-            android:id="@+id/tv_orderName"
-            android:textColor="@color/black"
-            android:text="@{viewModel.item.productName}"
-            tools:text="بطاطس ماكدونالدز"
-            android:textSize="@dimen/_12ssp"
-            android:fontFamily="@font/cairo_semibold"
-            tools:ignore="ContentDescription" />
+            tools:ignore="ContentDescription"
+            tools:text="بطاطس ماكدونالدز" />
 
 
         <TextView
             android:id="@+id/tv_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_15sdp"
             android:fontFamily="@font/cairo_semibold"
             android:text="@{viewModel.item.amount+@string/egp }"
             android:textColor="@color/black"
             android:textSize="@dimen/_12ssp"
-            android:layout_marginEnd="@dimen/_15sdp"
-            app:layout_constraintBottom_toTopOf="@id/rv_contents"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_orderName"
             tools:ignore="ContentDescription"
             tools:text="@string/egp" />
 
@@ -82,8 +80,9 @@
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/tv_quantity"
-            app:layout_constraintTop_toBottomOf="@+id/tv_orderName"
+            app:layout_constraintTop_toBottomOf="@+id/tv_price"
             tools:itemCount="2"
             tools:listitem="@layout/raw_order_details_addons" />
 

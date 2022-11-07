@@ -10,12 +10,18 @@
         <entry key="..\:/Users/Ali Mahmoud/AndroidStudioProjects/light bulb projects/hajaty_user_v2/app/src/main/res/layout/item_home_more_sub.xml" value="0.1" />
         <entry key="..\:/Users/Ali Mahmoud/AndroidStudioProjects/light bulb projects/hajaty_user_v2/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
         <entry key="..\:/Users/Ali Mahmoud/AndroidStudioProjects/light bulb projects/hajaty_user_v2/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1" />
+        <entry key="..\:/Users/Sahl/AndroidStudioProjects/BrandsIn/app/src/main/res/drawable-mdpi/bg_sharp_card.xml" value="0.1405" />
         <entry key="..\:/Users/Sahl/AndroidStudioProjects/BrandsIn/app/src/main/res/drawable/about_bg.xml" value="0.147" />
+        <entry key="..\:/Users/Sahl/AndroidStudioProjects/BrandsIn/app/src/main/res/drawable/about_item_bg.xml" value="0.136" />
+        <entry key="..\:/Users/Sahl/AndroidStudioProjects/BrandsIn/app/src/main/res/drawable/btn_add_selected.xml" value="0.1405" />
+        <entry key="..\:/Users/Sahl/AndroidStudioProjects/BrandsIn/app/src/main/res/drawable/check_24.xml" value="0.1405" />
         <entry key="..\:/Users/Sahl/AndroidStudioProjects/BrandsIn/app/src/main/res/drawable/contact_bg.xml" value="0.152" />
         <entry key="..\:/Users/Sahl/AndroidStudioProjects/BrandsIn/app/src/main/res/drawable/contact_bg2.xml" value="0.152" />
         <entry key="..\:/Users/Sahl/AndroidStudioProjects/BrandsIn/app/src/main/res/drawable/info_bg_shap.xml" value="0.147" />
         <entry key="..\:/Users/Sahl/AndroidStudioProjects/BrandsIn/app/src/main/res/drawable/login_field_bg.xml" value="0.147" />
         <entry key="..\:/Users/Sahl/AndroidStudioProjects/BrandsIn/app/src/main/res/drawable/side_nav_bar.xml" value="0.1295" />
+        <entry key="..\:/Users/Sahl/AndroidStudioProjects/BrandsIn/app/src/main/res/drawable/size_shap_background.xml" value="0.1405" />
+        <entry key="..\:/Users/Sahl/AndroidStudioProjects/BrandsIn/app/src/main/res/drawable/status_completed_bg.xml" value="0.1405" />
         <entry key="..\:/Users/Sahl/AndroidStudioProjects/BrandsIn/app/src/main/res/layout/activity_add_address.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/Sahl/AndroidStudioProjects/BrandsIn/app/src/main/res/layout/activity_auth.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/Sahl/AndroidStudioProjects/BrandsIn/app/src/main/res/layout/activity_change_address.xml" value="0.27291666666666664" />
@@ -122,10 +128,12 @@
         <entry key="..\:/Users/Sahl/AndroidStudioProjects/BrandsIn/app/src/main/res/layout/raw_order_item.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/Sahl/AndroidStudioProjects/BrandsIn/app/src/main/res/layout/raw_order_payment_way.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/Sahl/AndroidStudioProjects/BrandsIn/app/src/main/res/layout/raw_order_review_item.xml" value="0.27291666666666664" />
+        <entry key="..\:/Users/Sahl/AndroidStudioProjects/BrandsIn/app/src/main/res/layout/raw_order_sku_color.xml" value="0.33" />
         <entry key="..\:/Users/Sahl/AndroidStudioProjects/BrandsIn/app/src/main/res/layout/raw_order_skus.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/Sahl/AndroidStudioProjects/BrandsIn/app/src/main/res/layout/raw_profile_address.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/Sahl/AndroidStudioProjects/BrandsIn/app/src/main/res/layout/raw_rate_order.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/Sahl/AndroidStudioProjects/BrandsIn/app/src/main/res/layout/raw_shimmer_favourits_story.xml" value="0.27291666666666664" />
+        <entry key="..\:/Users/Sahl/AndroidStudioProjects/BrandsIn/app/src/main/res/layout/raw_slider_product_item.xml" value="0.26875" />
         <entry key="..\:/Users/Sahl/AndroidStudioProjects/BrandsIn/app/src/main/res/layout/raw_store_product.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/Sahl/AndroidStudioProjects/BrandsIn/app/src/main/res/layout/shimmer_order_status.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/Sahl/AndroidStudioProjects/BrandsIn/app/src/main/res/menu/activity_main_drawer.xml" value="0.27291666666666664" />

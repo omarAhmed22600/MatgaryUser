@@ -81,6 +81,7 @@ class SearchFragment : BaseHomeFragment(), Observer<Any?> {
                     }
                 }
             }
+        
         } else if (searchArgs.from == "store") {
             storeviewModel.storeData = searchArgs.dataStoreNew!!
             viewModel.setIsFromStoreDetails()

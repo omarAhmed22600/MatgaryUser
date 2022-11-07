@@ -1,7 +1,9 @@
 package com.brandsin.user.utils.databinding
 
+import android.graphics.Color
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
+import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.cardview.widget.CardView
@@ -13,6 +15,7 @@ import com.google.android.material.card.MaterialCardView
 import com.brandsin.user.R
 import com.brandsin.user.utils.MyApp
 import com.brandsin.user.utils.PrefMethods
+import de.hdodenhof.circleimageview.CircleImageView
 
 class OtherViewsBinding {
     companion object {
@@ -409,6 +412,8 @@ class OtherViewsBinding {
                 view.setImageResource(R.drawable.ic_visibility_off_24px)
             }
         }
+
+
 
         //put more here
     }

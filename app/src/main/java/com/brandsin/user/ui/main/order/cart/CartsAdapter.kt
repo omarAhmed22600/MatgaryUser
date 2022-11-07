@@ -8,6 +8,7 @@ import com.brandsin.user.R
 import com.brandsin.user.databinding.RawHomeCartBinding
 import com.brandsin.user.model.order.cart.CartItem
 import com.brandsin.user.utils.SingleLiveEvent
+import org.jsoup.Jsoup
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -46,10 +47,19 @@ class CartsAdapter : RecyclerView.Adapter<CartsAdapter.CartsHolder>()
         itemViewModel.removeItemLiveData.observeForever {
             removeCartLiveData.value = it
         }
+
+        holder.binding.tvDescription.text=html2text(itemViewModel.item.productDescription.toString())
     }
 
     fun getItem(pos:Int):CartItem{
         return cartsList[pos]
+    }
+    fun html2text(html:String):String {
+        try {
+            return Jsoup.parse(html).text();
+        } catch (ignored: Exception) {
+            return "";
+        }
     }
 
     override fun getItemCount(): Int {
