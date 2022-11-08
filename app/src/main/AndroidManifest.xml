@@ -143,6 +143,9 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
+
+        <meta-data android:name="com.facebook.sdk.ClientToken" android:value="519bcee7747ed77c7fd11db84ad961b6" />
+
     </application>
 
 </manifest>

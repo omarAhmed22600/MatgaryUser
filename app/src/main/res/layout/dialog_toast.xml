@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/toast_layout"
         android:padding="@dimen/_8sdp"
-        android:background="@drawable/toast_failed_bg"
+        android:background="@drawable/radius_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:orientation="horizontal"
@@ -21,6 +21,7 @@
         android:layout_marginBottom="@dimen/_24sdp"
         android:layout_marginStart="@dimen/_36sdp"
         android:layout_marginEnd="@dimen/_36sdp">
+
 
         <ImageView
             android:layout_width="@dimen/_24sdp"

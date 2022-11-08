@@ -149,13 +149,13 @@ class LoginWaysFragment : BaseAuthFragment(), Observer<Any?> , GoogleApiClient.O
             loginResult.accessToken
         ) { `object`, response ->
             try {
-                val name = response.jsonObject.getString("first_name") + " " + response.jsonObject.getString(
+                val name = response!!.jsonObject!!.getString("first_name") + " " + response.jsonObject!!.getString(
                     "last_name")
-                val email = response.jsonObject.getString("email")
+                val email = response.jsonObject!!.getString("email")
                 //Call api request
                 viewModel.setShowProgress(true)
-                viewModel.apiLogin("P" + response.jsonObject.getString("id"),
-                    response.jsonObject.getString("id"),
+                viewModel.apiLogin("P" + response.jsonObject!!.getString("id"),
+                    response.jsonObject!!.getString("id"),
                     PrefMethods.getLanguage(), "Facebook",
                     name, email)
             } catch (e: JSONException) {

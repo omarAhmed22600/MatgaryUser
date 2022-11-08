@@ -3,7 +3,7 @@
     <string name="app_url">https://brandsin-app.com </string>
     <string name="app_link_android">https://play.google.com/store/apps/details?id=com.hajaty.user</string>
     <string name="app_link_ios"></string>
-    <string name="facebook_app_id">1742518442574384</string>
+    <string name="facebook_app_id">1299033187502307</string>
     <string name="google_maps_key">AIzaSyDWTbmhcokQYyU4PKjBLnzAZlac4hphs_I</string>
 
     <string name="msg_subscribed">Subscribed to weather topic</string>
