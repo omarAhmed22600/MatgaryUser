@@ -34,7 +34,7 @@ class LoginViewModel : BaseViewModel()
             request.phone_number.isNullOrEmpty() || request.phone_number.isNullOrBlank() -> {
                 setValue(Codes.EMPTY_PHONE)
             }
-            request.phone_number!!.length < 9 -> {
+            request.phone_number!!.length < 10 -> {
                 setValue(Codes.INVALID_PHONE)
             }
             request.password.isNullOrEmpty() || request.password.isNullOrBlank() -> {

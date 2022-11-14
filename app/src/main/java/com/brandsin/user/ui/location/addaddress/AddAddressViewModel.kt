@@ -42,7 +42,7 @@ class AddAddressViewModel : BaseViewModel()
             addAddressRequest.phoneNumber == null -> {
                 setValue(Codes.EMPTY_PHONE)
             }
-            addAddressRequest.phoneNumber!!.length < 9 -> {
+            addAddressRequest.phoneNumber!!.length < 10 -> {
                 setValue(Codes.INVALID_PHONE)
             }
             else -> {

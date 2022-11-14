@@ -22,7 +22,7 @@ class ForgotPassViewModel : BaseViewModel()
             request.phone_email.isNullOrEmpty() || request.phone_email.isNullOrBlank() -> {
                 setValue(Codes.EMPTY_PHONE)
             }
-            request.phone_email!!.length < 9 -> {
+            request.phone_email!!.length < 10 -> {
                 setValue(Codes.INVALID_PHONE)
             }
             else -> {

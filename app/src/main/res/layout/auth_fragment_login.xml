@@ -194,7 +194,7 @@
                         android:fontFamily="@font/cairoregular"
                         android:hint="@string/phone_hint"
                         android:inputType="phone"
-                        android:maxLength="9"
+                        android:maxLength="10"
                         android:maxLines="1"
                         android:text="@={viewModel.request.phone_number}"
                         android:textAlignment="viewStart"

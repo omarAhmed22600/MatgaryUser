@@ -212,7 +212,7 @@
     <string name="addedd">Addedd</string>
     <string name="please_select_order_size">You must select order size first</string>
     <string name="empty_phone">Please enter phone number</string>
-    <string name="invalid_phone">"Phone number must consist of 9 digits "</string>
+    <string name="invalid_phone">"Phone number must consist of 10 digits "</string>
     <string name="empty_password">Please enter your password</string>
     <string name="not_matc_passwords">Your passwords not matches</string>
     <string name="empty_confirm_password">Enter confirm password</string>
@@ -224,7 +224,7 @@
     <string name="company">Company</string>
     <string name="address_exmaple">6 Ibn Hani al Al-andalusi , Nasr city, Cairo</string>
     <string name="login_via_phone">Login via phone number</string>
-    <string name="phone_hint">5xxxxxxxx</string>
+    <string name="phone_hint">5xxxxxxxxx</string>
     <string name="my_order">My orders</string>
     <string name="continue_with_phone">Continue with phone</string>
     <string name="min_order">Min order</string>

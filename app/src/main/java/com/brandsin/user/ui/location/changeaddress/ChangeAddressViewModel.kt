@@ -42,7 +42,7 @@ class ChangeAddressViewModel : BaseViewModel()
             changeAddressRequest.phoneNumber == null -> {
                 setValue(Codes.EMPTY_PHONE)
             }
-            changeAddressRequest.phoneNumber!!.length < 11 -> {
+            changeAddressRequest.phoneNumber!!.length < 10 -> {
                 setValue(Codes.INVALID_PHONE)
             }
             else -> {
