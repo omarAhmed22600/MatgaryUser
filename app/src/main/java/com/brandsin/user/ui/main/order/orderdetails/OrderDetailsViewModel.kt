@@ -40,6 +40,23 @@ class OrderDetailsViewModel : BaseViewModel()
                     obsIsLoading.set(false)
                     obsIsFull.set(true)
                     orderDetails = res
+
+                    res.offers!!.forEach {
+                        var item : OrderItem=OrderItem()
+                        item.id=it!!.id
+                        item.amount=it.amount
+                        //item.product_description=it.offer!!.description
+                        item.quantity=it.quantity
+                        item.skuCode=it.sku_code
+                        item.productName=it.offer!!.name
+                        //item.userNotes=it.user_notes
+                        item.type=it.type
+                        item.image=it.offer!!.image
+                        //item.addons=null
+                        item.storeId=null
+                        res.items!!.add(item)
+                    }
+
                     itemsAdapter.updateList(res.items as ArrayList<OrderItem>)
                     orderItemsAdapter.updateList(res.items as ArrayList<OrderItem>)
                     obsPaymentMethod.set(getString(R.string.cash))

@@ -18,7 +18,7 @@ class CartsViewModel : BaseViewModel()
     var obsExtraFeesPrice = ObservableField(0.0)
     var obsItemsPrice = ObservableField(0.0)
     var obsTotalPrice = ObservableField(0.0)
-    var obsNotes = ObservableField("")
+    var obsNotes = ObservableField<String>()
 
     var obsAddress = ObservableField<String>()
 
@@ -138,7 +138,10 @@ class CartsViewModel : BaseViewModel()
             else -> {
                 userCartData.totalCartPrices = obsTotalPrice.get()!!
                 userCartData.totalItemsPrices = obsItemsPrice.get()!!
-                userCartData.userNotes = obsNotes.get()!!
+                if (obsNotes.get() != null) {
+                    userCartData.userNotes = obsNotes.get()!!
+                }
+                //userCartData.userNotes = obsNotes.get()!!
                 setValue(Codes.MAKE_ORDER_CLICKED)
             }
         }

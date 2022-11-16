@@ -4,6 +4,9 @@ import com.google.gson.annotations.SerializedName
 
 data class OrderDetailsResponse(
 
+	@field:SerializedName("offers")
+	var offers: List<offerItem?>? = null,
+
 	@field:SerializedName("total")
 	val total: List<TotalItem?>? = null,
 
@@ -14,7 +17,7 @@ data class OrderDetailsResponse(
 	val discount: Any? = null,
 
 	@field:SerializedName("items")
-	val items: List<OrderItem?>? = null,
+	val items: ArrayList<OrderItem?>? = null,
 
 	@field:SerializedName("order")
 	val order: Order? = null,
@@ -212,52 +215,120 @@ data class CreatedAt(
 	val timezoneType: Int? = null
 )
 
+
+data class offerItem(
+	@field:SerializedName("sku_code")
+	var sku_code: String? = null,
+	@field:SerializedName("amount")
+	var amount: String? = null,
+	@field:SerializedName("id")
+	var id: Int? = null,
+	@field:SerializedName("description")
+	var description: String? = null,
+	@field:SerializedName("quantity")
+	var quantity: Int? = null,
+	@field:SerializedName("type")
+	var type: String? = null,
+	@field:SerializedName("item_options")
+	var item_options: String? = null,
+	@field:SerializedName("user_notes")
+	var user_notes: String? = null,
+	@field:SerializedName("created_at")
+	var created_at: String? = null,
+	@field:SerializedName("offer")
+	var offer:offerItem2? = null,
+
+	)
+data class offerItem2(
+
+	@field:SerializedName("id")
+	var id: Int? = null,
+	@field:SerializedName("name")
+	var name: String? = null,
+	@field:SerializedName("description")
+	var description: String? = null,
+	@field:SerializedName("price")
+	var price: Int? = null,
+	@field:SerializedName("price_to")
+	var price_to: Int? = null,
+	@field:SerializedName("start_date")
+	var start_date: String? = null,
+
+	@field:SerializedName("end_date")
+	var end_date: String? = null,
+
+	@field:SerializedName("store_id")
+	var store_id: Int? = null,
+
+	@field:SerializedName("active")
+	var active: Int? = null,
+
+	@field:SerializedName("created_by")
+	var created_by: Int? = null,
+
+	@field:SerializedName("updated_by")
+	var updated_by: Int? = null,
+	@field:SerializedName("deleted_at")
+	var deleted_at: String? = null,
+	@field:SerializedName("created_at")
+	var created_at: String? = null,
+	@field:SerializedName("updated_at")
+	var updated_at: String? = null,
+	@field:SerializedName("image")
+	var image: String? = null,
+	@field:SerializedName("name_en")
+	var name_en: String? = null,
+	@field:SerializedName("description_en")
+	var description_en: String? = null,
+
+	)
+
 data class OrderItem(
 
 	@field:SerializedName("store_id")
-	val storeId: Int? = null,
+	var storeId: Int? = null,
 
 	@field:SerializedName("image")
-	val image: String? = null,
+	var image: String? = null,
 
 	@field:SerializedName("amount")
-	val amount: String? = null,
+	var amount: String? = null,
 
 	@field:SerializedName("item_options")
-	val itemOptions: ItemOptions? = null,
+	var itemOptions: ItemOptions? = null,
 
 	@field:SerializedName("quantity")
-	val quantity: Int? = null,
+	var quantity: Int? = null,
 
 	@field:SerializedName("item_options_value")
-	val itemOptionsValue: List<Any?>? = null,
+	var itemOptionsValue: List<Any?>? = null,
 
 	@field:SerializedName("addons")
-	val addons: List<AddonsItem> = ArrayList(),
+	var addons: List<AddonsItem> = ArrayList(),
 
 	@field:SerializedName("description")
-	val description: String? = null,
+	var description: String? = null,
 
 	@field:SerializedName("created_at")
-	val createdAt: CreatedAt? = null,
+	var createdAt: CreatedAt? = null,
 
 	@field:SerializedName("type")
-	val type: String? = null,
+	var type: String? = null,
 
 	@field:SerializedName("product_name")
-	val productName: String? = null,
+	var productName: String? = null,
 
 	@field:SerializedName("product_id")
-	val productId: Int? = null,
+	var productId: Int? = null,
 
 	@field:SerializedName("store_name")
-	val storeName: String? = null,
+	var storeName: String? = null,
 
 	@field:SerializedName("id")
-	val id: Int? = null,
+	var id: Int? = null,
 
 	@field:SerializedName("sku_code")
-	val skuCode: String? = null,
+	var skuCode: String? = null,
 
 	var obsRate : Float = 5.0f
 )

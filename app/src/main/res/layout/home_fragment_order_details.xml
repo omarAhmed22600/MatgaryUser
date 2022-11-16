@@ -204,6 +204,7 @@
                                         app:layout_constraintStart_toStartOf="parent"
                                         app:layout_constraintTop_toBottomOf="@+id/tv_orderCode"
                                         tools:itemCount="3"
+                                        android:visibility="gone"
                                         tools:listitem="@layout/raw_order_item" />
 
                                     <LinearLayout
