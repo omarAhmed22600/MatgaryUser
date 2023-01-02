@@ -30,6 +30,7 @@ open class BaseViewModel : ViewModel(), Observable
 
     var obsIsLoadingStores = ObservableField<Boolean>()
     var obsHideRecycler = ObservableField<Boolean>()
+    var obsIsHide=ObservableField<Boolean>()
     var obsHidesTories = ObservableField<Boolean>()
     //for network
     val apiResponseLiveData = MutableLiveData<ApiResponse<Any?>>()

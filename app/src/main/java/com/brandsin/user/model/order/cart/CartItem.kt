@@ -16,6 +16,8 @@ data class CartStoreData(
     var extraFees: Double = 0.0,
     var deliveryTime: String? = null,
     var minimumOrder: Double = 0.0,
+
+    //var paymentMethod: String? = null,
 ) : Serializable
 
 data class CartItem(

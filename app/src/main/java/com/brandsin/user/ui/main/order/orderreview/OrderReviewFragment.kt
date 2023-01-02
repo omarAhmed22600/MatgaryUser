@@ -24,6 +24,7 @@ import com.brandsin.user.model.constants.Params
 import com.brandsin.user.model.order.cart.CartItem
 import com.brandsin.user.model.order.confirmorder.createorder.CreateOrderResponse
 import com.brandsin.user.network.Status
+import com.brandsin.user.ui.MFPayment.MFPaymentActivity
 import com.brandsin.user.ui.activity.home.BaseHomeFragment
 import com.brandsin.user.ui.activity.home.HomeActivity
 import com.brandsin.user.ui.dialogs.sendcode.DialogSendCodeFragment
@@ -42,15 +43,8 @@ class OrderReviewFragment : BaseHomeFragment(), Observer<Any?>, OnMapReadyCallba
     private val orderArgs : OrderReviewFragmentArgs by navArgs()
     var deliveryTime = ""
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = DataBindingUtil.inflate(inflater,
-            R.layout.home_fragment_order_review,
-            container,
-            false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        binding = DataBindingUtil.inflate(inflater, R.layout.home_fragment_order_review, container, false)
         return binding.root
     }
 
@@ -115,6 +109,25 @@ class OrderReviewFragment : BaseHomeFragment(), Observer<Any?>, OnMapReadyCallba
                 }
                 else -> {
                     Timber.e(it.message)
+                }
+            }
+        }
+
+        binding.btnConfirm.setOnClickListener {
+            when {
+                !viewModel.isVerified -> {
+                    viewModel.setValue(Codes.VERIFY_PHONE)
+                }
+                else -> {
+                    if (viewModel.obsPaymentMethod.get().equals(getString(R.string.visa))||
+                        viewModel.obsPaymentMethod.get().equals(getString(R.string.visa))) {
+                        val intent = Intent(requireActivity(), MFPaymentActivity::class.java)
+                        intent.putExtra("amountMF",viewModel.orderData.orderCost)
+                        startActivityForResult(intent, 3)
+                    }else if(viewModel.obsPaymentMethod.get().equals(getString(R.string.cash))){
+                        viewModel.createOrder(context)
+                    }
+
                 }
             }
         }
@@ -223,12 +236,24 @@ class OrderReviewFragment : BaseHomeFragment(), Observer<Any?>, OnMapReadyCallba
                                 addressItem!!.status = 1
                                 PrefMethods.saveDefaultAddress(addressItem)
                                 viewModel.isVerified = true
-                                viewModel.createOrder()
+                                viewModel.createOrder(context)
                             }
                         }
                     }
                 }
             }
+        }
+
+        if (data != null) {
+
+            when (requestCode) {
+                3 -> {
+                    val success = data!!.getBooleanExtra("success", false)
+                    if (success)
+                        viewModel.createOrder(context)
+                }
+            }
+
         }
     }
 

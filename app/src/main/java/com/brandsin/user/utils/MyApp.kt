@@ -8,6 +8,9 @@ import com.google.android.exoplayer2.database.DatabaseProvider
 import com.google.android.exoplayer2.database.ExoDatabaseProvider
 import com.google.android.exoplayer2.upstream.cache.LeastRecentlyUsedCacheEvictor
 import com.google.android.exoplayer2.upstream.cache.SimpleCache
+import com.myfatoorah.sdk.utils.MFCountry
+import com.myfatoorah.sdk.utils.MFEnvironment
+import com.myfatoorah.sdk.views.MFSDK
 import timber.log.Timber
 
 
@@ -73,7 +76,7 @@ class MyApp : Application()
         }*/
 
 
-
+        MFSDK.init(Config.API_KEY, MFCountry.SAUDI_ARABIA, MFEnvironment.TEST)
 
 
 

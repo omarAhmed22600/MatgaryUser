@@ -364,5 +364,6 @@
     <string name="checkout">الدفع</string>
     <string name="add_items">اضافة منتجات</string>
     <string name="quantity">الكمية</string>
+    <string name="visa">فيزا</string>
 
 </resources>

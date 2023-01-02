@@ -264,7 +264,7 @@
                             android:id="@+id/layoutStories"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            visibleGone="@{viewModel.obsHideRecycler}"
+                            visibleGone="@{viewModel.obsIsHide}"
                             android:visibility="gone"
                             android:background="#F2F2F2"
                             android:paddingBottom="6dp"

@@ -165,6 +165,7 @@ class HomeActivity : ParentActivity(), Observer<Any?> {
                 R.id.nav_cart -> {
                     //customBarColor(ContextCompat.getColor(this, R.color.offers_bg_color))
                     viewModel?.obsShowToolbar!!.set(false)
+                    binding.navView.visibility=View.GONE
                 }
                 R.id.nav_payment -> {
                     viewModel?.obsShowToolbar!!.set(true)

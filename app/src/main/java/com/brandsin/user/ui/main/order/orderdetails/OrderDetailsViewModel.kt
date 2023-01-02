@@ -59,7 +59,13 @@ class OrderDetailsViewModel : BaseViewModel()
 
                     itemsAdapter.updateList(res.items as ArrayList<OrderItem>)
                     orderItemsAdapter.updateList(res.items as ArrayList<OrderItem>)
-                    obsPaymentMethod.set(getString(R.string.cash))
+                    var pay=res.order!!.billing!!.gateway
+                    if (pay=="MyFatoorah"){
+                        obsPaymentMethod.set(getString(R.string.visa))
+                    }else{
+                        obsPaymentMethod.set(getString(R.string.cash))
+                    }
+                    //obsPaymentMethod.set(res.order!!.billing!!.gateway)
                     isMapReady.value = true
                     notifyChange()
                 }

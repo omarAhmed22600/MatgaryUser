@@ -14,6 +14,7 @@ import com.brandsin.user.model.order.confirmorder.createorder.*
 import com.brandsin.user.model.order.storedetails.*
 import com.brandsin.user.network.ApiResponse
 import com.brandsin.user.network.requestCall
+import com.brandsin.user.utils.MyApp.Companion.context
 import com.brandsin.user.utils.PrefMethods
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -58,21 +59,37 @@ class ConfirmOrderViewModel : BaseViewModel()
     var obsShowOrderPrices = ObservableBoolean(true)
 
     private fun getPaymentWays() {
-        val paymentWay1 = PaymentWayItem(1, "فيزا")
-        val paymentWay2 = PaymentWayItem(2, "نقدا")
+        val paymentWay1 = PaymentWayItem(1, getString(R.string.visa))
+        val paymentWay2 = PaymentWayItem(2, getString(R.string.cash))
         val paymentWay3 = PaymentWayItem(3, "Qr code")
         val paymentWay4 = PaymentWayItem(4, "محفظتي")
 
         val paymentWaysList: MutableList<PaymentWayItem> = mutableListOf()
 
+
         paymentWaysList.add(paymentWay1)
         paymentWaysList.add(paymentWay2)
-        paymentWaysList.add(paymentWay3)
-        paymentWaysList.add(paymentWay4)
+
+//        paymentWaysList.add(paymentWay3)
+//        paymentWaysList.add(paymentWay4)
+
+//        if (userCart.cartStoreData!!.paymentMethod != null && userCart.cartStoreData!!.paymentMethod == "0") {
+//
+//            obsPaymentMethod.set(getString(R.string.cash))
+//        } else
+//        if (userCart.cartStoreData!!.paymentMethod != null && userCart.cartStoreData!!.paymentMethod == "1") {
+//
+//            obsPaymentMethod.set("visa")
+//        } else if (userCart.cartStoreData!!.paymentMethod != null && userCart.cartStoreData!!.paymentMethod == "2") {
+//
+//            //  paymentWaysList.add(paymentWay1)
+//            obsPaymentMethod.set(getString(R.string.cash))
+//        }
+
         paymentWaysAdapter.updateList(paymentWaysList)
         paymentWaysAdapter.notifyDataSetChanged()
 
-        obsPaymentMethod.set("cash")
+        obsPaymentMethod.set(getString(R.string.cash))
     }
 
     fun showHidePrices() {

@@ -554,19 +554,19 @@
                         android:gravity="start" />
 
                     <ImageButton
+                        android:id="@+id/ib_show_hide"
+                        isCollapse="@{viewModel.obsShowOrderPrices}"
                         android:layout_width="@dimen/_30sdp"
                         android:layout_height="@dimen/_30sdp"
-                        android:gravity="end"
-                        isCollapse="@{viewModel.obsShowOrderPrices}"
-                        android:onClick="@{() -> viewModel.showHidePrices()}"
-                        android:id="@+id/ib_show_hide"
-                        android:padding="@dimen/_6sdp"
-                        android:src="@drawable/ic_sow_prices"
                         android:background="?actionBarItemBackground"
+                        android:gravity="end"
+                        android:onClick="@{() -> viewModel.showHidePrices()}"
+                        android:padding="@dimen/_6sdp"
                         android:scaleType="fitCenter"
-                        app:layout_constraintTop_toTopOf="parent"
+                        android:src="@drawable/ic_sow_prices"
                         app:layout_constraintEnd_toEndOf="parent"
-                        tools:ignore="ContentDescription" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="ContentDescription,TouchTargetSizeCheck,TouchTargetSizeCheck,TouchTargetSizeCheck" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

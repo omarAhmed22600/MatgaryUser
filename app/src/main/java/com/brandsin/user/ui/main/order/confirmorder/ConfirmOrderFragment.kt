@@ -81,18 +81,19 @@ class ConfirmOrderFragment : BaseHomeFragment(), Observer<Any?>, OnMapReadyCallb
             }
         }
 
-        binding.rawPaymentCash.visibility = View.VISIBLE
+        binding.rawPaymentCash.visibility = View.GONE
         binding.rawPaymentVisa.visibility = View.GONE
-        binding.tvPaymentDesc.text = requireActivity().getString(R.string.qr_desc)
-        viewModel.obsPaymentMethod.set("cash")
-        when {
-            PrefMethods.getLanguage() == "ar" -> {
-                binding.rawPaymentCash.background = ContextCompat.getDrawable(requireActivity(), R.drawable.ic_cash_border)
-            }
-            else -> {
-                binding.rawPaymentCash.background = ContextCompat.getDrawable(requireActivity(), R.drawable.ic_qr_border)
-            }
-        }
+        //viewModel.obsPaymentMethod.set(getString(R.string.cash))
+
+        //binding.tvPaymentDesc.text = requireActivity().getString(R.string.qr_desc)
+//        when {
+//            PrefMethods.getLanguage() == "ar" -> {
+//                binding.rawPaymentCash.background = ContextCompat.getDrawable(requireActivity(), R.drawable.ic_cash_border)
+//            }
+//            else -> {
+//                binding.rawPaymentCash.background = ContextCompat.getDrawable(requireActivity(), R.drawable.ic_qr_border)
+//            }
+//        }
     }
 
     override fun onChanged(it: Any?) {
@@ -133,60 +134,64 @@ class ConfirmOrderFragment : BaseHomeFragment(), Observer<Any?>, OnMapReadyCallb
                 when (it.id) {
                     1 -> {
                         binding.rawPaymentCash.visibility = View.GONE
-                        binding.rawPaymentVisa.visibility = View.VISIBLE
-                        binding.tvPaymentDesc.text = requireActivity().getString(R.string.cash_desc)
-                        viewModel.obsPaymentMethod.set("visa")
-                        when {
-                            PrefMethods.getLanguage() == "ar" -> {
-                                binding.rawPaymentVisa.background = ContextCompat.getDrawable(requireActivity(), R.drawable.ic_visa_border)
-                            }
-                            else -> {
-                                binding.rawPaymentVisa.background = ContextCompat.getDrawable(requireActivity(), R.drawable.ic_wallet_border)
-                            }
-                        }
+                        binding.rawPaymentVisa.visibility = View.GONE
+                        viewModel.obsPaymentMethod.set(getString(R.string.visa))
+
+                        //binding.tvPaymentDesc.text = requireActivity().getString(R.string.cash_desc)
+                        //viewModel.userCart.cartStoreData!!.paymentMethod="1"
+//                        when {
+//                            PrefMethods.getLanguage() == "ar" -> {
+//                                binding.rawPaymentVisa.background = ContextCompat.getDrawable(requireActivity(), R.drawable.ic_visa_border)
+//                            }
+//                            else -> {
+//                                binding.rawPaymentVisa.background = ContextCompat.getDrawable(requireActivity(), R.drawable.ic_wallet_border)
+//                            }
+//                        }
                     }
                     2 -> {
-                        binding.rawPaymentCash.visibility = View.VISIBLE
+                        binding.rawPaymentCash.visibility = View.GONE
                         binding.rawPaymentVisa.visibility = View.GONE
-                        binding.tvPaymentDesc.text = requireActivity().getString(R.string.qr_desc)
-                        viewModel.obsPaymentMethod.set("cash")
-                        when {
-                            PrefMethods.getLanguage() == "ar" -> {
-                                binding.rawPaymentCash.background = ContextCompat.getDrawable(requireActivity(), R.drawable.ic_cash_border)
-                            }
-                            else -> {
-                                binding.rawPaymentCash.background = ContextCompat.getDrawable(requireActivity(), R.drawable.ic_qr_border)
-                            }
-                        }
+                        viewModel.obsPaymentMethod.set(getString(R.string.cash))
+
+                        //binding.tvPaymentDesc.text = requireActivity().getString(R.string.qr_desc)
+                        //viewModel.userCart.cartStoreData!!.paymentMethod="2"
+//                        when {
+//                            PrefMethods.getLanguage() == "ar" -> {
+//                                binding.rawPaymentCash.background = ContextCompat.getDrawable(requireActivity(), R.drawable.ic_cash_border)
+//                            }
+//                            else -> {
+//                                binding.rawPaymentCash.background = ContextCompat.getDrawable(requireActivity(), R.drawable.ic_qr_border)
+//                            }
+//                        }
                     }
-                    3 -> {
-                        binding.rawPaymentCash.visibility = View.VISIBLE
-                        binding.rawPaymentVisa.visibility = View.GONE
-                        binding.tvPaymentDesc.text = requireActivity().getString(R.string.qr_desc)
-                        viewModel.obsPaymentMethod.set("qr code")
-                        when {
-                            PrefMethods.getLanguage() == "ar" -> {
-                                binding.rawPaymentCash.background = ContextCompat.getDrawable(requireActivity(), R.drawable.ic_qr_border)
-                            }
-                            else -> {
-                                binding.rawPaymentCash.background = ContextCompat.getDrawable(requireActivity(), R.drawable.ic_cash_border)
-                            }
-                        }
-                    }
-                    4 -> {
-                        binding.rawPaymentCash.visibility = View.VISIBLE
-                        binding.rawPaymentVisa.visibility = View.GONE
-                        binding.tvPaymentDesc.text = requireActivity().getString(R.string.qr_desc)
-                        viewModel.obsPaymentMethod.set("wallet")
-                        when {
-                            PrefMethods.getLanguage() == "ar" -> {
-                                binding.rawPaymentCash.background = ContextCompat.getDrawable(requireActivity(), R.drawable.ic_wallet_border)
-                            }
-                            else -> {
-                                binding.rawPaymentCash.background = ContextCompat.getDrawable(requireActivity(), R.drawable.ic_visa_border)
-                            }
-                        }
-                    }
+//                    3 -> {
+//                        binding.rawPaymentCash.visibility = View.VISIBLE
+//                        binding.rawPaymentVisa.visibility = View.GONE
+//                        binding.tvPaymentDesc.text = requireActivity().getString(R.string.qr_desc)
+//                        viewModel.obsPaymentMethod.set("qr code")
+//                        when {
+//                            PrefMethods.getLanguage() == "ar" -> {
+//                                binding.rawPaymentCash.background = ContextCompat.getDrawable(requireActivity(), R.drawable.ic_qr_border)
+//                            }
+//                            else -> {
+//                                binding.rawPaymentCash.background = ContextCompat.getDrawable(requireActivity(), R.drawable.ic_cash_border)
+//                            }
+//                        }
+//                    }
+//                    4 -> {
+//                        binding.rawPaymentCash.visibility = View.VISIBLE
+//                        binding.rawPaymentVisa.visibility = View.GONE
+//                        binding.tvPaymentDesc.text = requireActivity().getString(R.string.qr_desc)
+//                        viewModel.obsPaymentMethod.set("wallet")
+//                        when {
+//                            PrefMethods.getLanguage() == "ar" -> {
+//                                binding.rawPaymentCash.background = ContextCompat.getDrawable(requireActivity(), R.drawable.ic_wallet_border)
+//                            }
+//                            else -> {
+//                                binding.rawPaymentCash.background = ContextCompat.getDrawable(requireActivity(), R.drawable.ic_visa_border)
+//                            }
+//                        }
+//                    }
                 }
             }
         }

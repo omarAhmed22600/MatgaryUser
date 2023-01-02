@@ -272,7 +272,6 @@
             android:layout_marginEnd="@dimen/_24sdp"
             android:id="@+id/btn_confirm"
             android:layout_marginBottom="@dimen/_8sdp"
-            android:onClick="@{() -> viewModel.onConfirmClicked()}"
             app:layout_constraintBottom_toBottomOf="parent"                        android:insetTop="0dp"
             android:insetBottom="0dp"
             android:textAllCaps="false"

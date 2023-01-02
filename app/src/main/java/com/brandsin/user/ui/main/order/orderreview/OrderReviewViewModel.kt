@@ -1,8 +1,10 @@
 package com.brandsin.user.ui.main.order.orderreview
 
+import android.content.Context
 import android.util.Log
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
+import com.brandsin.user.R
 import com.google.gson.Gson
 import com.brandsin.user.database.BaseViewModel
 import com.brandsin.user.model.constants.Codes
@@ -10,6 +12,7 @@ import com.brandsin.user.model.order.cart.UserCart
 import com.brandsin.user.model.order.confirmorder.createorder.*
 import com.brandsin.user.network.ApiResponse
 import com.brandsin.user.network.requestCall
+import com.brandsin.user.utils.MyApp.Companion.context
 import com.brandsin.user.utils.PrefMethods
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -27,16 +30,16 @@ class OrderReviewViewModel : BaseViewModel()
     var isVerified : Boolean = false
     var isTimeChanged : Boolean = false
 
-    fun onConfirmClicked() {
-        when {
-            !isVerified -> {
-                setValue(Codes.VERIFY_PHONE)
-            }
-            else -> {
-                createOrder()
-            }
-        }
-    }
+//    fun onConfirmClicked() {
+//        when {
+//            !isVerified -> {
+//                setValue(Codes.VERIFY_PHONE)
+//            }
+//            else -> {
+//                createOrder()
+//            }
+//        }
+//    }
 
     init {
         getCartData()
@@ -50,12 +53,12 @@ class OrderReviewViewModel : BaseViewModel()
         }
     }
 
-    fun createOrder()
+    fun createOrder(context: Context?)
     {
         obsIsVisible.set(true)
         requestCall<CreateOrderResponse?>({
             withContext(Dispatchers.IO) {
-                return@withContext getApiRepo().createOrder(preprareOrderRequest())
+                return@withContext getApiRepo().createOrder(preprareOrderRequest(context))
             }
         })
         { res ->
@@ -72,7 +75,7 @@ class OrderReviewViewModel : BaseViewModel()
         }
     }
 
-    private fun preprareOrderRequest() : CreateOrderRequest
+    private fun preprareOrderRequest(context: Context?) : CreateOrderRequest
     {
         createOrderRequest.lang = PrefMethods.getLanguage()
         when {
@@ -91,7 +94,17 @@ class OrderReviewViewModel : BaseViewModel()
             }
         }
         createOrderRequest.deviceType = "Android"
-        createOrderRequest.paymentMethod = orderData.paymentMethod
+        //createOrderRequest.paymentMethod = orderData.paymentMethod
+
+
+        if (obsPaymentMethod.get()!!.trim().equals(context!!.getString(R.string.visa).trim())||
+            obsPaymentMethod.get()!!.trim().equals(context!!.getString(R.string.visa).trim())){
+            createOrderRequest.paymentMethod ="MyFatoorah"
+        }else if(obsPaymentMethod.get()!!.trim().equals(context!!.getString(R.string.cash).trim())){
+            createOrderRequest.paymentMethod = "cash"
+        }
+
+
         createOrderRequest.deliveryTime = orderData.deliveryTime
         createOrderRequest.userNotes = orderData.userNotes
 

@@ -37,6 +37,7 @@ class HomeNewViewModel : BaseViewModel()
 
     var homePageResponse = HomePageResponse()
     var homeNewResponse = HomeNewResponse()
+    var homeNewResponse2=SingleLiveEvent<HomeNewResponse>()
     var deviceTokenRequest = DeviceTokenRequest()
     var categoriesAdapter  = CategoriesAdapter()
     lateinit var storiesAdapter :StoriesAdapter
@@ -227,11 +228,11 @@ class HomeNewViewModel : BaseViewModel()
             when (res!!.success) {
                 true -> {
                     homeNewResponse = res
-
                     obsIsLoading.set(false)
                     obsIsFull.set(true)
                     obsIsLoadingStores.set(false)
                     obsHideRecycler.set(true)
+                    obsIsHide.set(true)
 
                     if(res.popups!!.isNotEmpty()) {
                         /* popups List */
@@ -259,8 +260,10 @@ class HomeNewViewModel : BaseViewModel()
                         /* More List */
                         storiesList = res.stories as MutableList<ArrayList<StoriesItem>>
                         storiesAdapter .updateList(storiesList)
-                    }else{
-                        obsHideRecycler.set(false)
+                    }
+                    else{
+                        ////// storess///
+                        obsIsHide.set(false)
                     }
 
                     Log.d("storiesList", "getHomePage: "+storiesList.size)

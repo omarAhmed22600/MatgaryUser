@@ -68,7 +68,7 @@ class HomeNewFragment : BaseHomeFragment(), Observer<Any?>,StoryView.StoryViewLi
         viewModel = ViewModelProvider(this).get(HomeNewViewModel::class.java)
         binding.viewModel = viewModel
 
-        viewModel.obsHideRecycler.set(false)
+        //viewModel.obsHideRecycler.set(false)
         viewModel.getSlider("homepage")
 
         viewModel.mutableLiveData.observe(viewLifecycleOwner, this)
@@ -148,6 +148,9 @@ class HomeNewFragment : BaseHomeFragment(), Observer<Any?>,StoryView.StoryViewLi
             setupSlider(it!!.data!!.slides)
 
         }
+
+
+
 
         // Get token
         // [START retrieve_current_token]
