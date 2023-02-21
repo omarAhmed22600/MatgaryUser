@@ -16,101 +16,129 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/raw_layout"
         android:onClick="@{()->viewModel.onMoreSubClicked()}"
-        android:layout_width="@dimen/_200sdp"
+        android:layout_width="@dimen/_220sdp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/_6sdp"
         android:background="@drawable/raw_order_bg"
-        android:padding="@dimen/_5sdp">
+        android:padding="@dimen/_3sdp">
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/img"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_100sdp"
-            app:cardCornerRadius="@dimen/_5sdp"
+            android:layout_height="@dimen/_70sdp"
             android:backgroundTint="@color/grey_subcategory"
+            app:cardCornerRadius="@dimen/_5sdp"
             app:cardElevation="0dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <ImageView
+                    storeImg="@{ viewModel.itemMoreSub.covers.size()>0 ? viewModel.itemMoreSub.covers.get(0).url :null }"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    tools:src="@tools:sample/backgrounds/scenic"
-                    storeImg="@{ viewModel.itemMoreSub.covers.size()>0 ? viewModel.itemMoreSub.covers.get(0).url :null }"
                     android:scaleType="fitXY"
-                    tools:ignore="ContentDescription" />
+                    tools:ignore="ContentDescription"
+                    tools:src="@tools:sample/backgrounds/scenic" />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_8sdp"
                     android:id="@+id/tv_busy"
-                    android:text="@string/busy"
-                    android:textSize="@dimen/_10ssp"
-                    android:textColor="@color/white"
-                    android:fontFamily="@font/cairo_semibold"
-                    android:maxLines="1"
-                    android:gravity="center"
-                    android:background="@drawable/is_busy_img"
                     isBusy="@{viewModel.itemMoreSub.isBusy()}"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintRight_toRightOf="parent" />
-
-                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_8sdp"
-                    android:id="@+id/tv_closed"
-                    android:text="@string/closed"
-                    android:textSize="@dimen/_10ssp"
-                    android:textColor="@color/white"
+                    android:background="@drawable/is_busy_img"
                     android:fontFamily="@font/cairo_semibold"
-                    android:maxLines="1"
                     android:gravity="center"
+                    android:maxLines="1"
+                    android:text="@string/busy"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_10ssp"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_closed"
+                    isClosed="@{viewModel.itemMoreSub.isClosed()}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
                     android:background="@drawable/is_busy_img"
                     android:backgroundTint="@color/red"
-                    isClosed="@{viewModel.itemMoreSub.isClosed()}"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintRight_toRightOf="parent" />
+                    android:fontFamily="@font/cairo_semibold"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:text="@string/closed"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_10ssp"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
 
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cv_story_store_img"
+            android:layout_width="@dimen/_25sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:layout_marginBottom="@dimen/_8sdp"
+            android:elevation="@dimen/_10sdp"
+            app:cardCornerRadius="@dimen/_8sdp"
+            android:layout_marginTop="@dimen/_12sdp"
+            app:layout_constraintBottom_toBottomOf="@+id/lin"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/lin"
+            app:strokeWidth="1dp">
+
+            <ImageView
+                android:id="@+id/story_store_img"
+                storeImg="@{viewModel.itemMoreSub.thumbnail}"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/app_logo" />
+        </com.google.android.material.card.MaterialCardView>
+
+
         <LinearLayout
             android:id="@+id/lin"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
             android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@+id/img"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/cv_story_store_img"
+            app:layout_constraintTop_toBottomOf="@+id/img">
 
             <TextView
                 android:id="@+id/textView10"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.2"
-                android:gravity="center|start"
-                android:text="@{viewModel.itemMoreSub.name}"
-                android:textSize="@dimen/_12ssp"
-                android:textColor="@color/black"
+                android:ellipsize="end"
                 android:fontFamily="@font/cairo_semibold"
+                android:gravity="center|start"
                 android:maxLines="1"
-                android:ellipsize="end"/>
+                android:text="@{viewModel.itemMoreSub.name}"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12ssp" />
 
             <TextView
                 android:id="@+id/textView100"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight=".8"
+                android:fontFamily="@font/cairo_semibold"
                 android:gravity="center|end"
                 android:text="@{viewModel.itemMoreSub.categories.get(0).categoryName}"
-                android:textSize="@dimen/_10ssp"
                 android:textColor="@color/black"
-                android:fontFamily="@font/cairo_semibold"/>
+                android:textSize="@dimen/_10ssp" />
 
         </LinearLayout>
 
@@ -124,23 +152,24 @@
             android:textColor="@color/black"
             android:fontFamily="@font/cairo_semibold"
             app:drawableStartCompat="@drawable/d_price"
+            android:layout_marginTop="@dimen/_5sdp"
             android:drawablePadding="@dimen/_3sdp"
-            app:layout_constraintTop_toBottomOf="@+id/lin"
+            app:layout_constraintTop_toBottomOf="@+id/cv_story_store_img"
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/textView11"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:drawablePadding="@dimen/_3sdp"
+            android:fontFamily="@font/cairo_semibold"
             android:gravity="center|end"
             android:text="@{viewModel.obsDeliveryTime}"
-            android:textSize="@dimen/_10ssp"
             android:textColor="@color/black"
-            android:fontFamily="@font/cairo_semibold"
+            android:textSize="@dimen/_10ssp"
             app:drawableEndCompat="@drawable/d_time"
-            android:drawablePadding="@dimen/_3sdp"
-            app:layout_constraintTop_toBottomOf="@+id/lin"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textView12" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

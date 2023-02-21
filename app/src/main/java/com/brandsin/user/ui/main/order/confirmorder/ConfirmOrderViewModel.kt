@@ -73,19 +73,6 @@ class ConfirmOrderViewModel : BaseViewModel()
 //        paymentWaysList.add(paymentWay3)
 //        paymentWaysList.add(paymentWay4)
 
-//        if (userCart.cartStoreData!!.paymentMethod != null && userCart.cartStoreData!!.paymentMethod == "0") {
-//
-//            obsPaymentMethod.set(getString(R.string.cash))
-//        } else
-//        if (userCart.cartStoreData!!.paymentMethod != null && userCart.cartStoreData!!.paymentMethod == "1") {
-//
-//            obsPaymentMethod.set("visa")
-//        } else if (userCart.cartStoreData!!.paymentMethod != null && userCart.cartStoreData!!.paymentMethod == "2") {
-//
-//            //  paymentWaysList.add(paymentWay1)
-//            obsPaymentMethod.set(getString(R.string.cash))
-//        }
-
         paymentWaysAdapter.updateList(paymentWaysList)
         paymentWaysAdapter.notifyDataSetChanged()
 
