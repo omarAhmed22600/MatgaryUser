@@ -39,7 +39,7 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/contact_title"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_200sdp"
+                        android:layout_height="@dimen/_230sdp"
                         android:background="@drawable/contact_bg">
 
                         <ImageView

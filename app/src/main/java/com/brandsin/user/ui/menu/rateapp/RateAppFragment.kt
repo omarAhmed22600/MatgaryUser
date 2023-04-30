@@ -46,7 +46,7 @@ class RateAppFragment : BaseHomeFragment(), Observer<Any?>
         when (it) {
             Codes.RATING_SUCCESS ->
             {
-                val packageName = "com.hajaty.user"
+                val packageName = "com.brandsin.user"
                 val uri = Uri.parse("market://details?id=$packageName")
                 val myAppLinkToMarket = Intent(Intent.ACTION_VIEW, uri)
                 try

@@ -60,10 +60,10 @@ class AboutFragment : BaseHomeFragment(), Observer<Any?>
         if(it == null) return
         when (it) {
             Codes.OPEN_FACE -> {
-                Utils.openFacebook(requireActivity(), viewModel.socialLinks.facebook)
+                Utils.openLink(requireActivity(), viewModel.socialLinks.facebook)
             }
             Codes.OPEN_TWITTER -> {
-                Utils.openTwitter(requireActivity(), viewModel.socialLinks.twitter)
+                Utils.openLink(requireActivity(), viewModel.socialLinks.twitter)
             }
             Codes.OPEN_INSTA -> {
                 Utils.openInstagram(requireActivity(), viewModel.socialLinks.instagram)
@@ -76,7 +76,7 @@ class AboutFragment : BaseHomeFragment(), Observer<Any?>
                     }
                     2 -> {
                        // findNavController().navigate(R.id.about_to_rate_app)
-                        val packageName = "com.hajaty.user"
+                        val packageName = "com.brandsin.user"
                         val uri = Uri.parse("market://details?id=$packageName")
                         val myAppLinkToMarket = Intent(Intent.ACTION_VIEW, uri)
                         try

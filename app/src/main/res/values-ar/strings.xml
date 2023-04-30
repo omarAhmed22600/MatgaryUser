@@ -81,9 +81,9 @@
     <string name="total">الاجمالي</string>
     <string name="sum">المجموع</string>
     <string name="extra_fees">رسوم التوصيل</string>
-    <string name="_75">75 ج.م</string>
-    <string name="_15_50">15 ج.م</string>
-    <string name="_90_50">90 ج.م</string>
+    <string name="_75">75 ر.س</string>
+    <string name="_15_50">15 ر.س</string>
+    <string name="_90_50">90 ر.س</string>
     <string name="tell_us_something">هل هناك شئ أخر تود اضافتة أو تنبة المتجر ألية ؟</string>
     <string name="confirm_order">تنفيذ الطلب</string>
     <string name="notes">ملاحظات ااضافية</string>
@@ -227,7 +227,7 @@
     <string name="my_order">طلباتي</string>
     <string name="continue_with_phone">استمرار عبر الموبايل</string>
     <string name="min_order">اقل طلب</string>
-    <string name="currency">ج.م</string>
+    <string name="currency">ر.س</string>
     <string name="delivery_price">سعر التوصيل</string>
     <string name="reset_password">استرجاع كلمة المرورد</string>
     <string name="no_cart_items_found">لا يوجد عناصر في سلة المشتريات</string>
@@ -336,7 +336,7 @@
     <string name="all_stores">كل المتاجر</string>
     <string name="store_information">معلومات</string>
     <string name="work_hours">ساعات العمل</string>
-    <string name="egp">جنيه</string>
+    <string name="egp">ر.س</string>
     <string name="restaurant_area">منطقه المطعم</string>
     <string name="follow">متابعه</string>
     <string name="followed">متابع</string>

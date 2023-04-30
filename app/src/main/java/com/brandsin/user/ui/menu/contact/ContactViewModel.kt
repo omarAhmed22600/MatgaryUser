@@ -27,6 +27,7 @@ class ContactViewModel : BaseViewModel()
                     obsIsFull.set(true)
                     obsIsLoading.set(false)
                     socialLinks = res.socialLinks!!
+                    setValue(Codes.SHOW_SOCIAL)
                 }
                 else -> {}
             }

@@ -317,7 +317,7 @@
                                 app:layout_constraintHorizontal_bias="1.0"
                                 app:layout_constraintStart_toEndOf="@+id/textView5"
                                 app:layout_constraintTop_toTopOf="@+id/textView5"
-                                tools:text="15.00 egp" />
+                                tools:text="15.00 SAR" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"

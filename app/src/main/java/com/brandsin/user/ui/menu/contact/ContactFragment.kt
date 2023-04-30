@@ -35,6 +35,7 @@ class ContactFragment : BaseHomeFragment(), Observer<Any?>
         }
 
         viewModel.mutableLiveData.observe(viewLifecycleOwner, this)
+        viewModel.mutableLiveData.observe(viewLifecycleOwner, this)
 
         setBarName(getString(R.string.contact_us))
     }
@@ -43,17 +44,35 @@ class ContactFragment : BaseHomeFragment(), Observer<Any?>
     {
         if(it == null) return
         when (it) {
+            Codes.SHOW_SOCIAL -> {
+                if (viewModel.socialLinks.facebook==null){
+                    binding.ivFacebook.visibility = View.GONE
+                }
+                if (viewModel.socialLinks.twitter==null){
+                    binding.ivTwitter.visibility = View.GONE
+                }
+                if (viewModel.socialLinks.pinterest==null){
+                    binding.ivGmail.visibility = View.GONE
+                }
+                if (viewModel.socialLinks.tikTok==null){
+                    binding.ivTiktok.visibility = View.GONE
+                }
+            }
             Codes.PHONE_CLICKED -> {
                 Utils.callPhone(requireActivity(), viewModel.obsPhoneNumber.get().toString())
             }
             Codes.FACE_CLICKED -> {
-                Utils.openFacebook(requireActivity(), viewModel.socialLinks.facebook)
+//                if (viewModel.socialLinks.facebook!!.contains('/')){
+//                    Utils.openFacebook(requireActivity(), viewModel.socialLinks.facebook!!.removeSuffix("/"))
+//                }
+                Utils.openLink(requireActivity(), viewModel.socialLinks.facebook)
+
             }
             Codes.GMAIL_CLICKED -> {
                 Utils.openMail(requireActivity(), viewModel.socialLinks.pinterest.toString())
             }
             Codes.TIKTOK_CLICKED -> {
-                Utils.openInstagram(requireActivity(), viewModel.socialLinks.tikTok.toString())
+                Utils.openLink(requireActivity(), viewModel.socialLinks.tikTok.toString())
             }
             Codes.WHATSAPP_CLICKED -> {
                 val url = "https://api.whatsapp.com/send?phone=" + viewModel.obsPhoneNumber.get().toString()
@@ -62,7 +81,7 @@ class ContactFragment : BaseHomeFragment(), Observer<Any?>
                 startActivity(i)
             }
             Codes.TWITTER_CLICKED -> {
-                Utils.openTwitter(requireActivity(), viewModel.socialLinks.twitter)
+                Utils.openLink(requireActivity(), viewModel.socialLinks.twitter)
             }
         }
     }

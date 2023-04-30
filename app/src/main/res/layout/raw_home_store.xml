@@ -106,7 +106,7 @@
                 android:id="@+id/tv_deliveryPrice"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                tools:text="سعر التوصيل : 20 جنيه"
+                tools:text="سعر التوصيل : 20 ر.س"
                 android:text="@{viewModel.obsDeliveryPrice}"
                 android:fontFamily="@font/cairo_semibold"
                 android:textColor="@color/white"

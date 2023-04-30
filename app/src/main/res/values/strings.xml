@@ -83,9 +83,9 @@
     <string name="total">Total</string>
     <string name="sum">sum</string>
     <string name="extra_fees">delivery fees</string>
-    <string name="_75">70 L.E</string>
-    <string name="_15_50"> 15 L.E</string>
-    <string name="_90_50"> 90 L.E </string>
+    <string name="_75">70 SAR</string>
+    <string name="_15_50"> 15 SAR</string>
+    <string name="_90_50"> 90 SAR </string>
     <string name="tell_us_something">Is there anything else you would like to add or alert the store to?</string>
     <string name="confirm_order">Confirm order</string>
     <string name="notes"> Notes </string>
@@ -228,7 +228,7 @@
     <string name="my_order">My orders</string>
     <string name="continue_with_phone">Continue with phone</string>
     <string name="min_order">Min order</string>
-    <string name="currency">L.E</string>
+    <string name="currency">SAR</string>
     <string name="delivery_price">Delivery price</string>
     <string name="reset_password">Reset password</string>
     <string name="no_cart_items_found">No items in cart</string>
@@ -337,7 +337,7 @@
     <string name="store_information">Information</string>
     <string name="restaurant_area">Restaurant area</string>
     <string name="work_hours">work hours</string>
-    <string name="egp">EGP</string>
+    <string name="egp">SAR</string>
     <string name="generic_name">%1$s, %2$s</string>
     <string name="follow">Follow</string>
     <string name="followed">Followed</string>

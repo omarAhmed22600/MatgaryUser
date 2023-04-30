@@ -38,7 +38,7 @@
             android:textSize="@dimen/_12ssp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_name"
-            tools:text="25 ج.م" />
+            tools:text="25 ر.س" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -273,6 +273,6 @@ object Codes
     const val BUTTON_HELP_CLICKED = 301
     const val BUTTON_ABOUT_CLICKED = 302
     const val BUTTON_CONTACT_CLICKED = 303
-
+    const val SHOW_SOCIAL=304
 
 }

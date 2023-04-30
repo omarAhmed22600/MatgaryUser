@@ -75,7 +75,7 @@
                             android:layout_marginStart="@dimen/_15sdp"
                             android:fontFamily="@font/cairo_bold"
                             android:lineSpacingExtra="-5dp"
-                            android:text="50.00 ج.م"
+                            android:text="50.00 ر.س"
                             android:textAlignment="viewStart"
                             android:textColor="@color/white"
                             android:layout_marginBottom="@dimen/_10sdp"

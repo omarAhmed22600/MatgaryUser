@@ -63,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/_14ssp"
                 android:id="@+id/tv_price"
-                tools:text="40 جنيه"
+                tools:text="40 ر.س"
                 android:text="@{viewModel.item.price + ` ` + @string/currency}"
                 android:textColor="#AFAFAF"
                 android:fontFamily="@font/cairo_semibold"

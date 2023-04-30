@@ -192,7 +192,7 @@
                     android:id="@+id/tv_price"
                     android:layout_marginEnd="@dimen/_24sdp"
                     android:textColor="@color/price_color"
-                    tools:text="20 ج.م"
+                    tools:text="20 ر.س"
                     android:text="@{viewModel.obsItemPrice + ` ` + @string/currency}"
                     app:layout_constraintTop_toTopOf="@id/ib_add"
                     app:layout_constraintBottom_toBottomOf="@id/ib_add"

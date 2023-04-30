@@ -32,19 +32,18 @@
                 android:layout_width="match_parent">
 
                 <ImageButton
-                    android:background="?actionBarItemBackground"
                     android:id="@+id/ib_back"
-                    android:layout_height="@dimen/_30sdp"
-                    android:layout_marginEnd="@dimen/_4sdp"
                     android:layout_width="@dimen/_30sdp"
-                    android:padding="@dimen/_7sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:background="?actionBarItemBackground"
                     android:onClick="@{() -> viewModel.onBackPressed()}"
+                    android:padding="@dimen/_7sdp"
                     android:scaleType="fitCenter"
                     android:src="@drawable/ic_back"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="ContentDescription" />
+                    tools:ignore="ContentDescription,TouchTargetSizeCheck,TouchTargetSizeCheck,TouchTargetSizeCheck" />
 
                 <TextView
                     android:fontFamily="@font/cairo_semibold"

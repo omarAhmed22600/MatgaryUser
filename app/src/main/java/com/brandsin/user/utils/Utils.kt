@@ -104,12 +104,23 @@ object Utils
     }
     fun openTwitter(context: Activity, link: String?) {
         if (link == null) return
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(link.trim { it <= ' ' }))
+//        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(link.trim { it <= ' ' }))
+//        try {
+//            context.startActivity(intent)
+//        } catch (e: Exception) {
+//            Timber.e(e.message)
+//        }
+        var intent: Intent? = null
         try {
-            context.startActivity(intent)
-        } catch (e: Exception) {
-            Timber.e(e.message)
+            // get the Twitter app if possible
+            context.getPackageManager().getPackageInfo("com.twitter.android", 0)
+            intent = Intent(Intent.ACTION_VIEW, Uri.parse("twitter://user?user_id=USERID"))
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        } catch (e: java.lang.Exception) {
+            // no Twitter app, revert to browser
+            intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://twitter.com/$link"))
         }
+        context.startActivity(intent)
     }
 
     fun openInstagram(context: Activity, link: String?) {
@@ -120,6 +131,29 @@ object Utils
         } catch (e: Exception) {
             Timber.e(e.message)
         }
+    }
+
+     fun openTikTokProfile(context: Activity, link: String?) {
+        if (link == null) return
+//        val uri: Uri = Uri.parse("https://www.tiktok.com/@${link}")
+//        val intent = Intent(Intent.ACTION_VIEW, uri)
+//
+//        intent.setPackage("com.zhiliaoapp.musically")
+//
+//        if (intent.resolveActivity(context.packageManager) != null) {
+//            context.startActivity(intent)
+//        }
+         var intent: Intent? = null
+         try {
+             // get the Twitter app if possible
+             context.getPackageManager().getPackageInfo("com.ss.android.ugc.trill&gl=US", 0)
+             intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.tiktok.com/${link}"))
+             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+         } catch (e: java.lang.Exception) {
+             // no Twitter app, revert to browser
+             intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.tiktok.com/$link"))
+         }
+         context.startActivity(intent)
     }
 
     fun openLinkedIn(activity: Activity, url: String?) {
@@ -160,6 +194,7 @@ object Utils
             }
         }
     }
+
      fun openFacebook(activity: Activity, link: String?) {
         val context: Context = MyApp.getInstance()
         //the correct link:
@@ -196,6 +231,25 @@ object Utils
             context.startActivity(facebookIntent)
         } catch (e: Exception) {
             //Timber.e(e);
+        }
+    }
+
+    fun openLink(activity: Activity, url1: String?){
+        if (url1 == null) return
+        var url=""
+        if (!url1.contains("http")){
+            url="https://"+url1
+        }
+        try {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            activity.startActivity(intent)
+        } catch (e: Exception) {
+            try {
+                activity.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+            } catch (es: Exception) {
+                Timber.e("link isnt valid%s", es.message)
+            }
         }
     }
 

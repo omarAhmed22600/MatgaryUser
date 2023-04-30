@@ -554,7 +554,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_16sdp"
-                        tools:text="70.50 ج.م"
+                        tools:text="70.50 ر.س"
                         android:textSize="@dimen/_11ssp"
                         android:text="@{viewModel.orderDetails.order.amount}"
                         android:textAlignment="viewStart"

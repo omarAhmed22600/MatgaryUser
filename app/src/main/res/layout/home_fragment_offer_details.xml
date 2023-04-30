@@ -92,7 +92,7 @@
                     android:scaleType="centerCrop"
                     android:text="@{viewModel.obsPrice}"
                     android:src="@drawable/app_logo"
-                    tools:text="200 ج.م"
+                    tools:text="200 ر.س"
                     android:textColor="#1976D2"
                     android:textSize="@dimen/_12ssp"
                     app:layout_constraintEnd_toEndOf="parent"
