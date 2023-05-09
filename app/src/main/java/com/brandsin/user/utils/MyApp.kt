@@ -76,7 +76,7 @@ class MyApp : Application()
         }*/
 
 
-        MFSDK.init(Config.API_KEY, MFCountry.SAUDI_ARABIA, MFEnvironment.TEST)
+        MFSDK.init(Config.API_KEY, MFCountry.SAUDI_ARABIA, MFEnvironment.LIVE)
 
 
 
