@@ -92,7 +92,7 @@ data class StoresDataItem(
 	val thumbnail: String? = null,
 
 	@field:SerializedName("images")
-	val images: List<String?>? = null,
+	val images: List<Images?>? = null,
 
 	@field:SerializedName("lng")
 	val lng: String? = null,
@@ -216,6 +216,15 @@ data class Slider(
 ): Serializable
 
 data class CoversItem(
+
+	@field:SerializedName("id")
+	val id: Int? = null,
+
+	@field:SerializedName("url")
+	val url: String? = null
+): Serializable
+
+data class Images(
 
 	@field:SerializedName("id")
 	val id: Int? = null,
