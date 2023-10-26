@@ -3,6 +3,7 @@ package com.brandsin.user.ui.main.order.storedetails
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -55,6 +56,14 @@ class StoreDetailsFragment : BaseHomeFragment(), Observer<Any?>,
 
     var storiesItem = StoriesItem()
     var store = Store()
+    var flag:Boolean=false
+    var storeCategoriesList: List<StoreCategoryItem> = ArrayList()
+    var productsList: ArrayList<StoreProductItem> = ArrayList()
+    var productsListLimt: MutableList<StoreProductItem> = ArrayList()
+    private var limt: Int = 10
+    private var currentPage: Int = 0
+    private var isLoading: Boolean = false
+    private var isLastPage: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -77,9 +86,22 @@ class StoreDetailsFragment : BaseHomeFragment(), Observer<Any?>,
         viewModel = ViewModelProvider(this).get(StoreDetailsViewModel::class.java)
         binding.viewModel = viewModel
         viewModel.setStoriesListner(this)
-        viewModel.getStoreDetails(storeArgs.storeId)
+        //viewModel.getStoreDetails(storeArgs.storeId)
 
-
+        if (!flag){
+            viewModel.getStoreDetails(storeArgs.storeId)
+            flag=true
+        }
+        else{
+            viewModel.obsIsFull.set(true)
+            viewModel.obsIsLoading.set(false)
+            viewModel.storeCategoriesList=storeCategoriesList
+            viewModel.productsList=productsList
+            val pages=(productsList.size/10).toInt()
+            for ( i in 0..pages){
+                binding.rvMeals.post(Runnable { loadMoreItems() })
+            }
+        }
 
         binding.ibBack.setOnClickListener {
             findNavController().navigateUp()
@@ -156,6 +178,28 @@ class StoreDetailsFragment : BaseHomeFragment(), Observer<Any?>,
                             } else {
                                 binding.materialCardView.strokeWidth = 0
                             }
+
+                            //////////// pajanation offline///////////
+                            viewModel.productsList=it.data.storeDetailsData!!.storeProductList as ArrayList<StoreProductItem>
+                            Log.d("listRes", viewModel.productsList.size.toString())
+                            viewModel.productsAdapter.clear()
+                            productsListLimt.clear()
+                            currentPage=0
+                            if (currentPage == 0 && limt < viewModel.productsList.size) {
+                                productsListLimt.addAll(viewModel.productsList.subList(0, limt))
+                                viewModel.productsAdapter.addItems(productsListLimt)
+                                //  currentPage++
+                            } else {
+                                productsListLimt.addAll(viewModel.productsList)
+                                viewModel.productsAdapter.addItems(productsListLimt)
+                                isLastPage = true
+                            }
+                            val pages=(viewModel.productsList.size/10).toInt()
+                            Log.d("aaa",pages.toString())
+                            for ( it in 0..pages){
+                                binding.rvMeals.post(Runnable { loadMoreItems() })
+                                Log.d("numm","mom")
+                            }
                         }
                     }
                 }
@@ -205,6 +249,28 @@ class StoreDetailsFragment : BaseHomeFragment(), Observer<Any?>,
                 showToast("please login first",1)
             }
         }
+    }
+
+    fun loadMoreItems() {
+        isLoading = true
+        currentPage++
+        var listSize = viewModel.productsList.size;
+        var listSize2 = productsListLimt.size;
+
+        if ((listSize2 + limt) < listSize) {
+            productsListLimt.addAll(viewModel.productsList.subList(listSize2, listSize2 + limt))
+            viewModel.productsAdapter.addItems(viewModel.productsList.subList(listSize2 , listSize2 + limt))
+        } else {
+            productsListLimt.addAll(viewModel.productsList.subList(listSize2 , listSize))
+            viewModel.productsAdapter.addItems(
+                viewModel.productsList.subList(
+                    listSize2 ,
+                    listSize
+                )
+            )
+            isLastPage = true
+        }
+        isLoading = false;
     }
 
     override fun onChanged(it: Any?) {

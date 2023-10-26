@@ -15,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
-        app:cardCornerRadius="8dp">
+        app:cardCornerRadius="5dp">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,7 +24,7 @@
 
             <ImageView
                 android:id="@+id/bg"
-                android:layout_height="190dp"
+                android:layout_height="150dp"
                 android:layout_width="0dp"
                 android:scaleType="fitXY"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -35,13 +35,13 @@
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/store_img"
-                android:layout_height="35dp"
+                android:layout_height="30dp"
                 android:layout_margin="10dp"
                 android:layout_width="35dp"
                 android:src="@drawable/app_logo"
-                app:civ_border_color="@color/red"
+                app:civ_border_color="@color/grey_subcategory"
                 app:civ_border_overlay="false"
-                app:civ_border_width="@dimen/_2sdp"
+                app:civ_border_width="@dimen/_1sdp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 

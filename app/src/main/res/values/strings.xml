@@ -229,7 +229,7 @@
     <string name="continue_with_phone">Continue with phone</string>
     <string name="min_order">Min order</string>
     <string name="currency">SAR</string>
-    <string name="delivery_price">Delivery price</string>
+    <string name="delivery_price">Delivery Fee</string>
     <string name="reset_password">Reset password</string>
     <string name="no_cart_items_found">No items in cart</string>
     <string name="all_items_will_show_here">All cart items will be appear here</string>

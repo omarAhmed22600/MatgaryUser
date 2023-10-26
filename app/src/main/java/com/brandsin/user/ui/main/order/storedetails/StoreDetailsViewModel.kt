@@ -15,8 +15,9 @@ import com.brandsin.user.network.requestCall
 import com.brandsin.user.ui.main.home.story.StoriesAdapter
 import com.brandsin.user.ui.main.order.storedetails.addons.skus.adapter.OrderSkusAdapter
 import com.brandsin.user.ui.main.order.storedetails.banners.BannersAdapter
-import com.brandsin.user.ui.main.order.storedetails.products.StoreProductsAdapter
 import com.brandsin.user.ui.main.order.storedetails.categories.StoreCatAdapter
+import com.brandsin.user.ui.main.order.storedetails.products.StoreProductsAdapter
+import com.brandsin.user.ui.main.order.storedetails.products.StoreProductsAdapter_V2
 import com.brandsin.user.utils.PrefMethods
 import com.brandsin.user.utils.SingleLiveEvent
 import kotlinx.coroutines.Dispatchers
@@ -25,9 +26,10 @@ import kotlinx.coroutines.withContext
 class StoreDetailsViewModel : BaseViewModel()
 {
     var catAdapter = StoreCatAdapter()
-    var productsAdapter = StoreProductsAdapter()
+    var productsAdapter = StoreProductsAdapter_V2()//StoreProductsAdapter()//StoreProductsAdapter_V2()
     var productsList: ArrayList<StoreProductItem> = ArrayList()
     var storeCategoriesList: List<StoreCategoryItem> = ArrayList()
+    var storeData2 = SingleLiveEvent<StoreDetailsData>()
     var storeData = StoreDetailsData()
     var obsMinPrice = ObservableField<String>()
     var obsDeliveryPrice = ObservableField<String>()
@@ -100,6 +102,7 @@ class StoreDetailsViewModel : BaseViewModel()
                     obsIsFull.set(true)
 
                     storeData = res.storeDetailsData!!
+                    storeData2.value= res.storeDetailsData!!
                     getDeliveryPrice()
                     getMinPrice()
                     getDeliveryTime()
@@ -114,17 +117,17 @@ class StoreDetailsViewModel : BaseViewModel()
                         res.storeDetailsData.storeProductList!!.isNotEmpty() -> {
                             storeCategoriesList = res.storeDetailsData.storeCategoriesList as ArrayList<StoreCategoryItem>
                             productsList = res.storeDetailsData.storeProductList as ArrayList<StoreProductItem>
-                            if (PrefMethods.getUserCart()!=null) {
-                                for (productsList in productsList) {
-                                    for (cartList in PrefMethods.getUserCart()!!.cartItems!!) {
-                                        if (cartList.productId == productsList.id) {
-                                            productsList.isSelected = true
-                                        }
-                                    }
-                                }
-                            }
+//                            if (PrefMethods.getUserCart()!=null) {
+//                                for (productsList in productsList) {
+//                                    for (cartList in PrefMethods.getUserCart()!!.cartItems!!) {
+//                                        if (cartList.productId == productsList.id) {
+//                                            productsList.isSelected = true
+//                                        }
+//                                    }
+//                                }
+//                            }
 
-                            productsAdapter.updateList(productsList)
+                            //productsAdapter.updateList(productsList)
                             getFilteredProducts(storeCategoriesList[0].id!!)
                             obsHideRecycler.set(true)
                             obsIsEmpty.set(false)

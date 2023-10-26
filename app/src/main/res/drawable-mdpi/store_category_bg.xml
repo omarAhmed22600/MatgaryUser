@@ -6,9 +6,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle" >
 
-    <corners android:radius="@dimen/_8sdp" />
+    <corners android:radius="@dimen/_2sdp" />
 
-    <solid android:color="#FEECE6"/>
+    <solid android:color="@color/grey_subcategory"/>
 
     <stroke android:color="@color/color_primary" android:width="@dimen/_1sdp"/>
 

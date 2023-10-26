@@ -46,35 +46,36 @@
             app:layout_constraintTop_toBottomOf="@+id/text"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/slider_item"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_150sdp"
-            android:layout_margin="@dimen/_5sdp"
-            app:cardCornerRadius="@dimen/_12sdp"
-            app:layout_constraintTop_toBottomOf="@+id/text"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:visibility="gone">
+<!--        <androidx.cardview.widget.CardView-->
+<!--            android:id="@+id/slider_item"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="@dimen/_120sdp"-->
+<!--            android:layout_margin="@dimen/_2sdp"-->
+<!--            app:cardCornerRadius="@dimen/_1sdp"-->
+<!--            android:backgroundTint="@color/white"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/text"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            android:visibility="">-->
+
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cons_slider"
+                android:id="@+id/slider_item"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/banner_bg"
+                android:layout_height="@dimen/_120sdp"
+                android:layout_margin="@dimen/_2sdp"
                 android:backgroundTint="@android:color/transparent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                android:visibility="gone">
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/slider_layout"
-                    android:backgroundTint="@color/black_transparent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:cardElevation="0dp"
-                    app:cardCornerRadius="@dimen/_12sdp">
+                    app:cardElevation="0dp">
 
                     <com.smarteist.autoimageslider.SliderView
                         android:id="@+id/bannerSlider"
@@ -97,7 +98,7 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </androidx.cardview.widget.CardView>
+<!--        </androidx.cardview.widget.CardView>-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

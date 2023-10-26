@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:minWidth="@dimen/_80sdp"
                 android:onClick="@{()-> viewModel.onCategoryClicked()}"
-                app:cardCornerRadius="@dimen/_8sdp"
+                app:cardCornerRadius="@dimen/_2sdp"
                 app:cardElevation="0dp"
                 app:strokeColor="@color/color_primary"
                 app:strokeWidth="0dp">
@@ -78,9 +78,11 @@
                         android:text="@{viewModel.itemCategory.name}"
                         android:textColor="#707070"
                         android:textSize="@dimen/_10ssp"
+                        android:padding="@dimen/_2sdp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
                         tools:text="@tools:sample/last_names" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -66,6 +66,7 @@
                         <ImageView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:visibility="gone"
                             android:scaleType="fitXY"
                             android:src="@drawable/store_gradient_bg" />
                     </com.smarteist.autoimageslider.SliderView>
@@ -81,12 +82,12 @@
                     android:layout_marginTop="@dimen/_8sdp"
                     android:layout_marginEnd="@dimen/_8sdp"
                     android:background="@drawable/item_back_bg"
-                    android:backgroundTint="#000"
+                    android:backgroundTint="@color/white"
                     android:padding="@dimen/_4sdp"
                     android:rotation="180"
                     android:scaleType="fitCenter"
                     android:src="@drawable/ic_arrow_forward_24px"
-                    android:tint="@color/white"
+                    android:tint="@color/black"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="ContentDescription" />
@@ -96,7 +97,8 @@
                     android:layout_width="@dimen/_30sdp"
                     android:layout_height="@dimen/_30sdp"
                     android:layout_marginEnd="@dimen/_4sdp"
-                    android:background="?actionBarItemBackground"
+                    android:background="@drawable/item_back_bg"
+                    android:backgroundTint="@color/white"
                     android:padding="@dimen/_7sdp"
                     android:scaleType="fitCenter"
                     android:src="@drawable/ic_search_24px"
@@ -142,7 +144,7 @@
                 <ImageView
                     storeImg="@{viewModel.storeData.thumbnail}"
                     android:layout_width="@dimen/_80sdp"
-                    android:layout_height="@dimen/_96sdp"
+                    android:layout_height="@dimen/_92sdp"
                     android:scaleType="fitXY"
                     android:src="@drawable/french_fries"
                     tools:ignore="ContentDescription"
@@ -156,7 +158,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_10sdp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="30dp"
                 android:numStars="5"
                 android:progressBackgroundTint="@color/black"
                 android:rating="@{viewModel.obsRating}"
@@ -177,8 +179,7 @@
                 android:gravity="end"
                 app:layout_constraintBottom_toBottomOf="@+id/rating_bar"
                 app:layout_constraintEnd_toEndOf="@+id/store_header_layout"
-                app:layout_constraintStart_toEndOf="@+id/rating_bar"
-                app:layout_constraintTop_toTopOf="@+id/rating_bar">
+                app:layout_constraintStart_toEndOf="@+id/rating_bar">
 
                 <TextView
                     android:id="@+id/tv_deliveryPrice"
@@ -211,53 +212,54 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="5dp"
                 android:fontFamily="@font/cairo_semibold"
                 android:text="@{viewModel.storeData.name}"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="@dimen/_10ssp"
                 android:translationY="-20dp"
+                app:layout_constraintBottom_toTopOf="@+id/rating_bar"
                 app:layout_constraintStart_toEndOf="@+id/materialCardView"
-                app:layout_constraintTop_toTopOf="@+id/materialCardView"
+                app:layout_constraintTop_toTopOf="@+id/linearLayout4"
                 tools:text="كنتاكي" />
 
-<!--            <TextView-->
-<!--                android:id="@+id/storeInformation"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="@dimen/_10sdp"-->
-<!--                android:fontFamily="@font/cairo_semibold"-->
-<!--                android:text="@string/store_information"-->
-<!--                android:background="?selectableItemBackground"-->
-<!--                android:textColor="@color/white"-->
-<!--                android:textSize="@dimen/_10ssp"-->
-<!--                android:translationY="-20dp"-->
-<!--                app:layout_constraintStart_toEndOf="@+id/materialCardView"-->
-<!--                app:layout_constraintTop_toBottomOf="@+id/textView20"-->
-<!--                tools:text="@string/store_information" />-->
-
-            <ImageView
+            <TextView
                 android:id="@+id/storeInformation"
-                android:layout_width="40dp"
-                android:layout_height="@dimen/_30sdp"
-                android:src="@drawable/info"
-                android:padding="@dimen/_5sdp"
-                android:background="@drawable/info_bg_shap"
-                android:layout_marginEnd="@dimen/_4sdp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:background="?selectableItemBackground"
+                android:fontFamily="@font/cairo_semibold"
+                android:text="@string/store_information"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12ssp"
+                android:translationY="-20dp"
                 app:layout_constraintBottom_toBottomOf="@+id/textView20"
-                app:layout_constraintEnd_toStartOf="@+id/followStore"
-                app:layout_constraintTop_toTopOf="@+id/materialCardView" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/textView20"
+                tools:text="@string/store_information" />
 
+<!--            <ImageView-->
+<!--                android:id="@+id/storeInformation"-->
+<!--                android:layout_width="40dp"-->
+<!--                android:layout_height="@dimen/_30sdp"-->
+<!--                android:src="@drawable/info"-->
+<!--                android:padding="@dimen/_5sdp"-->
+<!--                android:background="@drawable/info_bg_shap"-->
+<!--                android:layout_marginEnd="@dimen/_4sdp"-->
+<!--                app:layout_constraintBottom_toBottomOf="@+id/textView20"-->
+<!--                app:layout_constraintEnd_toStartOf="@+id/followStore"-->
+<!--                app:layout_constraintTop_toTopOf="@+id/materialCardView" />-->
 
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/followStore"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="10dp"
-                android:backgroundTint="@{viewModel.isFollowed()?@color/color_primary:@color/white}"
                 android:layout_marginEnd="@dimen/_10sdp"
-                app:layout_constraintBottom_toBottomOf="@+id/textView20"
+                android:backgroundTint="@{viewModel.isFollowed()?@color/color_primary:@color/white}"
+                app:cardCornerRadius="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/materialCardView"
                 app:strokeColor="@color/color_primary"
@@ -267,7 +269,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
-                    <ImageView
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="@dimen/_10sdp"
@@ -276,6 +278,8 @@
                         android:backgroundTint="@{viewModel.isFollowed()?@color/white:@color/color_primary}"
                         android:fontFamily="@font/cairo_semibold"
                         android:src="@drawable/hurt"
+                        android:text="@string/follow"
+                        android:textColor="@color/black"
                         app:layout_constraintStart_toEndOf="@+id/materialCardView"
                         app:layout_constraintTop_toBottomOf="@+id/textView20" />
 

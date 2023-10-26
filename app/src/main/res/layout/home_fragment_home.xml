@@ -36,6 +36,7 @@
 
                     <ImageButton
                         android:id="@+id/ib_search"
+                        android:visibility="gone"
                         android:layout_width="@dimen/_30sdp"
                         android:layout_height="@dimen/_30sdp"
                         android:layout_marginEnd="@dimen/_4sdp"
@@ -55,6 +56,8 @@
                         android:layout_width="@dimen/_42sdp"
                         android:layout_height="@dimen/_42sdp"
                         android:layout_gravity="center"
+                        android:layout_marginEnd="8dp"
+                        android:background="@drawable/login_field_bg"
                         android:onClick="@{() -> viewModel.onCartClicked()}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/ib_search"
@@ -97,7 +100,6 @@
                         android:layout_marginStart="@dimen/_8sdp"
                         android:layout_marginTop="@dimen/_8sdp"
                         android:layout_marginEnd="@dimen/_8sdp"
-                        android:background="@drawable/login_field_bg"
                         android:onClick="@{() -> viewModel.onLocationClicked()}"
                         android:padding="@dimen/_5sdp"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -108,7 +110,7 @@
 
                         <TextView
                             android:id="@+id/_tv_deliveredTo"
-                            android:layout_width="0dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/cairoregular"
                             android:maxLines="1"
@@ -337,7 +339,7 @@
                             <com.smarteist.autoimageslider.SliderView
                                 android:id="@+id/bannerSlider"
                                 android:layout_width="match_parent"
-                                android:layout_height="@dimen/_160sdp"
+                                android:layout_height="@dimen/_120sdp"
                                 app:sliderAnimationDuration="600"
                                 app:sliderAutoCycleDirection="back_and_forth"
                                 app:sliderAutoCycleEnabled="true"

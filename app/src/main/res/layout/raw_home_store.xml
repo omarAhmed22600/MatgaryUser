@@ -15,10 +15,10 @@
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_130sdp"
+        android:layout_height="@dimen/_110sdp"
         android:layout_marginTop="@dimen/_16sdp"
         android:id="@+id/raw_layout"
-        app:cardCornerRadius="@dimen/_8sdp"
+        app:cardCornerRadius="@dimen/_3sdp"
         android:backgroundTint="@color/grey_subcategory"
         app:cardElevation="0dp">
 
