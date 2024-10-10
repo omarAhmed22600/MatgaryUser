@@ -2,27 +2,27 @@
     version="1.0"
     encoding="utf-8"?>
 
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.brandsin.user.ui.main.order.myorders.ItemMyOrderViewModel" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/raw_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_8sdp"
-        android:layout_marginBottom="@dimen/_8sdp"
-        android:id="@+id/raw_layout"
         android:layout_marginStart="@dimen/_24sdp"
+        android:layout_marginTop="@dimen/_8sdp"
         android:layout_marginEnd="@dimen/_24sdp"
-        app:cardCornerRadius="@dimen/_8sdp"
+        android:layout_marginBottom="@dimen/_8sdp"
         android:elevation="@dimen/_8sdp"
+        app:cardCornerRadius="@dimen/_8sdp"
         app:cardElevation="@dimen/_8sdp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -30,143 +30,176 @@
             android:layout_height="match_parent">
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/img_layout"
                 android:layout_width="@dimen/_100sdp"
                 android:layout_height="0dp"
-                android:id="@+id/img_layout"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="@id/view_seperator1"
                 android:layout_marginStart="@dimen/_8sdp"
                 android:layout_marginTop="@dimen/_8sdp"
                 android:elevation="0dp"
+                app:cardCornerRadius="@dimen/_8sdp"
                 app:cardElevation="0dp"
-                app:cardCornerRadius="@dimen/_8sdp">
+                app:layout_constraintBottom_toBottomOf="@id/view_seperator1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
+                    storeImg="@{viewModel.item.store.thumbnail}"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    storeImg="@{viewModel.item.store.thumbnail}"
                     android:padding="@dimen/_8sdp"
-                    android:src="@drawable/french_fries"
+                    android:src="@drawable/app_logo"
                     tools:ignore="ContentDescription" />
 
             </com.google.android.material.card.MaterialCardView>
 
             <TextView
+                android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/tv_title"
                 android:fontFamily="@font/cairo_bold"
-                tools:text="ماكدونالز"
                 android:text="@{viewModel.item.store.name}"
                 android:textSize="@dimen/_12ssp"
                 app:layout_constraintStart_toEndOf="@+id/img_layout"
-                app:layout_constraintTop_toTopOf="@id/img_layout" />
+                app:layout_constraintTop_toTopOf="@id/img_layout"
+                tools:text="ماكدونالز" />
 
             <TextView
+                android:id="@+id/tv_status"
+                setStatus="@{viewModel.item.status}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/cairo_semibold"
-                android:id="@+id/tv_status"
-                setStatus="@{viewModel.item.status}"
-                tools:text="@string/delivery_done"
                 android:textSize="@dimen/_10ssp"
                 app:layout_constraintStart_toEndOf="@+id/img_layout"
-                app:layout_constraintTop_toBottomOf="@id/tv_title" />
+                app:layout_constraintTop_toBottomOf="@id/tv_title"
+                tools:text="@string/delivery_done" />
 
             <TextView
+                android:id="@+id/tv_orderNum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/cairoregular"
-                android:id="@+id/tv_orderNum"
                 android:text="@{@string/order_number + `: ` + viewModel.item.orderNumber}"
-                tools:text="رقم الطلب : 295615 "
                 android:textSize="@dimen/_10ssp"
                 app:layout_constraintStart_toEndOf="@+id/img_layout"
                 app:layout_constraintTop_toBottomOf="@id/tv_status"
-                />
+                tools:text="رقم الطلب : 295615 " />
 
             <TextView
+                android:id="@+id/item_time"
+                setDeliveryTime="@{viewModel.item.deliveryTime}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/item_time"
                 android:fontFamily="@font/cairoregular"
-                setDeliveryTime="@{viewModel.item.deliveryTime}"
-                tools:text="21/9/2020 11:06"
                 android:textSize="@dimen/_10ssp"
                 app:layout_constraintStart_toEndOf="@+id/img_layout"
-                app:layout_constraintTop_toBottomOf="@id/tv_orderNum" />
+                app:layout_constraintTop_toBottomOf="@id/tv_orderNum"
+                tools:text="21/9/2020 11:06" />
 
             <View
+                android:id="@+id/view_seperator1"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_1sdp"
-                android:id="@+id/view_seperator1"
                 android:layout_marginTop="@dimen/_8sdp"
-                app:layout_constraintTop_toBottomOf="@id/item_time"
-                android:background="@color/seperator_color" />
+                android:background="@color/seperator_color"
+                app:layout_constraintTop_toBottomOf="@id/item_time" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/details_layout"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_34sdp"
-                android:id="@+id/details_layout"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/btn_seperator"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/btn_seperator"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/view_seperator1">
 
                 <TextView
+                    android:id="@+id/btn_Details"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/btn_Details"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:drawablePadding="@dimen/_8sdp"
+                    android:fontFamily="@font/cairo_semibold"
+                    android:textAllCaps="false"
                     android:textColor="@color/color_primary"
                     android:textSize="@dimen/_11ssp"
-                    android:textAllCaps="false"
-                    android:fontFamily="@font/cairo_semibold"
+                    app:drawableStartCompat="@drawable/ic_order_details"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
                     tools:text="@string/reorder" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <View
+                android:id="@+id/btn_seperator"
                 android:layout_width="@dimen/_1sdp"
                 android:layout_height="0dp"
-                android:id="@+id/btn_seperator"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginBottom="@dimen/_2sdp"
-                app:layout_constraintTop_toBottomOf="@id/view_seperator1"
-                android:background="@color/seperator_color"
                 android:layout_marginTop="@dimen/_2sdp"
-                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginBottom="@dimen/_2sdp"
+                android:background="@color/seperator_color"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/view_seperator1" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/status_layout"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_34sdp"
-                android:id="@+id/status_layout"
-                app:layout_constraintTop_toBottomOf="@id/view_seperator1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toEndOf="@+id/btn_seperator">
+                app:layout_constraintStart_toEndOf="@+id/btn_seperator"
+                app:layout_constraintTop_toBottomOf="@id/view_seperator1">
 
                 <TextView
+                    android:id="@+id/btn_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/btn_status"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:textColor="@color/yellow"
-                    android:textSize="@dimen/_11ssp"
-                    android:textAllCaps="false"
+                    android:drawablePadding="@dimen/_8sdp"
                     android:fontFamily="@font/cairo_semibold"
-                    tools:text="@string/reorder" />
+                    android:textAllCaps="false"
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/_11ssp"
+                    app:drawableStartCompat="@drawable/cancel"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="@string/cancel" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/assessmentLayout"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_34sdp"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/btn_seperator"
+                app:layout_constraintTop_toBottomOf="@id/view_seperator1">
+
+                <TextView
+                    android:id="@+id/btnAssessment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="@dimen/_8sdp"
+                    android:fontFamily="@font/cairo_semibold"
+                    android:textAllCaps="false"
+                    android:textColor="@color/yellow"
+                    android:textSize="@dimen/_11ssp"
+                    app:drawableStartCompat="@drawable/ic_star"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:text="@string/assessment" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </com.google.android.material.card.MaterialCardView>
+
 </layout>

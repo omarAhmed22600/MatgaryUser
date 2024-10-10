@@ -3,9 +3,10 @@
     encoding="utf-8"?>
 
 <shape
-    xmlns:android="http://schemas.android.com/apk/res/android" >
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
 
-    <solid android:color="@color/color_primary" />
+    <solid android:color="@color/red" />
 
     <padding
         android:left="1dp"

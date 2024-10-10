@@ -11,24 +11,30 @@ import com.brandsin.user.databinding.HomeFragmentHelpAnswerBinding
 import com.brandsin.user.ui.activity.home.BaseHomeFragment
 import com.brandsin.user.utils.Utils
 
-class HelpAnswerFragment : BaseHomeFragment()
-{
-    private lateinit var binding: HomeFragmentHelpAnswerBinding
-    private val fragmentArgs : HelpAnswerFragmentArgs by navArgs()
+class HelpAnswerFragment : BaseHomeFragment() {
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.home_fragment_help_answer, container, false)
+    private lateinit var binding: HomeFragmentHelpAnswerBinding
+
+    private val fragmentArgs: HelpAnswerFragmentArgs by navArgs()
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.home_fragment_help_answer, container, false)
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?)
-    {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         setBarName(getString(R.string.help))
 
         val helpQues = fragmentArgs.helpQues
         val phone = fragmentArgs.phoneNumber
+
         binding.tvTitle.text = helpQues.title
         binding.tvAnswer.text = helpQues.content
 

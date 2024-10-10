@@ -69,7 +69,7 @@
             android:paddingStart="@dimen/_10sdp"
             android:paddingEnd="@dimen/_10sdp"
             android:gravity="center|start"
-            android:text="@{viewModel.obsCategorios}"
+            android:text="@{viewModel.obsCategories}"
             android:textSize="@dimen/_10ssp"
             android:fontFamily="@font/cairoregular"
             android:maxLines="1"

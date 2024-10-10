@@ -227,9 +227,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="0dp"
             android:layout_marginEnd="0dp"
+            android:background="?android:attr/windowBackground"
+            android:textSize="@dimen/_9ssp"
             app:itemTextAppearanceActive="@style/BottomNavigationViewTextStyle"
             app:itemTextAppearanceInactive="@style/BottomNavigationViewTextStyle"
-            android:background="?android:attr/windowBackground"
             app:labelVisibilityMode="labeled"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -269,6 +270,21 @@
                         app:layout_constraintTop_toTopOf="parent"
                         tools:ignore="ContentDescription" />
 
+                    <ImageButton
+                        android:id="@+id/icWhiteBack"
+                        android:layout_width="@dimen/_30sdp"
+                        android:layout_height="@dimen/_30sdp"
+                        android:layout_marginEnd="@dimen/_4sdp"
+                        android:background="?actionBarItemBackground"
+                        android:padding="@dimen/_7sdp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_white_back"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="ContentDescription" />
+
                     <TextView
                         android:id="@+id/tv_loginTitle"
                         android:layout_width="wrap_content"
@@ -286,14 +302,12 @@
 
             </com.google.android.material.appbar.MaterialToolbar>
 
-
             <fragment
                 android:id="@+id/nav_home_host_fragment"
                 android:name="androidx.navigation.fragment.NavHostFragment"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 app:defaultNavHost="true"
-
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -360,6 +374,20 @@
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ProgressBar
+            android:id="@+id/progressLoading"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#9FFFFFFF"
+            android:clickable="true"
+            android:focusable="true"
+            android:visibility="gone"
+            android:padding="@dimen/_134sdp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -6,6 +6,7 @@ data class AddAddressRequest(
     @SerializedName("first_name") var firstName: String? = null,
     @SerializedName("last_name") var lastName: String? = null,
     @SerializedName("street_name") var streetName: String? = null,
+    @SerializedName("address_name") var addressName: String? = null,
     @SerializedName("country_id") var countryId: Int? = null,
     @SerializedName("city_id") var cityId: Int? = null,
     @SerializedName("state_id") var stateId: Int? = null,
@@ -18,7 +19,7 @@ data class AddAddressRequest(
     @SerializedName("landmark") var landmark: String? = null,
 ) {
     override fun toString(): String {
-        return "AddAddressRequest(firstName=$firstName, lastName=$lastName, streetName=$streetName, countryId=$countryId, cityId=$cityId, stateId=$stateId, " +
-                "userId=$userId, phoneNumber=$phoneNumber, lang=$lang, lat=$lat, lng=$lng, type=$type, langmark=$landmark)"
+        return "AddAddressRequest(firstName=$firstName, lastName=$lastName, streetName=$streetName, addressName=$addressName, countryId=$countryId, " +
+                "cityId=$cityId, stateId=$stateId, " + "userId=$userId, phoneNumber=$phoneNumber, lang=$lang, lat=$lat, lng=$lng, type=$type, langmark=$landmark)"
     }
 }

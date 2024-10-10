@@ -9,16 +9,16 @@ import com.brandsin.user.databinding.ItemHomeCategoryBinding
 import com.brandsin.user.model.order.homenew.CategoriesItem
 import com.brandsin.user.utils.SingleLiveEvent
 
-class CategoriesAdapter : RecyclerView.Adapter<CategoriesAdapter.CategoriesHolder>()
-{
-    var categoriesList  = mutableListOf<CategoriesItem>()
+class CategoriesAdapter : RecyclerView.Adapter<CategoriesAdapter.CategoriesHolder>() {
+    var categoriesList = mutableListOf<CategoriesItem>()
     var categoriesLiveData = SingleLiveEvent<CategoriesItem>()
     var selectedPosition = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoriesHolder {
         val context = parent.context
         val layoutInflater = LayoutInflater.from(context)
-        val binding: ItemHomeCategoryBinding = DataBindingUtil.inflate(layoutInflater, R.layout.item_home_category, parent, false)
+        val binding: ItemHomeCategoryBinding =
+            DataBindingUtil.inflate(layoutInflater, R.layout.item_home_category, parent, false)
         return CategoriesHolder(binding)
     }
 
@@ -44,7 +44,6 @@ class CategoriesAdapter : RecyclerView.Adapter<CategoriesAdapter.CategoriesHolde
         notifyDataSetChanged()
     }
 
-    inner class CategoriesHolder(val binding: ItemHomeCategoryBinding) : RecyclerView.ViewHolder(binding.root) {
-
-    }
+    inner class CategoriesHolder(val binding: ItemHomeCategoryBinding) :
+        RecyclerView.ViewHolder(binding.root)
 }

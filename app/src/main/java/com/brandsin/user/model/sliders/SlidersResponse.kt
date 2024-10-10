@@ -1,18 +1,23 @@
 package com.brandsin.user.model.sliders
 
+import android.os.Parcelable
 import com.brandsin.user.model.order.homenew.SlidesItem
+import kotlinx.parcelize.Parcelize
+import kotlinx.parcelize.RawValue
 
+@Parcelize
 data class SlidersResponse(
-    val `data`: Data? = null,
+    val `data`: @RawValue Data? = null,
     val success: Boolean? = null
-)
+) : Parcelable
 
+@Parcelize
 data class Data(
     val created_at: String,
     val created_by: Int,
-    val deleted_at: Any,
+    val deleted_at: @RawValue  Any,
     val id: Int,
-    val init_options: Any,
+    val init_options: @RawValue Any,
     val key: String,
     val name: String,
     val slides: List<SlidesItem>,
@@ -20,7 +25,7 @@ data class Data(
     val type: String,
     val updated_at: String,
     val updated_by: Int
-)
+): Parcelable
 
 //data class Slide(
 //    val category_id: Int,

@@ -16,8 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?selectableItemBackground"
-        android:padding="@dimen/_6sdp"
-       >
+        android:padding="@dimen/_6sdp">
 
         <TextView
             android:id="@+id/tv_title"
@@ -45,25 +44,24 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/_16sdp"
             android:src="@drawable/ic_circle"
-            android:tint="@color/color_primary"
             app:layout_constraintBottom_toBottomOf="@+id/tv_title"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tv_title"
-            tools:ignore="ContentDescription" />
+            tools:ignore="ContentDescription"
+            app:tint="@color/color_primary" />
 
         <ImageView
             android:id="@+id/img_arrow"
-            android:layout_width="@dimen/_14sdp"
-            android:layout_height="@dimen/_14sdp"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
             android:layout_marginEnd="@dimen/_8sdp"
             android:duplicateParentState="false"
-            android:rotation="@{viewModel.item.isExpanded?0:270}"
-            android:tint="@color/color_primary"
-            android:src="@drawable/ic_expand_down_arrow"
+            android:src="@drawable/arrow_next"
             app:layout_constraintBottom_toBottomOf="@+id/tv_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tv_title"
-            tools:ignore="ContentDescription" />
+            tools:ignore="ContentDescription"
+            app:tint="@color/color_primary" />
 
         <LinearLayout
             android:id="@+id/answer_scrollview"
@@ -78,17 +76,21 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_title">
 
             <TextView
-                android:id="@+id/tv_answer"
+                android:id="@+id/tvAnswer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/cairoregular"
                 android:scaleType="centerCrop"
                 android:src="@drawable/app_logo"
-                android:text="@{viewModel.item.content}"
+
                 android:textColor="@color/black"
                 android:textSize="@dimen/_11ssp"
                 tools:text="@string/terms_text" />
 
         </LinearLayout>
+
+<!--        android:text="@{viewModel.item.content}"-->
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

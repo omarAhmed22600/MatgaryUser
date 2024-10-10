@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/_8sdp"
+    tools:context=".ui.menu.payment.TransferPointsFragment">
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/edtRecipientName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:background="@drawable/about_item_bg"
+        android:hint="@string/recipient_s_name"
+        android:padding="@dimen/_10sdp"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_12ssp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/icOpenContact"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginEnd="@dimen/_8sdp"
+        android:background="@drawable/about_item_bg"
+        android:padding="@dimen/_10sdp"
+        android:src="@drawable/ic_device_contact"
+        app:layout_constraintBottom_toBottomOf="@id/edtRecipientMobileNumber"
+        app:layout_constraintEnd_toStartOf="@id/edtRecipientMobileNumber"
+        app:layout_constraintStart_toStartOf="@id/edtRecipientName" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/edtRecipientMobileNumber"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginBottom="@dimen/_12sdp"
+        android:background="@drawable/about_item_bg"
+        android:gravity="start"
+        android:hint="@string/phone_number"
+        android:inputType="number"
+        android:maxLength="10"
+        android:padding="@dimen/_10sdp"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_12ssp"
+        app:layout_constraintEnd_toEndOf="@id/edtRecipientName"
+        app:layout_constraintStart_toEndOf="@id/icOpenContact"
+        app:layout_constraintTop_toBottomOf="@id/edtRecipientName" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/edtNumberCountPoints"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:background="@drawable/about_item_bg"
+        android:hint="@string/number_of_points_sent"
+        android:padding="@dimen/_10sdp"
+        android:inputType="number"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_12ssp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtRecipientMobileNumber"  />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnContinuation"
+        style="@style/Widget.MaterialComponents.Button"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_42sdp"
+        android:layout_marginBottom="@dimen/_16sdp"
+        android:fontFamily="@font/cairo_semibold"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:text="@string/continuation"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_14ssp"
+        app:cornerRadius="@dimen/_6sdp"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

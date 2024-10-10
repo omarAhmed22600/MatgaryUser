@@ -44,7 +44,7 @@ class AddedStoriesViewModel: BaseViewModel() {
                                 for (xItem in item.stories!!) {
                                     myStory = MyStory()
                                     myStoryItem=StoriesItem()
-                                    if (xItem!!.media.isNullOrEmpty()){
+                                    if (xItem.media.isNullOrEmpty()){
                                         myStory.url = ""
                                     }else{
                                         myStory.url = xItem.mediaUrl

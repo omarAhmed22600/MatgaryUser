@@ -23,18 +23,20 @@ data class HelpQuesItem(
 
     @field:SerializedName("slug")
     val slug: String? = null,
+
     var isExpanded: Boolean = false,
+
     @field:SerializedName("content")
     val content: String? = null
 ) : Parcelable {
+
     constructor(parcel: Parcel) : this(
         parcel.readValue(Int::class.java.classLoader) as? Int,
         parcel.readString(),
         parcel.readString(),
         parcel.readBoolean(),
         parcel.readString()
-    ) {
-    }
+    )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeValue(id)

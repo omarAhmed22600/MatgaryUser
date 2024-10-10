@@ -8,7 +8,11 @@ pluginManagement {
             url 'https://jitpack.io'
         }
         maven { url 'https://maven.google.com' }
+        maven {
+            url 'https://mirrors.huaweicloud.com/repository/maven/'
+        }
         maven {url "https://plugins.gradle.org/m2/" }
+        maven { url "https://verve.jfrog.io/ui/native/verve-gradle-dev" }
         maven {
             url "s3://my_bucket.s3.amazonaws.com"
             authentication {
@@ -17,6 +21,16 @@ pluginManagement {
         }
         maven { url 'https://maven.google.com' }
         maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+        exclusiveContent {
+            forRepository {
+                maven {
+                    url "https://verve.jfrog.io/artifactory/verve-gradle-dev"
+                }
+            }
+            filter {
+                includeGroup("cn.wongzhenyu") // Disable JCenter for this group (your library's group)
+            }
+        }
     }
     resolutionStrategy {
         eachPlugin {
@@ -39,6 +53,10 @@ dependencyResolutionManagement {
         maven { url 'https://maven.google.com' }
         maven { url "https://jitpack.io" }
         maven { url 'https://maven.google.com' }
+        maven {
+            url 'https://mirrors.huaweicloud.com/repository/maven/'
+        }
+        maven { url "https://verve.jfrog.io/ui/native/verve-gradle-dev" }
         maven {url "https://plugins.gradle.org/m2/" }
         maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
         maven {
@@ -46,6 +64,16 @@ dependencyResolutionManagement {
         }
         maven {
             url = uri("https://repository.jboss.org/maven2")
+        }
+        exclusiveContent {
+            forRepository {
+                maven {
+                    url "https://verve.jfrog.io/artifactory/verve-gradle-dev"
+                }
+            }
+            filter {
+                includeGroup("cn.wongzhenyu") // Disable JCenter for this group (your library's group)
+            }
         }
     }
 }

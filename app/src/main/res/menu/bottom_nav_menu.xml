@@ -8,15 +8,15 @@
         android:fontFamily="@font/cairo_semibold" />
 
     <item
-        android:id="@+id/nav_favourits"
+        android:id="@+id/nav_favorites"
         android:icon="@drawable/hurt"
-        android:title="@string/favourits"
+        android:title="@string/favorites"
         android:fontFamily="@font/cairo_semibold" />
 
     <item
         android:id="@+id/nav_discover"
         android:icon="@drawable/discover_icon"
-        android:title="@string/discover"
+        android:title="@string/explore"
         android:fontFamily="@font/cairo_semibold" />
 
     <item

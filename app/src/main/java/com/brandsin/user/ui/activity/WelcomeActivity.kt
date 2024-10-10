@@ -3,18 +3,19 @@ package com.brandsin.user.ui.activity
 import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Build
-import com.brandsin.user.R
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
-import com.bumptech.glide.Glide
+import com.brandsin.user.R
 import com.brandsin.user.database.BaseRepository
 import com.brandsin.user.databinding.ActivityWelcomeBinding
 import com.brandsin.user.model.IntroResponse
@@ -24,59 +25,63 @@ import com.brandsin.user.ui.activity.auth.AuthActivity
 import com.brandsin.user.ui.dialogs.toast.DialogToastFragment
 import com.brandsin.user.utils.PrefMethods
 import com.brandsin.user.utils.Utils
+import com.bumptech.glide.Glide
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.ArrayList
 
-class WelcomeActivity : AppCompatActivity()
-{
-    lateinit var binding : ActivityWelcomeBinding
+class WelcomeActivity : AppCompatActivity() {
+    lateinit var binding: ActivityWelcomeBinding
     var MAX_STEP = 0
-    lateinit var viewPager: ViewPager
-    var myViewPagerAdapter: MyViewPagerAdapter? = null
-    val about_title_array = ArrayList<String>()
-    val about_imagesAr_array = ArrayList<String>()
-    val about_imagesEn_array = ArrayList<String>()
 
-    override fun onCreate(savedInstanceState: Bundle?)
-    {
+    private lateinit var viewPager: ViewPager
+    private var myViewPagerAdapter: MyViewPagerAdapter? = null
+
+    val aboutTitleArray = ArrayList<String>()
+    val aboutImagesArArray = ArrayList<String>()
+    val aboutImagesEnArray = ArrayList<String>()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_welcome)
 
         PrefMethods.saveHomePopup(true)
-        if (PrefMethods.getWelcome()){
+        if (PrefMethods.getWelcome()) {
             startActivity(Intent(this, AuthActivity::class.java))
             finish()
-        }else{
+        } else {
             getIntro()
         }
 
-        binding.btnNext.setOnClickListener(View.OnClickListener {
+        binding.btnNext.setOnClickListener {
             val current = viewPager.currentItem + 1
-            if (current < MAX_STEP)
-            {
+            if (current < MAX_STEP) {
                 // move to next screen
                 viewPager.currentItem = current
             } else {
                 PrefMethods.saveWelcome(true)
                 val intent = Intent(applicationContext, AuthActivity::class.java)
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this@WelcomeActivity).toBundle())
+                    startActivity(
+                        intent,
+                        ActivityOptions.makeSceneTransitionAnimation(this@WelcomeActivity)
+                            .toBundle()
+                    )
                 }
             }
-        })
+        }
 
-        binding.btnBack.setOnClickListener(View.OnClickListener {
+        binding.btnBack.setOnClickListener {
             val current = viewPager.currentItem - 1
             viewPager.currentItem = current
-        })
+        }
     }
 
-    fun setSlider(){
+    fun setSlider() {
         binding.consPage.visibility = View.VISIBLE
         viewPager = findViewById(R.id.view_pager)
-        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        window.decorView.systemUiVisibility =
+            View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
 
         myViewPagerAdapter = MyViewPagerAdapter()
         viewPager.adapter = myViewPagerAdapter
@@ -85,16 +90,13 @@ class WelcomeActivity : AppCompatActivity()
         binding.dotsIndicator.setViewPager(viewPager)
         viewPager.adapter!!.registerDataSetObserver(binding.dotsIndicator.dataSetObserver)
     }
+
     private var viewPagerPageChangeListener: ViewPager.OnPageChangeListener =
         object : ViewPager.OnPageChangeListener {
-            override fun onPageSelected(position: Int)
-            {
-                if (position == MAX_STEP)
-                {
+            override fun onPageSelected(position: Int) {
+                if (position == MAX_STEP) {
                     binding.btnNext.text = getString(R.string.login)
-                }
-                else
-                {
+                } else {
                     binding.btnNext.text = getString(R.string.next)
                 }
             }
@@ -103,25 +105,26 @@ class WelcomeActivity : AppCompatActivity()
             override fun onPageScrollStateChanged(arg0: Int) {}
         }
 
-   inner class MyViewPagerAdapter : PagerAdapter()
-   {
+    inner class MyViewPagerAdapter : PagerAdapter() {
         private var layoutInflater: LayoutInflater? = null
-        override fun instantiateItem(container: ViewGroup, position: Int): Any
-        {
+        override fun instantiateItem(container: ViewGroup, position: Int): Any {
             layoutInflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater?
             val view: View = layoutInflater!!.inflate(R.layout.raw_intro_app, container, false)
-            if (PrefMethods.getLanguage()=="ar"){
-                Glide.with(applicationContext).load(about_imagesAr_array[position]).into((view.findViewById<View>(R.id.iv_introImg) as ImageView))
-            }else{
-                Glide.with(applicationContext).load(about_imagesEn_array[position]).into((view.findViewById<View>(R.id.iv_introImg) as ImageView))
+            if (PrefMethods.getLanguage() == "ar") {
+                Glide.with(applicationContext).load(aboutImagesArArray[position])
+                    .into((view.findViewById<View>(R.id.iv_introImg) as ImageView))
+            } else {
+                Glide.with(applicationContext).load(aboutImagesEnArray[position])
+                    .into((view.findViewById<View>(R.id.iv_introImg) as ImageView))
             }
-            (view.findViewById<View>(R.id.tv_introTitle) as TextView).text = about_title_array[position]
+            (view.findViewById<View>(R.id.tv_introTitle) as TextView).text =
+                aboutTitleArray[position]
             container.addView(view)
             return view
         }
 
         override fun getCount(): Int {
-            return about_title_array.size
+            return aboutTitleArray.size
         }
 
         override fun isViewFromObject(view: View, obj: Any): Boolean {
@@ -151,48 +154,61 @@ class WelcomeActivity : AppCompatActivity()
         doExitApp()
     }
 
-    fun getIntro(){
+    private fun getIntro() {
         val baeRepo = BaseRepository()
         val responseCall: Call<IntroResponse?> = baeRepo.apiInterface
             .getIntro("client")
         responseCall.enqueue(object : Callback<IntroResponse?> {
-            override fun onResponse(call: Call<IntroResponse?>, response: Response<IntroResponse?>) {
+            override fun onResponse(
+                call: Call<IntroResponse?>,
+                response: Response<IntroResponse?>
+            ) {
                 if (response.isSuccessful) {
                     if (response.body()!!.success!!) {
                         if (response.body()!!.data!!.isNotEmpty()) {
                             MAX_STEP = response.body()!!.data!!.size
-                            for(item in response.body()!!.data!!){
+                            for (item in response.body()!!.data!!) {
                                 if (item != null) {
-                                    about_title_array.add(item.introduction.toString())
-                                    about_imagesAr_array.add(item.imageAr.toString())
-                                    about_imagesEn_array.add(item.imageEn.toString())
+                                    aboutTitleArray.add(item.introduction.toString())
+                                    aboutImagesArArray.add(item.imageAr.toString())
+                                    aboutImagesEnArray.add(item.imageEn.toString())
                                 }
                             }
                             setSlider()
-                        }else{
+                        } else {
                             val intent = Intent(applicationContext, AuthActivity::class.java)
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this@WelcomeActivity).toBundle())
+                                startActivity(
+                                    intent,
+                                    ActivityOptions.makeSceneTransitionAnimation(this@WelcomeActivity)
+                                        .toBundle()
+                                )
                                 finish()
                             }
                         }
                     }
                 } else {
-                    showToast(response.message(),1)
+                    showToast(response.message(), 1)
                 }
             }
+
             override fun onFailure(call: Call<IntroResponse?>, t: Throwable) {
-                showToast(t.message!!,1)
+                showToast(t.message!!, 1)
             }
         })
     }
 
-    fun showToast(msg : String, type : Int) {
-        //succss 2
+    fun showToast(msg: String, type: Int) {
+        //success 2
         //false  1
         val bundle = Bundle()
         bundle.putString(Params.DIALOG_TOAST_MESSAGE, msg)
         bundle.putInt(Params.DIALOG_TOAST_TYPE, type)
-        Utils.startDialogActivity(this, DialogToastFragment::class.java.name, Codes.DIALOG_TOAST_REQUEST, bundle)
+        Utils.startDialogActivity(
+            this,
+            DialogToastFragment::class.java.name,
+            Codes.DIALOG_TOAST_REQUEST,
+            bundle
+        )
     }
 }

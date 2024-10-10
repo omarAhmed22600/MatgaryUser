@@ -1,6 +1,5 @@
 package com.brandsin.user.ui.main.home
 
-import android.content.Context
 import androidx.databinding.ObservableField
 import androidx.recyclerview.widget.RecyclerView
 import com.brandsin.user.R
@@ -10,8 +9,12 @@ import com.brandsin.user.model.auth.devicetoken.DeviceTokenRequest
 import com.brandsin.user.model.auth.devicetoken.DeviceTokenResponse
 import com.brandsin.user.model.constants.Codes
 import com.brandsin.user.model.constants.Const
+import com.brandsin.user.model.order.homenew.CategoriesItem
 import com.brandsin.user.model.order.homenew.HomeNewResponse
-import com.brandsin.user.model.order.homepage.*
+import com.brandsin.user.model.order.homepage.HomePageResponse
+import com.brandsin.user.model.order.homepage.ShopsItem
+import com.brandsin.user.model.order.homepage.StoriesItem
+import com.brandsin.user.model.order.homepage.TagsItem
 import com.brandsin.user.model.sliders.SlidersResponse
 import com.brandsin.user.network.requestCall
 import com.brandsin.user.ui.main.home.category.CategoriesAdapter
@@ -19,7 +22,6 @@ import com.brandsin.user.ui.main.home.stores.StoresAdapter
 import com.brandsin.user.ui.main.home.story.StoriesAdapter
 import com.brandsin.user.ui.main.home.subcategory.SubCategoriesAdapter
 import com.brandsin.user.ui.main.homenew.moreslider.MoreSliderAdapter
-import com.brandsin.user.ui.main.order.storedetails.banners.BannersAdapter
 import com.brandsin.user.utils.MyApp
 import com.brandsin.user.utils.PrefMethods
 import com.brandsin.user.utils.SingleLiveEvent
@@ -31,39 +33,43 @@ import retrofit2.Response
 
 class HomeViewModel : BaseViewModel() {
 
-    var context: Context? = null
     var moreSliderAdapter = MoreSliderAdapter()
-    var bannersAdapter = BannersAdapter()
+
     var homePageResponse = HomePageResponse()
+
     var slidersResponse = SingleLiveEvent<SlidersResponse>()
     var linearLayoutMng = ObservableField<Boolean>()
     var layoutManager = ObservableField<RecyclerView.LayoutManager>()
     var homeNewResponse = HomeNewResponse()
     var deviceTokenRequest = DeviceTokenRequest()
+
     var categoriesAdapter = CategoriesAdapter()
     var subCategoryAdapter = SubCategoriesAdapter()
     var storesAdapter = StoresAdapter()
+
     var obsCartCount = ObservableField<Int>()
     var obsAddress = ObservableField<String>()
+
     var latitude: String = Const.latitude.toString()
     var longitude: String = Const.longitude.toString()
+
     var categoriesList = mutableListOf<CategoriesItem>()
-    var tagsList = mutableListOf<TagsItem>()
-    var storesList = mutableListOf<ShopsItem>()
+    private var tagsList = mutableListOf<TagsItem>()
+
+    private var storesList = mutableListOf<ShopsItem>()
     var showStories = SingleLiveEvent<Boolean>()
+
+    // var bannersAdapter = BannersAdapter()
     lateinit var storiesAdapter: StoriesAdapter
+
     var storiesList = ArrayList<ArrayList<StoriesItem>>()
 
     var categoryId = ""
     var categoryImg = ""
-    var store_ids = ArrayList<String>()
+    var storeIds = ArrayList<String>()
 
-    fun setStoriesListner(onStoryClickedListner: StoriesAdapter.OnStoryClickedListner) {
-        storiesAdapter = StoriesAdapter(onStoryClickedListner)
-    }
-
-    fun setCurrentContext(context: Context) {
-        this.context = context
+    fun setStoriesListener(onStoryClickedListener: StoriesAdapter.OnStoryClickedListener) {
+        storiesAdapter = StoriesAdapter(onStoryClickedListener)
     }
 
     fun onCartClicked() {
@@ -75,14 +81,14 @@ class HomeViewModel : BaseViewModel() {
     }
 
     fun onLinearLayoutClicked() {
-        linearLayoutMng.set(true)
-       // layoutManager.set(LinearLayoutManager(context))
+        linearLayoutMng.set(false)
+        // layoutManager.set(LinearLayoutManager(context))
         storesAdapter.setAdapterViewType(0)
     }
 
     fun onHorizontalLayoutClicked() {
-        linearLayoutMng.set(false)
-       // layoutManager.set(GridLayoutManager(context,2))
+        linearLayoutMng.set(true)
+        // layoutManager.set(GridLayoutManager(context,2))
         storesAdapter.setAdapterViewType(1)
     }
 
@@ -96,6 +102,7 @@ class HomeViewModel : BaseViewModel() {
                 getUserAddress(categoryId)
                 getCartCount()
             }
+
             else -> {
                 getDefaultAddress(categoryId)
                 obsCartCount.set(0)
@@ -108,12 +115,14 @@ class HomeViewModel : BaseViewModel() {
             PrefMethods.getUserCart() == null -> {
                 obsCartCount.set(0)
             }
+
             else -> {
                 val userCartData = PrefMethods.getUserCart()!!
                 when {
                     userCartData.cartItems!!.isNotEmpty() -> {
                         obsCartCount.set(userCartData.cartItems!!.size)
                     }
+
                     else -> {
                         obsCartCount.set(0)
                     }
@@ -133,16 +142,19 @@ class HomeViewModel : BaseViewModel() {
                                 latitude = PrefMethods.getUserLocation()!!.lat.toString()
                                 longitude = PrefMethods.getUserLocation()!!.lng.toString()
                             }
+
                             else -> {
                                 obsAddress.set("يجب تحديد موقك الجغرافي حتي نقوم بتوصيل كل ما تحتاجة بدقة اعلي")
                             }
                         }
                     }
+
                     else -> {
                         obsAddress.set("يجب تحديد موقك الجغرافي حتي نقوم بتوصيل كل ما تحتاجة بدقة اعلي")
                     }
                 }
             }
+
             else -> {
                 obsAddress.set(PrefMethods.getDefaultAddress()!!.streetName.toString())
                 latitude = PrefMethods.getDefaultAddress()!!.lat.toString()
@@ -164,11 +176,13 @@ class HomeViewModel : BaseViewModel() {
                         latitude = PrefMethods.getUserLocation()!!.lat.toString()
                         longitude = PrefMethods.getUserLocation()!!.lng.toString()
                     }
+
                     else -> {
                         obsAddress.set("يجب تحديد موقك الجغرافي حتي نقوم بتوصيل كل ما تحتاجة بدقة اعلي")
                     }
                 }
             }
+
             else -> {
                 obsAddress.set("يجب تحديد موقك الجغرافي حتي نقوم بتوصيل كل ما تحتاجة بدقة اعلي")
             }
@@ -179,8 +193,7 @@ class HomeViewModel : BaseViewModel() {
         getHomePage(categoryId)
     }
 
-
-    fun getSlider(key: String) {
+    private fun getSlider(key: String) {
         requestCall<SlidersResponse?>({
             withContext(Dispatchers.IO) {
                 return@withContext getApiRepo().getSlider(key, PrefMethods.getLanguage())
@@ -196,15 +209,14 @@ class HomeViewModel : BaseViewModel() {
                     obsHideRecycler.set(true)
                     res.data.let {
                         slidersResponse.value = res
-                        if (it!!.slides!!.isNotEmpty()) {
+                        if (it!!.slides.isNotEmpty()) {
 
-                            /*slider*/
-                            moreSliderAdapter.updateList(it!!.slides)
-
-
+                            /* slider */
+                            moreSliderAdapter.updateList(it.slides)
                         }
                     }
                 }
+
                 else -> {
                     obsIsLoading.set(false)
                     obsIsEmpty.set(true)
@@ -214,7 +226,7 @@ class HomeViewModel : BaseViewModel() {
         }
     }
 
-    fun getHomePage(categoryId: String) {
+    fun getHomePage(categoryId: String, tagId: Int? = null) {
         subCategoryAdapter.selectedPosition = 0
         obsIsEmpty.set(false)
         requestCall<HomePageResponse?>({
@@ -224,7 +236,9 @@ class HomeViewModel : BaseViewModel() {
                     longitude,
                     "5",
                     PrefMethods.getLanguage(),
-                    categoryId
+                    categoryId,
+                    tagId,
+                    PrefMethods.getUserData()?.id ?: 0
                 )
             }
         })
@@ -234,22 +248,27 @@ class HomeViewModel : BaseViewModel() {
                     res.data.let {
                         getSlider("show-category")
                         homePageResponse = res
-                        if (it!!.categories!!.isNotEmpty()) {
+                        if (it?.categories?.isNotEmpty() == true) {
                             setShowProgress(false)
                             obsIsLoading.set(false)
                             obsIsFull.set(true)
                             obsIsLoadingStores.set(false)
                             obsHideRecycler.set(true)
                             // obsHidesTories.set(false)
+
                             /* Categories List */
-                            categoriesList = res.data!!.categories as MutableList<CategoriesItem>
+                            categoriesList = res.data?.categories as MutableList<CategoriesItem>
                             categoriesAdapter.updateList(categoriesList)
 
                             /* Tags List */
-                            tagsList = res.data.categories!![0]!!.tags as MutableList<TagsItem>
+                            tagsList = res.data.categories[0].tags as MutableList<TagsItem>
                             tagsList.add(
                                 0,
-                                TagsItem(thumbnail = categoryImg, name = MyApp.getInstance().getString(R.string.all_tags), id = null)
+                                TagsItem(
+                                    thumbnail = categoryImg,
+                                    name = MyApp.getInstance().getString(R.string.all_tags),
+                                    id = null
+                                )
                             )
                             subCategoryAdapter.updateList(tagsList)
 
@@ -257,15 +276,13 @@ class HomeViewModel : BaseViewModel() {
                             storesList = res.data.shops as MutableList<ShopsItem>
                             storesAdapter.updateList(storesList)
 
-
                             /* Stories List */
-
-                            if (res.data.stories!!.isNotEmpty()) {
+                            if (res.data.stories?.isNotEmpty() == true) {
                                 /* More List */
                                 showStories.value = true
                                 storiesList = res.data.stories as ArrayList<ArrayList<StoriesItem>>
-                                //var sotories: MutableList<ArrayList<StoriesItem>> = ArrayList()
-                                //sotories.add(storiesList)
+                                // var stories: MutableList<ArrayList<StoriesItem>> = ArrayList()
+                                // stories.add(storiesList)
                                 storiesAdapter.updateList(storiesList)
                             } else {
                                 showStories.value = false
@@ -275,7 +292,61 @@ class HomeViewModel : BaseViewModel() {
                 }
 
 
+                else -> {
+                    obsIsLoading.set(false)
+                    obsIsEmpty.set(true)
+                    obsIsFull.set(false)
+                }
+            }
+        }
+    }
 
+    fun getHomePageByTagId(categoryId: String, tagId: Int? = null) {
+        obsIsEmpty.set(false)
+        requestCall<HomePageResponse?>({
+            withContext(Dispatchers.IO) {
+                return@withContext getApiRepo().getHomePage(
+                    latitude,
+                    longitude,
+                    "5",
+                    PrefMethods.getLanguage(),
+                    categoryId,
+                    tagId,
+                    PrefMethods.getUserData()?.id ?: 0
+                )
+            }
+        })
+        { res ->
+            when (res!!.success) {
+                true -> {
+                    res.data.let {
+                        getSlider("show-category")
+                        homePageResponse = res
+                        if (it?.categories?.isNotEmpty() == true) {
+                            setShowProgress(false)
+                            obsIsLoading.set(false)
+                            obsIsFull.set(true)
+                            obsIsLoadingStores.set(false)
+                            obsHideRecycler.set(true)
+
+                            /* Stores List */
+                            storesList = res.data?.shops as MutableList<ShopsItem>
+                            storesAdapter.updateList(storesList)
+
+                            /* Stories List */
+                            if (res.data.stories?.isNotEmpty() == true) {
+                                /* More List */
+                                showStories.value = true
+                                storiesList = res.data.stories as ArrayList<ArrayList<StoriesItem>>
+                                // var stories: MutableList<ArrayList<StoriesItem>> = ArrayList()
+                                // stories.add(storiesList)
+                                storiesAdapter.updateList(storiesList)
+                            } else {
+                                showStories.value = false
+                            }
+                        }
+                    }
+                }
 
 
                 else -> {
@@ -293,15 +364,16 @@ class HomeViewModel : BaseViewModel() {
             0 -> {
                 filteredList = storesList
             }
+
             else -> {
                 storesList.forEach {
-
                     when {
-                        it.tags!!.isEmpty() -> {
+                        it.tags?.isEmpty() == true -> {
                             filteredList.add(it)
                         }
+
                         else -> {
-                            when (it.tags[0]!!.id) {
+                            when (it.tags!![0]?.id) {
                                 tagId -> {
                                     filteredList.add(it)
                                 }
@@ -311,7 +383,7 @@ class HomeViewModel : BaseViewModel() {
                 }
             }
         }
-        storesAdapter.updateList(filteredList)
+        // storesAdapter.updateList(filteredList)
         setShowProgress(false)
     }
 

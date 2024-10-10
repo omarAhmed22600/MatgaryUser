@@ -2,12 +2,12 @@
     version="1.0"
     encoding="utf-8"?>
 
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.brandsin.user.ui.main.order.rateorder.RateOrderViewModel" />
@@ -17,269 +17,266 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            isFull="@{viewModel.obsIsFull}"
-            android:paddingStart="@dimen/_16sdp"
-            android:paddingEnd="@dimen/_16sdp">
+            android:layout_height="match_parent">
 
-            <com.google.android.material.card.MaterialCardView
+            <androidx.constraintlayout.widget.ConstraintLayout
+                isFull="@{viewModel.obsIsFull}"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/item_layout"
-                android:layout_marginTop="@dimen/_8sdp"
-                android:layout_marginBottom="@dimen/_8sdp"
-                android:layout_marginStart="@dimen/_8sdp"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginEnd="@dimen/_8sdp"
-                app:cardCornerRadius="@dimen/_8sdp"
-                android:elevation="@dimen/_8sdp"
-                app:cardElevation="@dimen/_8sdp">
+                android:layout_height="match_parent"
+                android:paddingStart="@dimen/_16sdp"
+                android:paddingEnd="@dimen/_16sdp">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/item_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:layout_marginEnd="@dimen/_8sdp"
+                    android:layout_marginBottom="@dimen/_8sdp"
+                    android:elevation="@dimen/_8sdp"
+                    app:cardCornerRadius="@dimen/_8sdp"
+                    app:cardElevation="@dimen/_8sdp"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingTop="@dimen/_8sdp"
+                        android:paddingBottom="@dimen/_8sdp">
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/img_layout"
+                            android:layout_width="@dimen/_100sdp"
+                            android:layout_height="0dp"
+                            android:layout_marginStart="@dimen/_8sdp"
+                            android:elevation="0dp"
+                            app:cardCornerRadius="@dimen/_8sdp"
+                            app:cardElevation="0dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                storeImg="@{viewModel.orderDetails.order.store.thumbnail}"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:padding="@dimen/_8sdp"
+                                android:src="@drawable/app_logo"
+                                tools:ignore="ContentDescription" />
+
+                        </androidx.cardview.widget.CardView>
+
+                        <TextView
+                            android:id="@+id/tv_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/cairo_bold"
+                            android:text="@{viewModel.orderDetails.order.storeName}"
+                            android:textSize="@dimen/_12ssp"
+                            app:layout_constraintStart_toEndOf="@+id/img_layout"
+                            app:layout_constraintTop_toTopOf="@id/img_layout"
+                            tools:text="ماكدونالز" />
+
+                        <TextView
+                            android:id="@+id/tv_status"
+                            setStatus="@{viewModel.orderDetails.order.status}"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/cairo_semibold"
+                            android:textSize="@dimen/_10ssp"
+                            app:layout_constraintStart_toEndOf="@+id/img_layout"
+                            app:layout_constraintTop_toBottomOf="@id/tv_title"
+                            tools:text="@string/delivery_done" />
+
+                        <TextView
+                            android:id="@+id/tv_orderNum"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/cairoregular"
+                            android:text="@{@string/order_number + `: ` + viewModel.orderDetails.order.orderNumber}"
+                            android:textSize="@dimen/_10ssp"
+                            app:layout_constraintStart_toEndOf="@+id/img_layout"
+                            app:layout_constraintTop_toBottomOf="@id/tv_status"
+                            tools:text="رقم الطلب : 295615 " />
+
+                        <TextView
+                            android:id="@+id/item_time"
+                            setDeliveryTime="@{viewModel.orderDetails.order.deliveryTime}"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/cairoregular"
+                            android:textSize="@dimen/_10ssp"
+                            app:layout_constraintStart_toEndOf="@+id/img_layout"
+                            app:layout_constraintTop_toBottomOf="@id/tv_orderNum"
+                            tools:text="21/9/2020 11:06" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </com.google.android.material.card.MaterialCardView>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/store_rate"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingTop="@dimen/_8sdp"
-                    android:paddingBottom="@dimen/_8sdp">
-
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="@dimen/_100sdp"
-                        android:layout_height="0dp"
-                        android:id="@+id/img_layout"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        android:layout_marginStart="@dimen/_8sdp"
-                        android:elevation="0dp"
-                        app:cardElevation="0dp"
-                        app:cardCornerRadius="@dimen/_8sdp">
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            storeImg="@{viewModel.orderDetails.order.store.thumbnail}"
-                            android:padding="@dimen/_8sdp"
-                            android:src="@drawable/french_fries"
-                            tools:ignore="ContentDescription" />
-
-                    </androidx.cardview.widget.CardView>
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:padding="@dimen/_8sdp"
+                    app:layout_constraintTop_toBottomOf="@+id/item_layout">
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/tv_title"
-                        android:fontFamily="@font/cairo_bold"
-                        tools:text="ماكدونالز"
-                        android:text="@{viewModel.orderDetails.order.storeName}"
-                        android:textSize="@dimen/_12ssp"
-                        app:layout_constraintStart_toEndOf="@+id/img_layout"
-                        app:layout_constraintTop_toTopOf="@id/img_layout" />
-
-                    <TextView
+                        android:id="@+id/tv_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/cairo_semibold"
-                        android:id="@+id/tv_status"
-                        setStatus="@{viewModel.orderDetails.order.status}"
-                        tools:text="@string/delivery_done"
-                        android:textSize="@dimen/_10ssp"
-                        app:layout_constraintStart_toEndOf="@+id/img_layout"
-                        app:layout_constraintTop_toBottomOf="@id/tv_title" />
+                        android:text="@string/rate_store"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12ssp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="@string/rate_store" />
 
-                    <TextView
+                    <me.zhanghai.android.materialratingbar.MaterialRatingBar
+                        android:id="@+id/store_ratingbar"
+                        style="@style/MyRatingBarStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/cairoregular"
-                        android:id="@+id/tv_orderNum"
-                        android:text="@{@string/order_number + `: ` + viewModel.orderDetails.order.orderNumber}"
-                        tools:text="رقم الطلب : 295615 "
-                        android:textSize="@dimen/_10ssp"
-                        app:layout_constraintStart_toEndOf="@+id/img_layout"
-                        app:layout_constraintTop_toBottomOf="@id/tv_status"
-                        />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/item_time"
-                        android:fontFamily="@font/cairoregular"
-                        setDeliveryTime="@{viewModel.orderDetails.order.deliveryTime}"
-                        tools:text="21/9/2020 11:06"
-                        android:textSize="@dimen/_10ssp"
-                        app:layout_constraintStart_toEndOf="@+id/img_layout"
-                        app:layout_constraintTop_toBottomOf="@id/tv_orderNum"
-                        />
+                        android:paddingStart="@dimen/_8sdp"
+                        android:progressTint="@color/yellow"
+                        android:rating="@={viewModel.obsStoreRate}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_name"
+                        app:mrb_indeterminateTint="@color/yellow"
+                        app:mrb_progressBackgroundTint="@color/yellow"
+                        app:mrb_progressTint="@color/yellow"
+                        app:mrb_secondaryProgressTint="@color/yellow"
+                        app:mrb_secondaryProgressTintMode="src_in"
+                        tools:rating="3.5" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/store_rate"
-                android:layout_marginTop="@dimen/_16sdp"
-                app:layout_constraintTop_toBottomOf="@+id/item_layout"
-                android:padding="@dimen/_8sdp">
 
                 <TextView
-                    android:id="@+id/tv_name"
+                    android:id="@+id/tv_rateFoods"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_16sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
                     android:fontFamily="@font/cairo_semibold"
-                    android:text="@string/rate_store"
-                    tools:text="@string/rate_store"
+                    android:text="@string/rate_food"
                     android:textAlignment="viewStart"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_12ssp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@+id/store_rate"
+                    tools:text="@string/rate_food" />
 
-                <me.zhanghai.android.materialratingbar.MaterialRatingBar
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_rating"
+                    adapter="@{viewModel.rateAdapter}"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:orientation="vertical"
+                    android:paddingStart="@dimen/_8sdp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_rateFoods"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/raw_rate_order" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/note_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/rv_rating">
+
+                    <TextView
+                        android:id="@+id/tv_helpYou"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:fontFamily="@font/cairo_semibold"
+                        android:text="@string/reasons_for_rate"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12ssp"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <EditText
+                        android:id="@+id/et_rateMsg"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_75sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:background="@drawable/about_item_bg"
+                        android:fontFamily="@font/cairoregular"
+                        android:gravity="start"
+                        android:hint="@string/your_opinion_in_driver"
+                        android:lineSpacingExtra="-12dp"
+                        android:padding="@dimen/_8sdp"
+                        android:text="@={viewModel.rateOrderRequest.comment}"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/hint_color"
+                        android:textSize="@dimen/_10ssp"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_helpYou" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_sendRate"
+                        style="@style/Widget.MaterialComponents.Button"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_42sdp"
+                        android:layout_marginTop="@dimen/_16sdp"
+                        android:layout_marginBottom="@dimen/_16sdp"
+                        android:fontFamily="@font/cairo_semibold"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        android:onClick="@{ () -> viewModel.onRateClicked()}"
+                        android:text="@string/send"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_12ssp"
+                        app:cornerRadius="@dimen/_6sdp"
+                        app:layout_constraintTop_toBottomOf="@+id/et_rateMsg" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <ProgressBar
+                    visibleGone="@{viewModel.obsIsVisible}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/MyRatingBarStyle"
-                    android:id="@+id/store_ratingbar"
-                    android:progressTint="@color/yellow"
-                    app:mrb_progressTint="@color/yellow"
-                    app:mrb_indeterminateTint="@color/yellow"
-                    android:paddingStart="@dimen/_8sdp"
-                    app:mrb_secondaryProgressTintMode="src_in"
-                    app:mrb_secondaryProgressTint="@color/yellow"
-                    app:mrb_progressBackgroundTint="@color/yellow"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_name"
-                    tools:rating="3.5"
-                    android:rating="@={viewModel.obsStoreRate}" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <TextView
-                android:id="@+id/tv_rateFoods"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/cairo_semibold"
-                android:layout_marginTop="@dimen/_8sdp"
-                android:text="@string/rate_food"
-                tools:text="@string/rate_food"
-                android:layout_marginStart="@dimen/_16sdp"
-                android:textAlignment="viewStart"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_12ssp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/store_rate"/>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_rating"
-                adapter="@{viewModel.rateAdapter}"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:orientation="vertical"
-                android:paddingStart="@dimen/_8sdp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_rateFoods"
-                tools:itemCount="3"
-                tools:listitem="@layout/raw_rate_order" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/note_layout"
-                app:layout_constraintTop_toBottomOf="@+id/rv_rating">
-
-                <TextView
-                    android:id="@+id/tv_helpYou"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:fontFamily="@font/cairo_semibold"
-                    android:text="@string/reasons_for_rate"
-                    android:textAlignment="viewStart"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_12ssp"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <EditText
-                    android:id="@+id/et_rateMsg"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_75sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:background="@drawable/about_item_bg"
-                    android:fontFamily="@font/cairoregular"
-                    android:gravity="start"
-                    android:text="@={viewModel.rateOrderRequest.comment}"
-                    android:textColorHint="@color/hint_color"
-                    android:hint="@string/your_opinion_in_driver"
-                    android:lineSpacingExtra="-12dp"
-                    android:padding="@dimen/_8sdp"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_10ssp"
-                   app:layout_constraintTop_toBottomOf="@+id/tv_helpYou" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_sendRate"
-                    style="@style/Widget.MaterialComponents.Button"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_42sdp"
-                    android:layout_marginTop="@dimen/_16sdp"
-                    android:fontFamily="@font/cairo_semibold"
-                    android:layout_marginBottom="@dimen/_16sdp"
-                    android:onClick="@{ () -> viewModel.onRateClicked()}"
-                    android:insetTop="0dp"
-                    android:insetBottom="0dp"
-                    android:text="@string/send"
-                    android:textAllCaps="false"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/_12ssp"
-                    app:cornerRadius="@dimen/_6sdp"
-                    app:layout_constraintTop_toBottomOf="@+id/et_rateMsg"  />
-
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <ProgressBar
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                visibleGone="@{viewModel.obsIsVisible}"
+            <!-- Shimmer Layout -->
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmerFrameLayout"
+                isLoading="@{viewModel.obsIsLoading}"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="#FAFAFA"
+                android:orientation="vertical"
                 android:visibility="gone"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <!-- Adding 15 rows of placeholders -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <include layout="@layout/shimmer_rate" />
+
+                </LinearLayout>
+            </com.facebook.shimmer.ShimmerFrameLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <!-- Shimmer Layout -->
-        <com.facebook.shimmer.ShimmerFrameLayout
-            android:id="@+id/shimmerFrameLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:background="#FAFAFA"
-            isLoading="@{viewModel.obsIsLoading}"
-            android:orientation="vertical"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <!-- Adding 15 rows of placeholders -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <include layout="@layout/shimmer_rate"/>
-
-            </LinearLayout>
-        </com.facebook.shimmer.ShimmerFrameLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 </layout>

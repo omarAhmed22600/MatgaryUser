@@ -2,8 +2,7 @@ package com.brandsin.user.database
 
 import androidx.lifecycle.MutableLiveData
 
-open class BaseRepository
-{
+open class BaseRepository {
     var apiInterface: ApiInterface = RetrofitClient.getApiClient().create(ApiInterface::class.java)
     val mutableLiveData = MutableLiveData<Any?>()
 
@@ -11,5 +10,4 @@ open class BaseRepository
         mutableLiveData.value = item
         mutableLiveData.value = null
     }
-
 }

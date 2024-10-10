@@ -7,19 +7,20 @@ import androidx.recyclerview.widget.RecyclerView
 import com.brandsin.user.R
 import com.brandsin.user.databinding.ItemSearchStoreBinding
 import com.brandsin.user.model.order.homepage.ShopsItem
+import com.brandsin.user.model.search.SearchStoresOrProducts
 import com.brandsin.user.utils.SingleLiveEvent
-import java.util.ArrayList
 
 class StoresAdapter : RecyclerView.Adapter<StoresAdapter.StoresHolder>() {
 
-    var StoresLiveData = SingleLiveEvent<ShopsItem>()
-    var storesList: MutableList<ShopsItem> = ArrayList()
+    var storesLiveData = SingleLiveEvent<SearchStoresOrProducts>()
+    private var storesList: MutableList<SearchStoresOrProducts> = ArrayList()
     var selectedPosition = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StoresHolder {
         val context = parent.context
         val layoutInflater = LayoutInflater.from(context)
-        val binding: ItemSearchStoreBinding = DataBindingUtil.inflate(layoutInflater, R.layout.item_search_store, parent, false)
+        val binding: ItemSearchStoreBinding =
+            DataBindingUtil.inflate(layoutInflater, R.layout.item_search_store, parent, false)
         return StoresHolder(binding)
     }
 
@@ -30,7 +31,7 @@ class StoresAdapter : RecyclerView.Adapter<StoresAdapter.StoresHolder>() {
         itemViewModel.mutableLiveData.observeForever {
             when (it) {
                 is String -> {
-                    StoresLiveData.value = itemViewModel.item
+                    storesLiveData.value = itemViewModel.item
                 }
             }
         }
@@ -40,12 +41,11 @@ class StoresAdapter : RecyclerView.Adapter<StoresAdapter.StoresHolder>() {
         return storesList.size
     }
 
-    fun updateList(models: MutableList<ShopsItem>) {
+    fun updateList(models: MutableList<SearchStoresOrProducts>) {
         storesList = models
         notifyDataSetChanged()
     }
 
-    inner class StoresHolder(val binding: ItemSearchStoreBinding) : RecyclerView.ViewHolder(binding.root) {
-
-    }
+    inner class StoresHolder(val binding: ItemSearchStoreBinding) :
+        RecyclerView.ViewHolder(binding.root)
 }

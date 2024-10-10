@@ -19,15 +19,19 @@ import androidx.fragment.app.FragmentActivity
 import com.brandsin.user.R
 import com.brandsin.user.model.constants.Params
 import com.brandsin.user.ui.activity.DialogActivity
+import org.jsoup.Jsoup
 import timber.log.Timber
 import java.text.DateFormat
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
 
-object Utils
-{
-    fun startDialogActivity(frag: Activity, fragmentName: String?, requestCodeForResult: Int, bundle: Bundle?)
-    {
+object Utils {
+    fun startDialogActivity(
+        frag: Activity,
+        fragmentName: String?,
+        requestCodeForResult: Int,
+        bundle: Bundle?
+    ) {
         val intent = Intent(frag, DialogActivity::class.java)
         intent.putExtra(Params.INTENT_PAGE_DIALOG, fragmentName)
         if (bundle != null) intent.putExtra(Params.BUNDLE_DIALOG, bundle)
@@ -37,9 +41,9 @@ object Utils
     fun replaceFragment(context: Context, fragment: Fragment?, backStackText: String) {
         try {
             val fragmentManager =
-                    (context as FragmentActivity).supportFragmentManager
+                (context as FragmentActivity).supportFragmentManager
             val fragmentTransaction =
-                    fragmentManager.beginTransaction().replace(R.id.auth_fragment, fragment!!)
+                fragmentManager.beginTransaction().replace(R.id.auth_fragment, fragment!!)
             if (backStackText != "") {
                 fragmentTransaction.addToBackStack(backStackText)
             }
@@ -83,14 +87,14 @@ object Utils
         v.alpha = 1.0f
         // Prepare the View for the animation
         v.animate()
-                .setDuration(500)
-                .setListener(object : AnimatorListenerAdapter() {
-                    override fun onAnimationEnd(animation: Animator) {
-                        animListener?.onFinish()
-                        super.onAnimationEnd(animation)
-                    }
-                })
-                .alpha(0.0f)
+            .setDuration(500)
+            .setListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator) {
+                    animListener?.onFinish()
+                    super.onAnimationEnd(animation)
+                }
+            })
+            .alpha(0.0f)
     }
 
     fun openMail(context: Activity, mailTo: String) {
@@ -102,6 +106,7 @@ object Utils
             Timber.e(e)
         }
     }
+
     fun openTwitter(context: Activity, link: String?) {
         if (link == null) return
 //        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(link.trim { it <= ' ' }))
@@ -113,7 +118,7 @@ object Utils
         var intent: Intent? = null
         try {
             // get the Twitter app if possible
-            context.getPackageManager().getPackageInfo("com.twitter.android", 0)
+            context.packageManager.getPackageInfo("com.twitter.android", 0)
             intent = Intent(Intent.ACTION_VIEW, Uri.parse("twitter://user?user_id=USERID"))
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         } catch (e: java.lang.Exception) {
@@ -133,7 +138,7 @@ object Utils
         }
     }
 
-     fun openTikTokProfile(context: Activity, link: String?) {
+    fun openTikTokProfile(context: Activity, link: String?) {
         if (link == null) return
 //        val uri: Uri = Uri.parse("https://www.tiktok.com/@${link}")
 //        val intent = Intent(Intent.ACTION_VIEW, uri)
@@ -143,17 +148,17 @@ object Utils
 //        if (intent.resolveActivity(context.packageManager) != null) {
 //            context.startActivity(intent)
 //        }
-         var intent: Intent? = null
-         try {
-             // get the Twitter app if possible
-             context.getPackageManager().getPackageInfo("com.ss.android.ugc.trill&gl=US", 0)
-             intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.tiktok.com/${link}"))
-             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-         } catch (e: java.lang.Exception) {
-             // no Twitter app, revert to browser
-             intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.tiktok.com/$link"))
-         }
-         context.startActivity(intent)
+        var intent: Intent? = null
+        try {
+            // get the Twitter app if possible
+            context.packageManager.getPackageInfo("com.ss.android.ugc.trill&gl=US", 0)
+            intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.tiktok.com/${link}"))
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        } catch (e: java.lang.Exception) {
+            // no Twitter app, revert to browser
+            intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.tiktok.com/$link"))
+        }
+        context.startActivity(intent)
     }
 
     fun openLinkedIn(activity: Activity, url: String?) {
@@ -176,11 +181,16 @@ object Utils
         val number = "tel:$number1"
         val mIntent = Intent(Intent.ACTION_CALL)
         mIntent.data = Uri.parse(number)
-        if (ContextCompat.checkSelfPermission(activity,
-                        Manifest.permission.CALL_PHONE)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.CALL_PHONE),
-                    65)
+        if (ContextCompat.checkSelfPermission(
+                activity,
+                Manifest.permission.CALL_PHONE
+            )
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                activity, arrayOf(Manifest.permission.CALL_PHONE),
+                65
+            )
 
             // MY_PERMISSIONS_REQUEST_CALL_PHONE is an
             // app-defined int constant. The callback method gets the
@@ -195,7 +205,7 @@ object Utils
         }
     }
 
-     fun openFacebook(activity: Activity, link: String?) {
+    fun openFacebook(activity: Activity, link: String?) {
         val context: Context = MyApp.getInstance()
         //the correct link:
         //i.e. https://www.facebook.com/YourPageName or www.facebook.com/YourPageName
@@ -206,7 +216,8 @@ object Utils
         val url: String?
         val FACEBOOK_PAGE_ID: String
         FACEBOOK_PAGE_ID = try {
-            if (link.contains("http")) link.split("/".toRegex()).toTypedArray()[3] //i.e. YourPageName
+            if (link.contains("http")) link.split("/".toRegex())
+                .toTypedArray()[3] //i.e. YourPageName
             else link.split("/".toRegex()).toTypedArray()[1] //i.e. YourPageName
         } catch (e: ArrayIndexOutOfBoundsException) {
             //Timber.e("link isn't correct");
@@ -234,11 +245,11 @@ object Utils
         }
     }
 
-    fun openLink(activity: Activity, url1: String?){
+    fun openLink(activity: Activity, url1: String?) {
         if (url1 == null) return
-        var url=""
-        if (!url1.contains("http")){
-            url="https://"+url1
+        var url = ""
+        if (!url1.contains("http")) {
+            url = "https://" + url1
         }
         try {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
@@ -304,7 +315,7 @@ object Utils
      */
     fun requestingLocationUpdates(context: Context?): Boolean {
         return PreferenceManager.getDefaultSharedPreferences(context)
-                .getBoolean(KEY_REQUESTING_LOCATION_UPDATES, false)
+            .getBoolean(KEY_REQUESTING_LOCATION_UPDATES, false)
     }
 
     /**
@@ -313,16 +324,16 @@ object Utils
      */
     fun setRequestingLocationUpdates(context: Context?, requestingLocationUpdates: Boolean) {
         PreferenceManager.getDefaultSharedPreferences(context)
-                .edit()
-                .putBoolean(KEY_REQUESTING_LOCATION_UPDATES, requestingLocationUpdates)
-                .apply()
+            .edit()
+            .putBoolean(KEY_REQUESTING_LOCATION_UPDATES, requestingLocationUpdates)
+            .apply()
     }
 
     /**
      * Returns the `location` object as a human readable string.
      * @param location  The [Location].
      */
-    fun getLocationText(location: Location?): String? {
+    fun getLocationText(location: Location?): String {
         return if (location == null) "Unknown location" else "(" + location.latitude + ", " + location.longitude + ")"
     }
 
@@ -334,5 +345,35 @@ object Utils
         val date = Date(time)
         val format = SimpleDateFormat("dd-MM-yyyy")
         return format.format(date)
+    }
+
+    fun html2text(html: String): String {
+        return try {
+            Jsoup.parse(html).text()
+        } catch (ignored: Exception) {
+            ""
+        }
+    }
+
+    fun translateDeliveryType(context: Context, type: String): String {
+        var translate = ""
+        when (type) {
+            "minute" -> {
+                translate = context.getString(R.string.minute)
+            }
+
+            "hour" -> {
+                translate = context.getString(R.string.hour)
+            }
+
+            "day" -> {
+                translate = context.getString(R.string.day)
+            }
+
+            "month" -> {
+                translate = context.getString(R.string.month)
+            }
+        }
+        return translate
     }
 }

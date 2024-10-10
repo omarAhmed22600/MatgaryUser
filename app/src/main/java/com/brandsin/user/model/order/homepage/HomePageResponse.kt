@@ -1,24 +1,31 @@
 package com.brandsin.user.model.order.homepage
 
-
 import android.os.Parcelable
+import com.brandsin.user.model.order.details.Store
+import com.brandsin.user.model.order.homenew.CategoriesItem
+import com.brandsin.user.model.order.reorder.CommercialRegister
+import com.brandsin.user.model.order.storedetails.CoversItem
+import com.brandsin.user.model.order.storedetails.StoreProductItem
+import com.brandsin.user.ui.profile.favoriteProduct.model.CustomProperties
 import com.google.gson.annotations.SerializedName
-import kotlinx.android.parcel.Parcelize
-import java.io.Serializable
+import kotlinx.parcelize.Parcelize
+import kotlinx.parcelize.RawValue
 
+@Parcelize
 data class HomePageResponse(
 
     @field:SerializedName("data")
-    val data: Data? = null,
+    val data: @RawValue Data? = null,
 
     @field:SerializedName("success")
     val success: Boolean? = null
-) : Serializable
+) : Parcelable
 
+@Parcelize
 data class MediaItem(
 
     @field:SerializedName("manipulations")
-    val manipulations: List<Any?>? = null,
+    val manipulations: @RawValue List<Any?>? = null,
 
     @field:SerializedName("order_column")
     val orderColumn: Int? = null,
@@ -36,7 +43,7 @@ data class MediaItem(
     val modelId: Int? = null,
 
     @field:SerializedName("custom_properties")
-    val customProperties: List<Any?>? = null,
+    val customProperties: CustomProperties? = null,
 
     @field:SerializedName("disk")
     val disk: String? = null,
@@ -58,8 +65,9 @@ data class MediaItem(
 
     @field:SerializedName("collection_name")
     val collectionName: String? = null
-) : Serializable
+) : Parcelable
 
+@Parcelize
 data class TagsItem(
 
     @field:SerializedName("thumbnail")
@@ -70,10 +78,11 @@ data class TagsItem(
 
     @field:SerializedName("id")
     val id: Int? = null
-) : Serializable
+) : Parcelable
 
 @Parcelize
 data class StoriesItem(
+
     @field:SerializedName("in_offers_page")
     val inOffersPage: Int? = null,
 
@@ -85,8 +94,10 @@ data class StoriesItem(
 
     @field:SerializedName("id")
     val id: Int? = null,
+
     @field:SerializedName("title")
     var title: String? = null,
+
     @field:SerializedName("text")
     var text: String? = null,
 
@@ -101,23 +112,42 @@ data class StoriesItem(
 
     @field:SerializedName("views")
     var views: Int? = null,
+
+    @field:SerializedName("fav_count")
+    var favCount: Int? = null,
+
+    @field:SerializedName("is_favorite")
+    var isFavorite: Boolean? = null,
+
     @field:SerializedName("is_pinned")
     var isPinned: Int? = null,
+
     @field:SerializedName("is_pinned_homepage")
-    var isPinnedHomepage: Int? = null
-) : Serializable, Parcelable {
-    fun isVideo() =(media!!.get(0).mimeType.let { it!!.contains("video") }|| mediaUrl.let { it!!.contains("mp4") })?:false
+    var isPinnedHomepage: Int? = null,
+
+    @field:SerializedName("product")
+    val product: StoreProductItem? = null,
+
+    @field:SerializedName("is_seen")
+    val isSeen: Boolean? = null,
+
+    @field:SerializedName("product_id")
+    val productId: Int? = null,
+
+    @field:SerializedName("x")
+    val x: Double? = null,
+
+    @field:SerializedName("y")
+    val y: Double? = null,
+
+    ) : Parcelable {
+
+//    fun isVideo() =
+//        (mediaUrl.let { it!!.endsWith(".mp4", true)})
+//            ?: false
 }
 
-data class CommercialRegister(
-
-    @field:SerializedName("id")
-    val id: Int? = null,
-
-    @field:SerializedName("url")
-    val url: String? = null
-) : Serializable
-
+@Parcelize
 data class ShopsItem(
 
     @field:SerializedName("distance")
@@ -145,7 +175,7 @@ data class ShopsItem(
     val isClosed: Int? = null,
 
     @field:SerializedName("covers")
-    val covers: List<CoversItem?>? = null,
+    val covers: @RawValue List<CoversItem?>? = null,
 
     @field:SerializedName("image")
     val image: String? = null,
@@ -163,7 +193,7 @@ data class ShopsItem(
     val minOrderPrice: String? = null,
 
     @field:SerializedName("commercial_register")
-    val commercialRegister: CommercialRegister? = null,
+    val commercialRegister: @RawValue CommercialRegister? = null,
 
     @field:SerializedName("delivery_distance")
     val deliveryDistance: Int? = null,
@@ -172,7 +202,7 @@ data class ShopsItem(
     val tags: List<TagsItem?>? = null,
 
     @field:SerializedName("min_price_product")
-    val minPriceProduct: String? = null,
+    val minPriceProduct: @RawValue Any? = null,
 
     @field:SerializedName("has_delivery")
     val hasDelivery: Int? = null,
@@ -200,8 +230,9 @@ data class ShopsItem(
 
     @field:SerializedName("status")
     val status: String? = null
-) : Serializable
+) : Parcelable
 
+@Parcelize
 data class Data(
 
     @field:SerializedName("grouped_stories")
@@ -212,68 +243,9 @@ data class Data(
 
     @field:SerializedName("categories")
     val categories: List<CategoriesItem?>? = null
-) : Serializable
+) : Parcelable
 
-data class CoversItem(
-
-    @field:SerializedName("id")
-    val id: Int? = null,
-
-    @field:SerializedName("url")
-    val url: String? = null
-) : Serializable
-
-data class CategoriesItem(
-
-    @field:SerializedName("thumbnail")
-    val thumbnail: String? = null,
-
-    @field:SerializedName("name")
-    val name: String? = null,
-
-    @field:SerializedName("id")
-    val id: Int? = null,
-
-    @field:SerializedName("item_order")
-    val itemOrder: Int? = null,
-
-    @field:SerializedName("tags")
-    val tags: List<TagsItem?>? = null
-) : Serializable
-
-data class Store(
-
-    @field:SerializedName("min_price_product")
-    val minPriceProduct: String? = null,
-
-    @field:SerializedName("image")
-    val image: String? = null,
-
-    @field:SerializedName("thumbnail")
-    var thumbnail: String? = null,
-
-    @field:SerializedName("images")
-    val images: List<Any?>? = null,
-
-    @field:SerializedName("thumbnail_id")
-    val thumbnailId: Int? = null,
-
-    @field:SerializedName("avg_rating")
-    val avgRating: Double? = null,
-
-    @field:SerializedName("name")
-    var name: String? = null,
-
-    @field:SerializedName("id")
-    val id: Int? = null,
-
-    @field:SerializedName("commercial_register")
-    val commercialRegister: Any? = null,
-
-    @field:SerializedName("covers")
-    val covers: List<CoversItem?>? = null
-) : Serializable
-
+@Parcelize
 data class ImagesItem(
 
     @field:SerializedName("id")
@@ -281,4 +253,4 @@ data class ImagesItem(
 
     @field:SerializedName("url")
     val url: String? = null
-) : Serializable
+) : Parcelable

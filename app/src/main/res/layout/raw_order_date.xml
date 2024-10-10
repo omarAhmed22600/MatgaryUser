@@ -57,5 +57,7 @@
                 android:textSize="@dimen/_14ssp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </com.google.android.material.card.MaterialCardView>
+
 </layout>

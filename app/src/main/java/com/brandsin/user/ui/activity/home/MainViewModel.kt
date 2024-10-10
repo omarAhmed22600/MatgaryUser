@@ -8,12 +8,15 @@ import com.brandsin.user.model.constants.Codes
 import com.brandsin.user.utils.MyApp
 import com.brandsin.user.utils.PrefMethods
 
-class MainViewModel : BaseViewModel()
-{
+class MainViewModel : BaseViewModel() {
     val obsShowToolbar = ObservableBoolean()
     val obsTitle = ObservableField<String>()
     val obsUserName = ObservableField<String>()
     val obsBtnLogout = ObservableField<String>()
+
+    init {
+        setUpUserData()
+    }
 
     fun setUpUserData() {
         if (PrefMethods.getUserData() == null) {
@@ -23,20 +26,17 @@ class MainViewModel : BaseViewModel()
         } else {
             obsIsLogin.set(true)
             obsBtnLogout.set(MyApp.context.getString(R.string.account))
-            if (PrefMethods.getUserData()!!.full_name.toString()!="null") {
-                obsUserName.set(getString(R.string.welcome)+" "+PrefMethods.getUserData()!!.full_name.toString())
-            }else{
-                if (PrefMethods.getUserData()!!.phoneNumber.toString()!="null") {
-                    obsUserName.set(getString(R.string.welcome)+" "+PrefMethods.getUserData()!!.phoneNumber.toString())
-                }else{
+            if (PrefMethods.getUserData()!!.full_name.toString() != "null") {
+                // obsUserName.set(getString(R.string.welcome) + " " + PrefMethods.getUserData()!!.full_name.toString())
+                obsUserName.set(getString(R.string.welcome) + " " + PrefMethods.getUserData()!!.name.toString())
+            } else {
+                if (PrefMethods.getUserData()!!.phoneNumber.toString() != "null") {
+                    obsUserName.set(getString(R.string.welcome) + " " + PrefMethods.getUserData()!!.phoneNumber.toString())
+                } else {
                     obsUserName.set(MyApp.context.getString(R.string.welcome))
                 }
             }
         }
-    }
-
-    init {
-        setUpUserData()
     }
 
     fun onLogoutClicked() {
@@ -47,32 +47,38 @@ class MainViewModel : BaseViewModel()
     }
 
     fun onEditClicked() {
-        if (PrefMethods.getUserData() != null){
+        if (PrefMethods.getUserData() != null) {
             setValue(Codes.EDIT_CLICKED)
         } else {
             setValue(Codes.BUTTON_LOGIN_CLICKED)
         }
     }
-    fun onClickOffers(){
+
+    fun onClickOffers() {
         setValue(Codes.BUTTON_OFFER_CLICKED)
     }
-    fun onClicknotification(){
+
+    fun onClickNotification() {
         setValue(Codes.BUTTON_NOTIFICATION_CLICKED)
     }
-    fun onClickmy_order(){
+
+    fun onClickMyOrder() {
         setValue(Codes.BUTTON_MYORDER_CLICKED)
     }
-    fun payment(){
+
+    fun payment() {
         setValue(Codes.BUTTON_PAYMENT_CLICKED)
     }
 
-    fun help(){
+    fun help() {
         setValue(Codes.BUTTON_HELP_CLICKED)
     }
-    fun about(){
+
+    fun about() {
         setValue(Codes.BUTTON_ABOUT_CLICKED)
     }
-    fun contact(){
+
+    fun contact() {
         setValue(Codes.BUTTON_CONTACT_CLICKED)
     }
 }

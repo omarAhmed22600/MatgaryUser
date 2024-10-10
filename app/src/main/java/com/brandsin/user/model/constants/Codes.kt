@@ -1,7 +1,6 @@
 package com.brandsin.user.model.constants
 
-object Codes
-{
+object Codes {
     const val SETTING_SUCCCESS = 10
     const val DIALOG_VERSION_REQUEST = 1001
     const val DIALOG_OFFER_REQUEST = 1002
@@ -156,6 +155,7 @@ object Codes
     const val OPEN_FACE = 94
     const val OPEN_TWITTER = 95
     const val OPEN_INSTA = 96
+
     // creat Order Codes
     const val EMPTY_ORIGINS = 97
     const val EMPTY_DESTINATION = 98
@@ -261,10 +261,10 @@ object Codes
     const val LOWER_ORDER_COST = 202
     const val EMPTY_FIRST_NAME = 203
     const val EMPTY_LAST_NAME = 204
-    const val EMPTY_LOCATION  = 205
+    const val EMPTY_LOCATION = 205
     const val SHOW_STORY = 206
-    const val SHOW_POPUP  = 214
-    const val SELECT_BIRTHDAY  = 215
+    const val SHOW_POPUP = 214
+    const val SELECT_BIRTHDAY = 215
     const val TIKTOK_CLICKED = 216
     const val BUTTON_OFFER_CLICKED = 217
     const val BUTTON_NOTIFICATION_CLICKED = 218
@@ -273,6 +273,7 @@ object Codes
     const val BUTTON_HELP_CLICKED = 301
     const val BUTTON_ABOUT_CLICKED = 302
     const val BUTTON_CONTACT_CLICKED = 303
-    const val SHOW_SOCIAL=304
+    const val SHOW_SOCIAL = 304
+    const val EMPTY_addressName = 305
 
 }

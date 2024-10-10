@@ -9,21 +9,21 @@ import com.brandsin.user.R
 import com.brandsin.user.databinding.RawProfileAddressBinding
 import com.brandsin.user.model.location.addresslist.AddressListItem
 import com.brandsin.user.utils.SingleLiveEvent
-import java.util.*
 
-class AddressAdapter : RecyclerView.Adapter<AddressAdapter.AddressHolder>()
-{
-    var addressList: MutableList<AddressListItem> = ArrayList()
+class AddressAdapter : RecyclerView.Adapter<AddressAdapter.AddressHolder>() {
+
+    private var addressList: MutableList<AddressListItem> = ArrayList()
     var removeLiveData = SingleLiveEvent<AddressListItem>()
     var changeLiveData = SingleLiveEvent<AddressListItem>()
     var addressLiveData = SingleLiveEvent<AddressListItem>()
-    var selectPosition = 0
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AddressHolder
-    {
+    private var selectPosition = 0
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AddressHolder {
         val context = parent.context
         val layoutInflater = LayoutInflater.from(context)
-        val binding: RawProfileAddressBinding = DataBindingUtil.inflate(layoutInflater, R.layout.raw_profile_address, parent, false)
+        val binding: RawProfileAddressBinding =
+            DataBindingUtil.inflate(layoutInflater, R.layout.raw_profile_address, parent, false)
         return AddressHolder(binding)
     }
 
@@ -31,11 +31,11 @@ class AddressAdapter : RecyclerView.Adapter<AddressAdapter.AddressHolder>()
         val itemViewModel = ItemAddressViewModel(addressList[position])
         holder.binding.viewModel = itemViewModel
 
-        if (position==selectPosition){
-            holder.binding.btnDelete.visibility=View.INVISIBLE
+        if (position == selectPosition) {
+            holder.binding.btnDelete.visibility = View.INVISIBLE
             holder.binding.select.setImageResource(R.drawable.ic_size_check_box_24px)
-        }else{
-            holder.binding.btnDelete.visibility=View.VISIBLE
+        } else {
+            holder.binding.btnDelete.visibility = View.VISIBLE
             holder.binding.select.setImageResource(R.drawable.ic_check_box_outline_blank_24px)
         }
 
@@ -69,5 +69,6 @@ class AddressAdapter : RecyclerView.Adapter<AddressAdapter.AddressHolder>()
         notifyDataSetChanged()
     }
 
-    inner class AddressHolder(val binding: RawProfileAddressBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class AddressHolder(val binding: RawProfileAddressBinding) :
+        RecyclerView.ViewHolder(binding.root)
 }

@@ -8,7 +8,6 @@ import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.location.LocationManager
 import android.net.Uri
-import com.brandsin.user.R
 import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
@@ -19,7 +18,7 @@ import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.gms.location.*
+import com.brandsin.user.R
 import com.brandsin.user.databinding.AuthFragmentPermissionBinding
 import com.brandsin.user.model.constants.Codes
 import com.brandsin.user.model.constants.Params
@@ -34,12 +33,12 @@ import com.brandsin.user.utils.PrefMethods
 import com.brandsin.user.utils.Utils
 import com.brandsin.user.utils.map.MapUtil
 import com.brandsin.user.utils.map.PermissionUtil
+import com.google.android.gms.location.*
 import java.util.*
 
-class PermissionFragment : BaseAuthFragment(), Observer<Any?>
-{
-    private lateinit var binding : AuthFragmentPermissionBinding
-    lateinit var viewModel : PermissionViewModel
+class PermissionFragment : BaseAuthFragment(), Observer<Any?> {
+    private lateinit var binding: AuthFragmentPermissionBinding
+    lateinit var viewModel: PermissionViewModel
     private var fusedLocationClient: FusedLocationProviderClient? = null
     private var locationCallback: LocationCallback? = null
     private lateinit var geocoder: Geocoder
@@ -48,12 +47,13 @@ class PermissionFragment : BaseAuthFragment(), Observer<Any?>
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View
-    {
-        binding = DataBindingUtil.inflate(inflater,
+    ): View {
+        binding = DataBindingUtil.inflate(
+            inflater,
             R.layout.auth_fragment_permission,
             container,
-            false)
+            false
+        )
         return binding.root
     }
 
@@ -63,7 +63,6 @@ class PermissionFragment : BaseAuthFragment(), Observer<Any?>
         binding.viewModel = viewModel
 
         viewModel.mutableLiveData.observe(viewLifecycleOwner, this)
-
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -74,11 +73,12 @@ class PermissionFragment : BaseAuthFragment(), Observer<Any?>
     }
 
     override fun onChanged(it: Any?) {
-        if(it == null) return
+        if (it == null) return
         when (it) {
             Codes.CURRENT_LOCATION_CLICKED -> {
                 requestLocationPermission()
             }
+
             Codes.MANUALL_LOCATION_CLICKED -> {
                 val intent = Intent(requireActivity(), MapsActivity::class.java)
                 startActivityForResult(intent, Codes.GETTING_USER_LOCATION)
@@ -93,15 +93,17 @@ class PermissionFragment : BaseAuthFragment(), Observer<Any?>
         when {
             requestCode == Codes.GETTING_USER_LOCATION && data != null -> {
                 when {
-                        data.hasExtra(Params.USER_LOCATION) -> {
-                            val locationItem = data.getParcelableExtra<UserLocation>(Params.USER_LOCATION)
-                            when {
-                                locationItem != null -> {
-                                    saveLocationAndCloseFragment(locationItem)
-                                }
+                    data.hasExtra(Params.USER_LOCATION) -> {
+                        val locationItem =
+                            data.getParcelableExtra<UserLocation>(Params.USER_LOCATION)
+                        when {
+                            locationItem != null -> {
+                                saveLocationAndCloseFragment(locationItem)
                             }
                         }
-                } }
+                    }
+                }
+            }
         }
 
         /* When user clicked confirm to open setting page and allow permission from there */
@@ -113,7 +115,8 @@ class PermissionFragment : BaseAuthFragment(), Observer<Any?>
                             data.getIntExtra(Params.DIALOG_CLICK_ACTION, 1) == 1 -> {
                                 openAppDetails()
                             }
-                        } }
+                        }
+                    }
                 }
             }
         }
@@ -122,13 +125,16 @@ class PermissionFragment : BaseAuthFragment(), Observer<Any?>
         when (requestCode) {
             Codes.ALLOW_PERMISSION_FROM_SETTING_PAGE -> {
                 when {
-                    PermissionUtil.isGranted(requireActivity(),
-                        Manifest.permission.ACCESS_FINE_LOCATION) -> {
+                    PermissionUtil.isGranted(
+                        requireActivity(),
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                    ) -> {
                         PrefMethods.saveIsPermissionDeniedForEver(false)
                         when {
                             isGpsEnabled() -> {
                                 requestLocationUpdates()
                             }
+
                             else -> {
                                 openLocationFromApp()
                             }
@@ -144,17 +150,20 @@ class PermissionFragment : BaseAuthFragment(), Observer<Any?>
         /* If user selected NEVER ASK AGAIN OR device policy prohibits the app from having that permission */
         when {
             PrefMethods.getIsPermissionDeniedForEver() -> {
-                Utils.startDialogActivity(requireActivity(),
+                Utils.startDialogActivity(
+                    requireActivity(),
                     DialogPermissionFragment::class.java.name,
                     Codes.OPEN_SETTING_DIALOG_REQUEST_CODE,
-                    null)
+                    null
+                )
             }
             /* If user clicked deny once Or this the first time to open the application */
-            else ->
-            {
-                ActivityCompat.requestPermissions(requireActivity(),
+            else -> {
+                ActivityCompat.requestPermissions(
+                    requireActivity(),
                     arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                    Codes.ACCESS_LOCATION_REQUEST_CODE)
+                    Codes.ACCESS_LOCATION_REQUEST_CODE
+                )
             }
         }
     }
@@ -164,10 +173,8 @@ class PermissionFragment : BaseAuthFragment(), Observer<Any?>
         requestCode: Int,
         permissions: Array<String>,
         grantResults: IntArray,
-    )
-    {
-        when (requestCode)
-        {
+    ) {
+        when (requestCode) {
             Codes.ACCESS_LOCATION_REQUEST_CODE -> {
                 // Permission is granted. Continue the action or workflow
                 when {
@@ -175,12 +182,16 @@ class PermissionFragment : BaseAuthFragment(), Observer<Any?>
                         // Don't call tis method from here, I handle it (ON RESUME) method to not called twice
                         openLocationFromApp()
                     }
+
                     else -> {
                         when {
-                            ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(),
-                                Manifest.permission.ACCESS_FINE_LOCATION) -> {
+                            ActivityCompat.shouldShowRequestPermissionRationale(
+                                requireActivity(),
+                                Manifest.permission.ACCESS_FINE_LOCATION
+                            ) -> {
                                 // User clicked deny only once
                             }
+
                             else -> {
                                 PrefMethods.saveIsPermissionDeniedForEver(true)
                                 //Never ask again selected, or device policy prohibits the app from having that permission.
@@ -194,16 +205,20 @@ class PermissionFragment : BaseAuthFragment(), Observer<Any?>
         }
     }
 
-    private fun saveLocationAndCloseFragment(location: UserLocation)
-    {
-        PrefMethods.saveUserLocation(UserLocation(lat = location.lat.toString(),
-            lng = location.lng.toString(),
-            address = location.address))
+    private fun saveLocationAndCloseFragment(location: UserLocation) {
+        PrefMethods.saveUserLocation(
+            UserLocation(
+                lat = location.lat.toString(),
+                lng = location.lng.toString(),
+                address = location.address
+            )
+        )
         when {
             PrefMethods.getLoginState() -> {
                 requireActivity().startActivity(Intent(requireActivity(), HomeActivity::class.java))
                 requireActivity().finishAffinity()
             }
+
             else -> {
                 PrefMethods.deleteUserData()
                 startActivity(Intent(requireActivity(), AuthActivity::class.java))
@@ -215,7 +230,7 @@ class PermissionFragment : BaseAuthFragment(), Observer<Any?>
     @SuppressLint("MissingPermission")
     fun requestLocationUpdates() {
 
-       // Timber.e("getting location updates")
+        // Timber.e("getting location updates")
         viewModel.isShown.set(true)
         val locationRequest = LocationRequest()
         locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
@@ -224,10 +239,10 @@ class PermissionFragment : BaseAuthFragment(), Observer<Any?>
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult?) {
                 if (locationResult == null) {
-                   // Timber.e("couldn't get location update")
+                    // Timber.e("couldn't get location update")
                     requestLocationPermission()
                 } else {
-                   // Timber.e("$locationResult")
+                    // Timber.e("$locationResult")
                     if (locationResult.locations.size > 0) {
 
                         val location = locationResult.locations[0]
@@ -235,9 +250,11 @@ class PermissionFragment : BaseAuthFragment(), Observer<Any?>
                         userLocation.run {
                             lat = location!!.latitude.toString()
                             lng = location.longitude.toString()
-                            address = MapUtil.getLocationAddress(getGeoCoder(),
+                            address = MapUtil.getLocationAddress(
+                                getGeoCoder(),
                                 location.latitude,
-                                location.longitude)
+                                location.longitude
+                            )
                         }
                         saveLocationAndCloseFragment(userLocation)
                     }
@@ -248,11 +265,13 @@ class PermissionFragment : BaseAuthFragment(), Observer<Any?>
             }
         }
         try {
-            fusedLocationClient?.requestLocationUpdates(locationRequest,
+            fusedLocationClient?.requestLocationUpdates(
+                locationRequest,
                 locationCallback,
-                Looper.getMainLooper())
+                Looper.getMainLooper()
+            )
         } catch (e: Exception) {
-           // Timber.e(e)
+            // Timber.e(e)
         }
     }
 
@@ -289,13 +308,14 @@ class PermissionFragment : BaseAuthFragment(), Observer<Any?>
         startActivityForResult(intent, Codes.ALLOW_PERMISSION_FROM_SETTING_PAGE)
     }
 
-    private fun isGpsEnabled() : Boolean
-    {
-        val locationManager: LocationManager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+    private fun isGpsEnabled(): Boolean {
+        val locationManager: LocationManager =
+            requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
         return when {
             locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) -> {
                 true
             }
+
             else -> {
                 false
             }

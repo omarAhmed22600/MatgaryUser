@@ -5,21 +5,20 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.brandsin.user.R
 import com.brandsin.user.databinding.RawAddedStoryBinding
 import com.brandsin.user.model.order.homepage.StoriesItem
-import com.brandsin.user.utils.MyApp
 import com.brandsin.user.utils.SingleLiveEvent
+import com.bumptech.glide.Glide
 
-class StoryAdapter: RecyclerView.Adapter<StoryAdapter.StoryHolder>() {
+class StoryAdapter : RecyclerView.Adapter<StoryAdapter.StoryHolder>() {
     var itemsList: ArrayList<StoriesItem> = ArrayList()
     var deleteLiveData = SingleLiveEvent<StoriesItem>()
     var showLiveData = SingleLiveEvent<StoriesItem>()
-    var allitemsList= SingleLiveEvent<ArrayList<StoriesItem>>()
+    var allItemsList = SingleLiveEvent<ArrayList<StoriesItem>>()
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StoryHolder {
-        val context = parent.context
-        val layoutInflater = LayoutInflater.from(context)
+        val layoutInflater = LayoutInflater.from(parent.context)
         val binding: RawAddedStoryBinding = DataBindingUtil.inflate(
             layoutInflater,
             R.layout.raw_added_story,
@@ -33,55 +32,76 @@ class StoryAdapter: RecyclerView.Adapter<StoryAdapter.StoryHolder>() {
         val itemViewModel = ItemStoryViewModel(itemsList[position])
         holder.binding.viewModel = itemViewModel
 
-        if (itemViewModel.item.media!!.isEmpty()){
+        // if (itemViewModel.item.media!!.isEmpty()) {
+        if (itemViewModel.item.mediaUrl.isNullOrEmpty()) {
             holder.binding.cvTxt.visibility = View.VISIBLE
             holder.binding.cvImg.visibility = View.GONE
             holder.binding.cvVideo.visibility = View.GONE
 
-            holder.binding.tvTxt.text = itemViewModel.item.text.toString()
+            holder.binding.tvTxt.text = itemViewModel.item.text ?: itemViewModel.item.title
 
-        }else if (itemViewModel.item.media!![0]!!.mimeType!!.contains("image")){
+            // } else if (itemViewModel.item.media!![0].mimeType!!.contains("image")) {
+        } else if (getFileExtension(itemViewModel.item.mediaUrl.toString()) == "jpeg" ||
+            getFileExtension(itemViewModel.item.mediaUrl.toString()) == "png" ||
+            getFileExtension(itemViewModel.item.mediaUrl.toString()) == "jpg"
+        ) {
             holder.binding.cvTxt.visibility = View.GONE
             holder.binding.cvImg.visibility = View.VISIBLE
             holder.binding.cvVideo.visibility = View.GONE
 
             if (itemViewModel.item.mediaUrl.isNullOrEmpty()) {
-                Glide.with(MyApp.context).load(R.drawable.app_background)
+                Glide.with(holder.itemView.context)
+                    .load(R.drawable.app_background)
                     .error(R.drawable.app_background)
                     .into(holder.binding.ivImg)
-            }else{
-                Glide.with(MyApp.context).load(itemViewModel.item.mediaUrl).error(R.drawable.app_background).into(holder.binding.ivImg)
+            } else {
+                Glide.with(holder.itemView.context)
+                    .load(itemViewModel.item.mediaUrl)
+                    .error(R.drawable.app_background)
+                    .into(holder.binding.ivImg)
             }
 
-        }else if (itemViewModel.item.media!![0]!!.mimeType!!.contains("video")){
+            // } else if (itemViewModel.item.media!![0].mimeType!!.contains("video")) {
+        } else if (getFileExtension(itemViewModel.item.mediaUrl.toString()) == "mp4") {
             holder.binding.cvTxt.visibility = View.GONE
             holder.binding.cvImg.visibility = View.GONE
             holder.binding.cvVideo.visibility = View.VISIBLE
 
             if (itemViewModel.item.mediaUrl.isNullOrEmpty()) {
                 holder.binding.ivVideo.setImageResource(R.drawable.app_background)
-            }else{
-                Glide.with(MyApp.context).load("")
-                    .thumbnail(Glide.with(MyApp.context).load(itemViewModel.item.mediaUrl))
+            } else {
+                Glide.with(holder.itemView.context).load("")
+                    .thumbnail(
+                        Glide.with(holder.itemView.context).load(itemViewModel.item.mediaUrl)
+                    )
                     .error(R.drawable.app_background)
                     .into(holder.binding.ivVideo)
             }
-
         }
 
         holder.binding.consTxt.setOnClickListener {
             //showLiveData.value = itemViewModel.item
-            allitemsList.value=itemsList
+            allItemsList.value = itemsList
         }
         holder.binding.consImg.setOnClickListener {
-          //  showLiveData.value = itemViewModel.item
-            allitemsList.value=itemsList
+            //  showLiveData.value = itemViewModel.item
+            allItemsList.value = itemsList
         }
         holder.binding.consVideo.setOnClickListener {
             showLiveData.value = itemViewModel.item
-            allitemsList.value=itemsList
+            allItemsList.value = itemsList
         }
 
+    }
+
+    private fun getFileExtension(url: String): String {
+        val lastDotIndex = url.lastIndexOf(".")
+        return if (lastDotIndex != -1) {
+            url.substring(lastDotIndex + 1)
+        } else {
+            // Default extension or handle the case when there's no extension
+            ""
+        }
     }
 
 
@@ -94,6 +114,7 @@ class StoryAdapter: RecyclerView.Adapter<StoryAdapter.StoryHolder>() {
         notifyDataSetChanged()
     }
 
-    inner class StoryHolder(val binding: RawAddedStoryBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class StoryHolder(val binding: RawAddedStoryBinding) :
+        RecyclerView.ViewHolder(binding.root)
 
 }

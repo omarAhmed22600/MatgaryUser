@@ -12,14 +12,15 @@ import com.brandsin.user.utils.SingleLiveEvent
 
 class MoreSubAdapter : RecyclerView.Adapter<MoreSubAdapter.MoreSubHolder>() {
 
-    var moreSubList  = mutableListOf<StoresDataItem>()
-    var moresubLiveData = SingleLiveEvent<StoresDataItem>()
+    private var moreSubList = mutableListOf<StoresDataItem>()
+    var moreSubLiveData = SingleLiveEvent<StoresDataItem>()
     var selectedPosition = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoreSubHolder {
         val context = parent.context
         val layoutInflater = LayoutInflater.from(context)
-        val binding: ItemHomeMoreSubBinding = DataBindingUtil.inflate(layoutInflater, R.layout.item_home_more_sub, parent, false)
+        val binding: ItemHomeMoreSubBinding =
+            DataBindingUtil.inflate(layoutInflater, R.layout.item_home_more_sub, parent, false)
         return MoreSubHolder(binding)
     }
 
@@ -27,10 +28,10 @@ class MoreSubAdapter : RecyclerView.Adapter<MoreSubAdapter.MoreSubHolder>() {
         val itemViewModel = ItemMoreSubViewModel(moreSubList[position])
         holder.binding.viewModel = itemViewModel
 
-        if (itemViewModel.itemMoreSub.hasDelivery == 0){
+        if (itemViewModel.itemMoreSub.hasDelivery == 0) {
             holder.binding.textView11.visibility = View.GONE
             holder.binding.textView12.visibility = View.GONE
-        }else if (itemViewModel.itemMoreSub.hasDelivery == 1){
+        } else if (itemViewModel.itemMoreSub.hasDelivery == 1) {
             holder.binding.textView11.visibility = View.VISIBLE
             holder.binding.textView12.visibility = View.VISIBLE
         }
@@ -38,8 +39,8 @@ class MoreSubAdapter : RecyclerView.Adapter<MoreSubAdapter.MoreSubHolder>() {
         itemViewModel.mutableLiveData.observeForever {
             when (it) {
                 is String -> {
-                    if (itemViewModel.itemMoreSub.isClosed==0) {
-                        moresubLiveData.value = itemViewModel.itemMoreSub
+                    if (itemViewModel.itemMoreSub.isClosed == 0) {
+                        moreSubLiveData.value = itemViewModel.itemMoreSub
                     }
                 }
             }
@@ -55,7 +56,6 @@ class MoreSubAdapter : RecyclerView.Adapter<MoreSubAdapter.MoreSubHolder>() {
         notifyDataSetChanged()
     }
 
-    inner class MoreSubHolder(val binding: ItemHomeMoreSubBinding) : RecyclerView.ViewHolder(binding.root) {
-
-    }
+    inner class MoreSubHolder(val binding: ItemHomeMoreSubBinding) :
+        RecyclerView.ViewHolder(binding.root)
 }

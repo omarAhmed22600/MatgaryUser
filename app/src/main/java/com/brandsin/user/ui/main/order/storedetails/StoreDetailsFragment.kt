@@ -2,6 +2,7 @@ package com.brandsin.user.ui.main.order.storedetails
 
 import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -20,9 +21,9 @@ import com.brandsin.user.model.order.cart.CartItem
 import com.brandsin.user.model.order.cart.CartParcelableClass
 import com.brandsin.user.model.order.cart.CartStoreData
 import com.brandsin.user.model.order.cart.UserCart
+import com.brandsin.user.model.order.details.Store
 import com.brandsin.user.model.order.homenew.HomeNewResponse
 import com.brandsin.user.model.order.homepage.HomePageResponse
-import com.brandsin.user.model.order.homepage.Store
 import com.brandsin.user.model.order.homepage.StoriesItem
 import com.brandsin.user.model.order.storedetails.CoversItem
 import com.brandsin.user.model.order.storedetails.StoreCategoryItem
@@ -30,37 +31,52 @@ import com.brandsin.user.model.order.storedetails.StoreDetailsResponse
 import com.brandsin.user.model.order.storedetails.StoreProductItem
 import com.brandsin.user.network.Status
 import com.brandsin.user.ui.activity.home.BaseHomeFragment
+import com.brandsin.user.ui.chat.model.MessageModel
 import com.brandsin.user.ui.dialogs.confirm.DialogConfirmFragment
 import com.brandsin.user.ui.main.home.story.StoriesAdapter
-import com.brandsin.user.ui.main.order.storedetails.addons.skus.dialog.DialogOrderAddonsFragment
 import com.brandsin.user.ui.main.order.storedetails.addons.skus.activity.OrderAddonsActivity
+import com.brandsin.user.ui.main.order.storedetails.addons.skus.dialog.DialogOrderAddonsFragment
+import com.brandsin.user.ui.main.order.storedetails.banners.BannersAdapter
 import com.brandsin.user.utils.MyApp
 import com.brandsin.user.utils.PrefMethods
 import com.brandsin.user.utils.Utils
 import com.brandsin.user.utils.map.observe
 import com.brandsin.user.utils.storyviewer.StoryView
+import com.google.firebase.dynamiclinks.DynamicLink
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType
 import com.smarteist.autoimageslider.SliderAnimations
 import com.smarteist.autoimageslider.SliderView
 import timber.log.Timber
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import java.util.UUID
 
 class StoreDetailsFragment : BaseHomeFragment(), Observer<Any?>,
-    StoriesAdapter.OnStoryClickedListner,
+    StoriesAdapter.OnStoryClickedListener, BannersAdapter.OnBannerClickedListener,
     StoryView.StoryViewListener {
-    private lateinit var viewModel: StoreDetailsViewModel
+
     private lateinit var binding: HomeFragmentStoreDetailsV2Binding
+
+    private lateinit var viewModel: StoreDetailsViewModel
+
     private val storeArgs: StoreDetailsFragmentArgs by navArgs()
-    lateinit var sliderView: SliderView
+    private lateinit var sliderView: SliderView
     private var storeProductItem: StoreProductItem? = null
-    var StoreCategoryId = 0
+    private var storeCategoryId = 0
+
+    private var STORE_ID: Int? = null
 
     var storiesItem = StoriesItem()
     var store = Store()
-    var flag:Boolean=false
-    var storeCategoriesList: List<StoreCategoryItem> = ArrayList()
-    var productsList: ArrayList<StoreProductItem> = ArrayList()
-    var productsListLimt: MutableList<StoreProductItem> = ArrayList()
-    private var limt: Int = 10
+    var flag: Boolean = false
+
+    private var storeCategoriesList: List<StoreCategoryItem> = ArrayList()
+    private var productsList: ArrayList<StoreProductItem> = ArrayList()
+    private var productsListLimit: MutableList<StoreProductItem> = ArrayList()
+
+    private var limit: Int = 10
     private var currentPage: Int = 0
     private var isLoading: Boolean = false
     private var isLastPage: Boolean = false
@@ -70,7 +86,6 @@ class StoreDetailsFragment : BaseHomeFragment(), Observer<Any?>,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         binding = DataBindingUtil.inflate(
             inflater,
             R.layout.home_fragment_store_details_v2,
@@ -81,27 +96,31 @@ class StoreDetailsFragment : BaseHomeFragment(), Observer<Any?>,
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this).get(StoreDetailsViewModel::class.java)
-        binding.viewModel = viewModel
-        viewModel.setStoriesListner(this)
-        //viewModel.getStoreDetails(storeArgs.storeId)
 
-        if (!flag){
+        viewModel = ViewModelProvider(this)[StoreDetailsViewModel::class.java]
+        binding.viewModel = viewModel
+
+        viewModel.setBannerListener(this)
+        viewModel.setStoriesListener(this)
+
+        STORE_ID = requireArguments().getInt("STORE_ID")
+
+        viewModel.getStoreDetails(storeArgs.storeId)
+
+        /*if (!flag) {
             viewModel.getStoreDetails(storeArgs.storeId)
-            flag=true
-        }
-        else{
+            flag = true
+        } else {
             viewModel.obsIsFull.set(true)
             viewModel.obsIsLoading.set(false)
-            viewModel.storeCategoriesList=storeCategoriesList
-            viewModel.productsList=productsList
-            val pages=(productsList.size/10).toInt()
-            for ( i in 0..pages){
-                binding.rvMeals.post(Runnable { loadMoreItems() })
+            viewModel.storeCategoriesList = storeCategoriesList
+            viewModel.productsList = productsList
+            val pages = (productsList.size / 10)
+            for (i in 0..pages) {
+                binding.rvMeals.post { loadMoreItems() }
             }
-        }
+        }*/
 
         binding.ibBack.setOnClickListener {
             findNavController().navigateUp()
@@ -117,46 +136,52 @@ class StoreDetailsFragment : BaseHomeFragment(), Observer<Any?>,
             viewModel.obsIsLoading.set(true)
             viewModel.getStoreDetails(storeArgs.storeId)
         }
+
         observe(viewModel.followResponse) {
             when (it!!.success) {
                 true -> {
-                    showToast(getString(R.string.success), 2)
+                    showToast(it.message.toString(), 2)
+                    viewModel.getStoreDetails(storeArgs.storeId)
                 }
+
                 else -> {
-                    Timber.e(it.error)
+                    Timber.e(it.message)
                 }
             }
         }
 
-        observe(viewModel.apiResponseLiveData) {
+        observe(viewModel.apiResponseLiveData) { it ->
             when (it.status) {
                 Status.ERROR_MESSAGE -> {
                     showToast(it.message.toString(), 1)
                 }
+
                 Status.SUCCESS_MESSAGE -> {
                     showToast(it.message.toString(), 2)
                 }
+
                 Status.SUCCESS -> {
                     when (it.data) {
                         is StoreDetailsResponse -> {
 
                             if (it.data.storeDetailsData!!.covers!!.isNotEmpty()) {
+
                                 setupSlider(it.data.storeDetailsData.covers)
                             }
                             if (it.data.storeDetailsData.stories!!.isNotEmpty()) {
-                                var sotories: MutableList<ArrayList<StoriesItem>> = ArrayList()
+                                val stories: MutableList<ArrayList<StoriesItem>> = ArrayList()
                                 store.name = viewModel.storeData.name
                                 if (!it.data.storeDetailsData.thumbnail.isNullOrEmpty()) {
                                     store.thumbnail = it.data.storeDetailsData.thumbnail
                                 }
                                 storiesItem.store = store
-                                it.data.storeDetailsData.stories.forEach {
-                                   // it.stories!!.forEach {
-                                        it!!.store = store
-                                   // }
+                                it.data.storeDetailsData.stories.forEach { storyItem ->
+                                    // it.stories!!.forEach {
+                                    storyItem.store = store
+                                    // }
                                     val newList: ArrayList<StoriesItem> = ArrayList()
-                                    newList.add(it)
-                                    sotories.add(newList)
+                                    newList.add(storyItem)
+                                    stories.add(newList)
                                 }
 //                                    Glide.with(MyApp.context).load( it.data.storeDetailsData.thumbnail)
 //                                        .error(R.drawable.app_logo)
@@ -164,7 +189,7 @@ class StoreDetailsFragment : BaseHomeFragment(), Observer<Any?>,
                                 // binding.cvStoryStoreImg.visibility = View.VISIBLE
 
 
-                                viewModel.storiesAdapter.updateList(sotories)
+                                viewModel.storiesAdapter.updateList(stories)
                                 binding.layoutStories.visibility = View.VISIBLE
                             }
                             if (it.data.storeDetailsData.hasDelivery == 0) {
@@ -179,37 +204,48 @@ class StoreDetailsFragment : BaseHomeFragment(), Observer<Any?>,
                                 binding.materialCardView.strokeWidth = 0
                             }
 
-                            //////////// pajanation offline///////////
-                            viewModel.productsList=it.data.storeDetailsData!!.storeProductList as ArrayList<StoreProductItem>
+                            //////////// pagination offline ///////////
+                            viewModel.productsList =
+                                it.data.storeDetailsData.storeProductList as ArrayList<StoreProductItem>
+
                             Log.d("listRes", viewModel.productsList.size.toString())
+
                             viewModel.productsAdapter.clear()
-                            productsListLimt.clear()
-                            currentPage=0
-                            if (currentPage == 0 && limt < viewModel.productsList.size) {
-                                productsListLimt.addAll(viewModel.productsList.subList(0, limt))
-                                viewModel.productsAdapter.addItems(productsListLimt)
+                            productsListLimit.clear()
+                            currentPage = 0
+                            if (limit < viewModel.productsList.size) {
+                                productsListLimit.addAll(viewModel.productsList.subList(0, limit))
+                                viewModel.productsAdapter.addItems(productsListLimit)
                                 //  currentPage++
                             } else {
-                                productsListLimt.addAll(viewModel.productsList)
-                                viewModel.productsAdapter.addItems(productsListLimt)
+                                productsListLimit.addAll(viewModel.productsList)
+                                viewModel.productsAdapter.addItems(productsListLimit)
                                 isLastPage = true
                             }
-                            val pages=(viewModel.productsList.size/10).toInt()
-                            Log.d("aaa",pages.toString())
-                            for ( it in 0..pages){
-                                binding.rvMeals.post(Runnable { loadMoreItems() })
-                                Log.d("numm","mom")
+                            val pages = (viewModel.productsList.size / 10).toInt()
+
+                            Log.d("aaa", pages.toString())
+
+                            for (it in 0..pages) {
+                                binding.rvMeals.post { loadMoreItems() }
+                                Log.d("num", "mom")
                             }
                         }
                     }
                 }
+
                 else -> {
                     Timber.e(it.message)
                 }
             }
         }
 
+        setBtnListener()
+    }
+
+    private fun setBtnListener() {
         binding.materialCardView.setOnClickListener {
+            // if (viewModel.storeData.stories!!.size > 0) {
             view?.post {
                 val action =
                     StoreDetailsFragmentDirections.storeDetailsToAddedStories(
@@ -218,9 +254,10 @@ class StoreDetailsFragment : BaseHomeFragment(), Observer<Any?>,
                     )
                 findNavController().navigate(action)
             }
+            // }
         }
 
-        binding.storeInformation.setOnClickListener {
+        binding.tvStoreInfo.setOnClickListener {
             view?.post {
                 val action =
                     StoreDetailsFragmentDirections.storeDetailsToStoreInformation(
@@ -230,8 +267,44 @@ class StoreDetailsFragment : BaseHomeFragment(), Observer<Any?>,
             }
         }
 
-        binding.ibSearch.setOnClickListener {
+        binding.ratingsStore.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putInt("STORE_ID", viewModel.storeData.id!!)
+            findNavController().navigate(R.id.ratingsStoreFragment, bundle)
+        }
 
+        binding.chatStore.isSelected  = true
+        binding.chatStore.setOnClickListener {
+            val dateFormat = SimpleDateFormat("yyyyMMddHHmmss", Locale.US)
+            val currentTime = dateFormat.format(Date())
+            val messageModel = MessageModel(
+                avaterstore = viewModel.storeData.thumbnail.toString(),
+                avateruser = PrefMethods.getUserData()?.picture.toString(),
+                messageType = "private",
+                senderName = PrefMethods.getUserData()?.name.toString(),
+                storename = viewModel.storeData.name.toString(),
+                senderId = PrefMethods.getUserData()?.id.toString().trim(),
+                storeId = viewModel.storeData.userId.toString(),
+                message = "",
+                messageId = UUID.randomUUID().toString(),
+                date = currentTime,
+                type = "",
+                typeBay = "user"
+            )
+            Timber.e("model is ${viewModel.storeData}\n$messageModel")
+
+            // inboxViewModel.messageItem = messageModel
+
+            val bundle = Bundle()
+            bundle.putString("Avatar_Store", messageModel.avaterstore)
+            bundle.putString("Avatar_User", messageModel.avateruser)
+            bundle.putString("Sender_Id", messageModel.senderId)
+            bundle.putString("Sender_Name", messageModel.senderName)
+            bundle.putString("Store_Id", messageModel.storeId)
+            bundle.putString("Store_Name", messageModel.storename)
+            findNavController().navigate(R.id.messageFragment, bundle)
+        }
+        binding.ibSearch.setOnClickListener {
             val action = StoreDetailsFragmentDirections.storeDetailsToSearch(
                 "store",
                 "",
@@ -242,49 +315,102 @@ class StoreDetailsFragment : BaseHomeFragment(), Observer<Any?>,
             )
             findNavController().navigate(action)
         }
-        binding.followStore.setOnClickListener{
-            if (PrefMethods.getLoginState(context)){
+
+        binding.followStore.setOnClickListener {
+            if (PrefMethods.getLoginState(context)) {
                 viewModel.followStore()
-            }else{
-                showToast("please login first",1)
+            } else {
+                showToast("please login first", 1)
             }
+        }
+
+        binding.icShare.setOnClickListener {
+            generateDynamicLink()
         }
     }
 
-    fun loadMoreItems() {
+    private fun generateDynamicLink() {
+        FirebaseDynamicLinks.getInstance().createDynamicLink()
+                .setLink(Uri.parse("https://dev.brandsin.net/store?store_id=${viewModel.storeData.id}")) // Replace with your deep link URL
+            .setDomainUriPrefix("https://brandsin.page.link") // Replace with your Firebase Dynamic Links domain
+            .setAndroidParameters( // + "/product-details?product=" + product_id;
+                DynamicLink.AndroidParameters.Builder(requireContext().packageName)
+                    .setFallbackUrl(Uri.parse("YOUR_FALLBACK_URL_HERE"))
+                    .setMinimumVersion(1) // Optional: Minimum app version required
+                    .build()
+            )
+            .setSocialMetaTagParameters(
+                DynamicLink.SocialMetaTagParameters.Builder()
+                    .setTitle(viewModel.storeData.name ?: "") // "Your Title"
+                    .setDescription("Your Description")
+                    .setImageUrl(Uri.parse(viewModel.storeData.thumbnail ?: "")) // Optional: Image URL for sharing ("https://www.example.com/image.png")
+                    .build()
+            )
+            .buildShortDynamicLink()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val shortLink = task.result.shortLink
+                    val flowchartLink = task.result.previewLink
+                    // Handle the short link (e.g., display it or share it)
+                    println("dynamicLink == Short Link: $shortLink")
+                    println("dynamicLink == Preview Link: $flowchartLink")
+ 
+                    // Handle the short link (e.g., share it)
+                    // shortLink.toString() contains the shortened URL
+                    val share = Intent(Intent.ACTION_SEND)
+                    share.type = "text/Share"
+                    val shareBody = shortLink.toString()
+                    val shareSub = resources.getString(R.string.app_name)
+                    share.putExtra(Intent.EXTRA_SUBJECT, shareSub)
+                    share.putExtra(Intent.EXTRA_TEXT, shareBody)
+                    startActivity(Intent.createChooser(share, "Share using"))
+                } else {
+                    // Handle error
+                    println("dynamicLink == exception Link: ${task.exception}")
+                    println("dynamicLink == exception Link: ${task.result.shortLink}")
+                    println("dynamicLink == exception Link: ${task.result.previewLink}")
+                }
+            }
+    }
+
+    private fun loadMoreItems() {
         isLoading = true
         currentPage++
-        var listSize = viewModel.productsList.size;
-        var listSize2 = productsListLimt.size;
+        val listSize = viewModel.productsList.size
+        val listSize2 = productsListLimit.size
 
-        if ((listSize2 + limt) < listSize) {
-            productsListLimt.addAll(viewModel.productsList.subList(listSize2, listSize2 + limt))
-            viewModel.productsAdapter.addItems(viewModel.productsList.subList(listSize2 , listSize2 + limt))
-        } else {
-            productsListLimt.addAll(viewModel.productsList.subList(listSize2 , listSize))
+        if ((listSize2 + limit) < listSize) {
+            productsListLimit.addAll(viewModel.productsList.subList(listSize2, listSize2 + limit))
             viewModel.productsAdapter.addItems(
                 viewModel.productsList.subList(
-                    listSize2 ,
-                    listSize
+                    listSize2,
+                    listSize2 + limit
                 )
+            )
+        } else {
+            productsListLimit.addAll(viewModel.productsList.subList(listSize2, listSize))
+            viewModel.productsAdapter.addItems(
+                viewModel.productsList.subList(listSize2, listSize)
             )
             isLastPage = true
         }
-        isLoading = false;
+        isLoading = false
     }
 
-    override fun onChanged(it: Any?) {
-        if (it == null) return
-        when (it) {
+    override fun onChanged(value: Any?) {
+        if (value == null) return
+        when (value) {
             Codes.CART_CLICKED -> {
                 findNavController().navigate(R.id.store_to_cart)
             }
+
             is StoreProductItem -> {
-                storeProductItem = it
-                when (it.type) {
+                storeProductItem = value
+                when (value.type) {
                     "simple" -> {
+                        println("StoreDetailsFragment == simple")
                         val bundle = Bundle()
-                        bundle.putSerializable(Params.STORE_PRODUCT_ITEM, it)
+                        bundle.putParcelable(Params.STORE_PRODUCT_ITEM, value)
                         Utils.startDialogActivity(
                             requireActivity(),
                             DialogOrderAddonsFragment::class.java.name,
@@ -292,9 +418,12 @@ class StoreDetailsFragment : BaseHomeFragment(), Observer<Any?>,
                             bundle
                         )
                     }
+
                     "variable" -> {
+                        println("StoreDetailsFragment == variable")
                         val intent = Intent(requireActivity(), OrderAddonsActivity::class.java)
-                        intent.putExtra(Params.STORE_PRODUCT_ITEM, it)
+                        intent.putExtra(Params.STORE_PRODUCT_ITEM, value)
+                        intent.putExtra(Params.DIALOG_CLICK_ACTION, 0)
                         startActivityForResult(intent, Codes.SELECT_ORDER_ADDONS_ACTIVITY)
                     }
                 }
@@ -320,11 +449,12 @@ class StoreDetailsFragment : BaseHomeFragment(), Observer<Any?>,
                      }
                  }*/
             }
+
             is StoreCategoryItem -> {
-                it.let {
+                value.let {
                     it.id?.let { it1 ->
                         viewModel.getFilteredProducts(it1)
-                        StoreCategoryId = it1
+                        storeCategoryId = it1
                     }
                 }
             }
@@ -334,7 +464,7 @@ class StoreDetailsFragment : BaseHomeFragment(), Observer<Any?>,
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (requestCode) {
             /* When User back from Addons page */
-            Codes.SELECT_ORDER_ADDONS_ACTIVITY, Codes.SELECT_ORDER_ADDONS_DIALOG -> {
+            Codes.SELECT_ORDER_ADDONS_ACTIVITY, Codes.SELECT_ORDER_ADDONS_DIALOG -> { // Codes.SELECT_ORDER_ADDONS_ACTIVITY,
                 when {
                     data != null -> {
                         when {
@@ -342,26 +472,33 @@ class StoreDetailsFragment : BaseHomeFragment(), Observer<Any?>,
                                 when {
                                     data.getIntExtra(Params.DIALOG_CLICK_ACTION, 1) == 1 -> {
                                         val cartParcelableItem =
-                                            data.getSerializableExtra(Params.STORE_PRODUCT_ITEM) as CartParcelableClass
+                                            data.getParcelableExtra<CartParcelableClass>(Params.STORE_PRODUCT_ITEM) as CartParcelableClass
                                         val cartItem = cartParcelableItem.cartItem
                                         val storeProductItem = cartParcelableItem.storeProductItem
-                                        when (viewModel.cartStore!!.storeId) {
+
+                                        println("cartStore!!.storeId ${viewModel.cartStore!!.storeId}")
+                                        println("storeProductItem?.storeId ${storeProductItem?.storeId}")
+                                        println("PrefMethods.storeId ${PrefMethods.getUserCart()?.cartStoreData?.storeId}")
+
+                                        when (PrefMethods.getUserCart()?.cartStoreData?.storeId) {
                                             null -> {
                                                 // Cart is empty .. This is the first product added to cart
                                                 when {
                                                     cartItem != null -> {
                                                         viewModel.addProductToCart(cartItem)
                                                         storeProductItem?.let {
-                                                            viewModel.productsAdapter.notifyItemSelected(
-                                                                it)
+                                                            viewModel.productsAdapter
+                                                                .notifyItemSelected(it)
                                                         }
                                                     }
                                                 }
                                             }
+
                                             else -> {
                                                 when {
                                                     // Cart is Not empty But the saved products NOT has the same store Id >> Clear the cart before adding new products
-                                                    viewModel.cartStore!!.storeId != storeProductItem!!.storeId -> {
+                                                    viewModel.cartStore!!.storeId != storeProductItem!!.storeId ||
+                                                            PrefMethods.getUserCart()?.cartStoreData?.storeId != storeProductItem.storeId -> {
                                                         val bundle = Bundle()
                                                         bundle.putString(
                                                             Params.DIALOG_CONFIRM_MESSAGE,
@@ -378,7 +515,7 @@ class StoreDetailsFragment : BaseHomeFragment(), Observer<Any?>,
                                                             MyApp.getInstance()
                                                                 .getString(R.string.ignore)
                                                         )
-                                                        bundle.putSerializable(
+                                                        bundle.putParcelable(
                                                             Params.DIALOG_STORE_ITEM,
                                                             cartParcelableItem
                                                         )
@@ -389,6 +526,7 @@ class StoreDetailsFragment : BaseHomeFragment(), Observer<Any?>,
                                                             bundle
                                                         )
                                                     }
+
                                                     else -> {
                                                         // Cart is Not empty and the all products has the sam Id
                                                         if (cartItem != null) {
@@ -401,6 +539,52 @@ class StoreDetailsFragment : BaseHomeFragment(), Observer<Any?>,
                                                 }
                                             }
                                         }
+
+                                        // Cart is empty .. This is the first product added to cart
+                                        /*if (cartItem == null) { //&& viewModel.cartStore!!.storeId == storeProductItem?.storeId
+                                            viewModel.addProductToCart(cartItem)
+                                            storeProductItem?.let {
+                                                viewModel.productsAdapter
+                                                    .notifyItemSelected(it)
+                                            }
+                                        }
+                                        // Cart is Not empty But the saved products NOT has the same store Id >> Clear the cart before adding new products
+                                        else if (viewModel.cartStore!!.storeId != storeProductItem!!.storeId) {
+                                            val bundle = Bundle()
+                                            bundle.putString(
+                                                Params.DIALOG_CONFIRM_MESSAGE,
+                                                MyApp.getInstance()
+                                                    .getString(R.string.add_item_to_cart)
+                                            )
+                                            bundle.putString(
+                                                Params.DIALOG_CONFIRM_POSITIVE,
+                                                MyApp.getInstance()
+                                                    .getString(R.string.confirm)
+                                            )
+                                            bundle.putString(
+                                                Params.DIALOG_CONFIRM_NEGATIVE,
+                                                MyApp.getInstance()
+                                                    .getString(R.string.ignore)
+                                            )
+                                            bundle.putParcelable(
+                                                Params.DIALOG_STORE_ITEM,
+                                                cartParcelableItem
+                                            )
+                                            Utils.startDialogActivity(
+                                                requireActivity(),
+                                                DialogConfirmFragment::class.java.name,
+                                                Codes.DIALOG_CONFIRM_REQUEST,
+                                                bundle
+                                            )
+                                        } else {
+                                            // Cart is Not empty and the all products has the sam Id
+                                            if (cartItem != null) {
+                                                viewModel.addProductToCart(cartItem)
+                                                viewModel.productsAdapter.notifyItemSelected(
+                                                    storeProductItem
+                                                )
+                                            }
+                                        }*/
                                     }
 
                                     data.getIntExtra(Params.DIALOG_CLICK_ACTION, 1) == 0 -> {
@@ -423,11 +607,11 @@ class StoreDetailsFragment : BaseHomeFragment(), Observer<Any?>,
                                     data.getIntExtra(Params.DIALOG_CLICK_ACTION, 1) == 1 -> {
                                         when {
                                             data.hasExtra(Params.DIALOG_STORE_ITEM) -> {
-                                                val cartParcelableItem =
-                                                    data.getSerializableExtra(Params.DIALOG_STORE_ITEM) as CartParcelableClass
-                                                val cartItem = cartParcelableItem.cartItem
+                                                val cartParcelableItem: CartParcelableClass? =
+                                                    data.getParcelableExtra(Params.DIALOG_STORE_ITEM)
+                                                val cartItem = cartParcelableItem?.cartItem
                                                 val storeProductItem =
-                                                    cartParcelableItem.storeProductItem
+                                                    cartParcelableItem?.storeProductItem
                                                 if (storeProductItem != null) {
                                                     viewModel.productsAdapter.notifyItemSelected(
                                                         storeProductItem
@@ -470,10 +654,10 @@ class StoreDetailsFragment : BaseHomeFragment(), Observer<Any?>,
     override fun onResume() {
         super.onResume()
 
-        if (PrefMethods.getUserCart() != null) {
+        if (PrefMethods.getUserCart() != null && PrefMethods.getUserCart()?.cartStoreData?.storeId == storeArgs.storeId) {
             viewModel.userCart = UserCart()
             viewModel.cartStore = CartStoreData()
-            viewModel.cartItemsList = ArrayList<CartItem>()
+            viewModel.cartItemsList = ArrayList()
 
             viewModel.userCart = PrefMethods.getUserCart()!!
             viewModel.cartStore = viewModel.userCart!!.cartStoreData!!
@@ -490,43 +674,42 @@ class StoreDetailsFragment : BaseHomeFragment(), Observer<Any?>,
         } else {
             viewModel.userCart = UserCart()
             viewModel.cartStore = CartStoreData()
-            viewModel.cartItemsList = ArrayList<CartItem>()
+            viewModel.cartItemsList = ArrayList()
             viewModel.obsIsVisible.set(false)
         }
 
         viewModel.productsAdapter.updateList(viewModel.productsList)
+
         if (viewModel.storeCategoriesList.isNotEmpty()) {
-            if (StoreCategoryId == 0) {
+            if (storeCategoryId == 0) {
                 viewModel.getFilteredProducts(viewModel.storeCategoriesList[0].id!!)
             } else {
-                viewModel.getFilteredProducts(StoreCategoryId)
+                viewModel.getFilteredProducts(storeCategoryId)
             }
         }
 
-
-//        PrefMethods.getUserData()?.let {
-//            when {
-//                PrefMethods.getIsAskedToLogin() -> {
-//                    PrefMethods.saveIsAskedToLogin(false)
-//                    storeProductItem.let {
-//                        when(storeProductItem!!.type) {
-//                            "simple" -> {
-//                                val bundle = Bundle()
-//                                bundle.putSerializable(Params.STORE_PRODUCT_ITEM, storeProductItem)
-//                                Utils.startDialogActivity(requireActivity(), DialogOrderAddonsFragment::class.java.name, Codes.SELECT_ORDER_ADDONS_DIALOG, bundle)
-//                            }
-//                            "variable" -> {
-//                                val intent = Intent(requireActivity(), OrderAddonsActivity::class.java)
-//                                intent.putExtra(Params.STORE_PRODUCT_ITEM, storeProductItem)
-//                                startActivityForResult(intent, Codes.SELECT_ORDER_ADDONS_ACTIVITY)
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        }
+        /*PrefMethods.getUserData()?.let {
+            when {
+                PrefMethods.getIsAskedToLogin() -> {
+                    PrefMethods.saveIsAskedToLogin(false)
+                    storeProductItem.let {
+                        when(storeProductItem!!.type) {
+                            "simple" -> {
+                                val bundle = Bundle()
+                                bundle.putSerializable(Params.STORE_PRODUCT_ITEM, storeProductItem)
+                                Utils.startDialogActivity(requireActivity(), DialogOrderAddonsFragment::class.java.name, Codes.SELECT_ORDER_ADDONS_DIALOG, bundle)
+                            }
+                            "variable" -> {
+                                val intent = Intent(requireActivity(), OrderAddonsActivity::class.java)
+                                intent.putExtra(Params.STORE_PRODUCT_ITEM, storeProductItem)
+                                startActivityForResult(intent, Codes.SELECT_ORDER_ADDONS_ACTIVITY)
+                            }
+                        }
+                    }
+                }
+            }
+        }*/
     }
-
 
     private fun setupSlider(covers: List<CoversItem?>?) {
         viewModel.bannersAdapter.updateList(covers as List<CoversItem>)
@@ -542,32 +725,110 @@ class StoreDetailsFragment : BaseHomeFragment(), Observer<Any?>,
         sliderView.startAutoCycle()
     }
 
+    override fun onBannerClicked(position: Int, coversItem: List<CoversItem>) {
+        val coversUrlList: ArrayList<String> = ArrayList()
+        coversItem.forEach {
+            coversUrlList.add(it.url ?: "")
+        }
+        val bundle = Bundle()
+        bundle.putStringArrayList("COVERS_URL_LIST", coversUrlList)
+        findNavController().navigate(R.id.imagesPreviewFragment, bundle)
+    }
+
     override fun onStoryClicked(position: Int, stories: MutableList<ArrayList<StoriesItem>>) {
-        var storyv: StoryView = StoryView(position, stories)
-        storyv.setStoryViewListener(this)
-        storyv.show(childFragmentManager, "story")
+        val storyV = StoryView(position, stories)
+        storyV.setStoryViewListener(this)
+        storyV.show(childFragmentManager, "story")
     }
 
     override fun onDoneClicked(num: Int, storiesItem: StoriesItem) {
-        if (num == 1) {
-            view?.post {
-                val action =
-                    StoreDetailsFragmentDirections.storeDetailsToAddedStories(
-                        storiesItem.storeId!!,
-                        storiesItem
-                    )
-                findNavController().navigate(action)
+        when (num) {
+            1 -> {
+                view?.post {
+                    val action =
+                        StoreDetailsFragmentDirections.storeDetailsToAddedStories(
+                            storiesItem.storeId!!,
+                            storiesItem
+                        )
+                    findNavController().navigate(action)
+                }
             }
-        } else if (num == 2) {
-            view?.post {
-                val action =
-                    StoreDetailsFragmentDirections.storeToSelf(storiesItem.storeId!!)
-                findNavController().navigate(action)
+
+            2 -> {
+                view?.post {
+                    val action =
+                        StoreDetailsFragmentDirections.storeToSelf(storiesItem.storeId!!)
+                    findNavController().navigate(action)
+                }
             }
-        } else {
-            view?.post {
-                findNavController().navigateUp()
+
+            else -> {
+                view?.post {
+                    findNavController().navigateUp()
+                }
             }
         }
     }
 }
+
+/*
+// when (viewModel.cartStore!!.storeId) {
+                                        when (viewModel.cartStore!!.storeId == storeProductItem?.storeId) {
+                                             true -> { // null
+                                                // Cart is empty .. This is the first product added to cart
+                                                when {
+                                                    cartItem != null -> {
+                                                        viewModel.addProductToCart(cartItem)
+                                                        storeProductItem?.let {
+                                                            viewModel.productsAdapter
+                                                                .notifyItemSelected(it)
+                                                        }
+                                                    }
+                                                }
+                                            }
+
+                                            else -> {
+                                                when {
+                                                    // Cart is Not empty But the saved products NOT has the same store Id >> Clear the cart before adding new products
+                                                    viewModel.cartStore!!.storeId != storeProductItem!!.storeId -> {
+                                                        val bundle = Bundle()
+                                                        bundle.putString(
+                                                            Params.DIALOG_CONFIRM_MESSAGE,
+                                                            MyApp.getInstance()
+                                                                .getString(R.string.add_item_to_cart)
+                                                        )
+                                                        bundle.putString(
+                                                            Params.DIALOG_CONFIRM_POSITIVE,
+                                                            MyApp.getInstance()
+                                                                .getString(R.string.confirm)
+                                                        )
+                                                        bundle.putString(
+                                                            Params.DIALOG_CONFIRM_NEGATIVE,
+                                                            MyApp.getInstance()
+                                                                .getString(R.string.ignore)
+                                                        )
+                                                        bundle.putParcelable(
+                                                            Params.DIALOG_STORE_ITEM,
+                                                            cartParcelableItem
+                                                        )
+                                                        Utils.startDialogActivity(
+                                                            requireActivity(),
+                                                            DialogConfirmFragment::class.java.name,
+                                                            Codes.DIALOG_CONFIRM_REQUEST,
+                                                            bundle
+                                                        )
+                                                    }
+
+                                                    else -> {
+                                                        // Cart is Not empty and the all products has the sam Id
+                                                        if (cartItem != null) {
+                                                            viewModel.addProductToCart(cartItem)
+                                                            viewModel.productsAdapter.notifyItemSelected(
+                                                                storeProductItem
+                                                            )
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+ */

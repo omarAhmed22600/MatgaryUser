@@ -2,52 +2,68 @@ package com.brandsin.user.ui.main.order.storedetails.addons.skus.activity
 
 import androidx.databinding.ObservableDouble
 import androidx.databinding.ObservableField
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.brandsin.user.database.BaseViewModel
+import com.brandsin.user.model.FavoriteResponse
 import com.brandsin.user.model.constants.Codes
 import com.brandsin.user.model.order.SearchProdactAttr.SearchProductAttResponse
 import com.brandsin.user.model.order.SearchProdactAttr.Sku
+import com.brandsin.user.model.order.SearchProdactAttr.StoreItemColors
+import com.brandsin.user.model.order.cart.CartItem
+import com.brandsin.user.model.order.cart.CartStoreData
+import com.brandsin.user.model.order.cart.UserCart
 import com.brandsin.user.model.order.productdetails.ProductDetailsResponse
+import com.brandsin.user.model.order.storedetails.ImagesIdsItem
 import com.brandsin.user.model.order.storedetails.StoreAddonsItem
+import com.brandsin.user.model.order.storedetails.StoreDetailsData
 import com.brandsin.user.model.order.storedetails.StoreProductItem
-import com.brandsin.user.model.order.storedetails.StoreSkusItem
 import com.brandsin.user.network.ApiResponse
+import com.brandsin.user.network.ResponseHandler
+import com.brandsin.user.network.RetrofitBuilder
 import com.brandsin.user.network.requestCall
+import com.brandsin.user.network.toSingleEvent
 import com.brandsin.user.ui.main.order.storedetails.addons.addons.OrderAddonsAdapter
-import com.brandsin.user.ui.main.order.storedetails.addons.skus.activity.banners.BannersAdapter
+import com.brandsin.user.ui.main.order.storedetails.addons.skus.activity.banners.BannersAddonsAdapter
 import com.brandsin.user.ui.main.order.storedetails.addons.skus.adapter.OrderSkusAdapter
 import com.brandsin.user.utils.PrefMethods
-
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class OrderAddonsViewModel : BaseViewModel() {
 
     var productItem = StoreProductItem()
 
-   // var skuAdapter = OrderSkusAdapter()
+    // var skuAdapter = OrderSkusAdapter()
     var addonsAdapter = OrderAddonsAdapter()
-    var search_product_attr=Sku()
+    var skuParentAdapter = OrderSkusAdapter()
+
+    var searchProductAttr = Sku()
 
     var skuPrice: Double = 0.0  // selected sku price
     var addonsPrice: Double = 0.0  // addons price
     var itemPrice: Double = 0.0 // sku + addons
-    val obsItemPrice = ObservableDouble(0.0) // sku * quantoty
+    val obsItemPrice = ObservableDouble(0.0) // sku * quantity
     val obsTotalPrice = ObservableDouble(0.0) // item price * count
     val obsCount = ObservableField(1)
-    var selectedSkuCode : String = ""
-    var selectedSkuName : String = ""
-    var SkuParentAdapter=OrderSkusAdapter()
-
+    var selectedSkuCode: String = ""
+    var selectedSkuName: String = ""
 
     val obsNotes = ObservableField<String>()
 
-    var bannersAdapter = BannersAdapter()
+    lateinit var bannersAddonsAdapter: BannersAddonsAdapter
+
+    fun setBannerAddonsListener(onBannerClickedListener: OrderAddonsActivity) {
+        bannersAddonsAdapter = BannersAddonsAdapter(onBannerClickedListener)
+    }
 
     fun setProductData(item: StoreProductItem) {
         getProductPrice()
         //getProductPrice2()
 
-      //  skuAdapter.updateList(item.skus as ArrayList<StoreSkusItem>)
+        //  skuAdapter.updateList(item.skus as ArrayList<StoreSkusItem>)
         addonsAdapter.updateList(item.addons as ArrayList<StoreAddonsItem>)
 
         //selectedSkuCode = item.skus[0].code!!
@@ -88,6 +104,7 @@ class OrderAddonsViewModel : BaseViewModel() {
             obsItemPrice.set(skuPrice * obsCount.get()!!)
             obsTotalPrice.set(itemPrice * obsCount.get()!!)
         }
+
         else -> {
             skuPrice = productItem.skus!![0]!!.salePrice!!.toDouble()
             itemPrice = (skuPrice + addonsPrice)
@@ -95,15 +112,17 @@ class OrderAddonsViewModel : BaseViewModel() {
             obsTotalPrice.set(itemPrice * obsCount.get()!!)
         }
     }
-    private fun getProductPrice2() = when (search_product_attr.sale_price) {
+
+    private fun getProductPrice2() = when (searchProductAttr.sale_price) {
         null -> {
-            skuPrice = search_product_attr.regular_price!!.toDouble()
+            skuPrice = searchProductAttr.regular_price!!.toDouble()
             itemPrice = (skuPrice + addonsPrice)
             obsItemPrice.set(skuPrice * obsCount.get()!!)
             obsTotalPrice.set(itemPrice * obsCount.get()!!)
         }
+
         else -> {
-            skuPrice = search_product_attr.regular_price!!.toDouble()
+            skuPrice = searchProductAttr.regular_price?.toDouble() ?: 0.0
             itemPrice = (skuPrice + addonsPrice)
             obsItemPrice.set(skuPrice * obsCount.get()!!)
             obsTotalPrice.set(itemPrice * obsCount.get()!!)
@@ -120,11 +139,10 @@ class OrderAddonsViewModel : BaseViewModel() {
 
     fun getProductDetails(productId: Int) {
         obsIsLoading.set(true)
-
         requestCall<ProductDetailsResponse?>({
             withContext(Dispatchers.IO) {
                 return@withContext getApiRepo()
-                    .getProductDetails(productId, PrefMethods.getLanguage())
+                    .getProductDetails(productId, PrefMethods.getUserData()!!.id!!, PrefMethods.getLanguage())
             }
         })
         { res ->
@@ -136,55 +154,85 @@ class OrderAddonsViewModel : BaseViewModel() {
                     productItem = res.data!!
 
                     notifyChange()
+
                     apiResponseLiveData.value = ApiResponse.success(res)
                 }
-                else->{}
+
+                else -> {
+                    obsIsLoading.set(false)
+                }
             }
         }
     }
 
-
-    fun getSearchProductAtrr(ProductId :Int){
+    fun getSearchProductAttr(productId: Int) {
         requestCall<SearchProductAttResponse?>({
             withContext(Dispatchers.IO) {
-                return@withContext getApiRepo().getSearch_product_attr(ProductId,
+                return@withContext getApiRepo().getSearch_product_attr(
+                    productId,
                     1,
                 )
             }
         })
         { res ->
-            when  {
+            when {
                 res!!.attributes.isNotEmpty() -> {
-                    SkuParentAdapter.updateList(res.attributes)
-                }else->{
+                    skuParentAdapter.updateList(res.attributes)
+                }
 
-            }
+                else -> {
+                    obsIsLoading.set(false)
+                }
             }
         }
     }
 
-
-    fun getSearchProductAtrrSelected(ProductId :Int,skuId:String,attr:String,value:String){
+    fun getSearchProductAttrSelected(productId: Int, skuId: String, attr: String, value: String) {
         obsIsLoading.set(true)
         requestCall<SearchProductAttResponse?>({
             withContext(Dispatchers.IO) {
-                return@withContext getApiRepo().getSearch_product_attrSelected(ProductId,
-                    1,skuId,attr,value
+                return@withContext getApiRepo().getSearch_product_attrSelected(
+                    productId,
+                    1, skuId, attr, value
                 )
             }
         })
         { res ->
-            when  {
-                res!!.attributes.isNotEmpty() -> {
+            when {
+                res?.attributes?.isNotEmpty() == true -> {
                     obsIsLoading.set(false)
-                    SkuParentAdapter.updateList(res.attributes)
-                    search_product_attr=res.sku
+                    skuParentAdapter.updateList(res.attributes)
+                    searchProductAttr = res.sku
                     getProductPrice2()
-                }else->{
+                }
 
-            }
+                else -> {
+                    obsIsLoading.set(false)
+                }
             }
         }
     }
 
+    val apiInterface = RetrofitBuilder.API_SERVICE
+
+    private val _addAndRemoveFavoriteResponse: MutableLiveData<ResponseHandler<FavoriteResponse?>> =
+        MutableLiveData()
+    val addAndRemoveFavoriteResponse: LiveData<ResponseHandler<FavoriteResponse?>> =
+        _addAndRemoveFavoriteResponse.toSingleEvent()
+
+    fun addAndRemoveFavorite() {
+        viewModelScope.launch {
+            safeApiCall {
+                // Make your API call here using Retrofit service or similar
+                apiInterface.addAndRemoveFavorite(
+                    PrefMethods.getUserData()!!.id!!,
+                    "product",
+                    productItem.id.toString(),
+                    PrefMethods.getLanguage(),
+                )
+            }.collect {
+                _addAndRemoveFavoriteResponse.value = it
+            }
+        }
+    }
 }

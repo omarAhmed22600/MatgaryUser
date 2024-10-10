@@ -16,13 +16,12 @@ import com.brandsin.user.utils.PrefMethods
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class AddAddressViewModel : BaseViewModel()
-{
+class AddAddressViewModel : BaseViewModel() {
     var addAddressRequest = AddAddressRequest()
     var newAddressResponse = NewAddressResponse()
     var isMapReady = MutableLiveData<Boolean>()
-    var typesList  = mutableListOf<AddressTypeItem>()
-    var typesSpinnerLst  = mutableListOf<String>()
+    var typesList = mutableListOf<AddressTypeItem>()
+    var typesSpinnerLst = mutableListOf<String>()
 
     fun onAddAddressClicked() {
         setClickable()
@@ -30,25 +29,34 @@ class AddAddressViewModel : BaseViewModel()
             addAddressRequest.firstName == null -> {
                 setValue(Codes.EMPTY_FIRST_NAME)
             }
+
             addAddressRequest.lastName == null -> {
                 setValue(Codes.EMPTY_LAST_NAME)
             }
+
             addAddressRequest.type == null -> {
                 setValue(Codes.EMPTY_TYPE)
             }
+
             addAddressRequest.streetName == null -> {
                 setValue(Codes.EMPTY_streetName)
             }
+
+            /*addAddressRequest.addressName == null -> {
+                setValue(Codes.EMPTY_addressName)
+            }*/
+
             addAddressRequest.phoneNumber == null -> {
                 setValue(Codes.EMPTY_PHONE)
             }
+
             addAddressRequest.phoneNumber!!.length < 10 -> {
                 setValue(Codes.INVALID_PHONE)
             }
+
             else -> {
                 typesList.forEach {
-                    if (it.label == addAddressRequest.type)
-                    {
+                    if (it.label == addAddressRequest.type) {
                         addAddressRequest.type = it.value
                     }
                 }
@@ -84,13 +92,13 @@ class AddAddressViewModel : BaseViewModel()
                         }
                     }
                 }
+
                 else -> {}
             }
         }
     }
 
-    private fun addAddressToApi()
-    {
+    private fun addAddressToApi() {
         collectAddressRequest()
 
         obsIsVisible.set(true)
@@ -105,6 +113,7 @@ class AddAddressViewModel : BaseViewModel()
                     newAddressResponse = res.newAddressResponse!!
                     setDefaultAddress(newAddressResponse.id!!)
                 }
+
                 else -> {
                     apiResponseLiveData.value = ApiResponse.errorMessage(res.message.toString())
                 }
@@ -122,12 +131,15 @@ class AddAddressViewModel : BaseViewModel()
         }
     }
 
-    fun setDefaultAddress(addressId : Int)
-    {
+    private fun setDefaultAddress(addressId: Int) {
         obsIsVisible.set(true)
         requestCall<SetDefaultAddressResponse?>({
             withContext(Dispatchers.IO) {
-                return@withContext getApiRepo().setDefaultAddress(PrefMethods.getUserData()!!.id!! , addressId, PrefMethods.getLanguage())
+                return@withContext getApiRepo().setDefaultAddress(
+                    PrefMethods.getUserData()!!.id!!,
+                    addressId,
+                    PrefMethods.getLanguage()
+                )
             }
         })
         { res ->
@@ -135,6 +147,7 @@ class AddAddressViewModel : BaseViewModel()
                 true -> {
                     getDefaultAddressFromApi()
                 }
+
                 else -> {
                     obsIsVisible.set(false)
                     apiResponseLiveData.value = ApiResponse.errorMessage(res.message.toString())
@@ -144,18 +157,23 @@ class AddAddressViewModel : BaseViewModel()
     }
 
     private fun getDefaultAddressFromApi() {
-
-        requestCall<GetDefaultAddressResponse?>({ withContext(Dispatchers.IO) {
-            return@withContext getApiRepo().getDefaultAddress(PrefMethods.getUserData()!!.id!! , PrefMethods.getLanguage())
-        } })
+        requestCall<GetDefaultAddressResponse?>({
+            withContext(Dispatchers.IO) {
+                return@withContext getApiRepo().getDefaultAddress(
+                    PrefMethods.getUserData()!!.id!!,
+                    PrefMethods.getLanguage()
+                )
+            }
+        })
         { res ->
             obsIsVisible.set(false)
             when (res!!.isSuccess) {
                 true -> {
                     obsIsVisible.set(false)
                     setValue(Codes.ADDRESS_SAVED)
-                   // apiResponseLiveData.value = ApiResponse.success(res.defaultAddressItem!![0])
+                    // apiResponseLiveData.value = ApiResponse.success(res.defaultAddressItem!![0])
                 }
+
                 else -> {}
             }
         }

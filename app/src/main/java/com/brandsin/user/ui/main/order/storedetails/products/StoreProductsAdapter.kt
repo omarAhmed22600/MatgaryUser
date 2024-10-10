@@ -8,17 +8,17 @@ import com.brandsin.user.R
 import com.brandsin.user.databinding.RawStoreProductBinding
 import com.brandsin.user.model.order.storedetails.StoreProductItem
 import com.brandsin.user.utils.SingleLiveEvent
-import kotlin.collections.ArrayList
 
-class StoreProductsAdapter : RecyclerView.Adapter<StoreProductsAdapter.MealsHolder>()
-{
-    var productsList: ArrayList<StoreProductItem> = ArrayList()
+class StoreProductsAdapter : RecyclerView.Adapter<StoreProductsAdapter.MealsHolder>() {
+
+    private var productsList: ArrayList<StoreProductItem> = ArrayList()
     var productLiveData = SingleLiveEvent<StoreProductItem>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MealsHolder {
         val context = parent.context
         val layoutInflater = LayoutInflater.from(context)
-        val binding: RawStoreProductBinding = DataBindingUtil.inflate(layoutInflater, R.layout.raw_store_product, parent, false)
+        val binding: RawStoreProductBinding =
+            DataBindingUtil.inflate(layoutInflater, R.layout.raw_store_product, parent, false)
         return MealsHolder(binding)
     }
 
@@ -27,7 +27,7 @@ class StoreProductsAdapter : RecyclerView.Adapter<StoreProductsAdapter.MealsHold
         holder.binding.viewModel = itemViewModel
 
         holder.setSelected(position)
-        holder.binding.root.setOnClickListener{
+        holder.binding.root.setOnClickListener {
             productLiveData.value = itemViewModel.item
         }
     }
@@ -41,12 +41,11 @@ class StoreProductsAdapter : RecyclerView.Adapter<StoreProductsAdapter.MealsHold
         notifyDataSetChanged()
     }
 
-    fun notifyItemSelected(item : StoreProductItem)
-    {
+    fun notifyItemSelected(item: StoreProductItem) {
         productsList.forEach {
             when (it.id) {
                 item.id -> {
-                    val itemSelected : StoreProductItem = productsList[productsList.indexOf(it)]
+                    val itemSelected: StoreProductItem = productsList[productsList.indexOf(it)]
                     itemSelected.isSelected = true
                     notifyItemChanged(productsList.indexOf(it))
                 }
@@ -54,10 +53,9 @@ class StoreProductsAdapter : RecyclerView.Adapter<StoreProductsAdapter.MealsHold
         }
     }
 
-    inner class MealsHolder(val binding: RawStoreProductBinding) : RecyclerView.ViewHolder(binding.root)
-    {
-        fun setSelected(position: Int)
-        {
+    inner class MealsHolder(val binding: RawStoreProductBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun setSelected(position: Int) {
 //            when (productsList[position].isSelected) {
 //                true -> {
 //                    binding.btnAdd.setBackgroundResource(R.drawable.btn_add_selected)
@@ -69,7 +67,7 @@ class StoreProductsAdapter : RecyclerView.Adapter<StoreProductsAdapter.MealsHold
 //                    binding.btnAdd.setTextColor(ContextCompat.getColor(MyApp.context, R.color.black))
 //                    binding.btnAdd.text = MyApp.context.getString(R.string.add)
 //                }
-           // }
+            // }
         }
     }
 }

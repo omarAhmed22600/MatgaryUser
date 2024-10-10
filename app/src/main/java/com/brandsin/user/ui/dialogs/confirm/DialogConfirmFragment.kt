@@ -12,29 +12,33 @@ import com.brandsin.user.model.constants.Params
 import com.brandsin.user.model.location.addresslist.AddressListItem
 import com.brandsin.user.model.order.cart.CartParcelableClass
 
-class DialogConfirmFragment  : DialogFragment()
-{
-    lateinit  var  binding: DialogConfirmBinding
-    var message : String = ""
-    var positiveBtn : String = ""
-    var negativeBtn : String = ""
-    var cartParcelableClass = CartParcelableClass()
-    var hasCartItem : Boolean = false
+class DialogConfirmFragment : DialogFragment() {
+
+    private lateinit var binding: DialogConfirmBinding
+
+    var message: String = ""
+    private var positiveBtn: String = ""
+    private var negativeBtn: String = ""
+
+    private var cartParcelableClass = CartParcelableClass()
+
+    private var hasCartItem: Boolean = false
+
     private var addressItem = AddressListItem()
 
-    override fun onCreate(savedInstanceState: Bundle?)
-    {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (arguments != null)
-        {
-            if (requireArguments().containsKey(Params.DIALOG_CONFIRM_MESSAGE))
-            {
+
+        // get argument
+        // if (arguments != null) {
+            if (requireArguments().containsKey(Params.DIALOG_CONFIRM_MESSAGE)) {
                 message = requireArguments().getString(Params.DIALOG_CONFIRM_MESSAGE, null)
                 positiveBtn = requireArguments().getString(Params.DIALOG_CONFIRM_POSITIVE, null)
                 negativeBtn = requireArguments().getString(Params.DIALOG_CONFIRM_NEGATIVE, null)
                 when {
                     requireArguments().containsKey(Params.DIALOG_STORE_ITEM) -> {
-                        cartParcelableClass = (requireArguments().getSerializable(Params.DIALOG_STORE_ITEM) as CartParcelableClass?)!!
+                        cartParcelableClass =
+                            (requireArguments().getParcelable(Params.DIALOG_STORE_ITEM) as CartParcelableClass?)!!
                         hasCartItem = true
                     }
                 }
@@ -44,17 +48,25 @@ class DialogConfirmFragment  : DialogFragment()
                     }
                 }
             }
-        }
+        // }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
-    {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         binding = DialogConfirmBinding.inflate(inflater, container, false)
 
         binding.tvMessage.text = message
         binding.btnConfirm.text = positiveBtn
         binding.btnIgnore.text = negativeBtn
 
+        setBtnListener()
+        return binding.root
+    }
+
+    private fun setBtnListener() {
         binding.btnIgnore.setOnClickListener {
             val intent = Intent()
             intent.putExtra(Params.DIALOG_CLICK_ACTION, 0)
@@ -85,6 +97,5 @@ class DialogConfirmFragment  : DialogFragment()
             requireActivity().setResult(Codes.DIALOG_CONFIRM_REQUEST, intent)
             requireActivity().finish()
         }
-        return binding.root
     }
 }

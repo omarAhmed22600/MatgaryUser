@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
@@ -8,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.brandsin.user.ui.main.order.storedetails.information.StoreInformationsViewModel" />
+            type="com.brandsin.user.ui.main.order.storedetails.information.StoreInformationViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,7 +23,6 @@
             android:background="#FAFAFA"
             app:layout_constraintTop_toTopOf="parent">
 
-
             <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -38,7 +36,6 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
-
 
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/materialCardView"
@@ -58,14 +55,14 @@
                             android:layout_width="@dimen/_56sdp"
                             android:layout_height="@dimen/_56sdp"
                             android:scaleType="fitXY"
-                            android:src="@drawable/french_fries"
+                            android:src="@drawable/app_logo"
                             tools:ignore="ContentDescription"
                             tools:src="@tools:sample/backgrounds/scenic" />
                     </com.google.android.material.card.MaterialCardView>
 
 
                     <TextView
-                        android:id="@+id/textView20"
+                        android:id="@+id/storeName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_10sdp"
@@ -76,7 +73,7 @@
                         app:layout_constraintBottom_toBottomOf="@+id/materialCardView"
                         app:layout_constraintStart_toEndOf="@+id/materialCardView"
                         app:layout_constraintTop_toTopOf="@+id/materialCardView"
-                        tools:text="كنتاكي" />
+                        tools:text="ِALMA" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -98,13 +95,13 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="15dp"
                                 android:layout_marginBottom="15dp"
-                                android:drawableStart="@drawable/ic_smile"
-                                android:drawableTint="@color/color_primary"
                                 android:drawablePadding="10dp"
                                 android:fontFamily="@font/cairo_semibold"
                                 android:text="@string/rating"
                                 android:textColor="#3D3D3D"
                                 android:textSize="@dimen/_12sdp"
+                                app:drawableStartCompat="@drawable/ic_smile"
+                                app:drawableTint="@color/color_primary"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
@@ -146,24 +143,27 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="15dp"
                                 android:layout_marginBottom="15dp"
-                                android:drawableStart="@drawable/ic_area"
-                                android:drawableTint="@color/color_primary"
                                 android:drawablePadding="10dp"
                                 android:fontFamily="@font/cairo_semibold"
-                                android:text="@string/restaurant_area"
+                                android:text="@string/area_of_work"
                                 android:textColor="#3D3D3D"
                                 android:textSize="@dimen/_12sdp"
+                                app:drawableStartCompat="@drawable/ic_area"
+                                app:drawableTint="@color/color_primary"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
 
                             <TextView
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/_20sdp"
                                 android:drawablePadding="10dp"
+                                android:ellipsize="end"
                                 android:fontFamily="@font/cairo_semibold"
-                                android:text='@{(viewModel.storeData.address==null?"":viewModel.storeData.address)+@string/egypt}'
+                                android:maxLines="2"
+                                android:gravity="end"
+                                android:text='@{(viewModel.storeData.address==null?"":viewModel.storeData.address)+@string/saudi_arabia}'
                                 android:textColor="#3D3D3D"
                                 android:textSize="@dimen/_12sdp"
                                 app:layout_constraintBottom_toBottomOf="@+id/textView2"
@@ -171,7 +171,7 @@
                                 app:layout_constraintHorizontal_bias="1.0"
                                 app:layout_constraintStart_toEndOf="@+id/textView2"
                                 app:layout_constraintTop_toTopOf="@+id/textView2"
-                                tools:text="hadayek Elahram-area" />
+                                tools:text="المملكة العربية السعودية المملكة العربية السعودية المملكة العربية السعودية" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -194,13 +194,13 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="15dp"
                                 android:layout_marginBottom="15dp"
-                                android:drawableStart="@drawable/ic_time"
-                                android:drawableTint="@color/color_primary"
                                 android:drawablePadding="10dp"
                                 android:fontFamily="@font/cairo_semibold"
                                 android:text="@string/work_hours"
                                 android:textColor="#3D3D3D"
                                 android:textSize="@dimen/_12sdp"
+                                app:drawableStartCompat="@drawable/ic_time"
+                                app:drawableTint="@color/color_primary"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
@@ -242,25 +242,26 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="15dp"
                                 android:layout_marginBottom="15dp"
-                                android:drawableStart="@drawable/ic_deliv"
-                                android:drawableTint="@color/color_primary"
                                 android:drawablePadding="10dp"
                                 android:fontFamily="@font/cairo_semibold"
                                 android:text="@string/delivery_time"
                                 android:textColor="#3D3D3D"
                                 android:textSize="@dimen/_12sdp"
+                                app:drawableStartCompat="@drawable/ic_deliv"
+                                app:drawableTint="@color/color_primary"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
-                                tools:text="وقت التوصيل" />
+                                tools:text="@string/delivery_time" />
 
+                            <!-- android:text="@{viewModel.storeData.deliveryTime.toString()+' '+@string/minute}"-->
                             <TextView
+                                android:id="@+id/deliveryTime"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/_20sdp"
                                 android:drawablePadding="10dp"
                                 android:fontFamily="@font/cairo_semibold"
-                                android:text="@{viewModel.storeData.deliveryTime.toString()+' '+@string/minute}"
                                 android:textColor="#3D3D3D"
                                 android:textSize="@dimen/_12sdp"
                                 app:layout_constraintBottom_toBottomOf="@+id/textView4"
@@ -268,7 +269,7 @@
                                 app:layout_constraintHorizontal_bias="1.0"
                                 app:layout_constraintStart_toEndOf="@+id/textView4"
                                 app:layout_constraintTop_toTopOf="@+id/textView4"
-                                 />
+                                tools:text="وقت التوصيل" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -278,6 +279,7 @@
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent" />
+
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
                         <androidx.constraintlayout.widget.ConstraintLayout
@@ -291,17 +293,17 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="15dp"
                                 android:layout_marginBottom="15dp"
-                                android:drawableStart="@drawable/ic_wall"
-                                android:drawableTint="@color/color_primary"
                                 android:drawablePadding="10dp"
                                 android:fontFamily="@font/cairo_semibold"
                                 android:text="@string/min_order"
                                 android:textColor="#3D3D3D"
                                 android:textSize="@dimen/_12sdp"
+                                app:drawableStartCompat="@drawable/ic_wall"
+                                app:drawableTint="@color/color_primary"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
-                                tools:text="الحد الأدني" />
+                                tools:text="@string/min_order" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -340,13 +342,13 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="15dp"
                                 android:layout_marginBottom="15dp"
-                                android:drawableStart="@drawable/ic_list"
-                                android:drawableTint="@color/color_primary"
                                 android:drawablePadding="10dp"
                                 android:fontFamily="@font/cairo_semibold"
                                 android:text="@string/delivery_price"
                                 android:textColor="#3D3D3D"
                                 android:textSize="@dimen/_12sdp"
+                                app:drawableStartCompat="@drawable/ic_list"
+                                app:drawableTint="@color/color_primary"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
@@ -389,13 +391,13 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="15dp"
                                 android:layout_marginBottom="15dp"
-                                android:drawableStart="@drawable/ic_info"
-                                android:drawableTint="@color/color_primary"
                                 android:drawablePadding="10dp"
                                 android:fontFamily="@font/cairo_semibold"
                                 android:text="@string/pre_order"
                                 android:textColor="#3D3D3D"
                                 android:textSize="@dimen/_12sdp"
+                                app:drawableStartCompat="@drawable/ic_info"
+                                app:drawableTint="@color/color_primary"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
@@ -407,7 +409,7 @@
                                 android:layout_marginStart="@dimen/_20sdp"
                                 android:drawablePadding="10dp"
                                 android:fontFamily="@font/cairo_semibold"
-                                android:text="@string/yes"
+                                android:text="@string/no"
                                 android:textColor="#3D3D3D"
                                 android:textSize="@dimen/_12sdp"
                                 app:layout_constraintBottom_toBottomOf="@+id/textView7"
@@ -433,18 +435,119 @@
                             android:layout_marginHorizontal="@dimen/_10sdp">
 
                             <TextView
-                                android:id="@+id/textView8"
+                                android:id="@+id/txtCashOnDelivery"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="15dp"
                                 android:layout_marginBottom="15dp"
-                                android:drawableStart="@drawable/ic_mon"
-                                android:drawableTint="@color/color_primary"
+                                android:drawablePadding="10dp"
+                                android:fontFamily="@font/cairo_semibold"
+                                android:text="@string/cash_on_delivery"
+                                android:textColor="#3D3D3D"
+                                android:textSize="@dimen/_12sdp"
+                                app:drawableStartCompat="@drawable/ic_deliv"
+                                app:drawableTint="@color/color_primary"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:text="@string/cash_on_delivery" />
+
+                            <TextView
+                                android:id="@+id/cashOnDelivery"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_20sdp"
+                                android:drawablePadding="10dp"
+                                android:fontFamily="@font/cairo_semibold"
+                                android:text="@string/yes"
+                                android:textColor="#3D3D3D"
+                                android:textSize="@dimen/_12sdp"
+                                app:layout_constraintBottom_toBottomOf="@+id/txtCashOnDelivery"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="1.0"
+                                app:layout_constraintStart_toEndOf="@+id/txtCashOnDelivery"
+                                app:layout_constraintTop_toTopOf="@+id/txtCashOnDelivery"
+                                tools:text="لا" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginStart="30dp"
+                                android:background="#C9C9C9"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/_10sdp">
+
+                            <TextView
+                                android:id="@+id/txtPickUpFromStore"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="15dp"
+                                android:layout_marginBottom="15dp"
+                                android:drawablePadding="10dp"
+                                android:fontFamily="@font/cairo_semibold"
+                                android:text="@string/pick_up_from_store"
+                                android:textColor="#3D3D3D"
+                                android:textSize="@dimen/_12sdp"
+                                app:drawableStartCompat="@drawable/ic_truck"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:text="@string/pick_up_from_store" />
+
+                            <TextView
+                                android:id="@+id/pickUpFromStore"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_20sdp"
+                                android:drawablePadding="10dp"
+                                android:fontFamily="@font/cairo_semibold"
+                                android:text="@string/yes"
+                                android:textColor="#3D3D3D"
+                                android:textSize="@dimen/_12sdp"
+                                app:layout_constraintBottom_toBottomOf="@+id/txtPickUpFromStore"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="1.0"
+                                app:layout_constraintStart_toEndOf="@+id/txtPickUpFromStore"
+                                app:layout_constraintTop_toTopOf="@+id/txtPickUpFromStore"
+                                tools:text="لا" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginStart="30dp"
+                                android:background="#C9C9C9"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/_10sdp">
+
+                            <TextView
+                                android:id="@+id/textView10"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="15dp"
+                                android:layout_marginBottom="15dp"
                                 android:drawablePadding="10dp"
                                 android:fontFamily="@font/cairo_semibold"
                                 android:text="@string/payment_method"
                                 android:textColor="#3D3D3D"
                                 android:textSize="@dimen/_12sdp"
+                                app:drawableStartCompat="@drawable/ic_mon"
+                                app:drawableTint="@color/color_primary"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
@@ -455,39 +558,41 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/_20sdp"
                                 android:gravity="center_vertical"
-                                app:layout_constraintBottom_toBottomOf="@+id/textView8"
+                                app:layout_constraintBottom_toBottomOf="@+id/textView10"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintHorizontal_bias="1.0"
-                                app:layout_constraintStart_toEndOf="@+id/textView8"
-                                app:layout_constraintTop_toTopOf="@+id/textView8">
+                                app:layout_constraintStart_toEndOf="@+id/textView10"
+                                app:layout_constraintTop_toTopOf="@+id/textView10">
 
-                                <ImageView
+                                <androidx.appcompat.widget.AppCompatImageView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:src="@drawable/visa"
-                                    android:visibility="gone"/>
+                                    android:visibility="gone" />
 
-                                <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:visibility="gone"
-                                    android:layout_marginStart="@dimen/_10sdp"
-                                    android:src="@drawable/master_card" />
-
-                                <ImageView
+                                <androidx.appcompat.widget.AppCompatImageView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="@dimen/_10sdp"
-                                    android:visibility="gone"
-                                    android:src="@drawable/ic_pay" />
+                                    android:src="@drawable/master_card"
+                                    android:visibility="gone" />
+
+                                <androidx.appcompat.widget.AppCompatImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/_10sdp"
+                                    android:src="@drawable/ic_pay"
+                                    android:visibility="gone" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/cairo_semibold"
+                                    android:drawablePadding="@dimen/_6sdp"
                                     android:text="@string/cash"
                                     android:textColor="#3D3D3D"
-                                    android:textSize="@dimen/_12sdp" />
+                                    android:textSize="@dimen/_12sdp"
+                                    app:drawableStartCompat="@drawable/ic_visa_card_active" />
                             </LinearLayout>
 
                         </androidx.constraintlayout.widget.ConstraintLayout>

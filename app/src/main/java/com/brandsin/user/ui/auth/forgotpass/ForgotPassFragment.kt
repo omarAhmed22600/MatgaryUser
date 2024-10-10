@@ -20,7 +20,7 @@ class ForgotPassFragment : BaseAuthFragment(), Observer<Any?>
     lateinit var binding : AuthFragmentForgotBinding
     lateinit var viewModel : ForgotPassViewModel
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View
     {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.auth_fragment_forgot, container, false)
@@ -41,10 +41,10 @@ class ForgotPassFragment : BaseAuthFragment(), Observer<Any?>
         viewModel.showProgress().observe(viewLifecycleOwner, { aBoolean ->
             if (!aBoolean!!) {
                 binding.progressLayout.visibility = View.GONE
-                requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
             } else {
                 binding.progressLayout.visibility = View.VISIBLE
-                requireActivity().window.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                requireActivity().window.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
             }
         })
     }

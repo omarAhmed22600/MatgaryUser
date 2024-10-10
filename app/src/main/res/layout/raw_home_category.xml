@@ -68,7 +68,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/cairo_semibold"
-                            android:text="@{viewModel.itemCategory.name}"
+                            android:text="@{viewModel.itemCategory.categoryName}"
                             android:textAlignment="viewStart"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_14ssp"

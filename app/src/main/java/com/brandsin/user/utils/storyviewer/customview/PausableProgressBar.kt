@@ -33,7 +33,7 @@ class PausableProgressBar @JvmOverloads constructor(
 
     fun setDuration(duration: Long) {
         this.duration = duration
-        if (animation != null){
+        if (animation != null) {
             animation = null
             startProgress()
         }
@@ -52,37 +52,37 @@ class PausableProgressBar @JvmOverloads constructor(
     }
 
     fun setMinWithoutCallback() {
-        maxProgressView!!.setBackgroundResource(R.color.progress_secondary)
-        maxProgressView!!.visibility = View.VISIBLE
+        maxProgressView?.setBackgroundResource(R.color.progress_secondary)
+        maxProgressView?.visibility = View.VISIBLE
         if (animation != null) {
-            animation!!.setAnimationListener(null)
-            animation!!.cancel()
+            animation?.setAnimationListener(null)
+            animation?.cancel()
         }
     }
 
     fun setMaxWithoutCallback() {
-        maxProgressView!!.setBackgroundResource(R.color.progress_max_active)
-        maxProgressView!!.visibility = View.VISIBLE
+        maxProgressView?.setBackgroundResource(R.color.progress_max_active)
+        maxProgressView?.visibility = View.VISIBLE
         if (animation != null) {
-            animation!!.setAnimationListener(null)
-            animation!!.cancel()
+            animation?.setAnimationListener(null)
+            animation?.cancel()
         }
     }
 
     private fun finishProgress(isMax: Boolean) {
         if (isMax) maxProgressView!!.setBackgroundResource(R.color.progress_max_active)
-        maxProgressView!!.visibility = if (isMax) View.VISIBLE else View.GONE
+        maxProgressView?.visibility = if (isMax) View.VISIBLE else View.GONE
         if (animation != null) {
-            animation!!.setAnimationListener(null)
-            animation!!.cancel()
+            animation?.setAnimationListener(null)
+            animation?.cancel()
             if (callback != null) {
-                callback!!.onFinishProgress()
+                callback?.onFinishProgress()
             }
         }
     }
 
     fun startProgress() {
-        maxProgressView!!.visibility = View.GONE
+        maxProgressView?.visibility = View.GONE
         if (duration <= 0) duration = DEFAULT_PROGRESS_DURATION
         animation =
             PausableScaleAnimation(
@@ -95,9 +95,9 @@ class PausableProgressBar @JvmOverloads constructor(
                 Animation.RELATIVE_TO_SELF,
                 0f
             )
-        animation!!.duration = duration
-        animation!!.interpolator = LinearInterpolator()
-        animation!!.setAnimationListener(object : AnimationListener {
+        animation?.duration = duration
+        animation?.interpolator = LinearInterpolator()
+        animation?.setAnimationListener(object : AnimationListener {
             override fun onAnimationStart(animation: Animation) {
                 if (isStarted) {
                     return
@@ -110,34 +110,32 @@ class PausableProgressBar @JvmOverloads constructor(
             override fun onAnimationEnd(animation: Animation) {
                 isStarted = false
                 if (callback != null) callback!!.onFinishProgress()
-
-
             }
 
             override fun onAnimationRepeat(animation: Animation) {
                 //NO-OP
             }
         })
-        animation!!.fillAfter = true
-        frontProgressView!!.startAnimation(animation)
+        animation?.fillAfter = true
+        frontProgressView?.startAnimation(animation)
     }
 
     fun pauseProgress() {
         if (animation != null) {
-            animation!!.pause()
+            animation?.pause()
         }
     }
 
     fun resumeProgress() {
         if (animation != null) {
-            animation!!.resume()
+            animation?.resume()
         }
     }
 
     fun clear() {
         if (animation != null) {
-            animation!!.setAnimationListener(null)
-            animation!!.cancel()
+            animation?.setAnimationListener(null)
+            animation?.cancel()
             animation = null
         }
     }

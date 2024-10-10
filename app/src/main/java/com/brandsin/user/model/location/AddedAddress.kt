@@ -8,6 +8,7 @@ data class AddedAddress(
     var lat : String? = null,
     var lng : String? = null,
     var streetName : String? = null,
+    var addressName : String? = null,
     var typeValue : String? = null,
     var typeLabel : String? = null,
     var phoneNumber : String? = null,
@@ -29,6 +30,7 @@ data class AddedAddress(
         parcel.writeString(lat)
         parcel.writeString(lng)
         parcel.writeString(streetName)
+        parcel.writeString(addressName)
         parcel.writeString(typeValue)
         parcel.writeString(typeLabel)
         parcel.writeString(phoneNumber)

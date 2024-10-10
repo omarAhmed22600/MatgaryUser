@@ -1,37 +1,35 @@
-<?xml
-    version="1.0"
-    encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.brandsin.user.ui.menu.about.ItemAboutViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/raw_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/_4sdp"
         android:background="?selectableItemBackground"
-        android:id="@+id/raw_layout">
+        android:padding="@dimen/_4sdp">
 
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_8sdp"
             android:duplicateParentState="false"
             android:fontFamily="@font/cairo_semibold"
             android:padding="@dimen/_8sdp"
-            android:textSize="@dimen/_12ssp"
             android:text="@{viewModel.item.title}"
             android:textAlignment="viewStart"
             android:textColor="@color/black"
-            android:layout_marginStart="@dimen/_8sdp"
+            android:textSize="@dimen/_12ssp"
             app:layout_constraintStart_toEndOf="@+id/img_circle"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="انا بحاجة للمساعدة في طلب حالي" />
@@ -43,10 +41,10 @@
             android:layout_marginEnd="@dimen/_16sdp"
             android:rotation="180"
             android:src="@drawable/ic_circle"
-            android:tint="@color/color_primary"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="@+id/tv_title"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tv_title"
+            app:tint="@color/color_primary"
             tools:ignore="ContentDescription" />
 
         <ImageView
@@ -55,10 +53,10 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/_16sdp"
             android:src="@drawable/ic_expand_arrow"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:tint="@color/color_primary"
             app:layout_constraintBottom_toBottomOf="@+id/tv_title"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tv_title"
+            app:tint="@color/color_primary"
             tools:ignore="ContentDescription" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

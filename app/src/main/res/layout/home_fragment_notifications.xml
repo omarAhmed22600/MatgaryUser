@@ -1,96 +1,93 @@
-<?xml
-    version="1.0"
-    encoding="utf-8"?>
-
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.brandsin.user.ui.menu.notifications.NotificationViewModel" />
     </data>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:layout_width="match_parent"
         android:id="@+id/swipe_layout"
-        android:layout_height="match_parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-<!--            <androidx.cardview.widget.CardView-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="@dimen/_100sdp"-->
-<!--                android:paddingStart="@dimen/_24sdp"-->
-<!--                android:paddingEnd="@dimen/_24sdp"-->
-<!--                android:layout_marginEnd="@dimen/_16sdp"-->
-<!--                android:layout_marginTop="@dimen/_16sdp"-->
-<!--                android:layout_marginStart="@dimen/_16sdp"-->
-<!--                android:id="@+id/img_layout"-->
-<!--                app:cardElevation="0dp"-->
-<!--                android:layoutDirection="rtl"-->
-<!--                app:cardCornerRadius="@dimen/_8sdp"-->
-<!--                android:backgroundTint="@color/color_primary"-->
-<!--                android:src="@drawable/notification_img"-->
-<!--                app:layout_constraintTop_toTopOf="parent"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintEnd_toEndOf="parent">-->
+            <!--            <androidx.cardview.widget.CardView-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="@dimen/_100sdp"-->
+            <!--                android:paddingStart="@dimen/_24sdp"-->
+            <!--                android:paddingEnd="@dimen/_24sdp"-->
+            <!--                android:layout_marginEnd="@dimen/_16sdp"-->
+            <!--                android:layout_marginTop="@dimen/_16sdp"-->
+            <!--                android:layout_marginStart="@dimen/_16sdp"-->
+            <!--                android:id="@+id/img_layout"-->
+            <!--                app:cardElevation="0dp"-->
+            <!--                android:layoutDirection="rtl"-->
+            <!--                app:cardCornerRadius="@dimen/_8sdp"-->
+            <!--                android:backgroundTint="@color/color_primary"-->
+            <!--                android:src="@drawable/notification_img"-->
+            <!--                app:layout_constraintTop_toTopOf="parent"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintEnd_toEndOf="parent">-->
 
-<!--                <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="match_parent">-->
+            <!--                <androidx.constraintlayout.widget.ConstraintLayout-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="match_parent">-->
 
-<!--                    <ImageView-->
-<!--                        android:layout_width="@dimen/_100sdp"-->
-<!--                        android:layout_height="@dimen/_60sdp"-->
-<!--                        android:src="@drawable/hagaty_img"-->
-<!--                        android:layout_marginStart="@dimen/_24sdp"-->
-<!--                        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                        app:layout_constraintStart_toStartOf="parent"-->
-<!--                        app:layout_constraintTop_toTopOf="parent"-->
-<!--                        tools:ignore="ContentDescription" />-->
+            <!--                    <ImageView-->
+            <!--                        android:layout_width="@dimen/_100sdp"-->
+            <!--                        android:layout_height="@dimen/_60sdp"-->
+            <!--                        android:src="@drawable/hagaty_img"-->
+            <!--                        android:layout_marginStart="@dimen/_24sdp"-->
+            <!--                        app:layout_constraintBottom_toBottomOf="parent"-->
+            <!--                        app:layout_constraintStart_toStartOf="parent"-->
+            <!--                        app:layout_constraintTop_toTopOf="parent"-->
+            <!--                        tools:ignore="ContentDescription" />-->
 
-<!--                    <ImageView-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:src="@drawable/sandwich_bg_img"-->
-<!--                        android:scaleType="centerCrop"-->
-<!--                        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                        app:layout_constraintEnd_toEndOf="parent"-->
-<!--                        app:layout_constraintTop_toTopOf="parent"-->
-<!--                        tools:ignore="ContentDescription" />-->
+            <!--                    <ImageView-->
+            <!--                        android:layout_width="wrap_content"-->
+            <!--                        android:layout_height="wrap_content"-->
+            <!--                        android:src="@drawable/sandwich_bg_img"-->
+            <!--                        android:scaleType="centerCrop"-->
+            <!--                        app:layout_constraintBottom_toBottomOf="parent"-->
+            <!--                        app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                        app:layout_constraintTop_toTopOf="parent"-->
+            <!--                        tools:ignore="ContentDescription" />-->
 
-<!--                    <ImageView-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:src="@drawable/burger_img"-->
-<!--                        android:scaleType="centerCrop"-->
-<!--                        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                        app:layout_constraintEnd_toEndOf="parent"-->
-<!--                        app:layout_constraintTop_toTopOf="parent"-->
-<!--                        tools:ignore="ContentDescription" />-->
+            <!--                    <ImageView-->
+            <!--                        android:layout_width="wrap_content"-->
+            <!--                        android:layout_height="wrap_content"-->
+            <!--                        android:src="@drawable/burger_img"-->
+            <!--                        android:scaleType="centerCrop"-->
+            <!--                        app:layout_constraintBottom_toBottomOf="parent"-->
+            <!--                        app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                        app:layout_constraintTop_toTopOf="parent"-->
+            <!--                        tools:ignore="ContentDescription" />-->
 
-<!--                </androidx.constraintlayout.widget.ConstraintLayout>-->
-<!--            </androidx.cardview.widget.CardView>-->
+            <!--                </androidx.constraintlayout.widget.ConstraintLayout>-->
+            <!--            </androidx.cardview.widget.CardView>-->
 
             <LinearLayout
                 android:id="@+id/layoutSlider"
-                android:layout_width="0dp"
-                android:visibility="gone"
                 visibleGone="@{viewModel.obsHideRecycler}"
-                android:orientation="vertical"
+                android:layout_width="0dp"
                 android:layout_height="@dimen/_100sdp"
-                android:layout_marginEnd="@dimen/_16sdp"
-                android:layout_marginTop="@dimen/_16sdp"
                 android:layout_marginStart="@dimen/_16sdp"
-                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:layout_marginEnd="@dimen/_16sdp"
+                android:orientation="vertical"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" >
-
+                app:layout_constraintTop_toTopOf="parent">
 
                 <com.smarteist.autoimageslider.SliderView
                     android:id="@+id/bannerSlider"
@@ -113,26 +110,26 @@
 
             <!-- Notifications Layout -->
             <androidx.constraintlayout.widget.ConstraintLayout
+                isFull="@{viewModel.obsIsFull}"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:paddingBottom="@dimen/_16sdp"
-                tools:visibility="visible"
-                isFull="@{viewModel.obsIsFull}"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/layoutSlider"
-                app:layout_constraintBottom_toBottomOf="parent">
+                tools:visibility="visible">
 
                 <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_categories"
+                    adapter="@{viewModel.notificationAdapter}"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:id="@+id/rv_categories"
+                    android:orientation="vertical"
                     android:paddingStart="@dimen/_16sdp"
                     android:paddingTop="@dimen/_16sdp"
-                    adapter="@{viewModel.notificationAdapter}"
-                    android:orientation="vertical"
-                    tools:listitem="@layout/raw_home_notification"
-                    tools:itemCount="5"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:itemCount="5"
+                    tools:listitem="@layout/raw_home_notification" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -197,22 +194,22 @@
             <!-- Not Login Layout -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/not_login"
+                isLogin="@{viewModel.obsIsLogin}"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_gravity="center"
-                tools:visibility="gone"
                 android:background="#FAFAFA"
-                isLogin="@{viewModel.obsIsLogin}"
                 android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/img_layout"
-                app:layout_constraintBottom_toBottomOf="parent">
+                tools:visibility="gone">
 
                 <ImageView
                     android:id="@+id/img_notLogin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/empty_notifications_img"
                     android:layout_marginBottom="@dimen/_16sdp"
+                    android:src="@drawable/empty_notifications_img"
                     app:layout_constraintBottom_toTopOf="@+id/tv_title"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -220,25 +217,25 @@
                     tools:ignore="ContentDescription" />
 
                 <TextView
+                    android:id="@+id/tv_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_16sdp"
                     android:fontFamily="@font/cairo_semibold"
-                    android:id="@+id/tv_title"
                     android:text="@string/notifications"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_14ssp"
-                    android:layout_marginTop="@dimen/_16sdp"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:id="@+id/tv_desc"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/cairoregular"
-                    android:id="@+id/tv_desc"
                     android:text="@string/login_to_see_notifications"
                     android:textSize="@dimen/_12ssp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -247,44 +244,44 @@
                     app:layout_constraintTop_toBottomOf="@+id/tv_title" />
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_login"
+                    style="@style/Widget.MaterialComponents.Button"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_42sdp"
-                    android:id="@+id/btn_login"
                     android:layout_marginStart="@dimen/_24sdp"
+                    android:layout_marginTop="@dimen/_16sdp"
                     android:layout_marginEnd="@dimen/_24sdp"
+                    android:fontFamily="@font/cairo_semibold"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
-                    android:layout_marginTop="@dimen/_16sdp"
-                    android:textAllCaps="false"
                     android:onClick="@{() -> viewModel.onLoginClicked()}"
-                    android:textColor="@color/white"
                     android:text="@string/login"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_14ssp"
+                    app:cornerRadius="@dimen/_6sdp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_desc"
-                    style="@style/Widget.MaterialComponents.Button"
-                    app:cornerRadius="@dimen/_6sdp"
-                    android:fontFamily="@font/cairo_semibold"
-                    android:textSize="@dimen/_14ssp" />
+                    app:layout_constraintTop_toBottomOf="@+id/tv_desc" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <!-- Shimmer Layout -->
             <com.facebook.shimmer.ShimmerFrameLayout
                 android:id="@+id/shimmerFrameLayout"
+                isLoading="@{viewModel.obsIsLoading}"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_gravity="center"
-                android:background="#FAFAFA"
                 android:layout_marginStart="@dimen/_16sdp"
                 android:layout_marginEnd="@dimen/_16sdp"
-                isLoading="@{viewModel.obsIsLoading}"
-                android:paddingTop="@dimen/_8sdp"
+                android:background="#FAFAFA"
                 android:orientation="vertical"
+                android:paddingTop="@dimen/_8sdp"
                 android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@+id/img_layout"
-                app:layout_constraintBottom_toBottomOf="parent">
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/img_layout">
 
                 <!-- Adding 15 rows of placeholders -->
                 <LinearLayout
@@ -293,12 +290,19 @@
                     android:orientation="vertical">
 
                     <include layout="@layout/shimmer_notification" />
+
                     <include layout="@layout/shimmer_notification" />
+
                     <include layout="@layout/shimmer_notification" />
+
                     <include layout="@layout/shimmer_notification" />
+
                     <include layout="@layout/shimmer_notification" />
+
                     <include layout="@layout/shimmer_notification" />
+
                     <include layout="@layout/shimmer_notification" />
+
                     <include layout="@layout/shimmer_notification" />
 
                 </LinearLayout>

@@ -14,21 +14,24 @@ import com.brandsin.user.utils.SingleLiveEvent
 import java.text.DateFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
-import java.util.*
-import kotlin.collections.ArrayList
+import java.util.Date
+import java.util.Locale
 
 class AddedStoriesAdapter : RecyclerView.Adapter<AddedStoriesAdapter.AddedStoriesHolder>() {
-    var allstories=SingleLiveEvent<ArrayList<StoriesItem>>()
+     var allStories = SingleLiveEvent<ArrayList<StoriesItem>>()
+
     var itemsList: ArrayList<DataItem> = ArrayList()
-    var deleteStoryData = SingleLiveEvent<StoriesItem>()
-    var showStoryData = SingleLiveEvent<StoriesItem>()
+
+    private var deleteStoryData = SingleLiveEvent<StoriesItem>()
+    private var showStoryData = SingleLiveEvent<StoriesItem>()
     var positionClicked = SingleLiveEvent<Int>()
-    var convertDate = ""
+
+    private var convertDate = ""
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AddedStoriesHolder {
-        val context = parent.context
-        val layoutInflater = LayoutInflater.from(context)
-        val binding: RawAddedStoriesBinding = DataBindingUtil.inflate(layoutInflater, R.layout.raw_added_stories, parent, false)
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val binding: RawAddedStoriesBinding =
+            DataBindingUtil.inflate(layoutInflater, R.layout.raw_added_stories, parent, false)
         return AddedStoriesHolder(binding)
     }
 
@@ -36,9 +39,11 @@ class AddedStoriesAdapter : RecyclerView.Adapter<AddedStoriesAdapter.AddedStorie
         val itemViewModel = ItemAddedStoriesViewModel(itemsList[position])
         holder.binding.viewModel = itemViewModel
 
-        ConvertDate(itemViewModel.item.date.toString())
+        convertDate(itemViewModel.item.date.toString())
+
         holder.binding.tvTime.text = convertDate
-        itemViewModel.storyAdapter.deleteLiveData.observeForever{
+
+        itemViewModel.storyAdapter.deleteLiveData.observeForever {
             when (it) {
                 is StoriesItem -> {
                     deleteStoryData.value = it
@@ -46,7 +51,7 @@ class AddedStoriesAdapter : RecyclerView.Adapter<AddedStoriesAdapter.AddedStorie
             }
         }
 
-        itemViewModel.storyAdapter.showLiveData.observeForever{
+        itemViewModel.storyAdapter.showLiveData.observeForever {
             when (it) {
                 is StoriesItem -> {
                     showStoryData.value = it
@@ -54,15 +59,10 @@ class AddedStoriesAdapter : RecyclerView.Adapter<AddedStoriesAdapter.AddedStorie
             }
         }
 
-        itemViewModel.storyAdapter.allitemsList.observeForever{
-            Log.d("itemsList", "onBindViewHolder: itemsList"+itemViewModel.storyAdapter.itemsList.size)
-            this.allstories.value= it!!
+        itemViewModel.storyAdapter.allItemsList.observeForever {
+            this.allStories.value = it!!
         }
-
-
-
     }
-
 
     override fun getItemCount(): Int {
         return itemsList.size
@@ -73,9 +73,10 @@ class AddedStoriesAdapter : RecyclerView.Adapter<AddedStoriesAdapter.AddedStorie
         notifyDataSetChanged()
     }
 
-    inner class AddedStoriesHolder(val binding: RawAddedStoriesBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class AddedStoriesHolder(val binding: RawAddedStoriesBinding) :
+        RecyclerView.ViewHolder(binding.root)
 
-    fun ConvertDate(dateString: String): String {
+    private fun convertDate(dateString: String): String {
 
         var date: Date? = null
         val formatter = SimpleDateFormat("yyyy-MM-dd")

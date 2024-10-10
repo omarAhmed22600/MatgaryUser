@@ -25,19 +25,22 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-class RateOrderFragment : BaseHomeFragment(), Observer<Any?>
-{
-    private lateinit var binding : HomeFragmentRateOrderBinding
+class RateOrderFragment : BaseHomeFragment(), Observer<Any?> {
+    private lateinit var binding: HomeFragmentRateOrderBinding
     private lateinit var viewModel: RateOrderViewModel
-    private val fragmentArgs : RateOrderFragmentArgs by navArgs()
+    private val fragmentArgs: RateOrderFragmentArgs by navArgs()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.home_fragment_rate_order, container, false)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.home_fragment_rate_order, container, false)
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?)
-    {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = ViewModelProvider(this).get(RateOrderViewModel::class.java)
@@ -54,15 +57,17 @@ class RateOrderFragment : BaseHomeFragment(), Observer<Any?>
                 Status.ERROR_MESSAGE -> {
                     showToast(it.message.toString(), 1)
                 }
+
                 Status.SUCCESS_MESSAGE -> {
                     showToast(it.message.toString(), 2)
                 }
+
                 Status.SUCCESS -> {
                     when (it.data) {
                         is RateOrderResponse -> {
-                            if (it.message.toString()=="null"){
+                            if (it.message.toString() == "null") {
                                 showToast(getString(R.string.evaluation_successful), 2)
-                            }else{
+                            } else {
                                 showToast(it.message.toString(), 2)
                             }
                             lifecycleScope.launch {
@@ -72,6 +77,7 @@ class RateOrderFragment : BaseHomeFragment(), Observer<Any?>
                         }
                     }
                 }
+
                 else -> {
                     Timber.e(it.message)
                 }
@@ -79,25 +85,27 @@ class RateOrderFragment : BaseHomeFragment(), Observer<Any?>
         }
     }
 
-    override fun onChanged(it: Any?)
-    {
-        if (it == null) return
-        when (it)
-        {
+    override fun onChanged(value: Any?) {
+        if (value == null) return
+        when (value) {
             Codes.STORE_RATING_EMPTY -> {
-                showToast(getString(R.string.please_enter_store_rating) , 1)
+                showToast(getString(R.string.please_enter_store_rating), 1)
             }
+
             Codes.DRIVIER_RATING_EMPTY -> {
-                showToast(getString(R.string.please_enter_drvier_rating) , 1)
+                showToast(getString(R.string.please_enter_drvier_rating), 1)
             }
+
             Codes.RATING_SUCCESS -> {
                 val uri = Uri.parse(getString(R.string.app_link_android))
                 val myAppLinkToMarket = Intent(Intent.ACTION_VIEW, uri)
                 try {
                     startActivity(myAppLinkToMarket)
-                }
-                catch (e: ActivityNotFoundException) {
-                    Toasty.warning(requireActivity(), "Impossible to find an application for the market").show()
+                } catch (e: ActivityNotFoundException) {
+                    Toasty.warning(
+                        requireActivity(),
+                        "Impossible to find an application for the market"
+                    ).show()
                 }
             }
         }

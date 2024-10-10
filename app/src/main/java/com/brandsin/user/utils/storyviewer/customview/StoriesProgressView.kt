@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
 import com.brandsin.user.R
-import java.util.*
+import com.brandsin.user.utils.storyviewer.StoryDetailsFragment
 
 class StoriesProgressView @JvmOverloads constructor(
     context: Context,
@@ -24,7 +24,8 @@ class StoriesProgressView @JvmOverloads constructor(
 
     init {
         orientation = HORIZONTAL
-        val typedArray = context.obtainStyledAttributes(attrs,
+        val typedArray = context.obtainStyledAttributes(
+            attrs,
             R.styleable.StoriesProgressView
         )
         storiesCount = typedArray.getInt(R.styleable.StoriesProgressView_progressCount, 0)
@@ -80,7 +81,7 @@ class StoriesProgressView @JvmOverloads constructor(
                     return
                 }
                 val next = current + 1
-                if (next <= progressBars.size -1) {
+                if (next <= progressBars.size - 1) {
                     if (storiesListener != null) storiesListener!!.onNext()
                     progressBars[next].startProgress()
                     ++current
@@ -99,7 +100,7 @@ class StoriesProgressView @JvmOverloads constructor(
         bindViews()
     }
 
-    fun setStoriesListener(storiesListener: StoriesListener?) {
+    fun setStoriesListener(storiesListener: StoriesListener) {
         this.storiesListener = storiesListener
     }
 
@@ -132,6 +133,10 @@ class StoriesProgressView @JvmOverloads constructor(
         if (progressBars.size > 0) {
             progressBars[0].startProgress()
         }
+    }
+
+    fun startNewStories() {
+        progressBars[0].startProgress()
     }
 
     fun startStories(from: Int) {

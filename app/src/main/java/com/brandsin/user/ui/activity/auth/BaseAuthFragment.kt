@@ -22,11 +22,6 @@ open class BaseAuthFragment : BaseFragment()
             }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?)
-    {
-        super.onViewCreated(view, savedInstanceState)
-    }
-
     fun setBarName(title: String)
     {
         (requireActivity() as AuthActivity).run {

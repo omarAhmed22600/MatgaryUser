@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.menu.payment.ConfirmTransferPointsFragment">
+
+    <TextView
+        android:id="@+id/txtConfirmTransfer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_30sdp"
+        android:fontFamily="@font/cairo_semibold"
+        android:text="@string/confirm_the_transfer"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_14ssp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtRecipientName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_12sdp"
+        android:fontFamily="@font/cairoregular"
+        android:text="@string/recipient_s_name"
+        android:textColor="@color/hint_color"
+        android:textSize="@dimen/_12ssp"
+        app:layout_constraintStart_toStartOf="@id/txtConfirmTransfer"
+        app:layout_constraintTop_toBottomOf="@id/txtConfirmTransfer" />
+
+    <TextView
+        android:id="@+id/recipientName"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="end|center_vertical"
+        android:layout_marginStart="@dimen/_8sdp"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_12ssp"
+        android:lines="1"
+        android:textAlignment="viewEnd"
+        app:layout_constraintEnd_toEndOf="@id/txtConfirmTransfer"
+        app:layout_constraintStart_toEndOf="@id/txtRecipientName"
+        app:layout_constraintTop_toTopOf="@id/txtRecipientName"
+        app:layout_constraintBottom_toBottomOf="@id/txtRecipientName"
+        tools:text="محمد نصاررر" />
+
+    <View
+        android:id="@+id/view1"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:background="@color/demo_dark_transparent"
+        app:layout_constraintStart_toStartOf="@id/txtConfirmTransfer"
+        app:layout_constraintEnd_toEndOf="@id/txtConfirmTransfer"
+        app:layout_constraintTop_toBottomOf="@id/recipientName" />
+
+    <TextView
+        android:id="@+id/txtRecipientMobileNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_12sdp"
+        android:fontFamily="@font/cairoregular"
+        android:text="@string/phone_number"
+        android:textColor="@color/hint_color"
+        android:textSize="@dimen/_12ssp"
+        app:layout_constraintStart_toStartOf="@id/txtConfirmTransfer"
+        app:layout_constraintTop_toBottomOf="@id/view1" />
+
+    <TextView
+        android:id="@+id/recipientMobileNumber"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="end|center_vertical"
+        android:layout_marginStart="@dimen/_8sdp"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_12ssp"
+        app:layout_constraintEnd_toEndOf="@id/txtConfirmTransfer"
+        app:layout_constraintStart_toEndOf="@id/txtRecipientMobileNumber"
+        app:layout_constraintTop_toTopOf="@id/txtRecipientMobileNumber"
+        app:layout_constraintBottom_toBottomOf="@id/txtRecipientMobileNumber"
+        tools:text="01123456789" />
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:background="@color/demo_dark_transparent"
+        app:layout_constraintStart_toStartOf="@id/txtConfirmTransfer"
+        app:layout_constraintEnd_toEndOf="@id/txtConfirmTransfer"
+        app:layout_constraintTop_toBottomOf="@id/txtRecipientMobileNumber" />
+
+    <TextView
+        android:id="@+id/txtNumberOfPoints"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_12sdp"
+        android:fontFamily="@font/cairoregular"
+        android:text="@string/points"
+        android:textColor="@color/hint_color"
+        android:textSize="@dimen/_12ssp"
+        app:layout_constraintStart_toStartOf="@id/txtConfirmTransfer"
+        app:layout_constraintTop_toBottomOf="@id/view2" />
+
+    <TextView
+        android:id="@+id/numberOfPoints"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="end|center_vertical"
+        android:layout_marginStart="@dimen/_8sdp"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_12ssp"
+        app:layout_constraintEnd_toEndOf="@id/txtConfirmTransfer"
+        app:layout_constraintStart_toEndOf="@id/txtNumberOfPoints"
+        app:layout_constraintTop_toTopOf="@id/txtNumberOfPoints"
+        app:layout_constraintBottom_toBottomOf="@id/txtNumberOfPoints"
+        tools:text="100" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:background="@color/demo_dark_transparent"
+        app:layout_constraintStart_toStartOf="@id/txtConfirmTransfer"
+        app:layout_constraintEnd_toEndOf="@id/txtConfirmTransfer"
+        app:layout_constraintTop_toBottomOf="@id/txtNumberOfPoints" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnTransformation"
+        style="@style/Widget.MaterialComponents.Button"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/_42sdp"
+        android:layout_marginBottom="@dimen/_16sdp"
+        android:fontFamily="@font/cairo_semibold"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:text="@string/transformation"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_14ssp"
+        app:cornerRadius="@dimen/_6sdp"
+        app:layout_constraintStart_toStartOf="@id/txtConfirmTransfer"
+        app:layout_constraintEnd_toEndOf="@id/txtConfirmTransfer"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

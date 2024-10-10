@@ -7,12 +7,15 @@ import androidx.viewpager.widget.ViewPager
 import com.brandsin.user.model.order.homepage.StoriesItem
 import com.brandsin.user.utils.storyviewer.PageViewOperator
 import com.brandsin.user.utils.storyviewer.StoryDisplayFragment
-import java.util.ArrayList
 
-class StoryPagerAdapter(private var pageViewOperator: PageViewOperator,fragmentManager: FragmentManager, private var storyList:MutableList<ArrayList<StoriesItem>>)
-    : FragmentStatePagerAdapter(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+class StoryPagerAdapter(
+    private var pageViewOperator: PageViewOperator,
+    fragmentManager: FragmentManager,
+    private var storyList: MutableList<ArrayList<StoriesItem>>
+) : FragmentStatePagerAdapter(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
-    override fun getItem(position: Int): Fragment = StoryDisplayFragment.newInstance(pageViewOperator,position, storyList[position])
+    override fun getItem(position: Int): Fragment =
+        StoryDisplayFragment.newInstance(pageViewOperator, position, storyList[position])
 
     override fun getCount(): Int {
         return storyList.size

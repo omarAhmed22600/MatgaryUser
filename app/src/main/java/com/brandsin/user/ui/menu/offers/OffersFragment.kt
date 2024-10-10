@@ -2,7 +2,9 @@ package com.brandsin.user.ui.menu.offers
 
 import android.graphics.Color
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -20,66 +22,77 @@ import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnima
 import com.smarteist.autoimageslider.SliderAnimations
 import com.smarteist.autoimageslider.SliderView
 
-class OffersFragment : BaseHomeFragment(), Observer<Any?>, StoryView.StoryViewListener, StoriesAdapter.OnStoryClickedListner
-{
-    private lateinit var binding : HomeFragmentOffersBinding
-    private lateinit var favouritsViewModel: OffersViewModel
-    lateinit var sliderView : SliderView
+class OffersFragment : BaseHomeFragment(), Observer<Any?>, StoryView.StoryViewListener,
+    StoriesAdapter.OnStoryClickedListener {
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
-    {
+    private lateinit var binding: HomeFragmentOffersBinding
+
+    private lateinit var offersViewModel: OffersViewModel
+
+    private lateinit var sliderView: SliderView
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.home_fragment_offers, container, false)
-
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?)
-    {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        favouritsViewModel = ViewModelProvider(this).get(OffersViewModel::class.java)
-        binding.viewModel = favouritsViewModel
-        favouritsViewModel.setStoriesListner(this)
+        setBarName(getString(R.string.offers))
+
+        offersViewModel = ViewModelProvider(this)[OffersViewModel::class.java]
+        binding.viewModel = offersViewModel
+
+        offersViewModel.getOffersStories()
+        offersViewModel.getSlider("offers")
+        offersViewModel.getOffers()
+
+        offersViewModel.setStoriesListener(this)
+
         binding.swipeLayout.setOnRefreshListener {
             binding.swipeLayout.isRefreshing = false
-            favouritsViewModel.getOffersStories()
-            favouritsViewModel.getSlider("offers")
-            favouritsViewModel.getOffers()
+            offersViewModel.getOffersStories()
+            offersViewModel.getSlider("offers")
+            offersViewModel.getOffers()
         }
-        favouritsViewModel.offersAdapter.offersLiveData.observe(viewLifecycleOwner, this)
 
-        observe(favouritsViewModel.slidersResponse) {
+        offersViewModel.offersAdapter.offersLiveData.observe(viewLifecycleOwner, this)
 
+        observe(offersViewModel.slidersResponse) {
             setupSlider(it!!.data!!.slides)
-
         }
 
-        observe(favouritsViewModel.moreSliderAdapter.moreSliderLiveData) {
-            when(it) {
+        observe(offersViewModel.moreSliderAdapter.moreSliderLiveData) {
+            when (it) {
                 is SlidesItem -> {
-                    if (it.storeIdsArray!=null && it.storeIdsArray.isNotEmpty()){
-                        if(it.storeIdsArray.size > 1) {
-                            val action = OffersFragmentDirections.offersToHome("", "", it.storeIdsArray.toTypedArray())
+                    if (it.storeIdsArray != null && it.storeIdsArray.isNotEmpty()) {
+                        if (it.storeIdsArray.size > 1) {
+                            val action = OffersFragmentDirections.offersToHome(
+                                "",
+                                "",
+                                it.storeIdsArray.toTypedArray()
+                            )
                             findNavController().navigate(action)
-                        }else{
-                            val action = OffersFragmentDirections.offersToStoreDetails(it.storeIdsArray[0]!!.toInt())
+                        } else {
+                            val action =
+                                OffersFragmentDirections.offersToStoreDetails(it.storeIdsArray[0].toInt())
                             findNavController().navigate(action)
                         }
                     }
                 }
             }
         }
-        favouritsViewModel.getOffersStories()
-        favouritsViewModel.getSlider("offers")
-        favouritsViewModel.getOffers()
-        setBarName(getString(R.string.offers))
     }
 
     private fun setupSlider(slides: List<SlidesItem>) {
-
-        favouritsViewModel.moreSliderAdapter.updateList(slides)
+        offersViewModel.moreSliderAdapter.updateList(slides)
         sliderView = requireActivity().findViewById(R.id.bannerSlider)
-        sliderView.setSliderAdapter(favouritsViewModel.moreSliderAdapter)
+        sliderView.setSliderAdapter(offersViewModel.moreSliderAdapter)
         sliderView.setIndicatorAnimation(IndicatorAnimationType.WORM)
         sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION)
         sliderView.autoCycleDirection = SliderView.AUTO_CYCLE_DIRECTION_BACK_AND_FORTH
@@ -90,41 +103,46 @@ class OffersFragment : BaseHomeFragment(), Observer<Any?>, StoryView.StoryViewLi
         sliderView.startAutoCycle()
     }
 
-    override fun onChanged(it: Any?)
-    {
-        if(it == null) return
-        when (it)
-        {
+    override fun onChanged(value: Any?) {
+        if (value == null) return
+        when (value) {
             is OffersItemDetails -> {
-                val action = OffersFragmentDirections.offersToOfferDetails(it)
+                val action = OffersFragmentDirections.offersToOfferDetails(value)
                 findNavController().navigate(action)
             }
         }
     }
 
     override fun onDoneClicked(num: Int, storiesItem: StoriesItem) {
-        if (num == 1) {
-            view?.post {
-                val action =
-                    OffersFragmentDirections.offersToAddedStories(storiesItem.storeId!!,storiesItem)
-                findNavController().navigate(action)
+        when (num) {
+            1 -> {
+                view?.post {
+                    val action =
+                        OffersFragmentDirections.offersToAddedStories(
+                            storiesItem.storeId!!,
+                            storiesItem
+                        )
+                    findNavController().navigate(action)
+                }
             }
-        } else if (num == 2) {
-            view?.post {
-                val action =
-                    OffersFragmentDirections.offersToStoreDetails(storiesItem.storeId!!)
-                findNavController().navigate(action)
+            2 -> {
+                view?.post {
+                    val action =
+                        OffersFragmentDirections.offersToStoreDetails(storiesItem.storeId!!)
+                    findNavController().navigate(action)
+                }
             }
-        } else {
-            view?.post {
-                findNavController().navigateUp()
+            else -> {
+                view?.post {
+                    findNavController().navigateUp()
+                }
             }
         }
     }
 
     override fun onStoryClicked(position: Int, stories: MutableList<ArrayList<StoriesItem>>) {
-        var storyv: StoryView = StoryView(position,stories)
-        storyv.setStoryViewListener(this)
-        storyv.show(childFragmentManager,"story")
+        val storyView = StoryView(position, stories)
+        storyView.setStoryViewListener(this)
+        storyView.show(childFragmentManager, "story")
     }
 }

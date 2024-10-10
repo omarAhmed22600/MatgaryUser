@@ -14,7 +14,7 @@ class DialogNotLoginFragment  : BaseFragment()
 {
     lateinit  var  binding: DialogNotLoginBinding
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View
     {
         binding = DialogNotLoginBinding.inflate(inflater, container, false)
 

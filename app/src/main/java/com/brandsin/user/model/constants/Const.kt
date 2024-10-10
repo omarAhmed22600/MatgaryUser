@@ -1,10 +1,11 @@
 package com.brandsin.user.model.constants
 
-import java.util.*
+import android.content.Context
+import com.brandsin.user.R
+import java.util.Locale
 
-object Const
-{
-    const val latitude =  30.080027
+object Const {
+    const val latitude = 30.080027
     const val longitude = 31.3276914
     const val zoomLevel = 14.0f // This goes up to 21
     var DEFAULT_LANG: String = Locale.getDefault().language
@@ -21,4 +22,6 @@ object Const
     const val PREF_IS_PERMISSION_DENIED_FOR_EVER = "PREF_IS_PERMISSION_DENIED_FOR_EVER"
 
     const val DEVICE_TYPE = "Android"
+
+    const val NOTIFICATION_URL = "https://fcm.googleapis.com/fcm/send"
 }

@@ -3,13 +3,15 @@
     encoding="utf-8"?>
 
 <resources>
-    <color name="color_primary"> #7737A9 </color>
+    <color name="color_primary">#7737A9</color>
+    <color name="color_primary_light">#d7c3e5</color>
     <color name="color_accent"> #818181 </color>
-    <color name="colorPrimaryDark"> #AFAFAF </color>
+    <color name="colorPrimaryDark"> #AFAFAF </color> <!-- #707070 -->
     <color name="red"> #E20000 </color>
     <color name="blue"> #0077FF </color>
     <color name="green"> #00C7BD </color>
     <color name="white"> #FFF </color>
+    <color name="darkBlue"> #3c5269</color>
     <color name="black"> #000 </color>
     <color name="grey"> #818181</color>
     <color name="grey_subcategory"> #C9C9C9 </color>
@@ -32,9 +34,9 @@
     <color name="pending"> #FFC400 </color>
     <color name="cancelled"> #C42826 </color>
 
-    <color name="order_prepared_color"> #FFD500 </color>
-    <color name="order_completed_color"> #00C7BD </color>
-    <color name="order_rejected_color"> #E51937 </color>
+    <color name="order_prepared_color"> #7737A9 </color>
+    <color name="order_completed_color"> #02B756 </color>
+    <color name="order_rejected_color"> #E20000 </color>
     <color name="order_accepted_color"> #407AFF </color>
 
     <color name="story_background">#535353</color>
@@ -45,7 +47,6 @@
     <color name="progress_max_active">@color/white</color>
 
     <color name="gray_scale">#8AFFFFFF</color>
-    <color name="red2">#E20000</color>
     <color name="green2">#00B762</color>
     <color name="busy_color">#FFAA00</color>
     <color name="color_dark">#3D3D3D</color>

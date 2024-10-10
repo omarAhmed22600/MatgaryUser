@@ -1,6 +1,6 @@
 package com.brandsin.user.utils;
 
-import android.annotation.SuppressLint;
+import  android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.util.AttributeSet;
@@ -117,7 +117,7 @@ public class PullDismissLayout extends FrameLayout {
     }
 
     private static class ViewDragCallback extends ViewDragHelper.Callback {
-        private PullDismissLayout pullDismissLayout;
+        private final PullDismissLayout pullDismissLayout;
         private int startTop;
         private float dragPercent;
         private View capturedView;

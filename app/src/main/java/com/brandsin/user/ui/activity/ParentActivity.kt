@@ -7,8 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.brandsin.user.utils.LocalUtil
 
 @Suppress("DEPRECATION")
-open class ParentActivity : AppCompatActivity()
-{
+open class ParentActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         LocalUtil.changeLanguage(this)
         super.onCreate(savedInstanceState)
@@ -21,17 +21,20 @@ open class ParentActivity : AppCompatActivity()
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        for (fragment in supportFragmentManager.primaryNavigationFragment!!
-                .childFragmentManager.fragments) {
-            fragment.onActivityResult(requestCode, resultCode, data)
+        if (data != null) {
+            for (fragment in supportFragmentManager.primaryNavigationFragment!!.childFragmentManager.fragments) {
+                fragment.onActivityResult(requestCode, resultCode, data)
+            }
         }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String?>, grantResults: IntArray)
-    {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String?>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        for (fragment in supportFragmentManager.primaryNavigationFragment!!.childFragmentManager.fragments)
-        {
+        for (fragment in supportFragmentManager.primaryNavigationFragment!!.childFragmentManager.fragments) {
             fragment.onRequestPermissionsResult(requestCode, permissions, grantResults)
         }
     }

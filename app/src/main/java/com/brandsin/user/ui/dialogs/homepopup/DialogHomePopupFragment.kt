@@ -9,36 +9,34 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
-import com.brandsin.user.R
-
 import com.brandsin.user.databinding.DialogHomePopupBinding
 import com.brandsin.user.model.constants.Codes
 import com.brandsin.user.model.constants.Params
 import com.brandsin.user.model.order.homenew.HomeNewResponse
 import com.brandsin.user.model.order.homenew.PopupsItem
-import com.brandsin.user.ui.main.order.storedetails.StoreDetailsFragmentDirections
 import com.brandsin.user.utils.PrefMethods
 import com.brandsin.user.utils.map.observe
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType
 import com.smarteist.autoimageslider.SliderAnimations
 import com.smarteist.autoimageslider.SliderView
 
-class DialogHomePopupFragment : DialogFragment(), Observer<Any?>, PopDialogInterface
-{
-    lateinit  var  binding: DialogHomePopupBinding
+class DialogHomePopupFragment : DialogFragment(), Observer<Any?>, PopDialogInterface {
+
+    lateinit var binding: DialogHomePopupBinding
     lateinit var viewModel: DialogHomePopupViewModel
-    var homeNewResponse = HomeNewResponse()
-    var popupList  = mutableListOf<PopupsItem>()
+
+    private var homeNewResponse = HomeNewResponse()
+
+    private var popupList = mutableListOf<PopupsItem>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         when {
             arguments != null -> {
                 when {
                     requireArguments().containsKey(Params.DIALOG_HOME_POPUP) -> {
-                        homeNewResponse = (requireArguments().getSerializable(Params.DIALOG_HOME_POPUP) as HomeNewResponse?)!!
+                        homeNewResponse =
+                            (requireArguments().getParcelable(Params.DIALOG_HOME_POPUP) as HomeNewResponse?)!!
                         popupList = homeNewResponse.popups as MutableList<PopupsItem>
                     }
                 }
@@ -46,10 +44,13 @@ class DialogHomePopupFragment : DialogFragment(), Observer<Any?>, PopDialogInter
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
-    {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         binding = DialogHomePopupBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProvider(this).get(DialogHomePopupViewModel::class.java)
+        viewModel = ViewModelProvider(this)[DialogHomePopupViewModel::class.java]
         binding.viewModel = viewModel
 
         setupSlider(popupList)
@@ -57,7 +58,7 @@ class DialogHomePopupFragment : DialogFragment(), Observer<Any?>, PopDialogInter
         viewModel.mutableLiveData.observe(this, this)
 
         observe(viewModel.sliderAdapter.popupSliderLiveData) {
-            when(it) {
+            when (it) {
 //                is PopupsItem -> {
 //                    PrefMethods.saveHomePopup(false)
 //                    val intent = Intent()
@@ -83,7 +84,10 @@ class DialogHomePopupFragment : DialogFragment(), Observer<Any?>, PopDialogInter
             PrefMethods.saveHomePopup(false)
             val intent = Intent()
             intent.putExtra(Params.DIALOG_CLICK_ACTION, 1)
-            intent.putExtra(Params.DIALOG_HOME_POPUP, popupList[binding.bannerSlider.currentPagePosition])
+            intent.putExtra(
+                Params.DIALOG_HOME_POPUP,
+                popupList[binding.bannerSlider.currentPagePosition]
+            )
             requireActivity().setResult(Codes.DIALOG_HOME_POPUP, intent)
             requireActivity().finish()
         }

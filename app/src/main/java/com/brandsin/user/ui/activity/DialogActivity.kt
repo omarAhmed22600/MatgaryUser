@@ -8,8 +8,7 @@ import com.brandsin.user.utils.SingleLiveEvent
 import com.brandsin.user.utils.Utils
 import timber.log.Timber
 
-class DialogActivity : ParentActivity()
-{
+class DialogActivity : ParentActivity() {
     var isProgressShow = SingleLiveEvent<Boolean>()
 
     private fun addFragment(fragmentString: String?, bundle: Bundle?) {
@@ -37,9 +36,9 @@ class DialogActivity : ParentActivity()
         }
     }
 
-    override fun onBackPressed() {
+    /*override fun onBackPressed() {
         //return nothing
         return
-    }
+    }*/
 
 }

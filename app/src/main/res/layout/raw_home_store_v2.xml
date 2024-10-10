@@ -36,7 +36,7 @@
             android:layout_width="@dimen/_65sdp"
             android:layout_height="@dimen/_70sdp"
             android:scaleType="fitXY"
-            android:src="@drawable/french_fries"
+            android:src="@drawable/app_logo"
             tools:ignore="ContentDescription"
             tools:src="@tools:sample/backgrounds/scenic" />
     </com.google.android.material.card.MaterialCardView>
@@ -191,7 +191,7 @@
 <!--                android:layout_width="match_parent"-->
 <!--                android:layout_height="match_parent"-->
 <!--                tools:src="@tools:sample/backgrounds/scenic"-->
-<!--                android:src="@drawable/french_fries"-->
+<!--                android:src="@drawable/app_logo"-->
 <!--                android:scaleType="fitXY"-->
 <!--                storeImg="@{viewModel.item.image}"-->
 <!--                tools:ignore="ContentDescription" />-->

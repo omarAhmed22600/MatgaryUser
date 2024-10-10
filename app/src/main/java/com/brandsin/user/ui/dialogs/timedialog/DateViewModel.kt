@@ -5,13 +5,13 @@ import com.brandsin.user.model.constants.Codes
 import com.brandsin.user.model.order.storedetails.StoreTimeItem
 import com.brandsin.user.ui.dialogs.timedialog.date.OrderDatesAdapter
 
-class DateViewModel : BaseViewModel()
-{
-    var datesAdapter  = OrderDatesAdapter()
-    lateinit var selectedDate : String
-    lateinit var selectedTime : String
+class DateViewModel : BaseViewModel() {
 
-    fun setDates(itemsList : ArrayList<StoreTimeItem>) {
+    var datesAdapter = OrderDatesAdapter()
+    lateinit var selectedDate: String
+    lateinit var selectedTime: String
+
+    fun setDates(itemsList: ArrayList<StoreTimeItem>) {
         datesAdapter.updateList(itemsList)
         datesAdapter.notifyDataSetChanged()
 

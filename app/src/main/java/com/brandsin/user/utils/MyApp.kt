@@ -8,6 +8,7 @@ import com.google.android.exoplayer2.database.DatabaseProvider
 import com.google.android.exoplayer2.database.ExoDatabaseProvider
 import com.google.android.exoplayer2.upstream.cache.LeastRecentlyUsedCacheEvictor
 import com.google.android.exoplayer2.upstream.cache.SimpleCache
+import com.google.firebase.FirebaseApp
 import com.myfatoorah.sdk.utils.MFCountry
 import com.myfatoorah.sdk.utils.MFEnvironment
 import com.myfatoorah.sdk.views.MFSDK
@@ -15,13 +16,17 @@ import timber.log.Timber
 
 
 // hilt
-class MyApp : Application()
-{
-    var proxy: HttpProxyCacheServer? = null
-    companion object{
+class MyApp : Application() {
+
+    private var proxy: HttpProxyCacheServer? = null
+
+    companion object {
         var simpleCache: SimpleCache? = null
+
         private lateinit var mInstance: MyApp
-        lateinit var context : Context
+
+        lateinit var context: Context
+
         fun getInstance(): MyApp {
             return mInstance
         }
@@ -29,16 +34,15 @@ class MyApp : Application()
 
     private fun initTimber() {
         Timber.plant(object : Timber.DebugTree() {
-            override fun createStackElementTag(element: StackTraceElement): String? {
+            override fun createStackElementTag(element: StackTraceElement): String {
                 return super.createStackElementTag(element) + " line: " + element.lineNumber
             }
         })
     }
 
-    fun getAppContext(): Context? {
-        return context
+    fun getAppContext(): Context {
+        return applicationContext
     }
-
 
     fun getProxy(context: Context): HttpProxyCacheServer? {
         val app: MyApp = context.applicationContext as MyApp
@@ -49,23 +53,24 @@ class MyApp : Application()
         return HttpProxyCacheServer.Builder(this)
             .maxCacheSize((1024 * 1024 * 1024).toLong())
             .build()
-        //return new HttpProxyCacheServer(this);
+        // return new HttpProxyCacheServer(this);
     }
+
     override fun onCreate() {
         super.onCreate()
         mInstance = this
-
+        FirebaseApp.initializeApp(this)
         val databaseProvider: DatabaseProvider = ExoDatabaseProvider(this)
         val leastRecentlyUsedCacheEvictor = LeastRecentlyUsedCacheEvictor(100)
         if (simpleCache == null) {
             simpleCache =
                 SimpleCache(cacheDir, leastRecentlyUsedCacheEvictor, ExoDatabaseProvider(this))
         }
-//        DataBindingUtil.setDefaultComponent(AppDataBindingComponent())
+        // DataBindingUtil.setDefaultComponent(AppDataBindingComponent())
 
         context = applicationContext
 
-       /* startKoin {
+        /* startKoin {
             androidContext(this@MyApp)
             modules(
                 listOf(
@@ -75,18 +80,12 @@ class MyApp : Application()
             )
         }*/
 
-
         MFSDK.init(Config.API_KEY, MFCountry.SAUDI_ARABIA, MFEnvironment.LIVE)
 
-
-
-
-
         initTimber()
-
     }
 
-    protected override fun attachBaseContext(base: Context?) {
+    override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(base)
         MultiDex.install(this)
     }

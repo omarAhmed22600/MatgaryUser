@@ -1,6 +1,11 @@
 package com.brandsin.user.model.menu.offers
 
+import android.os.Parcelable
+import com.brandsin.user.model.order.details.Store
+import com.brandsin.user.model.order.storedetails.ImagesIdsItem
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
+import kotlinx.parcelize.RawValue
 import java.io.Serializable
 
 data class OffersResponse(
@@ -19,6 +24,15 @@ data class SkusItem(
 
 	@field:SerializedName("code")
 	val code: String? = null,
+
+	@field:SerializedName("media")
+	val media: List<Any?>? = null,
+
+	@field:SerializedName("name")
+	val name: Any? = null,
+
+	@field:SerializedName("unit_id")
+	val unitId: Any? = null,
 
 	@field:SerializedName("free_shipping")
 	val freeShipping: Int? = null,
@@ -102,6 +116,7 @@ data class MediaItem(
 	val collectionName: String? = null
 ) : Serializable
 
+@Parcelize
 data class OffersItemDetails(
 
 	@field:SerializedName("store_id")
@@ -118,18 +133,23 @@ data class OffersItemDetails(
 
 	@field:SerializedName("name")
 	val name: String? = null,
+
 	@field:SerializedName("name_en")
 	val nameEn: String? = null,
+
 	@field:SerializedName("description_en")
 	val descriptionEn: String? = null,
+
 	@field:SerializedName("price_to")
-	val priceTo: Int? = null,
+	val priceTo: Double? = null,
 
 	@field:SerializedName("description")
 	val description: String? = null,
 
 	@field:SerializedName("active")
 	val active: Int? = null,
+
+	val type: String? = null,
 
 	@field:SerializedName("id")
 	val id: Int? = null,
@@ -140,14 +160,31 @@ data class OffersItemDetails(
 	@field:SerializedName("start_date")
 	val startDate: String? = null,
 
-	@field:SerializedName("products")
-	val productsList: List<ProductsItem?>? = null
-) : Serializable
+	@field:SerializedName("created_at")
+	val createdAt: String? = null,
 
+	@field:SerializedName("video")
+	val video: String? = null,
+
+	@field:SerializedName("created_by")
+	val createdBy: Int? = null,
+
+	@field:SerializedName("deleted_at")
+	val deletedAt: String? = null,
+
+	@field:SerializedName("categories")
+	val categories: @RawValue List<CategoriesItem?>? = null,
+
+	@field:SerializedName("products")
+	val productsList: ArrayList<ProductsItem>? = null,
+
+	) : Parcelable
+
+@Parcelize
 data class ProductsItem(
 
 	@field:SerializedName("code")
-	val code: Any? = null,
+	val code: @RawValue Any? = null,
 
 	@field:SerializedName("flag")
 	val flag: Int? = null,
@@ -159,7 +196,7 @@ data class ProductsItem(
 	val description: String? = null,
 
 	@field:SerializedName("product_status")
-	val productStatus: Any? = null,
+	val productStatus: @RawValue Any? = null,
 
 	@field:SerializedName("caption")
 	val caption: String? = null,
@@ -174,7 +211,7 @@ data class ProductsItem(
 	val discount: Int? = null,
 
 	@field:SerializedName("video")
-	val video: Any? = null,
+	val video: @RawValue Any? = null,
 
 	@field:SerializedName("media")
 	val media: List<MediaItem?>? = null,
@@ -183,16 +220,16 @@ data class ProductsItem(
 	val type: String? = null,
 
 	@field:SerializedName("meta_keywords")
-	val metaKeywords: Any? = null,
+	val metaKeywords: @RawValue Any? = null,
 
 	@field:SerializedName("related_products")
-	val relatedProducts: Any? = null,
+	val relatedProducts: @RawValue Any? = null,
 
 	@field:SerializedName("external_url")
-	val externalUrl: Any? = null,
+	val externalUrl: @RawValue Any? = null,
 
 	@field:SerializedName("video_url")
-	val videoUrl: Any? = null,
+	val videoUrl: @RawValue Any? = null,
 
 	@field:SerializedName("shipping")
 	val shipping: Shipping? = null,
@@ -216,13 +253,13 @@ data class ProductsItem(
 	val slug: String? = null,
 
 	@field:SerializedName("deep_link")
-	val deepLink: Any? = null,
+	val deepLink: @RawValue Any? = null,
 
 	@field:SerializedName("views")
 	val views: Int? = null,
 
 	@field:SerializedName("whatsapp_number")
-	val whatsappNumber: Any? = null,
+	val whatsappNumber: @RawValue Any? = null,
 
 	@field:SerializedName("store_id")
 	val storeId: Int? = null,
@@ -231,19 +268,19 @@ data class ProductsItem(
 	val image: String? = null,
 
 	@field:SerializedName("address")
-	val address: Any? = null,
+	val address: @RawValue Any? = null,
 
 	@field:SerializedName("meta_title")
-	val metaTitle: Any? = null,
+	val metaTitle: @RawValue Any? = null,
 
 	@field:SerializedName("deep_link_ar")
-	val deepLinkAr: Any? = null,
+	val deepLinkAr: @RawValue Any? = null,
 
 	@field:SerializedName("created_by")
 	val createdBy: Int? = null,
 
 	@field:SerializedName("deleted_at")
-	val deletedAt: Any? = null,
+	val deletedAt: @RawValue Any? = null,
 
 	@field:SerializedName("brand_id")
 	val brandId: Int? = null,
@@ -252,10 +289,10 @@ data class ProductsItem(
 	val isUsed: Int? = null,
 
 	@field:SerializedName("meta_description")
-	val metaDescription: Any? = null,
+	val metaDescription: @RawValue Any? = null,
 
 	@field:SerializedName("user_id")
-	val userId: Any? = null,
+	val userId: @RawValue Any? = null,
 
 	@field:SerializedName("name")
 	val name: String? = null,
@@ -264,16 +301,16 @@ data class ProductsItem(
 	val updatedBy: Int? = null,
 
 	@field:SerializedName("files")
-	val files: Any? = null,
+	val files: @RawValue Any? = null,
 
 	@field:SerializedName("sale_by_phone")
-	val saleByPhone: Any? = null,
+	val saleByPhone: @RawValue Any? = null,
 
 	@field:SerializedName("country_id")
-	val countryId: Any? = null,
+	val countryId: @RawValue Any? = null,
 
 	@field:SerializedName("properties")
-	val properties: List<Any?>? = null,
+	val properties: @RawValue List<Any?>? = null,
 
 	@field:SerializedName("is_featured")
 	val isFeatured: Boolean? = null,
@@ -282,8 +319,42 @@ data class ProductsItem(
 	val status: String? = null,
 
 	@field:SerializedName("city_id")
-	val cityId: Any? = null
-) : Serializable
+	val cityId: @RawValue Any? = null,
+
+	@field:SerializedName("addons")
+	val addons: @RawValue List<Any?>? = null,
+
+	@field:SerializedName("images")
+	val images: List<String?>? = null,
+
+	@field:SerializedName("is_favorite")
+	val isFavorite: Boolean? = null,
+
+	@field:SerializedName("refund_days")
+	val refundDays: Int? = null,
+
+	@field:SerializedName("avg_rating")
+	val avgRating: Int? = null,
+
+	@field:SerializedName("is_refund")
+	val isRefund: Int? = null,
+
+	@field:SerializedName("images_ids")
+	val imagesIds: List<ImagesIdsItem?>? = null,
+
+	@field:SerializedName("description_en")
+	val descriptionEn: String? = null,
+
+	@field:SerializedName("is_refundable")
+	val isRefundable: Boolean? = null,
+
+	@field:SerializedName("is_shareable")
+	val isShareable: Int? = null,
+
+	@field:SerializedName("name_en")
+	val nameEn: String? = null
+
+) : Parcelable
 
 data class CustomProperties(
 
@@ -294,6 +365,7 @@ data class CustomProperties(
 	val root: String? = null
 ) : Serializable
 
+/*@Parcelize
 data class Store(
 
 	@field:SerializedName("thumbnail")
@@ -304,21 +376,25 @@ data class Store(
 
 	@field:SerializedName("id")
 	val id: Int? = null,
+
 	@field:SerializedName("name")
 	val name: String? = null,
+
 	@field:SerializedName("name_en")
 	val nameEn: String? = null,
+
 	@field:SerializedName("description_en")
 	val descriptionEn: String? = null,
+
 	@field:SerializedName("media")
-	val media: List<Any?>? = null,
+	val media: @RawValue List<Any?>? = null,
 
 	@field:SerializedName("lat")
 	val lat: String? = null,
 
 	@field:SerializedName("delivery_price")
 	val deliveryPrice: Int? = null
-) : Serializable
+) : Parcelable*/
 
 data class Shipping(
 

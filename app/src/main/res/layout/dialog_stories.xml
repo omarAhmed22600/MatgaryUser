@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.brandsin.user.ui.main.home.showstory.ShowStoryViewModel" />
@@ -26,12 +27,12 @@
                 android:layout_height="match_parent"
                 android:background="@android:color/black" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <!--<androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:id="@+id/container"
-                android:orientation="horizontal"/>
+                android:orientation="horizontal" />-->
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/see_store"
@@ -39,18 +40,19 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/_8sdp"
-                app:layout_constraintStart_toStartOf="parent"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent">
+                app:layout_constraintStart_toStartOf="parent">
 
                 <ImageView
                     android:id="@+id/imageView6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/story_arrow_up"
-                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/story_arrow_up" />
 
                 <TextView
                     android:id="@+id/textView11"
@@ -58,10 +60,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:text="@string/see_the_store"
-                    android:textSize="@dimen/_14ssp"
                     android:textColor="@color/white"
-                    app:layout_constraintStart_toStartOf="parent"
+                    android:textSize="@dimen/_14ssp"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/imageView6" />
 
                 <com.google.android.material.button.MaterialButton
@@ -69,58 +71,179 @@
                     style="@style/Widget.MaterialComponents.Button"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_42sdp"
+                    android:layout_marginStart="@dimen/_24sdp"
+                    android:layout_marginEnd="@dimen/_24sdp"
+                    android:layout_marginBottom="@dimen/_8sdp"
                     android:fontFamily="@font/cairo_semibold"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
                     android:text="@string/view_all_stories"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
-                    android:layout_marginBottom="@dimen/_8sdp"
-                    android:layout_marginStart="@dimen/_24sdp"
-                    android:layout_marginEnd="@dimen/_24sdp"
                     android:textSize="@dimen/_14ssp"
+                    android:visibility="gone"
                     app:cornerRadius="@dimen/_6sdp"
-                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:visibility="gone" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_show_store"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_42sdp"
+                    android:layout_marginStart="@dimen/_24sdp"
                     android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_24sdp"
+                    android:layout_marginBottom="@dimen/_8sdp"
+                    android:backgroundTint="@color/white"
                     android:fontFamily="@font/cairo_semibold"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
                     android:text="@string/view_home_page_of_store"
                     android:textAllCaps="false"
                     android:textColor="@color/color_primary"
-                    android:backgroundTint="@color/white"
-                    android:layout_marginBottom="@dimen/_8sdp"
-                    android:layout_marginStart="@dimen/_24sdp"
-                    android:layout_marginEnd="@dimen/_24sdp"
                     android:textSize="@dimen/_14ssp"
+                    android:visibility="gone"
                     app:cornerRadius="@dimen/_6sdp"
-                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/btn_show_stories"
-                    android:visibility="gone" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/btn_show_stories" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!--<ImageView
+                android:id="@+id/close"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/ic_close"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />-->
 
             <ImageView
                 android:id="@+id/close"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:src="@drawable/ic_close"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="15dp"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:layout_marginEnd="16dp"
+                android:padding="@dimen/_6sdp"
+                android:src="@drawable/ic_arrow_forward_24px"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/white" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:padding="@dimen/_10sdp"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/imgStore"
+                    android:layout_width="@dimen/_46sdp"
+                    android:layout_height="@dimen/_50sdp"
+                    android:scaleType="fitXY"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/app_logo" />
+
+                <TextView
+                    android:id="@+id/storeName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_8sdp"
+                    android:fontFamily="@font/cairo_bold"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_12ssp"
+                    app:layout_constraintEnd_toStartOf="@id/linFavoriteCount"
+                    app:layout_constraintStart_toEndOf="@id/imgStore"
+                    app:layout_constraintTop_toTopOf="@id/imgStore"
+                    tools:text="Store Name" />
+
+                <TextView
+                    android:id="@+id/storeFollow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_8sdp"
+                    android:fontFamily="@font/cairo_bold"
+                    android:text="@string/follow"
+                    android:textColor="@color/blue"
+                    android:textSize="@dimen/_12ssp"
+                    app:layout_constraintBottom_toBottomOf="@id/imgStore"
+                    app:layout_constraintStart_toEndOf="@id/imgStore"
+                    app:layout_constraintTop_toBottomOf="@id/storeName" />
+
+                <LinearLayout
+                    android:id="@+id/linFavoriteCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="@id/imgStore"
+                    app:layout_constraintEnd_toStartOf="@id/followersCount"
+                    app:layout_constraintStart_toEndOf="@id/storeName"
+                    app:layout_constraintTop_toTopOf="@id/storeName">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/imgFavorite"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top|center"
+                        android:scaleType="fitXY"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_normal_favorite" />
+
+                    <TextView
+                        android:id="@+id/favoriteCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="bottom|center"
+                        android:fontFamily="@font/cairo_semibold"
+                        android:gravity="bottom|center"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_12ssp"
+                        tools:text="1" />
+                </LinearLayout>
+
+
+                <TextView
+                    android:id="@+id/followersCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="@dimen/_8sdp"
+                    android:fontFamily="@font/cairo_semibold"
+                    android:gravity="bottom|center"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_12ssp"
+                    app:drawableTopCompat="@drawable/ic_normal_eye"
+                    app:layout_constraintBottom_toBottomOf="@id/imgStore"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/linFavoriteCount"
+                    app:layout_constraintTop_toTopOf="@id/storeName"
+                    tools:text="1" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animationFavorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/animation_favorite"
+            app:lottie_repeatCount="0" />
 
     </com.brandsin.user.utils.PullDismissLayout>
 </layout>

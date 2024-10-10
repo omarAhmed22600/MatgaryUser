@@ -39,6 +39,9 @@ class ChangeAddressViewModel : BaseViewModel()
             changeAddressRequest.streetName == null -> {
                 setValue(Codes.EMPTY_streetName)
             }
+            /*changeAddressRequest.addressName == null -> {
+                setValue(Codes.EMPTY_addressName)
+            }*/
             changeAddressRequest.phoneNumber == null -> {
                 setValue(Codes.EMPTY_PHONE)
             }

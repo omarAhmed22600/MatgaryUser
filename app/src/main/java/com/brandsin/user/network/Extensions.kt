@@ -15,8 +15,13 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.*
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelStoreOwner
+import androidx.lifecycle.viewModelScope
 import com.brandsin.user.database.BaseViewModel
 import com.brandsin.user.network.ExceptionUtil.getExceptionMessage
 import kotlinx.coroutines.launch
@@ -25,7 +30,8 @@ import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import timber.log.Timber
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 /**
  * Created by MouazSalah 28/12/2020
@@ -92,7 +98,7 @@ inline fun <reified T : ViewModel> ViewModelStoreOwner.initViewModel(
 fun getRandomString(): String? {
     return try {
         val mPattern = "yyyy_MM_dd_HH_mm_ss.SSSSS"
-        val date = Date();
+        val date = Date()
         val formatter = SimpleDateFormat(mPattern, Locale.ROOT)
         val answer: String = formatter.format(date)
         answer
@@ -105,22 +111,33 @@ fun getRandomString(): String? {
 fun <T : Any> T.toRequestBodyParam(): RequestBody =
     this.toString().toRequestBody("text/plain".toMediaTypeOrNull())
 
+fun <T> LiveData<T>.toSingleEvent(): LiveData<T> {
+    val result = LiveEvent<T>()
+    result.addSource(this) {
+        result.value = it
+    }
+    return result
+}
 
-fun <responseBody : Any?> BaseViewModel.requestCall(networkCall: suspend () -> responseBody?, callback: (responseBody?) -> Unit = {})
-{
+fun <responseBody : Any?> BaseViewModel.requestCall(
+    networkCall: suspend () -> responseBody?,
+    callback: (responseBody?) -> Unit = {}
+) {
     viewModelScope.launch {
         setResult(ApiResponse.loading(null))
         try {
             val res = networkCall()
             callback(res)
-        }
-        catch (e: Exception) {
+        } catch (e: Exception) {
             postResult(ApiResponse.errorMessage(e.getExceptionMessage()))
         }
     }
 }
 
-inline fun <reified T : Any?, L : LiveData<T>> LifecycleOwner.observe(liveData: L, noinline body: (T) -> Unit) {
+inline fun <reified T : Any?, L : LiveData<T>> LifecycleOwner.observe(
+    liveData: L,
+    noinline body: (T) -> Unit
+) {
     liveData.observe(this, Observer(body))
 }
 

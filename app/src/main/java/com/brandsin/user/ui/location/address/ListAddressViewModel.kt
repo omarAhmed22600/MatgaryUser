@@ -13,10 +13,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 @Suppress("UNCHECKED_CAST")
-class ListAddressViewModel : BaseViewModel()
-{
-    var addressAdapter  = AddressAdapter()
-    var addressesList = mutableListOf<AddressListItem>()
+class ListAddressViewModel : BaseViewModel() {
+
+    var addressAdapter = AddressAdapter()
+
+    private var addressesList = mutableListOf<AddressListItem>()
 
     fun getUserStatus() {
         when {
@@ -25,6 +26,7 @@ class ListAddressViewModel : BaseViewModel()
                 obsIsLoading.set(true)
                 getDeliveryAddresses()
             }
+
             else -> {
                 obsIsLogin.set(false)
             }
@@ -32,7 +34,7 @@ class ListAddressViewModel : BaseViewModel()
     }
 
     init {
-       getUserStatus()
+        getUserStatus()
     }
 
     fun onAddAddressClicked() {
@@ -47,11 +49,14 @@ class ListAddressViewModel : BaseViewModel()
         setValue(Codes.LOGIN_CLICKED)
     }
 
-    fun getDeliveryAddresses()
-    {
+    fun getDeliveryAddresses() {
         requestCall<ListAddressesResponse?>({
             withContext(Dispatchers.IO) { // to return a result its like asyncTask() and await
-                return@withContext getApiRepo().getListAddresses(PrefMethods.getUserData()!!.id!!, PrefMethods.getLanguage() , 1)
+                return@withContext getApiRepo().getListAddresses(
+                    PrefMethods.getUserData()!!.id!!,
+                    PrefMethods.getLanguage(),
+                    1
+                )
             }
         })
         { res ->
@@ -67,12 +72,14 @@ class ListAddressViewModel : BaseViewModel()
                             obsIsFull.set(true)
                             obsIsEmpty.set(false)
                         }
+
                         else -> {
                             obsIsFull.set(false)
                             obsIsEmpty.set(true)
                         }
                     }
                 }
+
                 else -> {
                     obsIsLoading.set(false)
                     obsIsEmpty.set(true)
@@ -82,12 +89,14 @@ class ListAddressViewModel : BaseViewModel()
         }
     }
 
-    fun deleteDeliveryAddress(item : AddressListItem)
-    {
+    fun deleteDeliveryAddress(item: AddressListItem) {
         obsIsVisible.set(true)
         requestCall<DeleteAddressResponse?>({
             withContext(Dispatchers.IO) {
-                return@withContext getApiRepo().deleteDeliveryAddress(item.id!!, PrefMethods.getLanguage())
+                return@withContext getApiRepo().deleteDeliveryAddress(
+                    item.id!!,
+                    PrefMethods.getLanguage()
+                )
             }
         })
         { res ->
@@ -105,6 +114,7 @@ class ListAddressViewModel : BaseViewModel()
                         }
                     }
                 }
+
                 else -> {
                     apiResponseLiveData.value = ApiResponse.errorMessage(res.message.toString())
                 }
@@ -112,12 +122,15 @@ class ListAddressViewModel : BaseViewModel()
         }
     }
 
-    fun setDefaultAddress(item : AddressListItem)
-    {
+    fun setDefaultAddress(item: AddressListItem) {
         obsIsVisible.set(true)
         requestCall<SetDefaultAddressResponse?>({
             withContext(Dispatchers.IO) {
-                return@withContext getApiRepo().setDefaultAddress(PrefMethods.getUserData()!!.id!! , item.id!!, PrefMethods.getLanguage())
+                return@withContext getApiRepo().setDefaultAddress(
+                    PrefMethods.getUserData()!!.id!!,
+                    item.id!!,
+                    PrefMethods.getLanguage()
+                )
             }
         })
         { res ->
@@ -125,6 +138,7 @@ class ListAddressViewModel : BaseViewModel()
                 true -> {
 //                    getDefaultAddressFromApi()
                 }
+
                 else -> {
                     obsIsVisible.set(false)
                     apiResponseLiveData.value = ApiResponse.errorMessage(res.message.toString())

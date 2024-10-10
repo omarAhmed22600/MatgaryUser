@@ -2,6 +2,7 @@ package com.brandsin.user.model.order.homepage.addedstories.liststories
 
 import com.google.gson.annotations.SerializedName
 import com.brandsin.user.model.order.homepage.StoriesItem
+import com.brandsin.user.model.order.productdetails.CustomProperties
 import java.io.Serializable
 
 data class ListStoriesResponse(
@@ -34,7 +35,7 @@ data class MediaItem(
 	val modelId: Int? = null,
 
 	@field:SerializedName("custom_properties")
-	val customProperties: List<Any?>? = null,
+	val customProperties: CustomProperties? = null,
 
 	@field:SerializedName("disk")
 	val disk: String? = null,

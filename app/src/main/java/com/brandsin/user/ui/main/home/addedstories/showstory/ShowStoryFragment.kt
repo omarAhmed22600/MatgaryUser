@@ -38,7 +38,7 @@ class ShowStoryFragment :  BaseHomeFragment(), Observer<Any?>, MomentzCallback
     private val fragmentArgs: ShowStoryFragmentArgs by navArgs()
     var storiesItem = StoriesItem()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View
     {
         // Inflate the layout for requireActivity() fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.profile_fragment_show_story, container, false)
@@ -60,10 +60,10 @@ class ShowStoryFragment :  BaseHomeFragment(), Observer<Any?>, MomentzCallback
         viewModel.showProgress().observe(viewLifecycleOwner, { aBoolean ->
             if (!aBoolean!!) {
                 binding.progressLayout.visibility = View.GONE
-                requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
             } else {
                 binding.progressLayout.visibility = View.VISIBLE
-                requireActivity().window.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                requireActivity().window.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
             }
         })
 
@@ -99,7 +99,7 @@ class ShowStoryFragment :  BaseHomeFragment(), Observer<Any?>, MomentzCallback
 
         for (item in viewModel.storiesList) {
             for (xItem in item.stories!!) {
-                if (xItem!!.media.isNullOrEmpty()){
+                if (xItem.media.isNullOrEmpty()){
                     val textView = TextView(requireActivity())
                     textView.text = xItem.text
                     textView.textSize = 20f.toPixel(requireActivity()).toFloat()
@@ -109,7 +109,7 @@ class ShowStoryFragment :  BaseHomeFragment(), Observer<Any?>, MomentzCallback
                     var momentz = MomentzView(textView, 5)
                     viewModel.listOfViews.add(momentz)
 
-                }else if (xItem.media!![0]!!.mimeType!!.contains("image")){
+                }else if (xItem.media!![0].mimeType!!.contains("image")){
 
                     val image = ImageView(requireActivity())
                     var momentz = MomentzView(image, 10)
@@ -127,7 +127,7 @@ class ShowStoryFragment :  BaseHomeFragment(), Observer<Any?>, MomentzCallback
                         })
                     viewModel.listOfViews.add(momentz)
 
-                }else if (xItem.media[0]!!.mimeType!!.contains("video")){
+                }else if (xItem.media[0].mimeType!!.contains("video")){
 
                     val video = VideoView(requireActivity())
                     var momentz = MomentzView(video, 60)

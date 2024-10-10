@@ -74,7 +74,7 @@ class MoreSliderAdapter : SliderViewAdapter<MoreSliderAdapter.SliderHolder>() {
     }
 
     inner class SliderHolder(val binding: ItemHomeMoreSliderBinding) :
-        SliderViewAdapter.ViewHolder(binding.root)
+        ViewHolder(binding.root)
 
     override fun getCount(): Int {
         return itemsList.size

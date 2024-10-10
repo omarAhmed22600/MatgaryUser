@@ -30,7 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 tools:src="@tools:sample/backgrounds/scenic"
-                android:src="@drawable/french_fries"
+                android:src="@drawable/app_logo"
                 android:scaleType="fitXY"
                 storeImg="@{viewModel.item.covers.size >0? viewModel.item.covers[0].url : viewModel.item.image}"
                 tools:ignore="ContentDescription" />

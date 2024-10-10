@@ -7,13 +7,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.brandsin.user.R
 import com.brandsin.user.databinding.RawHomeCategoryBinding
-import com.brandsin.user.model.order.homepage.CategoriesItem
+import com.brandsin.user.model.order.homenew.CategoriesItem
 import com.brandsin.user.utils.MyApp.Companion.context
 import com.brandsin.user.utils.SingleLiveEvent
-import kotlin.collections.ArrayList
 
-class CategoriesAdapter : RecyclerView.Adapter<CategoriesAdapter.CategoriesHolder>()
-{
+class CategoriesAdapter : RecyclerView.Adapter<CategoriesAdapter.CategoriesHolder>() {
     var categoriesList: MutableList<CategoriesItem> = ArrayList()
     var categoriesLiveData = SingleLiveEvent<CategoriesItem>()
     var selectedPosition = 0
@@ -21,7 +19,8 @@ class CategoriesAdapter : RecyclerView.Adapter<CategoriesAdapter.CategoriesHolde
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoriesHolder {
         val context = parent.context
         val layoutInflater = LayoutInflater.from(context)
-        val binding: RawHomeCategoryBinding = DataBindingUtil.inflate(layoutInflater, R.layout.raw_home_category, parent, false)
+        val binding: RawHomeCategoryBinding =
+            DataBindingUtil.inflate(layoutInflater, R.layout.raw_home_category, parent, false)
         return CategoriesHolder(binding)
     }
 
@@ -55,19 +54,21 @@ class CategoriesAdapter : RecyclerView.Adapter<CategoriesAdapter.CategoriesHolde
         notifyDataSetChanged()
     }
 
-    inner class CategoriesHolder(val binding: RawHomeCategoryBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class CategoriesHolder(val binding: RawHomeCategoryBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun setSelected() {
             when (selectedPosition) {
                 adapterPosition -> {
                     binding.cvMain.strokeWidth = 0
-                    binding.categoryItemView.visibility= View.VISIBLE
+                    binding.categoryItemView.visibility = View.VISIBLE
                     binding.categoryItemView.setBackgroundColor(context.getColor(R.color.color_primary))
                     binding.categoryItemName.setTextColor(context.getColor(R.color.color_primary))
 
                 }
+
                 else -> {
                     binding.cvMain.strokeWidth = 0
-                    binding.categoryItemView.visibility= View.GONE
+                    binding.categoryItemView.visibility = View.GONE
                     binding.categoryItemName.setTextColor(context.getColor(R.color.black))
                 }
             }

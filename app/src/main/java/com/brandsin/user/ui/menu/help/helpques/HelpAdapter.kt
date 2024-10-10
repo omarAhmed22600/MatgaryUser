@@ -8,15 +8,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.brandsin.user.R
 import com.brandsin.user.databinding.RawHelpQuesBinding
 import com.brandsin.user.model.menu.help.HelpQuesItem
+import com.brandsin.user.utils.PrefMethods
 import com.brandsin.user.utils.SingleLiveEvent
-import java.util.*
+import org.jsoup.Jsoup
 
 class HelpAdapter : RecyclerView.Adapter<HelpAdapter.AboutHolder>() {
-    var helpList: ArrayList<HelpQuesItem> = ArrayList()
+
+    private var helpList: ArrayList<HelpQuesItem> = ArrayList()
 
     var helpLiveData = SingleLiveEvent<HelpQuesItem>()
-    var selectedItemPosition: Int = -1
+    private var selectedItemPosition: Int = -1
     var isExpanded: Boolean = false
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AboutHolder {
         val context = parent.context
         val layoutInflater = LayoutInflater.from(context)
@@ -34,8 +37,16 @@ class HelpAdapter : RecyclerView.Adapter<HelpAdapter.AboutHolder>() {
         } else {
             holder.binding.answerScrollview.visibility = View.GONE
         }
+        if (PrefMethods.getLanguage() == "ar") {
+            holder.binding.imgArrow.setImageResource(R.drawable.arrow_next_ar)
+        } else {
+            holder.binding.imgArrow.setImageResource(R.drawable.arrow_next)
+        }
+
+        holder.binding.tvAnswer.text = html2text(itemViewModel.item.content.toString())
+
         holder.binding.root.setOnClickListener {
-            //helpLiveData.value = itemViewModel.item
+            // helpLiveData.value = itemViewModel.item
 //            if(selectedItemPosition==position) {
 //                isExpanded = !isExpanded
 //            }else{
@@ -45,6 +56,14 @@ class HelpAdapter : RecyclerView.Adapter<HelpAdapter.AboutHolder>() {
             selectedItemPosition = position
 
             notifyDataSetChanged()
+        }
+    }
+
+    private fun html2text(html: String): String {
+        return try {
+            Jsoup.parse(html).text()
+        } catch (ignored: Exception) {
+            ""
         }
     }
 

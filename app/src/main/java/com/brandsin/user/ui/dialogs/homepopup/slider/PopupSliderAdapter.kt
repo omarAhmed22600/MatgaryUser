@@ -60,7 +60,7 @@ class PopupSliderAdapter: SliderViewAdapter<PopupSliderAdapter.SliderHolder>()
         notifyDataSetChanged()
     }
 
-    inner class SliderHolder(val binding: ItemPopupSliderHomeBinding) : SliderViewAdapter.ViewHolder(binding.root)
+    inner class SliderHolder(val binding: ItemPopupSliderHomeBinding) : ViewHolder(binding.root)
 
     override fun getCount(): Int {
         return itemsList.size

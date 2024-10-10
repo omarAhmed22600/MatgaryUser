@@ -8,23 +8,22 @@ import com.brandsin.user.R
 import com.brandsin.user.databinding.RawOfferProductItemBinding
 import com.brandsin.user.model.menu.offers.ProductsItem
 import com.brandsin.user.utils.SingleLiveEvent
-import java.util.*
 
-class OfferProductAdapter : RecyclerView.Adapter<OfferProductAdapter.OfferProductHolder>()
-{
-    var offersList: ArrayList<ProductsItem> = ArrayList()
-    var offersLiveData = SingleLiveEvent<ProductsItem>()
+class OfferProductAdapter : RecyclerView.Adapter<OfferProductAdapter.OfferProductHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OfferProductHolder
-    {
+    private var offersList: ArrayList<ProductsItem>? = ArrayList()
+    private var offersLiveData = SingleLiveEvent<ProductsItem>()
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OfferProductHolder {
         val context = parent.context
         val layoutInflater = LayoutInflater.from(context)
-        val binding: RawOfferProductItemBinding = DataBindingUtil.inflate(layoutInflater, R.layout.raw_offer_product_item, parent, false)
+        val binding: RawOfferProductItemBinding =
+            DataBindingUtil.inflate(layoutInflater, R.layout.raw_offer_product_item, parent, false)
         return OfferProductHolder(binding)
     }
 
     override fun onBindViewHolder(holder: OfferProductHolder, position: Int) {
-        val itemViewModel = ItemOfferProductViewModel(offersList[position])
+        val itemViewModel = ItemOfferProductViewModel(offersList!![position])
         holder.binding.viewModel = itemViewModel
 
         holder.binding.rawLayout.setOnClickListener {
@@ -33,13 +32,14 @@ class OfferProductAdapter : RecyclerView.Adapter<OfferProductAdapter.OfferProduc
     }
 
     override fun getItemCount(): Int {
-        return offersList.size
+        return offersList?.size ?: 0
     }
 
-    fun updateList(models: ArrayList<ProductsItem>) {
+    fun updateList(models: ArrayList<ProductsItem>?) {
         offersList = models
         notifyDataSetChanged()
     }
 
-    inner class OfferProductHolder(val binding: RawOfferProductItemBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class OfferProductHolder(val binding: RawOfferProductItemBinding) :
+        RecyclerView.ViewHolder(binding.root)
 }

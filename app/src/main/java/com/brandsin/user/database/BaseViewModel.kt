@@ -6,18 +6,17 @@ import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.databinding.PropertyChangeRegistry
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.brandsin.user.network.ApiRepo
+import com.brandsin.user.network.ApiResponse
+import com.brandsin.user.network.BaseApiResponse
+import com.brandsin.user.network.RetrofitBuilder
 import com.brandsin.user.utils.MyApp
 import com.brandsin.user.utils.SingleLiveEvent
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import androidx.lifecycle.viewModelScope
-import com.brandsin.user.network.ApiRepo
-import com.brandsin.user.network.ApiResponse
-import com.brandsin.user.network.RetrofitBuilder
 
-open class BaseViewModel : ViewModel(), Observable
-{
+open class BaseViewModel : Observable, BaseApiResponse() {
     fun getApiRepo(): ApiRepo = ApiRepo(RetrofitBuilder.API_SERVICE)
 
     val obsSize = ObservableField<Int>()
@@ -30,12 +29,13 @@ open class BaseViewModel : ViewModel(), Observable
 
     var obsIsLoadingStores = ObservableField<Boolean>()
     var obsHideRecycler = ObservableField<Boolean>()
-    var obsIsHide=ObservableField<Boolean>()
+    var obsIsHide = ObservableField<Boolean>()
     var obsHidesTories = ObservableField<Boolean>()
-    //for network
+
+    // For network
     val apiResponseLiveData = MutableLiveData<ApiResponse<Any?>>()
 
-    val clickableLiveData = SingleLiveEvent<Boolean>().apply { postValue(true)}
+    val clickableLiveData = SingleLiveEvent<Boolean>().apply { postValue(true) }
     var obsIsClickable = ObservableBoolean(true)
 
     val mutableLiveData = SingleLiveEvent<Any?>()
@@ -46,76 +46,58 @@ open class BaseViewModel : ViewModel(), Observable
     var isShownOld = ObservableBoolean()
     var isShown = ObservableBoolean()
     var isConfirmShown = ObservableBoolean()
-    var currentPage : Int = 1
+    var currentPage: Int = 1
     var loadMoreData = SingleLiveEvent<Boolean>()
 
-    fun setValue(item: Any?)
-    {
+    fun setValue(item: Any?) {
         mutableLiveData.value = item
         mutableLiveData.value = null
     }
 
-    fun postValue(item: Any?)
-    {
+    fun postValue(item: Any?) {
         mutableLiveData.postValue(item)
         mutableLiveData.postValue(null)
     }
 
-    fun onEyeOldClicked()
-    {
-        if (isShownOld.get())
-        {
+    fun onEyeOldClicked() {
+        if (isShownOld.get()) {
             isShownOld.set(false)
-        }
-        else
-        {
+        } else {
             isShownOld.set(true)
         }
     }
 
-    fun onEyeClicked()
-    {
-        if (isShown.get())
-        {
+    fun onEyeClicked() {
+        if (isShown.get()) {
             isShown.set(false)
-        }
-        else
-        {
+        } else {
             isShown.set(true)
         }
     }
 
-    fun onConfirmEyeClicked()
-    {
-        if (isConfirmShown.get())
-        {
+    fun onConfirmEyeClicked() {
+        if (isConfirmShown.get()) {
             isConfirmShown.set(false)
-        }
-        else
-        {
+        } else {
             isConfirmShown.set(true)
         }
     }
 
-    protected open fun getDouble(value: String?): Double
-    {
+    protected open fun getDouble(value: String?): Double {
         return value?.toDouble() ?: 0.0
     }
 
-    fun setShowProgress(item: Boolean)
-    {
+    fun setShowProgress(item: Boolean) {
         showProgress!!.value = item
     }
 
-    fun showProgress(): SingleLiveEvent<Boolean>
-    {
+    fun showProgress(): SingleLiveEvent<Boolean> {
         return if (showProgress == null) SingleLiveEvent<Boolean>().also {
             showProgress = it
         } else showProgress!!
     }
 
-    fun getMessage(): String?
-    {
+    fun getMessage(): String? {
         return message.get()
     }
 
@@ -140,7 +122,6 @@ open class BaseViewModel : ViewModel(), Observable
     }
 
 
-
     override fun addOnPropertyChangedCallback(callback: OnPropertyChangedCallback) {
         mCallBacks.add(callback)
     }
@@ -157,8 +138,7 @@ open class BaseViewModel : ViewModel(), Observable
         mCallBacks.notifyChange(this, propertyId)
     }
 
-    fun setClickable()
-    {
+    fun setClickable() {
         obsIsClickable.set(false)
         viewModelScope.launch {
             delay(2000)
@@ -173,6 +153,7 @@ open class BaseViewModel : ViewModel(), Observable
     fun setResult(o: ApiResponse<Any?>?) {
         apiResponseLiveData.value = o
     }
+
     fun postResult(o: ApiResponse<Any?>?) {
         apiResponseLiveData.postValue(o)
     }

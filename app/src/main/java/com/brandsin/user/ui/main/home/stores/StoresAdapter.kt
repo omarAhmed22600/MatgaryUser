@@ -10,32 +10,30 @@ import com.brandsin.user.databinding.RawHomeStoreBinding
 import com.brandsin.user.databinding.RawHomeStoreV2Binding
 import com.brandsin.user.model.order.homepage.ShopsItem
 import com.brandsin.user.utils.SingleLiveEvent
-import java.util.*
 
 class StoresAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    var storesList: MutableList<ShopsItem> = ArrayList()
-    var productsLiveData = SingleLiveEvent<ShopsItem>()
-    var viewType: Int = 0
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val context = parent.context
-        val layoutInflater = LayoutInflater.from(context)
-        val binding
-                : RawHomeStoreBinding =
-            DataBindingUtil.inflate(layoutInflater, R.layout.raw_home_store, parent, false)
-        val binding2
-                : RawHomeStoreV2Binding =
-            DataBindingUtil.inflate(layoutInflater, R.layout.raw_home_store_v2, parent, false)
-        when (viewType) {
-            0 ->
-                return ProductsHolder(binding)
-            else ->
 
-                return ProductsHolder2(binding2)
+    private var storesList: MutableList<ShopsItem> = ArrayList()
+    var productsLiveData = SingleLiveEvent<ShopsItem>()
+    var viewType: Int = 1
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val binding: RawHomeStoreBinding =
+            DataBindingUtil.inflate(layoutInflater, R.layout.raw_home_store, parent, false)
+        val binding2: RawHomeStoreV2Binding =
+            DataBindingUtil.inflate(layoutInflater, R.layout.raw_home_store_v2, parent, false)
+        return when (viewType) {
+            0 ->
+                ProductsHolder(binding)
+
+            else ->
+                ProductsHolder2(binding2)
         }
     }
 
-    fun setAdapterViewType(viewType: Int){
-        this.viewType=viewType
+    fun setAdapterViewType(viewType: Int) {
+        this.viewType = viewType
         notifyDataSetChanged()
     }
 
@@ -43,6 +41,7 @@ class StoresAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun getItemViewType(position: Int): Int {
         return viewType
     }
+
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val itemViewModel = ItemStoreViewModel(storesList[position])
         when (holder.itemViewType) {
@@ -61,6 +60,7 @@ class StoresAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                     }
                 }
             }
+
             else -> {
                 val productsHolder2 = holder as ProductsHolder2
                 productsHolder2.binding.viewModel = itemViewModel

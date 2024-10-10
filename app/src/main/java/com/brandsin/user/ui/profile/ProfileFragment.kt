@@ -18,19 +18,22 @@ import com.brandsin.user.ui.activity.home.HomeActivity
 import com.brandsin.user.ui.location.address.ListAddressesActivity
 import com.brandsin.user.utils.PrefMethods
 import timber.log.Timber
-import java.util.*
+import java.util.Locale
 
-class ProfileFragment : BaseHomeFragment()
-{
-    lateinit var binding : ProfileFragmentEditBinding
+class ProfileFragment : BaseHomeFragment() {
+    lateinit var binding: ProfileFragmentEditBinding
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.profile_fragment_edit, container, false)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.profile_fragment_edit, container, false)
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?)
-    {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         setBarName(getString(R.string.edit_profile))
@@ -40,8 +43,10 @@ class ProfileFragment : BaseHomeFragment()
         }
 
         binding.addressLayout.setOnClickListener {
-            startActivityForResult((Intent(requireActivity(), ListAddressesActivity::class.java))
-                .putExtra(Params.DELIVERY_ADDRESSES_FLAG , 3), Codes.SHOW_DELIVERY_ADDRESSES_CODE)
+            startActivityForResult(
+                (Intent(requireActivity(), ListAddressesActivity::class.java))
+                    .putExtra(Params.DELIVERY_ADDRESSES_FLAG, 3), Codes.SHOW_DELIVERY_ADDRESSES_CODE
+            )
         }
 
         binding.changePassLayout.setOnClickListener {
@@ -52,6 +57,7 @@ class ProfileFragment : BaseHomeFragment()
             PrefMethods.getLanguage() == "ar" -> {
                 binding.tvLanguage.text = "English"
             }
+
             else -> {
                 binding.tvLanguage.text = "العربية"
             }
@@ -62,6 +68,7 @@ class ProfileFragment : BaseHomeFragment()
                 PrefMethods.getLanguage() == "ar" -> {
                     setLanguage("en")
                 }
+
                 else -> {
                     setLanguage("ar")
                 }
@@ -76,6 +83,7 @@ class ProfileFragment : BaseHomeFragment()
                     binding.ibSwitch.isChecked = false
                     PrefMethods.setIsNotificationsEnabled(false)
                 }
+
                 else -> {
                     binding.ibSwitch.isChecked = true
                     PrefMethods.setIsNotificationsEnabled(true)
@@ -83,7 +91,7 @@ class ProfileFragment : BaseHomeFragment()
             }
         }
         binding.ibSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked){
+            if (isChecked) {
                 PrefMethods.setIsNotificationsEnabled(true)
             } else {
                 PrefMethods.setIsNotificationsEnabled(false)
@@ -101,6 +109,7 @@ class ProfileFragment : BaseHomeFragment()
         val intent = Intent(activity, HomeActivity::class.java)
         startActivity(intent)
     }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -111,10 +120,12 @@ class ProfileFragment : BaseHomeFragment()
                     null -> {
                         Timber.e("no changes detected")
                     }
+
                     else -> {
                         when {
                             data.hasExtra(Params.ADDRESS_ITEM) -> {
-                                val addressItem = data.getParcelableExtra<AddressListItem>(Params.ADDRESS_ITEM)
+                                val addressItem =
+                                    data.getParcelableExtra<AddressListItem>(Params.ADDRESS_ITEM)
                                 PrefMethods.saveDefaultAddress(addressItem)
                             }
                         }

@@ -17,7 +17,7 @@ class CommonQuestionFragment : BaseHomeFragment(), Observer<Any?>
     private lateinit var viewModel: CommonQuestionViewModel
     private lateinit var binding: HomeFragmentAboutQuesBinding
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View
     {
         binding = DataBindingUtil.inflate(inflater, R.layout.home_fragment_about_ques, container, false)
 

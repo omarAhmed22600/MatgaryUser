@@ -23,13 +23,24 @@ import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnima
 import com.smarteist.autoimageslider.SliderAnimations
 import com.smarteist.autoimageslider.SliderView
 
-class NotificationFragment : BaseHomeFragment(), Observer<Any?>
-{
+class NotificationFragment : BaseHomeFragment(), Observer<Any?> {
     private lateinit var viewModel: NotificationViewModel
-    private lateinit var binding : HomeFragmentNotificationsBinding
-    lateinit var sliderView : SliderView
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.home_fragment_notifications, container, false)
+
+    private lateinit var binding: HomeFragmentNotificationsBinding
+
+    private lateinit var sliderView: SliderView
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.home_fragment_notifications,
+            container,
+            false
+        )
         return binding.root
     }
 
@@ -49,9 +60,7 @@ class NotificationFragment : BaseHomeFragment(), Observer<Any?>
         }
 
         observe(viewModel.slidersResponse) {
-
             setupSlider(it!!.data!!.slides)
-
         }
     }
 
@@ -70,23 +79,28 @@ class NotificationFragment : BaseHomeFragment(), Observer<Any?>
         sliderView.startAutoCycle()
     }
 
-    override fun onChanged(it: Any?)
-    {
+    override fun onChanged(it: Any?) {
         when (it) {
             null -> return
             else -> when (it) {
                 Codes.LOGIN_CLICKED -> {
                     PrefMethods.saveIsAskedToLogin(true)
-                    requireActivity().startActivity(Intent(requireActivity(),
-                        AuthActivity::class.java))
+                    requireActivity().startActivity(
+                        Intent(
+                            requireActivity(),
+                            AuthActivity::class.java
+                        )
+                    )
                 }
+
                 is NotificationItem -> {
                     viewModel.notificationsList[viewModel.notificationsList.indexOf(it)].readAt == "read"
                     viewModel.notificationAdapter.updateList(viewModel.notificationsList)
                     viewModel.makeReadNotification(it)
                     when {
                         it.orderId != null -> {
-                            val action = NotificationFragmentDirections.notificationToOrderDetails(it.orderId)
+                            val action =
+                                NotificationFragmentDirections.notificationToOrderDetails(it.orderId)
                             findNavController().navigate(action)
                         }
                     }

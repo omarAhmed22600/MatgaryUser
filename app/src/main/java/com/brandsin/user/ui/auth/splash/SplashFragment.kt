@@ -13,17 +13,18 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.brandsin.user.R
+import com.brandsin.user.databinding.AuthFragmentSplashBinding
 import com.brandsin.user.model.constants.Const
 import com.brandsin.user.ui.activity.auth.AuthActivity
 import com.brandsin.user.ui.activity.auth.BaseAuthFragment
 import com.brandsin.user.ui.activity.home.HomeActivity
 import com.brandsin.user.utils.PrefMethods
-import kotlinx.android.synthetic.main.auth_fragment_splash.*
 import kotlinx.coroutines.launch
 import java.io.File
 
-
 class SplashFragment : BaseAuthFragment(), MediaPlayer.OnCompletionListener {
+
+    private lateinit var binding: AuthFragmentSplashBinding
 
     private var player: SimpleExoPlayer? = null
 
@@ -31,79 +32,78 @@ class SplashFragment : BaseAuthFragment(), MediaPlayer.OnCompletionListener {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.auth_fragment_splash, container, false)
+    ): View {
+        binding = AuthFragmentSplashBinding.inflate(inflater, container, false)
 
-//        lifecycleScope.launch {
-//            delay(2000)
-//
-//            when {
-//                /*
-//                * User logged in before and save his login state
-//                */
-//                PrefMethods.getLoginState() -> {
-//                    when {
-//                        /*  User logged in before and has default address */
-//                        PrefMethods.getUserLocation() != null -> {
-//                            requireActivity().startActivity(
-//                                Intent(
-//                                    requireActivity(),
-//                                    HomeActivity::class.java
-//                                )
-//                            )
-//                            requireActivity().finishAffinity()
-//                        }
-//                        /*  User logged in before and but doesn't has default address */
-//                        else -> {
-//                            findNavController().navigate(R.id.splash_to_permission)
-//                        }
-//                    }
-//                }
-//                /*
-//                *  If user logged before But he't save his default address but doesn't save his login state
-//                */
-//                PrefMethods.getUserLocation() != null -> {
-//                    PrefMethods.deleteUserData()
-//                    if ((activity as AuthActivity).intent.getBooleanExtra(
-//                            Const.ACCESS_LOGIN,
-//                            false
-//                        )
-//                    ) {
-//                        findNavController().navigate(R.id.splash_to_login)
-//                    } else {
-//                        findNavController().navigate(R.id.splash_to_login_ways)
-//                    }
-//                }
-//                /*
-//                * If user open the app for the first time Or logged before but he logged out and clear his default address
-//                * */
-//                else -> {
-//                    PrefMethods.deleteUserData()
-//                    findNavController().navigate(R.id.splash_to_permission)
-//                }
-//            }
-//        }
+/*        lifecycleScope.launch {
+            delay(2000)
 
-        return view
+            when {
+                *//*
+                * User logged in before and save his login state
+                *//*
+                PrefMethods.getLoginState() -> {
+                    when {
+                        *//*  User logged in before and has default address *//*
+                        PrefMethods.getUserLocation() != null -> {
+                            requireActivity().startActivity(
+                                Intent(
+                                    requireActivity(),
+                                    HomeActivity::class.java
+                                )
+                            )
+                            requireActivity().finishAffinity()
+                        }
+                        *//*  User logged in before and but doesn't has default address *//*
+                        else -> {
+                            findNavController().navigate(R.id.splash_to_permission)
+                        }
+                    }
+                }
+                *//*
+                *  If user logged before But he't save his default address but doesn't save his login state
+                *//*
+                PrefMethods.getUserLocation() != null -> {
+                    PrefMethods.deleteUserData()
+                    if ((activity as AuthActivity).intent.getBooleanExtra(
+                            Const.ACCESS_LOGIN,
+                            false
+                        )
+                    ) {
+                        findNavController().navigate(R.id.splash_to_login)
+                    } else {
+                        findNavController().navigate(R.id.splash_to_login_ways)
+                    }
+                }
+                *//*
+                * If user open the app for the first time Or logged before but he logged out and clear his default address
+                * *//*
+                else -> {
+                    PrefMethods.deleteUserData()
+                    findNavController().navigate(R.id.splash_to_permission)
+                }
+            }
+        }*/
+
+        return binding.root
     }
 
     override fun onStart() {
         super.onStart()
         startVideo()
-
     }
 
     private fun startVideo() {
         val url: Uri =
-            Uri.parse("android.resource://" + activity!!.packageName.toString() + "/" + R.raw.splash)
+            Uri.parse("android.resource://" + requireActivity().packageName.toString() + "/" + R.raw.new_splash)
         val file = File(url.toString())
         val mc = MediaController(context)
-        activity!!.window.setFormat(PixelFormat.TRANSLUCENT)
-        videoView1.setMediaController(null)
-        videoView1.requestFocus();
-        videoView1.setVideoURI(url)
-        videoView1.setOnCompletionListener(this)
-        videoView1.start()
+        requireActivity().window.setFormat(PixelFormat.TRANSLUCENT)
+        binding.videoView1.setMediaController(null)
+        binding.videoView1.requestFocus()
+        binding.videoView1.setVideoURI(url)
+        binding.videoView1.setOnCompletionListener(this)
+        binding.videoView1.start()
     }
 
     override fun onCompletion(p0: MediaPlayer?) {
@@ -156,8 +156,6 @@ class SplashFragment : BaseAuthFragment(), MediaPlayer.OnCompletionListener {
                 }
             }
         }
-
     }
-
 
 }

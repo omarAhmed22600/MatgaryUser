@@ -12,6 +12,12 @@ data class CreateOrderRequest(
     @SerializedName("discount_type") var discountType: String? = null,
     @SerializedName("discount_value") var discountValue: Double? = null,
     @SerializedName("user_notes") var userNotes: String? = null,
+    @SerializedName("extra_fees") var extraFees: String? = null,
+
+    @SerializedName("order_type") var orderType: String? = null,
+    @SerializedName("gifter_name") var gifterName: String? = null,
+    @SerializedName("gifter_mobile") var gifterMobile: String? = null,
+    @SerializedName("has_packaging") var has_Packaging: String? = null,
 )
 
 data class OrderData(

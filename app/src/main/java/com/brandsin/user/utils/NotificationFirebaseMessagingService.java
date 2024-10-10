@@ -25,18 +25,17 @@ import java.util.Map;
 
 public class NotificationFirebaseMessagingService extends FirebaseMessagingService {
 
-    boolean showNotifcation;
+    boolean showNotification;
     Intent intent;
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
 
+        showNotification = PrefMethods.INSTANCE.getIsNotificationsEnabled(this);
 
-        showNotifcation = PrefMethods.INSTANCE.getIsNotificationsEnabled(this);
-
-        //Check if Notn are Enabled?
-        if (showNotifcation) {
+        // Check if Notification are Enabled?
+        if (showNotification) {
             //Show Notification
             RemoteMessage.Notification notification = remoteMessage.getNotification();
             Map<String, String> data = remoteMessage.getData();
@@ -44,6 +43,7 @@ public class NotificationFirebaseMessagingService extends FirebaseMessagingServi
             sendNotification(notification, data);
         }
     }
+
     private void sendNotification(RemoteMessage.Notification notification, Map<String, String> data) {
 
         Bitmap icon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
@@ -64,7 +64,8 @@ public class NotificationFirebaseMessagingService extends FirebaseMessagingServi
         }
 
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent,
+                PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
 
         if (notification != null) {
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, "channel_id")

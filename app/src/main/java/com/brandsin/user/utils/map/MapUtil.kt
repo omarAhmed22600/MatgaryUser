@@ -13,6 +13,10 @@ import android.os.Build
 import android.provider.Settings
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
+import com.brandsin.user.R
+import com.brandsin.user.model.constants.Codes
+import com.brandsin.user.utils.MyApp
+import com.brandsin.user.utils.PrefMethods
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.common.api.ApiException
@@ -26,10 +30,6 @@ import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.google.android.material.snackbar.Snackbar
-import com.brandsin.user.R
-import com.brandsin.user.model.constants.Codes
-import com.brandsin.user.utils.MyApp
-import com.brandsin.user.utils.PrefMethods
 import timber.log.Timber
 import java.io.IOException
 import java.util.*
@@ -56,38 +56,37 @@ object MapUtil {
     }
 
     // CHECK FOR LOCATION Requirements
-    private fun checkForGpsEnabled(activity: AppCompatActivity, liveData: MutableLiveData<Boolean>, )
-    {
-        val locationRequest = LocationRequest.create().setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY).setInterval(0)
+    private fun checkForGpsEnabled(
+        activity: AppCompatActivity,
+        liveData: MutableLiveData<Boolean>,
+    ) {
+        val locationRequest =
+            LocationRequest.create().setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                .setInterval(0)
         val builder = LocationSettingsRequest.Builder().addLocationRequest(locationRequest)
-        val result = LocationServices.getSettingsClient(activity).checkLocationSettings(builder.build())
+        val result =
+            LocationServices.getSettingsClient(activity).checkLocationSettings(builder.build())
         result.addOnCompleteListener {
             try {
                 // All location settings are satisfied. The client can initialize location requests here.
-                if (!hasForgroundLocationPermissions(activity))
-                {
-                    PermissionUtil.requestForgroundActivityPermission(activity,
-                            PermissionUtil.getForgroundLocationPermissions()).observe(activity, { appPermissionResult ->
-                            if (appPermissionResult == PermissionUtil.AppPermissionResult.AllGood)
-                            {
-                                Timber.e("mmmmmmmmmmm All permissions all good")
-                                liveData.setValue(true)
-                            }
-                            else if (appPermissionResult == PermissionUtil.AppPermissionResult.OpenSettings)
-                            {
-                                Timber.e("mmmmmmmmmmm All permissions open setting")
-                            }
-                            else if (appPermissionResult == PermissionUtil.AppPermissionResult.Fail)
-                            {
-                                Timber.e("mmmmmmmmmmm All permissions fail")
-                            }
-                            else
-                            {
-                                Timber.e("mmmmmmmmmmm No permissions Get")
+                if (!hasForgroundLocationPermissions(activity)) {
+                    PermissionUtil.requestForgroundActivityPermission(
+                        activity,
+                        PermissionUtil.getForgroundLocationPermissions()
+                    ).observe(activity, { appPermissionResult ->
+                        if (appPermissionResult == PermissionUtil.AppPermissionResult.AllGood) {
+                            Timber.e("mmmmmmmmmmm All permissions all good")
+                            liveData.setValue(true)
+                        } else if (appPermissionResult == PermissionUtil.AppPermissionResult.OpenSettings) {
+                            Timber.e("mmmmmmmmmmm All permissions open setting")
+                        } else if (appPermissionResult == PermissionUtil.AppPermissionResult.Fail) {
+                            Timber.e("mmmmmmmmmmm All permissions fail")
+                        } else {
+                            Timber.e("mmmmmmmmmmm No permissions Get")
 
-                                liveData.setValue(false)
-                            }
-                        })
+                            liveData.setValue(false)
+                        }
+                    })
                 } else {
                     liveData.setValue(true)
                 }
@@ -101,11 +100,12 @@ object MapUtil {
                             // Show the dialog by calling startResolutionForResult(),
                             // and check the result in onActivityResult().
                             resolvable.startResolutionForResult(
-                                    activity,
-                                    Codes.CHECK_LOCATION_SETTINGS_REQUEST
+                                activity,
+                                Codes.CHECK_LOCATION_SETTINGS_REQUEST
                             )
                         } catch (ignore: IntentSender.SendIntentException) {
                         }
+
                     LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE ->                         // Location settings are not satisfied. However, we have no way to fix the
                         // settings so we won't show the dialog.
                         openGPSSetting(activity)
@@ -117,8 +117,8 @@ object MapUtil {
 
     fun getLocationAddress(geocoder: Geocoder, latitude: Double, longitude: Double): String? {
         return try {
-            val addresses: List<Address> = geocoder.getFromLocation(latitude, longitude, 1)
-            if (addresses.isNotEmpty()) {
+            val addresses: MutableList<Address>? = geocoder.getFromLocation(latitude, longitude, 1)
+            if (addresses!!.isNotEmpty()) {
                 val fullAddress: String = addresses[0].getAddressLine(0)
                 Timber.e(fullAddress)
                 fullAddress
@@ -129,20 +129,24 @@ object MapUtil {
         }
     }
 
-    fun openSearchPlaceScreen(activity: Activity, requestCode: Int)
-    {
+    fun openSearchPlaceScreen(activity: Activity, requestCode: Int) {
         if (!Places.isInitialized()) {
-            Places.initialize(MyApp.getInstance(),
-                    MyApp.getInstance().getString(R.string.google_maps_key),  /* Map API Key */
-                    Locale.forLanguageTag(PrefMethods.getLanguage()) /* lang Tag */
+            Places.initialize(
+                MyApp.getInstance(),
+                MyApp.getInstance().getString(R.string.google_maps_key),  /* Map API Key */
+                Locale.forLanguageTag(PrefMethods.getLanguage()) /* lang Tag */
             )
         }
-        val fields = listOf(Place.Field.ADDRESS_COMPONENTS, Place.Field.ADDRESS, Place.Field.LAT_LNG, Place.Field.NAME)
-        val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fields).build(activity)
+        val fields = listOf(
+            Place.Field.ADDRESS_COMPONENTS,
+            Place.Field.ADDRESS,
+            Place.Field.LAT_LNG,
+            Place.Field.NAME
+        )
+        val intent =
+            Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fields).build(activity)
         activity.startActivityForResult(intent, requestCode)
     }
-
-
 
 
     private fun checkForGoogleApiAvailability(activity: Activity): Boolean {
@@ -152,9 +156,9 @@ object MapUtil {
         return if (status != ConnectionResult.SUCCESS) {
             if (!apiAvailability.isUserResolvableError(status)) {
                 val snackBar = Snackbar.make(
-                        activity.parent.currentFocus!!,
-                        "Google Play Services unavailable. This app will not work",
-                        Snackbar.LENGTH_INDEFINITE
+                    activity.parent.currentFocus!!,
+                    "Google Play Services unavailable. This app will not work",
+                    Snackbar.LENGTH_INDEFINITE
                 )
                 snackBar.setAction("close") { snackBar.dismiss() }
                 snackBar.show()
@@ -171,23 +175,28 @@ object MapUtil {
     }
 
     fun hasForgroundLocationPermissions(activity: Activity): Boolean {
-       return  PermissionUtil.isGranted(activity, Manifest.permission.ACCESS_FINE_LOCATION)
-        Timber.e("mmmmmmmmmm if hase fine location" + PermissionUtil.isGranted(activity, Manifest.permission.ACCESS_FINE_LOCATION))
+        return PermissionUtil.isGranted(activity, Manifest.permission.ACCESS_FINE_LOCATION)
+        Timber.e(
+            "mmmmmmmmmm if hase fine location" + PermissionUtil.isGranted(
+                activity,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
+        )
     }
 
-   /* private fun hasLocationPermissions(activity: Activity): Boolean {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            PermissionUtil.isGranted(activity, Manifest.permission.ACCESS_FINE_LOCATION)
-                    && PermissionUtil.isGranted(activity, Manifest.permission.ACCESS_BACKGROUND_LOCATION)
-        } else {
-            PermissionUtil.isGranted(activity, Manifest.permission.ACCESS_FINE_LOCATION)
-        }
-    }*/
+    /* private fun hasLocationPermissions(activity: Activity): Boolean {
+         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+             PermissionUtil.isGranted(activity, Manifest.permission.ACCESS_FINE_LOCATION)
+                     && PermissionUtil.isGranted(activity, Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+         } else {
+             PermissionUtil.isGranted(activity, Manifest.permission.ACCESS_FINE_LOCATION)
+         }
+     }*/
 
     /* Open Gps Setting page if GPS is clodes*/
     private fun openGPSSetting(activity: AppCompatActivity) {
         val callGPSSettingIntent = Intent(
-                Settings.ACTION_LOCATION_SOURCE_SETTINGS
+            Settings.ACTION_LOCATION_SOURCE_SETTINGS
         )
         activity.startActivityForResult(callGPSSettingIntent, Codes.GPS_SETTINGS_REQ_CODE)
     }

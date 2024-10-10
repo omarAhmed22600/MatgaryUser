@@ -17,14 +17,7 @@ import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.gms.location.*
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.libraries.places.widget.Autocomplete
+import com.brandsin.user.R
 import com.brandsin.user.databinding.ActivityMapsBinding
 import com.brandsin.user.model.constants.Codes
 import com.brandsin.user.model.constants.Const
@@ -36,25 +29,32 @@ import com.brandsin.user.utils.PrefMethods
 import com.brandsin.user.utils.Utils
 import com.brandsin.user.utils.map.MapUtil
 import com.brandsin.user.utils.map.PermissionUtil
+import com.google.android.gms.location.*
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.libraries.places.widget.Autocomplete
 import timber.log.Timber
-import com.brandsin.user.R
 import java.util.*
 
-class MapsActivity : AppCompatActivity(), OnMapReadyCallback, Observer<Any?>
-{
+class MapsActivity : AppCompatActivity(), OnMapReadyCallback, Observer<Any?> {
+
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityMapsBinding
     private lateinit var viewModel: MapViewModel
     private lateinit var geocoder: Geocoder
     private var fusedLocationClient: FusedLocationProviderClient? = null
     private var locationCallback: LocationCallback? = null
-    private var hasIntent : Boolean = false
+    private var hasIntent: Boolean = false
 
-    override fun onCreate(savedInstanceState: Bundle?)
-    {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_maps)
-        viewModel = ViewModelProvider(this).get(MapViewModel::class.java)
+
+        viewModel = ViewModelProvider(this)[MapViewModel::class.java]
         binding.viewModel = viewModel
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
@@ -65,10 +65,17 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, Observer<Any?>
                 when {
                     intent.getParcelableExtra<UserLocation>(Params.USER_LOCATION) != null -> {
                         hasIntent = true
-                        val userLocation: UserLocation = intent.extras!!.getParcelable(Params.USER_LOCATION)!!
-                        viewModel.latitude = userLocation.lat!!.toDouble()
-                        viewModel.longitude = userLocation.lng!!.toDouble()
-                        viewModel.obsAddress.set(MapUtil.getLocationAddress(getGeoCoder(),viewModel.latitude, viewModel.longitude))
+                        val userLocation: UserLocation =
+                            intent.extras!!.getParcelable(Params.USER_LOCATION)!!
+                        viewModel.latitude = userLocation.lat?.toDouble()!!
+                        viewModel.longitude = userLocation.lng?.toDouble()!!
+                        viewModel.obsAddress.set(
+                            MapUtil.getLocationAddress(
+                                getGeoCoder(),
+                                viewModel.latitude,
+                                viewModel.longitude
+                            )
+                        )
                     }
                 }
             }
@@ -106,22 +113,29 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, Observer<Any?>
     }
 
     /* Handling actions when user click on Permissions dialog */
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-        when (requestCode)
-        {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+        when (requestCode) {
             Codes.ACCESS_LOCATION_REQUEST_CODE -> {
                 // Permission is granted. Continue the action or workflow
                 when {
                     grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED -> {
                         // Don't call tis method from here, I handle it (ON RESUME) method to not called twice
-                         openLocationFromApp()
-                        }
+                        openLocationFromApp()
+                    }
+
                     else -> {
                         when {
-                            ActivityCompat.shouldShowRequestPermissionRationale(this@MapsActivity,
-                                Manifest.permission.ACCESS_FINE_LOCATION) -> {
+                            ActivityCompat.shouldShowRequestPermissionRationale(
+                                this@MapsActivity,
+                                Manifest.permission.ACCESS_FINE_LOCATION
+                            ) -> {
                                 // User clicked deny only once
                             }
+
                             else -> {
                                 //Never ask again selected, or device policy prohibits the app from having that permission.
                                 //So, disable that feature, or fall back to another situation...
@@ -136,8 +150,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, Observer<Any?>
     }
 
     /* When user clicked Allow to open GPS without going to setting page */
-    private fun openLocationFromApp()
-    {
+    private fun openLocationFromApp() {
         GpsUtils(this@MapsActivity).turnGPSOn(object : GpsUtils.onGpsListener {
             override fun gpsStatus(isGPSEnable: Boolean) {
                 requestLocationUpdates()
@@ -145,8 +158,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, Observer<Any?>
         })
     }
 
-    override fun onMapReady(googleMap: GoogleMap)
-    {
+    override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
         val myLocation = LatLng(viewModel.latitude, viewModel.longitude)
@@ -158,10 +170,24 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, Observer<Any?>
             val userLocation = LatLng(point.latitude, point.longitude)
             viewModel.latitude = userLocation.latitude
             viewModel.longitude = userLocation.longitude
-            val option = MarkerOptions().position(LatLng(userLocation.latitude, userLocation.longitude))
+            val option =
+                MarkerOptions().position(LatLng(userLocation.latitude, userLocation.longitude))
             mMap.addMarker(option)
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(userLocation.latitude, userLocation.longitude), Const.zoomLevel))
-            viewModel.obsAddress.set(MapUtil.getLocationAddress(getGeoCoder(), userLocation.latitude, userLocation.longitude))
+            mMap.moveCamera(
+                CameraUpdateFactory.newLatLngZoom(
+                    LatLng(
+                        userLocation.latitude,
+                        userLocation.longitude
+                    ), Const.zoomLevel
+                )
+            )
+            viewModel.obsAddress.set(
+                MapUtil.getLocationAddress(
+                    getGeoCoder(),
+                    userLocation.latitude,
+                    userLocation.longitude
+                )
+            )
         }
     }
 
@@ -176,6 +202,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, Observer<Any?>
                         isPermissionGranted() -> {
                             openLocationFromApp()
                         }
+
                         else -> {
                             requestLocationPermission()
                         }
@@ -188,6 +215,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, Observer<Any?>
                         isPermissionGranted() -> {
                             MapUtil.openSearchPlaceScreen(this, it as Int)
                         }
+
                         else -> {
                             requestLocationPermission()
                         }
@@ -206,6 +234,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, Observer<Any?>
                                 isPermissionGranted() -> {
                                     requestLocationUpdates()
                                 }
+
                                 else -> {
                                     requestLocationPermission()
                                 }
@@ -217,7 +246,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, Observer<Any?>
                             userLocation.run {
                                 lat = viewModel.latitude.toString()
                                 lng = viewModel.longitude.toString()
-                                address = MapUtil.getLocationAddress(getGeoCoder(), viewModel.latitude, viewModel.longitude) }
+                                address = MapUtil.getLocationAddress(
+                                    getGeoCoder(),
+                                    viewModel.latitude,
+                                    viewModel.longitude
+                                )
+                            }
                             saveLocationAndCloseActivity(userLocation)
                         }
                     }
@@ -225,9 +259,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, Observer<Any?>
 
                 /* When user press back button of toolbar >>> Don't save any data, JUST finish the activity*/
                 Codes.BACK_PRESSED -> {
-                    val intent = Intent()
-                    intent.putExtra(Params.DIALOG_CLICK_ACTION, 0)
-                    setResult(Codes.GETTING_USER_LOCATION, intent)
+                    // val intent = Intent()
+                    // intent.putExtra(Params.DIALOG_CLICK_ACTION, 0)
+                    // setResult(Codes.GETTING_USER_LOCATION, intent)
                     finish()
                 }
 
@@ -247,12 +281,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, Observer<Any?>
         finish()
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
-    {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        when (requestCode)
-        {
+        when (requestCode) {
             /* Back from PLACES Search dialog */
             Codes.SEARCH_LOCATION_CLICKED -> {
                 when (resultCode) {
@@ -263,9 +295,29 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, Observer<Any?>
                                 mMap.clear()
                                 viewModel.latitude = place.latLng!!.latitude
                                 viewModel.longitude = place.latLng!!.longitude
-                                viewModel.obsAddress.set(MapUtil.getLocationAddress(getGeoCoder(), place.latLng!!.latitude, place.latLng!!.longitude))
-                                mMap.addMarker(MarkerOptions().position(LatLng(place.latLng!!.latitude, place.latLng!!.longitude)))
-                                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(place.latLng!!.latitude, place.latLng!!.longitude), Const.zoomLevel))
+                                viewModel.obsAddress.set(
+                                    MapUtil.getLocationAddress(
+                                        getGeoCoder(),
+                                        place.latLng!!.latitude,
+                                        place.latLng!!.longitude
+                                    )
+                                )
+                                mMap.addMarker(
+                                    MarkerOptions().position(
+                                        LatLng(
+                                            place.latLng!!.latitude,
+                                            place.latLng!!.longitude
+                                        )
+                                    )
+                                )
+                                mMap.moveCamera(
+                                    CameraUpdateFactory.newLatLngZoom(
+                                        LatLng(
+                                            place.latLng!!.latitude,
+                                            place.latLng!!.longitude
+                                        ), Const.zoomLevel
+                                    )
+                                )
                             }
                         }
                     }
@@ -275,12 +327,16 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, Observer<Any?>
             /* Back From Setting page */
             Codes.ALLOW_PERMISSION_FROM_SETTING_PAGE -> {
                 when {
-                    PermissionUtil.isGranted(this@MapsActivity, Manifest.permission.ACCESS_FINE_LOCATION) -> {
+                    PermissionUtil.isGranted(
+                        this@MapsActivity,
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                    ) -> {
                         PrefMethods.saveIsPermissionDeniedForEver(false)
                         when {
                             isGpsEnabled() -> {
                                 requestLocationUpdates()
                             }
+
                             else -> {
                                 openLocationFromApp()
                             }
@@ -290,7 +346,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, Observer<Any?>
             }
 
             /* When user clicked confirm to open setting page and allow permission from there */
-            Codes.OPEN_SETTING_DIALOG_REQUEST_CODE  -> {
+            Codes.OPEN_SETTING_DIALOG_REQUEST_CODE -> {
                 when {
                     data != null -> {
                         when {
@@ -309,8 +365,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, Observer<Any?>
     }
 
     @SuppressLint("MissingPermission")
-    fun requestLocationUpdates()
-    {
+    fun requestLocationUpdates() {
         viewModel.isShown.set(true)
         val locationRequest = LocationRequest()
         locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
@@ -322,17 +377,36 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, Observer<Any?>
                     Timber.e("couldn't get location update")
                 } else {
                     Timber.e("$locationResult")
-                    if (locationResult.locations.size > 0)
-                    {
+                    if (locationResult.locations.size > 0) {
                         val location = locationResult.locations[0]
 
                         mMap.clear()
                         viewModel.gotLocation(location!!, getGeoCoder())
                         viewModel.latitude = location.latitude
                         viewModel.longitude = location.longitude
-                        viewModel.obsAddress.set(MapUtil.getLocationAddress(getGeoCoder(), location.latitude, location.longitude))
-                        mMap.addMarker(MarkerOptions().position(LatLng(location.latitude, location.longitude)))
-                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(location.latitude, location.longitude), Const.zoomLevel))
+                        viewModel.obsAddress.set(
+                            MapUtil.getLocationAddress(
+                                getGeoCoder(),
+                                location.latitude,
+                                location.longitude
+                            )
+                        )
+                        mMap.addMarker(
+                            MarkerOptions().position(
+                                LatLng(
+                                    location.latitude,
+                                    location.longitude
+                                )
+                            )
+                        )
+                        mMap.moveCamera(
+                            CameraUpdateFactory.newLatLngZoom(
+                                LatLng(
+                                    location.latitude,
+                                    location.longitude
+                                ), Const.zoomLevel
+                            )
+                        )
 
                         stopLocationUpdates()
                     }
@@ -341,7 +415,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, Observer<Any?>
             }
         }
         try {
-            fusedLocationClient?.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper())
+            fusedLocationClient?.requestLocationUpdates(
+                locationRequest,
+                locationCallback,
+                Looper.getMainLooper()
+            )
         } catch (e: Exception) {
             Timber.e(e)
         }
@@ -370,36 +448,41 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, Observer<Any?>
         startActivityForResult(intent, Codes.ALLOW_PERMISSION_FROM_SETTING_PAGE)
     }
 
-    private fun isPermissionGranted() : Boolean {
+    private fun isPermissionGranted(): Boolean {
         return when {
-            !PermissionUtil.isGranted(this@MapsActivity, Manifest.permission.ACCESS_FINE_LOCATION) -> {
+            !PermissionUtil.isGranted(
+                this@MapsActivity,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) -> {
                 false
             }
+
             else -> {
                 true
             }
         }
     }
 
-    private fun isGpsEnabled() : Boolean
-    {
-        val locationManager: LocationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+    private fun isGpsEnabled(): Boolean {
+        val locationManager: LocationManager =
+            getSystemService(Context.LOCATION_SERVICE) as LocationManager
         return when {
             locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) -> {
                 true
             }
+
             else -> {
                 false
             }
         }
     }
 
-    override fun onBackPressed()
+    /*override fun onBackPressed()
     {
         super.onBackPressed()
         val intent = Intent()
         intent.putExtra(Params.DIALOG_CLICK_ACTION, 0)
         setResult(Codes.GETTING_USER_LOCATION, intent)
         finish()
-    }
+    }*/
 }

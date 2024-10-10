@@ -8,32 +8,28 @@ import androidx.recyclerview.widget.RecyclerView
 import com.brandsin.user.R
 import com.brandsin.user.databinding.RawOrderReviewItemBinding
 import com.brandsin.user.model.order.cart.CartItem
-import kotlin.collections.ArrayList
 
-class OrderReviewItemsAdapter : RecyclerView.Adapter<OrderReviewItemsAdapter.CartsHolder>()
-{
+class OrderReviewItemsAdapter : RecyclerView.Adapter<OrderReviewItemsAdapter.CartsHolder>() {
     var itemsList: ArrayList<CartItem> = ArrayList()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartsHolder
-    {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartsHolder {
         val context = parent.context
         val layoutInflater = LayoutInflater.from(context)
-        val binding: RawOrderReviewItemBinding = DataBindingUtil.inflate(layoutInflater, R.layout.raw_order_review_item, parent, false)
+        val binding: RawOrderReviewItemBinding =
+            DataBindingUtil.inflate(layoutInflater, R.layout.raw_order_review_item, parent, false)
         return CartsHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: CartsHolder, position: Int)
-    {
+    override fun onBindViewHolder(holder: CartsHolder, position: Int) {
         val itemViewModel = ItemOrderReviewViewModel(itemsList[position])
         holder.binding.viewModel = itemViewModel
 
-        if (itemsList.size-1 == position)
-        {
+        if (itemsList.size - 1 == position) {
             holder.binding.seperator.visibility = View.GONE
         }
     }
 
-    fun getItem(pos:Int):CartItem{
+    fun getItem(pos: Int): CartItem {
         return itemsList[pos]
     }
 
@@ -46,5 +42,6 @@ class OrderReviewItemsAdapter : RecyclerView.Adapter<OrderReviewItemsAdapter.Car
         notifyDataSetChanged()
     }
 
-    inner class CartsHolder(val binding: RawOrderReviewItemBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class CartsHolder(val binding: RawOrderReviewItemBinding) :
+        RecyclerView.ViewHolder(binding.root)
 }

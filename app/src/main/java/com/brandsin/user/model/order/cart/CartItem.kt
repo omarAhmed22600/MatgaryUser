@@ -1,25 +1,33 @@
 package com.brandsin.user.model.order.cart
 
-import java.io.Serializable
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class UserCart(
     var cartStoreData: CartStoreData? = null,
     var cartItems: ArrayList<CartItem>? = null,
     var totalCartPrices: Double = 0.0,
     var totalItemsPrices: Double = 0.0,
     var userNotes: String = "",
-) : Serializable
 
+) : Parcelable
+
+@Parcelize
 data class CartStoreData(
     var storeId: Int? = null,
     var storeName: String? = null,
     var extraFees: Double = 0.0,
     var deliveryTime: String? = null,
+    var deliveryType: String? = null,
+    var deliveryPrice: Int? = null,
     var minimumOrder: Double = 0.0,
 
-    //var paymentMethod: String? = null,
-) : Serializable
 
+    //var paymentMethod: String? = null,
+) : Parcelable
+
+@Parcelize
 data class CartItem(
     var productId: Int? = null,
     var productName: String? = null,
@@ -35,11 +43,19 @@ data class CartItem(
     var addonsIds: ArrayList<String>? = null,
     var addonsNames: ArrayList<String>? = null,
     var addonsPrice: Double = 0.0,
+
+    var pickUpFromStore: Int? = null,
+    var cashOnDelivery: Int? = null,
+
     var type: String? = null,
     var isOffer: Boolean? = null,
-) : Serializable {
+
+    ) : Parcelable {
 
     override fun toString(): String {
-        return "CartItem(productName=$productName, productImage=$productImage, productQuantity=$productQuantity, productTotalPrice=$productTotalPrice, productUnitPrice=$productUnitPrice, skuCode=$skuCode,userNotes=$userNotes, addonsIds=$addonsIds, addonsPrice=$addonsPrice)"
+        return "CartItem(productName=$productName, productImage=$productImage, " +
+                "productQuantity=$productQuantity, productTotalPrice=$productTotalPrice, " +
+                "productUnitPrice=$productUnitPrice, skuCode=$skuCode,userNotes=$userNotes, " +
+                "addonsIds=$addonsIds, addonsPrice=$addonsPrice)"
     }
 }

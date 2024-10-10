@@ -14,18 +14,18 @@ import com.brandsin.user.utils.PrefMethods
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
-import java.util.*
-import kotlin.collections.ArrayList
 
-class OrderDetailsViewModel : BaseViewModel()
-{
+class OrderDetailsViewModel : BaseViewModel() {
+
     var orderDetails = OrderDetailsResponse()
-    var orderItemsAdapter  = OrderContentAdapter()
+
+    var orderItemsAdapter = OrderContentAdapter()
+
     var obsPaymentMethod = ObservableField<String>()
     var isMapReady = MutableLiveData<Boolean>()
-    var itemsAdapter  = OrderItemsAdapter()
-    fun getOrderDetails(orderId : Int)
-    {
+    var itemsAdapter = OrderItemsAdapter()
+
+    fun getOrderDetails(orderId: Int) {
         obsIsFull.set(false)
         obsIsLoading.set(true)
         requestCall<OrderDetailsResponse?>({
@@ -41,34 +41,40 @@ class OrderDetailsViewModel : BaseViewModel()
                     obsIsFull.set(true)
                     orderDetails = res
 
+                    apiResponseLiveData.value = ApiResponse.success(res)
+
                     res.offers!!.forEach {
-                        var item : OrderItem=OrderItem()
-                        item.id=it!!.id
-                        item.amount=it.amount
-                        //item.product_description=it.offer!!.description
-                        item.quantity=it.quantity
-                        item.skuCode=it.sku_code
-                        item.productName=it.offer!!.name
-                        //item.userNotes=it.user_notes
-                        item.type=it.type
-                        item.image=it.offer!!.image
-                        //item.addons=null
-                        item.storeId=null
+                        val item = OrderItem()
+                        item.id = it!!.id
+                        item.amount = it.amount
+                        // item.product_description = it.offer!!.description
+                        item.quantity = it.quantity ?: 0
+                        item.skuCode = it.sku_code
+                        item.productName = it.description ?: "" // it.offer?.name ?: ""
+                        // item.userNotes = it.user_notes
+                        item.type = it.type
+                        item.image = it.image ?: "" // it.offer?.image ?: ""
+                        // item.addons = null
+                        item.storeId = null
                         res.items!!.add(item)
                     }
 
                     itemsAdapter.updateList(res.items as ArrayList<OrderItem>)
-                    orderItemsAdapter.updateList(res.items as ArrayList<OrderItem>)
-                    var pay=res.order!!.billing!!.gateway
-                    if (pay=="MyFatoorah"){
+                    orderItemsAdapter.updateList(res.items)
+
+                    val pay = res.order?.billing?.gateway
+                    if (pay == "Paytaps") { // MyFatoorah
                         obsPaymentMethod.set(getString(R.string.visa))
-                    }else{
+                    } else if (pay == "Wallet") {
+                        obsPaymentMethod.set(getString(R.string.hajaty_wallet))
+                    } else {
                         obsPaymentMethod.set(getString(R.string.cash))
                     }
                     //obsPaymentMethod.set(res.order!!.billing!!.gateway)
                     isMapReady.value = true
                     notifyChange()
                 }
+
                 else -> {
                     apiResponseLiveData.value = ApiResponse.errorMessage(res.message)
                 }
@@ -76,11 +82,11 @@ class OrderDetailsViewModel : BaseViewModel()
         }
     }
 
-    fun onPhoneClicked(){
+    fun onPhoneClicked() {
         setValue(Codes.PHONE_CLICKED)
     }
 
-    fun onWhatsClicked(){
+    fun onWhatsClicked() {
         setValue(Codes.WHATSAPP_CLICKED)
     }
 

@@ -7,5 +7,4 @@ public interface TouchCallbacks {
     void touchDown(float xValue, float yValue);
 
     void touchUp();
-
 }

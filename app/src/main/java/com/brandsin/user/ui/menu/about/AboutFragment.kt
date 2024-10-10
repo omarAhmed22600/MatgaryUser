@@ -21,22 +21,25 @@ import com.brandsin.user.ui.activity.home.BaseHomeFragment
 import com.brandsin.user.utils.Utils
 import es.dmoral.toasty.Toasty
 
-class AboutFragment : BaseHomeFragment(), Observer<Any?>
-{
-    private lateinit var viewModel: AboutViewModel
+class AboutFragment : BaseHomeFragment(), Observer<Any?> {
+
     private lateinit var binding: HomeFragmentAboutBinding
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
-    {
-        binding = DataBindingUtil.inflate(inflater, R.layout.home_fragment_about, container, false)
+    private lateinit var viewModel: AboutViewModel
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = DataBindingUtil.inflate(inflater, R.layout.home_fragment_about, container, false)
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?)
-    {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this).get(AboutViewModel::class.java)
+
+        viewModel = ViewModelProvider(this)[AboutViewModel::class.java]
         binding.viewModel = viewModel
 
         setBarName(getString(R.string.about_app))
@@ -44,48 +47,52 @@ class AboutFragment : BaseHomeFragment(), Observer<Any?>
         viewModel.mutableLiveData.observe(viewLifecycleOwner, this)
         viewModel.aboutAdapter.aboutLiveData.observe(viewLifecycleOwner, this)
 
-        try
-        {
-            val pInfo: PackageInfo = requireActivity().packageManager.getPackageInfo(requireActivity().packageName, 0)
+        try {
+            val pInfo: PackageInfo =
+                requireActivity().packageManager.getPackageInfo(requireActivity().packageName, 0)
             viewModel.obsVersion.set("${getString(R.string.version_number)} ${pInfo.versionName}")
-        }
-        catch (e: PackageManager.NameNotFoundException)
-        {
+        } catch (e: PackageManager.NameNotFoundException) {
             e.printStackTrace()
         }
     }
 
-    override fun onChanged(it: Any?)
-    {
-        if(it == null) return
-        when (it) {
+    override fun onChanged(value: Any?) {
+        if (value == null) return
+        when (value) {
             Codes.OPEN_FACE -> {
                 Utils.openLink(requireActivity(), viewModel.socialLinks.facebook)
             }
+
             Codes.OPEN_TWITTER -> {
                 Utils.openLink(requireActivity(), viewModel.socialLinks.twitter)
             }
+
+            Codes.TIKTOK_CLICKED -> {
+                Utils.openLink(requireActivity(), viewModel.socialLinks.tikTok.toString())
+            }
+
             Codes.OPEN_INSTA -> {
                 Utils.openInstagram(requireActivity(), viewModel.socialLinks.instagram)
             }
-            is AboutItem ->
-            {
-                when (it.id) {
+
+            is AboutItem -> {
+                when (value.id) {
                     1 -> {
                         findNavController().navigate(R.id.about_to_common_questions)
                     }
+
                     2 -> {
-                       // findNavController().navigate(R.id.about_to_rate_app)
+                        // findNavController().navigate(R.id.about_to_rate_app)
                         val packageName = "com.brandsin.user"
                         val uri = Uri.parse("market://details?id=$packageName")
                         val myAppLinkToMarket = Intent(Intent.ACTION_VIEW, uri)
-                        try
-                        {
+                        try {
                             startActivity(myAppLinkToMarket)
-                        }
-                        catch (e: ActivityNotFoundException)
-                        {
-                            Toasty.warning(requireActivity(), "Impossible to find an application for the market").show()
+                        } catch (e: ActivityNotFoundException) {
+                            Toasty.warning(
+                                requireActivity(),
+                                "Impossible to find an application for the market"
+                            ).show()
                         }
                     }
                 }

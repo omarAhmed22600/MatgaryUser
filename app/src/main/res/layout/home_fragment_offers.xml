@@ -1,22 +1,20 @@
-<?xml
-    version="1.0"
-    encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.brandsin.user.ui.menu.offers.OffersViewModel" />
     </data>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/swipe_layout"
         android:background="#FAFAFA">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,13 +22,12 @@
             android:layout_height="match_parent"
             android:paddingBottom="@dimen/_16sdp">
 
-
             <androidx.core.widget.NestedScrollView
+                visibleGone="@{!viewModel.obsIsLoading}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="21dp"
                 android:fillViewport="true"
-                visibleGone="@{!viewModel.obsIsLoading}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -45,10 +42,9 @@
                         visibleGone="@{viewModel.obsHideRecycler}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:background="#F2F2F2"
+                        android:background="#f1f1f1"
                         android:paddingBottom="6dp"
-                        android:visibility="gone"
+                        android:visibility="visible"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
@@ -63,7 +59,7 @@
                             android:scaleType="centerCrop"
                             android:text="@string/special_stories"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/_15ssp"
+                            android:textSize="@dimen/_14ssp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -87,7 +83,6 @@
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
                     <LinearLayout
                         android:id="@+id/layoutSlider"
                         visibleGone="@{viewModel.obsHideRecycler}"
@@ -95,7 +90,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="20dp"
                         android:orientation="vertical"
-                        android:visibility="gone"
+                        android:visibility="visible"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintStart_toStartOf="parent"
@@ -109,7 +104,7 @@
                             android:scaleType="centerCrop"
                             android:text="@string/special_offers"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/_15ssp" />
+                            android:textSize="@dimen/_14ssp" />
 
                         <com.smarteist.autoimageslider.SliderView
                             android:id="@+id/bannerSlider"
@@ -130,15 +125,13 @@
                             app:sliderStartAutoCycle="true" />
                     </LinearLayout>
 
-
                     <!-- List Layout -->
-
                     <LinearLayout
+                        visibleGone="@{viewModel.obsHideRecycler}"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:visibility="gone"
-                        visibleGone="@{viewModel.obsHideRecycler}"
+                        android:visibility="visible"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintStart_toStartOf="parent"
@@ -147,8 +140,8 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_10sdp"
                             android:layout_marginStart="@dimen/_15sdp"
+                            android:layout_marginTop="@dimen/_10sdp"
                             android:fontFamily="@font/cairo_bold"
                             android:scaleType="centerCrop"
                             android:text="@string/all_offers"
@@ -170,34 +163,34 @@
                             tools:listitem="@layout/raw_home_offers" />
                     </LinearLayout>
 
-
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.core.widget.NestedScrollView>
+
             <!-- Empty Offers Layout -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/empty_layout"
+                isEmpty="@{viewModel.obsIsEmpty}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:background="#FAFAFA"
-                isEmpty="@{viewModel.obsIsEmpty}"
-                tools:visibility="visible"
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="gone">
 
                 <ImageView
                     android:id="@+id/img_empty"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_24sdp"
                     android:src="@drawable/empty_offers_img"
+                    app:layout_constraintBottom_toTopOf="@+id/tv_offersTitle"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginBottom="@dimen/_24sdp"
-                    app:layout_constraintBottom_toTopOf="@+id/tv_offersTitle"
                     tools:ignore="ContentDescription" />
 
                 <TextView
@@ -206,8 +199,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_24sdp"
                     android:fontFamily="@font/cairo_semibold"
-                    android:textColor="@color/black"
                     android:text="@string/no_offers_found"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/_12ssp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -234,13 +227,13 @@
             <!-- Shimmer Layout -->
             <com.facebook.shimmer.ShimmerFrameLayout
                 android:id="@+id/shimmerFrameLayout"
+                isLoading="@{viewModel.obsIsLoading}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:background="#FAFAFA"
-                isLoading="@{viewModel.obsIsLoading}"
-                android:paddingTop="@dimen/_8sdp"
                 android:orientation="vertical"
+                android:paddingTop="@dimen/_8sdp"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -253,17 +246,27 @@
                     android:orientation="vertical">
 
                     <include layout="@layout/shimmer_offers" />
+
                     <include layout="@layout/shimmer_offers" />
+
                     <include layout="@layout/shimmer_offers" />
+
                     <include layout="@layout/shimmer_offers" />
+
                     <include layout="@layout/shimmer_offers" />
+
                     <include layout="@layout/shimmer_offers" />
+
                     <include layout="@layout/shimmer_offers" />
+
                     <include layout="@layout/shimmer_offers" />
 
                 </LinearLayout>
+
             </com.facebook.shimmer.ShimmerFrameLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 </layout>

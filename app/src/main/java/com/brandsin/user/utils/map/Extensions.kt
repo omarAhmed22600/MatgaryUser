@@ -110,7 +110,7 @@ inline fun <reified T : ViewModel> ViewModelStoreOwner.initViewModel(
 fun getRandomString(): String? {
     return try {
         val mPattern = "yyyy_MM_dd_HH_mm_ss.SSSSS"
-        val date = Date();
+        val date = Date()
         val formatter = SimpleDateFormat(mPattern, Locale.ROOT)
         val answer: String = formatter.format(date)
         answer
@@ -138,8 +138,14 @@ fun <T : Any> T.toRequestBodyParam(): RequestBody =
     })
 }*/
 
-inline fun <reified T : Any?, L : LiveData<T>> LifecycleOwner.observe(liveData: L, noinline body: (T) -> Unit) {
+/*inline fun <reified T : Any?, L : LiveData<T>> LifecycleOwner.observe(liveData: L, noinline body: (T) -> Unit) {
     liveData.observe(this, Observer(body))
+}*/
+
+inline fun <reified T : Any?, L : LiveData<T>> LifecycleOwner.observe(liveData: L, noinline body: (T) -> Unit) {
+    liveData.observe(this) {
+        if (lifecycle.currentState == Lifecycle.State.RESUMED) body(it)
+    }
 }
 
 fun String.isValidUrl(): Boolean {

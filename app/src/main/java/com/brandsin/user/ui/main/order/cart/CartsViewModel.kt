@@ -6,14 +6,14 @@ import com.brandsin.user.model.constants.Codes
 import com.brandsin.user.model.order.cart.CartItem
 import com.brandsin.user.model.order.cart.UserCart
 import com.brandsin.user.utils.PrefMethods
-import java.util.*
-import kotlin.collections.ArrayList
+import java.util.Locale
 
-class CartsViewModel : BaseViewModel()
-{
+class CartsViewModel : BaseViewModel() {
     var userCartData = UserCart()
-    var cartItemsList = ArrayList<CartItem>()
-    var cartsAdapter  = CartsAdapter()
+
+    private var cartItemsList = ArrayList<CartItem>()
+
+    var cartsAdapter = CartsAdapter()
 
     var obsExtraFeesPrice = ObservableField(0.0)
     var obsItemsPrice = ObservableField(0.0)
@@ -29,6 +29,7 @@ class CartsViewModel : BaseViewModel()
                 getUserAddress()
                 getCartData()
             }
+
             else -> {
                 obsIsLogin.set(false)
             }
@@ -44,29 +45,32 @@ class CartsViewModel : BaseViewModel()
                             PrefMethods.getUserLocation()!!.address != null || PrefMethods.getUserLocation()!!.address != "null" -> {
                                 obsAddress.set(PrefMethods.getUserLocation()!!.address.toString())
                             }
+
                             else -> {
                                 obsAddress.set("يجب تحديد موقك الجغرافي حتي نقوم بتوصيل كل ما تحتاجة بدقة اعلي")
                             }
                         }
                     }
+
                     else -> {
                         obsAddress.set("يجب تحديد موقك الجغرافي حتي نقوم بتوصيل كل ما تحتاجة بدقة اعلي")
                     }
                 }
             }
+
             else -> {
                 obsAddress.set(PrefMethods.getDefaultAddress()!!.streetName.toString())
             }
         }
     }
 
-    private fun getCartData()
-    {
+    private fun getCartData() {
         when {
             PrefMethods.getUserCart() == null -> {
                 obsIsEmpty.set(true)
                 obsIsFull.set(false)
             }
+
             else -> {
                 obsIsEmpty.set(false)
                 obsIsFull.set(true)
@@ -77,30 +81,28 @@ class CartsViewModel : BaseViewModel()
         }
     }
 
-    private fun getCartItems()
-    {
+    private fun getCartItems() {
         cartItemsList = userCartData.cartItems as ArrayList<CartItem>
         cartsAdapter.updateList(cartItemsList)
 
         cartItemsList.forEach {
-            var itemsPrice = obsItemsPrice.get()!!.toDouble() + it.productTotalPrice
+            val itemsPrice = obsItemsPrice.get()!!.toDouble() + it.productTotalPrice
             obsItemsPrice.set(String.format(Locale.ENGLISH, "%.2f", itemsPrice).toDouble())
-         }
+        }
 
-        var totalPrice = obsItemsPrice.get()!!.toDouble() + userCartData.cartStoreData!!.extraFees
+        val totalPrice = obsItemsPrice.get()!!.toDouble() + userCartData.cartStoreData!!.extraFees
         obsTotalPrice.set(String.format(Locale.ENGLISH, "%.2f", totalPrice).toDouble())
     }
 
-    fun removeItemFromCart(item: CartItem)
-    {
+    fun removeItemFromCart(item: CartItem) {
 
         cartItemsList.remove(item)
         cartsAdapter.updateList(cartItemsList)
 
-        var itemsPrice = obsItemsPrice.get()!!.toDouble() - item.productTotalPrice
+        val itemsPrice = obsItemsPrice.get()!!.toDouble() - item.productTotalPrice
         obsItemsPrice.set(String.format(Locale.ENGLISH, "%.2f", itemsPrice).toDouble())
 
-        var totalPrice = obsItemsPrice.get()!!.toDouble() + userCartData.cartStoreData!!.extraFees
+        val totalPrice = obsItemsPrice.get()!!.toDouble() + userCartData.cartStoreData!!.extraFees
         obsTotalPrice.set(String.format(Locale.ENGLISH, "%.2f", totalPrice).toDouble())
 
 
@@ -116,6 +118,7 @@ class CartsViewModel : BaseViewModel()
                 obsIsFull.set(false)
                 obsIsEmpty.set(true)
             }
+
             else -> {
                 val cartStore = userCartData.cartStoreData
                 val userCart = UserCart(cartStore, cartItemsList)
@@ -128,13 +131,12 @@ class CartsViewModel : BaseViewModel()
         getUserStatus()
     }
 
-    fun onMakeOrderClicked()
-    {
-
+    fun onMakeOrderClicked() {
         when {
             userCartData.cartStoreData!!.minimumOrder > obsItemsPrice.get()!! -> {
                 setValue(Codes.LOWER_ORDER_COST)
             }
+
             else -> {
                 userCartData.totalCartPrices = obsTotalPrice.get()!!
                 userCartData.totalItemsPrices = obsItemsPrice.get()!!
@@ -155,40 +157,41 @@ class CartsViewModel : BaseViewModel()
         setValue(Codes.LOGIN_CLICKED)
     }
 
-    fun inCreaseCartCount(item: CartItem)
-    {
+    fun inCreaseCartCount(item: CartItem) {
         cartItemsList[cartItemsList.indexOf(item)].productQuantity = item.productQuantity + 1
-        cartItemsList[cartItemsList.indexOf(item)].productTotalPrice = item.productItemPrice * cartItemsList[cartItemsList.indexOf(
-            item)].productQuantity
+        cartItemsList[cartItemsList.indexOf(item)].productTotalPrice =
+            item.productItemPrice * cartItemsList[cartItemsList.indexOf(
+                item
+            )].productQuantity
         cartsAdapter.updateList(cartItemsList)
 
-        var itemsPrice = obsItemsPrice.get()!!.toDouble() + item.productItemPrice
+        val itemsPrice = obsItemsPrice.get()!!.toDouble() + item.productItemPrice
         obsItemsPrice.set(String.format(Locale.ENGLISH, "%.2f", itemsPrice).toDouble())
 
-        var totalPrice = obsItemsPrice.get()!!.toDouble() + obsExtraFeesPrice.get()!!.toDouble()
+        val totalPrice = obsItemsPrice.get()!!.toDouble() + obsExtraFeesPrice.get()!!.toDouble()
         obsTotalPrice.set(String.format(Locale.ENGLISH, "%.2f", totalPrice).toDouble())
 
         updateCrtData()
     }
 
-    fun deCreaseCartCount(item: CartItem)
-    {
+    fun deCreaseCartCount(item: CartItem) {
         cartItemsList[cartItemsList.indexOf(item)].productQuantity = item.productQuantity - 1
-        cartItemsList[cartItemsList.indexOf(item)].productTotalPrice = item.productItemPrice * cartItemsList[cartItemsList.indexOf(
-            item)].productQuantity
+        cartItemsList[cartItemsList.indexOf(item)].productTotalPrice =
+            item.productItemPrice * cartItemsList[cartItemsList.indexOf(
+                item
+            )].productQuantity
         cartsAdapter.updateList(cartItemsList)
 
-        var itemsPrice = obsItemsPrice.get()!!.toDouble() - item.productItemPrice
+        val itemsPrice = obsItemsPrice.get()!!.toDouble() - item.productItemPrice
         obsItemsPrice.set(String.format(Locale.ENGLISH, "%.2f", itemsPrice).toDouble())
 
-        var totalPrice = obsItemsPrice.get()!!.toDouble() + obsExtraFeesPrice.get()!!.toDouble()
+        val totalPrice = obsItemsPrice.get()!!.toDouble() + obsExtraFeesPrice.get()!!.toDouble()
         obsTotalPrice.set(String.format(Locale.ENGLISH, "%.2f", totalPrice).toDouble())
 
         updateCrtData()
     }
 
-    private fun updateCrtData()
-    {
+    private fun updateCrtData() {
         val cartStore = userCartData.cartStoreData
         val userCart = UserCart(cartStore, cartItemsList)
 

@@ -48,7 +48,5 @@ class AdsAdapter : RecyclerView.Adapter<AdsAdapter.AdsHolder>() {
         notifyDataSetChanged()
     }
 
-    inner class AdsHolder(val binding: ItemHomeAdsBinding) : RecyclerView.ViewHolder(binding.root) {
-
-    }
+    inner class AdsHolder(val binding: ItemHomeAdsBinding) : RecyclerView.ViewHolder(binding.root)
 }

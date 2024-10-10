@@ -1,5 +1,6 @@
 package com.brandsin.user.ui.main.search
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,7 +9,6 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
-import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -35,59 +35,84 @@ import com.brandsin.user.utils.PrefMethods
 import com.brandsin.user.utils.Utils
 import com.brandsin.user.utils.map.observe
 
-class SearchFragment : BaseHomeFragment(), Observer<Any?> {
-    private lateinit var viewModel: SearchViewModel
-    private lateinit var storeviewModel: StoreDetailsViewModel
+class
+SearchFragment : BaseHomeFragment(), Observer<Any?> {
 
     private lateinit var binding: HomeFragmentSearchBinding
+
+    private lateinit var viewModel: SearchViewModel
+
+    private lateinit var storeViewModel: StoreDetailsViewModel
+
     private val searchArgs: SearchFragmentArgs by navArgs()
+
     private var storeProductItem: StoreProductItem? = null
+
+    private var searchFor: String = "store"
+
+    private var brandId: Int? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.home_fragment_search, container, false)
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProvider(this).get(SearchViewModel::class.java)
-        storeviewModel = ViewModelProvider(this).get(StoreDetailsViewModel::class.java)
+        viewModel = ViewModelProvider(this)[SearchViewModel::class.java]
+        storeViewModel = ViewModelProvider(this)[StoreDetailsViewModel::class.java]
         binding.viewModel = viewModel
 
         viewModel.categoryId = searchArgs.categoryId
-        if (searchArgs.from == "home") {
-            searchArgs.data.data!!.categories!!.forEach { categoriesItem ->
-                if (categoriesItem != null) {
-                    categoriesItem.tags!!.forEach { tagsItem ->
-                        if (tagsItem != null) {
-                            viewModel.tagsList.add(tagsItem)
+
+        when (searchArgs.from) {
+            "home" -> {
+                searchArgs.data.data?.categories?.forEach { categoriesItem ->
+                    if (categoriesItem != null) {
+                        categoriesItem.tags?.forEach { tagsItem ->
+                            if (tagsItem != null) {
+                                viewModel.tagsList.add(tagsItem)
+                            }
                         }
                     }
                 }
             }
-        } else if (searchArgs.from == "homenew") {
-            searchArgs.dataNew.categories!!.forEach { categoriesItem ->
-                if (categoriesItem != null) {
-                    categoriesItem.tags!!.forEach { tagsItem ->
-                        if (tagsItem != null) {
-                            viewModel.tagsList.add(tagsItem)
+
+            "homenew" -> {
+                searchArgs.dataNew.categories?.forEach { categoriesItem ->
+                    if (categoriesItem != null) {
+                        categoriesItem.tags?.forEach { tagsItem ->
+                            if (tagsItem != null) {
+                                viewModel.tagsList.add(tagsItem)
+                            }
                         }
                     }
                 }
             }
-        
-        } else if (searchArgs.from == "store") {
-            storeviewModel.storeData = searchArgs.dataStoreNew!!
-            viewModel.setIsFromStoreDetails()
-            searchArgs.dataStoreNew!!.storeProductList!!.forEach { productItem ->
-                if (productItem != null) {
-                    viewModel.storesProductList.add(productItem)
+
+            "brand" -> {
+                brandId = searchArgs.categoryId.toInt()
+                viewModel.searchProductOrStore(
+                    "store",
+                    binding.tvSearch.text.toString().trim(),
+                    brandId
+                )
+            }
+
+            "store" -> {
+                binding.store.visibility = View.GONE
+                binding.products.visibility = View.GONE
+                storeViewModel.storeData = searchArgs.dataStoreNew
+                viewModel.setIsFromStoreDetails()
+                searchArgs.dataStoreNew.storeProductList?.forEach { productItem ->
+                    if (productItem != null) {
+                        viewModel.storesProductList.add(productItem)
+                    }
                 }
             }
         }
@@ -95,18 +120,18 @@ class SearchFragment : BaseHomeFragment(), Observer<Any?> {
         viewModel.mutableLiveData.observe(viewLifecycleOwner, this)
         viewModel.productsAdapter.productLiveData.observe(viewLifecycleOwner, this)
 
-        viewModel.showProgress().observe(viewLifecycleOwner, { aBoolean ->
+        viewModel.showProgress().observe(viewLifecycleOwner) { aBoolean ->
             if (!aBoolean!!) {
                 binding.progressLayout.visibility = View.GONE
-                requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
             } else {
                 binding.progressLayout.visibility = View.VISIBLE
                 requireActivity().window.setFlags(
                     WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                     WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
-                );
+                )
             }
-        })
+        }
 
         binding.ibBack.setOnClickListener {
             findNavController().navigateUp()
@@ -121,44 +146,24 @@ class SearchFragment : BaseHomeFragment(), Observer<Any?> {
                 showToast(getString(R.string.search_empty), 1)
             } else {
                 viewModel.setShowProgress(true)
-                if (searchArgs.from != "store") {
-                    viewModel.getSearch(binding.tvSearch.text.toString().trim())
+                // if (searchArgs.from != "store") {
+                if (searchFor == "store") {
+                    // viewModel.getSearch(binding.tvSearch.text.toString().trim())
+                    viewModel.searchProductOrStore(
+                        "store",
+                        binding.tvSearch.text.toString().trim(),
+                        brandId
+                    )
                 } else {
-                    viewModel.searchProduct(binding.tvSearch.text.toString().trim())
+                    // viewModel.searchProduct(binding.tvSearch.text.toString().trim())
+                    viewModel.searchProductOrStore(
+                        "product",
+                        binding.tvSearch.text.toString().trim(),
+                        brandId
+                    )
                 }
             }
         }
-
-        binding.tvSearch.addTextChangedListener {
-
-            if (binding.tvSearch.text.toString().trim() == "") {
-                showToast(getString(R.string.search_empty), 1)
-            } else {
-                viewModel.setShowProgress(true)
-                if (searchArgs.from != "store") {
-                    //   viewModel.getSearch(binding.tvSearch.text.toString().trim())
-                } else {
-                    viewModel.searchProduct(binding.tvSearch.text.toString().trim())
-                }
-            }
-        }
-
-        binding.tvSearch.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
-            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                if (binding.tvSearch.text.toString().trim() == "") {
-                    showToast(getString(R.string.search_empty), 1)
-                } else {
-                    viewModel.setShowProgress(true)
-                    if (searchArgs.from != "store") {
-                        viewModel.getSearch(binding.tvSearch.text.toString().trim())
-                    } else {
-                        viewModel.searchProduct(binding.tvSearch.text.toString().trim())
-                    }
-                }
-                return@OnEditorActionListener true
-            }
-            false
-        })
 
         binding.filterLayout.setOnClickListener {
             val bundle = Bundle()
@@ -176,26 +181,109 @@ class SearchFragment : BaseHomeFragment(), Observer<Any?> {
             )
         }
 
-        observe(viewModel.storesAdapter.StoresLiveData) {
+        observe(viewModel.storesAdapter.storesLiveData) {
             val action = SearchFragmentDirections.searchToStoreDetails(it!!.id!!.toInt())
             findNavController().navigate(action)
+        }
+
+        setBtnListener()
+
+    }
+
+    @SuppressLint("ResourceAsColor")
+    private fun setBtnListener() {
+        /*binding.tvSearch.addTextChangedListener {
+            if (binding.tvSearch.text.toString().trim().lowercase(Locale.getDefault()) == "") {
+                showToast(getString(R.string.search_empty), 1)
+            } else {
+                //if (searchArgs.from != "store") {
+                if (searchFor == "store") {
+                    //   viewModel.getSearch(binding.tvSearch.text.toString().trim())
+                } else {
+                    // viewModel.searchProduct(binding.tvSearch.text.toString().trim())
+                    viewModel.searchProductOrStore(
+                        "product",
+                        binding.tvSearch.text.toString().trim()
+                    )
+                }
+            }
+        }*/
+
+        /////////////////////////////////////////////
+        binding.tvSearch.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                if (binding.tvSearch.text.toString().trim() == "") {
+                    showToast(getString(R.string.search_empty), 1)
+                } else {
+                    // if (searchArgs.from != "store") {
+                    if (searchFor == "store") {
+                        // viewModel.getSearch(binding.tvSearch.text.toString().trim())
+                        viewModel.searchProductOrStore(
+                            "store",
+                            binding.tvSearch.text.toString().trim(),
+                            brandId
+                        )
+                    } else {
+                        // viewModel.searchProduct(binding.tvSearch.text.toString().trim())
+                        viewModel.searchProductOrStore(
+                            "product",
+                            binding.tvSearch.text.toString().trim(),
+                            brandId
+                        )
+                    }
+                }
+                return@OnEditorActionListener true
+            }
+            false
+        })
+
+        binding.store.setOnClickListener {
+            searchFor = "store"
+            binding.store.setBackgroundResource(R.drawable.bg_selected_text_search)
+            binding.store.setTextColor(R.color.color_primary)
+            binding.products.setTextColor(R.color.black)
+            binding.products.setBackgroundResource(R.drawable.bg_unselected_text_search)
+            binding.tvSearch.setText("")
+            if (brandId != null) {
+                viewModel.searchProductOrStore(
+                    searchFor,
+                    binding.tvSearch.text.toString().trim(),
+                    brandId
+                )
+            }
+        }
+
+        binding.products.setOnClickListener {
+            searchFor = "product"
+            binding.store.setBackgroundResource(R.drawable.bg_unselected_text_search)
+            binding.store.setTextColor(R.color.black)
+            binding.products.setTextColor(R.color.color_primary)
+            binding.products.setBackgroundResource(R.drawable.bg_selected_text_search)
+            binding.tvSearch.setText("")
+            if (brandId != null) {
+                viewModel.searchProductOrStore(
+                    searchFor,
+                    binding.tvSearch.text.toString().trim(),
+                    brandId
+                )
+            }
         }
     }
 
     override fun onResume() {
         super.onResume()
         if (PrefMethods.getUserCart() != null) {
-            storeviewModel.userCart = UserCart()
-            storeviewModel.cartStore = CartStoreData()
-            storeviewModel.cartItemsList = ArrayList<CartItem>()
+            storeViewModel.userCart = UserCart()
+            storeViewModel.cartStore = CartStoreData()
+            storeViewModel.cartItemsList = ArrayList()
 
-            storeviewModel.userCart = PrefMethods.getUserCart()!!
-            storeviewModel.cartStore = storeviewModel.userCart!!.cartStoreData!!
-            storeviewModel.cartItemsList =
-                storeviewModel.userCart!!.cartItems as ArrayList<CartItem>
-            storeviewModel.obsIsVisible.set(true)
+            storeViewModel.userCart = PrefMethods.getUserCart()!!
+            storeViewModel.cartStore = storeViewModel.userCart!!.cartStoreData!!
+            storeViewModel.cartItemsList =
+                storeViewModel.userCart!!.cartItems as ArrayList<CartItem>
+            storeViewModel.obsIsVisible.set(true)
 
-            for (productsList in storeviewModel.productsList) {
+            for (productsList in storeViewModel.productsList) {
                 for (cartList in PrefMethods.getUserCart()!!.cartItems!!) {
                     if (cartList.productId == productsList.id) {
                         productsList.isSelected = true
@@ -203,15 +291,12 @@ class SearchFragment : BaseHomeFragment(), Observer<Any?> {
                 }
             }
         } else {
-            storeviewModel.userCart = UserCart()
-            storeviewModel.cartStore = CartStoreData()
-            storeviewModel.cartItemsList = ArrayList<CartItem>()
-            storeviewModel.obsIsVisible.set(false)
+            storeViewModel.userCart = UserCart()
+            storeViewModel.cartStore = CartStoreData()
+            storeViewModel.cartItemsList = ArrayList()
+            storeViewModel.obsIsVisible.set(false)
         }
-
-
     }
-
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -224,16 +309,16 @@ class SearchFragment : BaseHomeFragment(), Observer<Any?> {
                             data.hasExtra(Params.DIALOG_CLICK_ACTION) -> {
                                 when {
                                     data.getIntExtra(Params.DIALOG_CLICK_ACTION, 1) == 1 -> {
-                                        val cartParcelableItem =
-                                            data.getSerializableExtra(Params.STORE_PRODUCT_ITEM) as CartParcelableClass
-                                        val cartItem = cartParcelableItem.cartItem
-                                        val storeProductItem = cartParcelableItem.storeProductItem
-                                        when (storeviewModel.cartStore!!.storeId) {
+                                        val cartParcelableItem : CartParcelableClass? =
+                                            data.getParcelableExtra(Params.STORE_PRODUCT_ITEM)
+                                        val cartItem = cartParcelableItem?.cartItem
+                                        val storeProductItem = cartParcelableItem?.storeProductItem
+                                        when (storeViewModel.cartStore!!.storeId) {
                                             null -> {
                                                 // Cart is empty .. This is the first product added to cart
                                                 when {
                                                     cartItem != null -> {
-                                                        storeviewModel.addProductToCart(cartItem)
+                                                        storeViewModel.addProductToCart(cartItem)
                                                         storeProductItem?.let {
                                                             viewModel.productsAdapter.notifyItemSelected(
                                                                 it
@@ -243,10 +328,11 @@ class SearchFragment : BaseHomeFragment(), Observer<Any?> {
                                                     }
                                                 }
                                             }
+
                                             else -> {
                                                 when {
                                                     // Cart is Not empty But the saved products NOT has the same store Id >> Clear the cart before adding new products
-                                                    storeviewModel.cartStore!!.storeId != storeProductItem!!.storeId -> {
+                                                    storeViewModel.cartStore!!.storeId != storeProductItem!!.storeId -> {
                                                         val bundle = Bundle()
                                                         bundle.putString(
                                                             Params.DIALOG_CONFIRM_MESSAGE,
@@ -263,7 +349,7 @@ class SearchFragment : BaseHomeFragment(), Observer<Any?> {
                                                             MyApp.getInstance()
                                                                 .getString(R.string.ignore)
                                                         )
-                                                        bundle.putSerializable(
+                                                        bundle.putParcelable(
                                                             Params.DIALOG_STORE_ITEM,
                                                             cartParcelableItem
                                                         )
@@ -274,10 +360,11 @@ class SearchFragment : BaseHomeFragment(), Observer<Any?> {
                                                             bundle
                                                         )
                                                     }
+
                                                     else -> {
                                                         // Cart is Not empty and the all products has the sam Id
                                                         if (cartItem != null) {
-                                                            storeviewModel.addProductToCart(cartItem)
+                                                            storeViewModel.addProductToCart(cartItem)
                                                             viewModel.productsAdapter.notifyItemSelected(
                                                                 storeProductItem
                                                             )
@@ -310,9 +397,19 @@ class SearchFragment : BaseHomeFragment(), Observer<Any?> {
                                 data.getStringExtra(Params.DIALOG_FILTER_SORT).toString()
                             viewModel.setShowProgress(true)
                             if (searchArgs.from != "store") {
-                                viewModel.getSearch(binding.tvSearch.text.toString().trim())
+                                // viewModel.getSearch(binding.tvSearch.text.toString().trim())
+                                viewModel.searchProductOrStore(
+                                    "store",
+                                    binding.tvSearch.text.toString().trim(),
+                                    brandId
+                                )
                             } else {
-                                viewModel.searchProduct(binding.tvSearch.text.toString().trim())
+                                // viewModel.searchProduct(binding.tvSearch.text.toString().trim())
+                                viewModel.searchProductOrStore(
+                                    "product",
+                                    binding.tvSearch.text.toString().trim(),
+                                    brandId
+                                )
                             }
                         }
                     }
@@ -339,16 +436,16 @@ class SearchFragment : BaseHomeFragment(), Observer<Any?> {
 
     }
 
-    override fun onChanged(it: Any?) {
-        if (it == null) return
-        when (it) {
+    override fun onChanged(value: Any?) {
+        if (value == null) return
+        when (value) {
 
             is StoreProductItem -> {
-                storeProductItem = it
-                when (it.type) {
+                storeProductItem = value
+                when (value.type) {
                     "simple" -> {
                         val bundle = Bundle()
-                        bundle.putSerializable(Params.STORE_PRODUCT_ITEM, it)
+                        bundle.putParcelable(Params.STORE_PRODUCT_ITEM, value)
                         Utils.startDialogActivity(
                             requireActivity(),
                             DialogOrderAddonsFragment::class.java.name,
@@ -356,9 +453,10 @@ class SearchFragment : BaseHomeFragment(), Observer<Any?> {
                             bundle
                         )
                     }
+
                     "variable" -> {
                         val intent = Intent(requireActivity(), OrderAddonsActivity::class.java)
-                        intent.putExtra(Params.STORE_PRODUCT_ITEM, it)
+                        intent.putExtra(Params.STORE_PRODUCT_ITEM, value)
                         startActivityForResult(intent, Codes.SELECT_ORDER_ADDONS_ACTIVITY)
                     }
                 }

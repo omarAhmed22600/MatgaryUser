@@ -1,7 +1,4 @@
-<?xml
-    version="1.0"
-    encoding="utf-8"?>
-
+<?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
@@ -15,7 +12,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbarlayout"
@@ -28,7 +26,9 @@
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                app:contentInsetEnd="0dp"
+                app:contentInsetStart="0dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -36,7 +36,6 @@
 
                     <ImageButton
                         android:id="@+id/ib_search"
-                        android:visibility="gone"
                         android:layout_width="@dimen/_30sdp"
                         android:layout_height="@dimen/_30sdp"
                         android:layout_marginEnd="@dimen/_4sdp"
@@ -45,54 +44,24 @@
                         android:padding="@dimen/_7sdp"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ic_search_24px"
+                        android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:ignore="ContentDescription" />
 
-                    <!-- CART COUNT LAYOUT -->
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/cart_layout"
-                        android:layout_width="@dimen/_42sdp"
-                        android:layout_height="@dimen/_42sdp"
-                        android:layout_gravity="center"
-                        android:layout_marginEnd="8dp"
-                        android:background="@drawable/login_field_bg"
-                        android:onClick="@{() -> viewModel.onCartClicked()}"
+                    <ImageButton
+                        android:id="@+id/ib_back"
+                        android:layout_width="@dimen/_30sdp"
+                        android:layout_height="@dimen/_30sdp"
+                        android:layout_marginEnd="@dimen/_8sdp"
+                        android:background="?actionBarItemBackground"
+                        android:padding="@dimen/_3sdp"
+                        android:src="@drawable/baseline_arrow_forward_24"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/ib_search"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <ImageView
-                            android:id="@+id/imageView10"
-                            android:layout_width="@dimen/_30sdp"
-                            android:layout_height="@dimen/_30sdp"
-                            android:layout_gravity="center"
-                            android:padding="@dimen/_5sdp"
-                            android:src="@drawable/ic_shopping_cart_24px"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            tools:ignore="ContentDescription" />
-
-                        <TextView
-                            android:id="@+id/tv_servicesCount"
-                            android:layout_width="@dimen/_16sdp"
-                            android:layout_height="@dimen/_16sdp"
-                            android:layout_alignParentEnd="true"
-                            android:background="@drawable/cart_count_bg"
-                            android:backgroundTint="@color/color_primary"
-                            android:gravity="center"
-                            android:text="@{viewModel.obsCartCount + ``}"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/_8ssp"
-                            android:textStyle="bold"
-                            android:visibility="gone"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="ContentDescription" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="0dp"
@@ -103,9 +72,9 @@
                         android:onClick="@{() -> viewModel.onLocationClicked()}"
                         android:padding="@dimen/_5sdp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/cart_layout"
+                        app:layout_constraintEnd_toStartOf="@+id/ib_back"
                         app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toEndOf="@+id/ib_back"
+                        app:layout_constraintStart_toEndOf="@+id/cart_layout"
                         app:layout_constraintTop_toTopOf="parent">
 
                         <TextView
@@ -143,19 +112,56 @@
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <ImageButton
-                        android:id="@+id/ib_back"
-                        android:layout_width="@dimen/_30sdp"
-                        android:layout_height="@dimen/_30sdp"
-                        android:layout_marginEnd="@dimen/_8sdp"
-                        android:background="?actionBarItemBackground"
-                        android:padding="@dimen/_3sdp"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/ic_back"
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cart_layout"
+                        android:layout_width="@dimen/_32sdp"
+                        android:layout_height="@dimen/_32sdp"
+                        android:layout_gravity="center"
+                        android:layout_marginHorizontal="16dp"
+                        android:onClick="@{() -> viewModel.onCartClicked()}"
+                        app:cardBackgroundColor="@android:color/white"
+                        app:cardCornerRadius="8dp"
+                        app:cardElevation="8dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:ignore="ContentDescription" />
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <!-- CART COUNT LAYOUT -->
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <ImageView
+                                android:id="@+id/imageView10"
+                                android:layout_width="@dimen/_28sdp"
+                                android:layout_height="@dimen/_28sdp"
+                                android:layout_gravity="center"
+                                android:padding="@dimen/_5sdp"
+                                android:src="@drawable/ic_shopping_cart"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:ignore="ContentDescription" />
+
+                            <TextView
+                                android:id="@+id/tv_servicesCount"
+                                android:layout_width="@dimen/_16sdp"
+                                android:layout_height="@dimen/_16sdp"
+                                android:layout_alignParentEnd="true"
+                                android:background="@drawable/cart_count_bg"
+                                android:gravity="center"
+                                android:text="@{viewModel.obsCartCount + ``}"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/_8ssp"
+                                android:textStyle="bold"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:text="1" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </androidx.cardview.widget.CardView>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -270,8 +276,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:paddingBottom="6dp"
                             android:background="#F2F2F2"
+                            android:paddingBottom="6dp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/rv_subCategories">
@@ -314,16 +320,16 @@
 
                         <LinearLayout
                             android:id="@+id/layoutSlider"
+                            visibleGone="@{viewModel.obsHideRecycler}"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:visibility="gone"
-                            visibleGone="@{viewModel.obsHideRecycler}"
-                            android:orientation="vertical"
                             android:layout_marginHorizontal="20dp"
+                            android:orientation="vertical"
+                            android:visibility="gone"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.5"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/layoutStories" >
+                            app:layout_constraintTop_toBottomOf="@+id/layoutStories">
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -334,12 +340,13 @@
                                 android:text="@string/slider"
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/_15ssp"
-                                />
+                                android:visibility="gone" />
 
                             <com.smarteist.autoimageslider.SliderView
                                 android:id="@+id/bannerSlider"
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/_120sdp"
+                                android:visibility="gone"
                                 app:sliderAnimationDuration="600"
                                 app:sliderAutoCycleDirection="back_and_forth"
                                 app:sliderAutoCycleEnabled="true"
@@ -384,14 +391,14 @@
                         <!-- Stores Items -->
                         <LinearLayout
                             android:id="@+id/layoutProducts"
+                            visibleGone="@{viewModel.obsHideRecycler}"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            visibleGone="@{viewModel.obsHideRecycler}"
                             android:orientation="vertical"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/progress_layout"
-                            >
+                            app:layout_constraintTop_toBottomOf="@+id/progress_layout">
+
                             <androidx.constraintlayout.widget.ConstraintLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
@@ -420,20 +427,23 @@
 
                                     <ImageView
                                         android:layout_width="@dimen/_24sdp"
-                                        android:tint="@{viewModel.linearLayoutMng? @color/color_primary:@color/grey }"
                                         android:layout_height="@dimen/_24sdp"
                                         android:onClick="@{() -> viewModel.onLinearLayoutClicked()}"
-                                        android:src="@drawable/linear_icon" />
+                                        android:src="@drawable/linear_icon"
+                                        android:tint="@{viewModel.linearLayoutMng? @color/grey :@color/color_primary}" />
 
                                     <ImageView
                                         android:layout_width="@dimen/_24sdp"
                                         android:layout_height="@dimen/_24sdp"
-                                        android:tint="@{viewModel.linearLayoutMng? @color/grey :@color/color_primary}"
-                                        android:onClick="@{() -> viewModel.onHorizontalLayoutClicked()}"
                                         android:layout_marginStart="@dimen/_10sdp"
-                                        android:src="@drawable/horizonatal_icon" />
+                                        android:onClick="@{() -> viewModel.onHorizontalLayoutClicked()}"
+                                        android:src="@drawable/horizonatal_icon"
+                                        android:tint="@{viewModel.linearLayoutMng? @color/color_primary:@color/grey }" />
+
                                 </LinearLayout>
+
                             </androidx.constraintlayout.widget.ConstraintLayout>
+
                             <androidx.recyclerview.widget.RecyclerView
                                 android:id="@+id/rv_products"
                                 adapter="@{viewModel.storesAdapter}"
@@ -443,8 +453,8 @@
                                 android:paddingStart="@dimen/_20sdp"
                                 android:paddingEnd="@dimen/_20sdp"
                                 app:layoutManager="@{viewModel.layoutManager}"
-                                tools:itemCount="5"
                                 app:spanCount="2"
+                                tools:itemCount="5"
                                 tools:listitem="@layout/raw_home_store" />
 
                         </LinearLayout>

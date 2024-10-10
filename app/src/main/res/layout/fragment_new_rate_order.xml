@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.main.order.newRateOrder.NewRateOrderFragment">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvStore"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        app:cardCornerRadius="@dimen/_8sdp"
+        app:cardElevation="@dimen/_2sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/imgStore"
+                android:layout_width="@dimen/_58sdp"
+                android:layout_height="@dimen/_60sdp"
+                android:layout_marginHorizontal="@dimen/_8sdp"
+                android:layout_weight="1"
+                android:padding="@dimen/_5sdp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/app_logo"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/storeName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_10sdp"
+                android:fontFamily="@font/cairo_semibold"
+                android:maxLines="1"
+                android:textAlignment="viewStart"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_14ssp"
+                app:layout_constraintEnd_toStartOf="@+id/orderStatus"
+                app:layout_constraintStart_toEndOf="@+id/imgStore"
+                app:layout_constraintTop_toTopOf="@+id/imgStore"
+                tools:text="ALMA" />
+
+            <TextView
+                android:id="@+id/orderStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_8sdp"
+                android:fontFamily="@font/cairo_semibold"
+                android:textAlignment="viewStart"
+                android:textColor="@color/completed"
+                android:textSize="@dimen/_12ssp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/storeName"
+                app:layout_constraintTop_toTopOf="@+id/imgStore"
+                tools:text="@string/completed" />
+
+            <TextView
+                android:id="@+id/orderNum"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_8sdp"
+                android:duplicateParentState="false"
+                android:fontFamily="@font/cairoregular"
+                android:lineSpacingExtra="-8dp"
+                android:maxLines="1"
+                android:textAlignment="viewStart"
+                android:textSize="@dimen/_10ssp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imgStore"
+                app:layout_constraintTop_toBottomOf="@+id/storeName"
+                tools:text='order number: ORD-000619' />
+
+            <TextView
+                android:id="@+id/orderTime"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_8sdp"
+                android:fontFamily="@font/cairoregular"
+                android:maxLines="1"
+                android:textSize="@dimen/_10ssp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imgStore"
+                app:layout_constraintTop_toBottomOf="@id/orderNum"
+                tools:text="Order Date: 21/9/2020 11:06" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/storeRating"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/_28sdp"
+        android:layout_marginStart="@dimen/_8sdp"
+        android:layout_marginTop="@dimen/_12sdp"
+        android:background="@drawable/bg_selected_text_search"
+        android:gravity="center"
+        android:text="@string/store_rating"
+        android:textColor="@color/color_primary"
+        android:textSize="@dimen/_11ssp"
+        app:layout_constraintEnd_toStartOf="@id/productRating"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cvStore" />
+
+    <TextView
+        android:id="@+id/productRating"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        android:background="@drawable/bg_unselected_text_search"
+        android:gravity="center"
+        android:text="@string/product_rating"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_11ssp"
+        app:layout_constraintBottom_toBottomOf="@id/storeRating"
+        app:layout_constraintEnd_toStartOf="@id/driverRating"
+        app:layout_constraintStart_toEndOf="@id/storeRating"
+        app:layout_constraintTop_toTopOf="@id/storeRating" />
+
+    <TextView
+        android:id="@+id/driverRating"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="@dimen/_8sdp"
+        android:background="@drawable/bg_unselected_text_search"
+        android:gravity="center"
+        android:text="@string/driver_rating"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_11ssp"
+        app:layout_constraintBottom_toBottomOf="@id/productRating"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/productRating"
+        app:layout_constraintTop_toTopOf="@id/productRating" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintStoreRating"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_12sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/storeRating">
+
+        <TextView
+            android:id="@+id/txtStoreRating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:fontFamily="@font/cairo_bold"
+            android:maxLines="1"
+            android:text="@string/store_rating"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <me.zhanghai.android.materialratingbar.MaterialRatingBar
+            android:id="@+id/storeRatingbar"
+            style="@style/MyRatingBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/_8sdp"
+            android:progressTint="@color/yellow"
+            android:stepSize="1.0"
+            app:layout_constraintBottom_toBottomOf="@id/txtStoreRating"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/txtStoreRating"
+            app:mrb_indeterminateTint="@color/yellow"
+            app:mrb_progressBackgroundTint="@color/yellow"
+            app:mrb_progressTint="@color/yellow"
+            app:mrb_secondaryProgressTint="@color/yellow"
+            app:mrb_secondaryProgressTintMode="src_in"
+            tools:ignore="RtlSymmetry"
+            tools:rating="3.5" />
+
+        <View
+            android:id="@+id/view1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:background="@color/grey_subcategory"
+            app:layout_constraintTop_toBottomOf="@id/txtStoreRating" />
+
+        <TextView
+            android:id="@+id/txtWriteStoreReview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:fontFamily="@font/cairo_bold"
+            android:maxLines="1"
+            android:text="@string/write_a_store_review"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view1" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/etAddressEvaluateStore"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@drawable/about_bg"
+            android:fontFamily="@font/cairoregular"
+            android:gravity="start"
+            android:hint="@string/write_a_store_review"
+            android:lineSpacingExtra="-12dp"
+            android:padding="@dimen/_8sdp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/hint_color"
+            android:textSize="@dimen/_10ssp"
+            app:layout_constraintTop_toBottomOf="@+id/txtWriteStoreReview" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/etWhatDidYouLikeInStore"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_75sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@drawable/about_bg"
+            android:fontFamily="@font/cairoregular"
+            android:gravity="start"
+            android:hint="@string/address_to_evaluate_the_store"
+            android:lineSpacingExtra="-12dp"
+            android:padding="@dimen/_8sdp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/hint_color"
+            android:textSize="@dimen/_10ssp"
+            app:layout_constraintTop_toBottomOf="@+id/etAddressEvaluateStore" />
+
+        <TextView
+            android:id="@+id/txtAddPhotoAndVideo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:fontFamily="@font/cairo_bold"
+            android:text="@string/add_a_photo_or_video"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etWhatDidYouLikeInStore" />
+
+        <TextView
+            android:id="@+id/txtOptional"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:fontFamily="@font/cairoregular"
+            android:text="@string/optional"
+            android:textColor="@color/grey"
+            android:textSize="@dimen/_10ssp"
+            app:layout_constraintBottom_toBottomOf="@id/txtAddPhotoAndVideo"
+            app:layout_constraintStart_toEndOf="@id/txtAddPhotoAndVideo"
+            app:layout_constraintTop_toBottomOf="@+id/etWhatDidYouLikeInStore" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnAddPhotoAndVideo"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_80sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@drawable/about_item_bg"
+            android:drawableTop="@drawable/ic_camera"
+            android:drawableTint="@color/grey"
+            android:fontFamily="@font/cairoregular"
+            android:gravity="center"
+            android:hint="@string/your_opinion_in_driver"
+            android:paddingTop="@dimen/_16sdp"
+            android:text="@string/click_to_download"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_10ssp"
+            app:layout_constraintTop_toBottomOf="@+id/txtAddPhotoAndVideo" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imgAddPhotoAndVideo"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_80sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:scaleType="fitXY"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtAddPhotoAndVideo"
+            app:shapeAppearanceOverlay="@style/RoundedImageView" />
+
+        <VideoView
+            android:id="@+id/videoAddPhotoAndVideo"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_80sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:scaleType="fitXY"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtAddPhotoAndVideo"
+            app:shapeAppearanceOverlay="@style/RoundedImageView" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintProductRating"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="@dimen/_12sdp"
+        android:layout_marginTop="@dimen/_4sdp"
+        android:layout_marginBottom="@dimen/_12sdp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/btnSendFeedback"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/storeRating">
+
+        <TextView
+            android:id="@+id/txtProductQuality"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:fontFamily="@font/cairo_bold"
+            android:text="@string/product_quality"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_13ssp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvRatingsProductOrder"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtProductQuality"
+            tools:itemCount="2"
+            tools:listitem="@layout/item_rate_product_order" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintDriverRating"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_12sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/storeRating">
+
+        <TextView
+            android:id="@+id/txtDriverRating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:fontFamily="@font/cairo_bold"
+            android:maxLines="1"
+            android:text="@string/driver_rating"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <me.zhanghai.android.materialratingbar.MaterialRatingBar
+            android:id="@+id/driverRatingbar"
+            style="@style/MyRatingBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/_8sdp"
+            android:progressTint="@color/yellow"
+            android:stepSize="1.0"
+            app:layout_constraintBottom_toBottomOf="@id/txtDriverRating"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/txtDriverRating"
+            app:mrb_indeterminateTint="@color/yellow"
+            app:mrb_progressBackgroundTint="@color/yellow"
+            app:mrb_progressTint="@color/yellow"
+            app:mrb_secondaryProgressTint="@color/yellow"
+            app:mrb_secondaryProgressTintMode="src_in"
+            tools:ignore="RtlSymmetry"
+            tools:rating="3.5" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnSendFeedback"
+        style="@style/Widget.MaterialComponents.Button"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_marginHorizontal="@dimen/_12sdp"
+        android:layout_marginVertical="@dimen/_20sdp"
+        android:fontFamily="@font/cairo_semibold"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:text="@string/send_feedback"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_14ssp"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

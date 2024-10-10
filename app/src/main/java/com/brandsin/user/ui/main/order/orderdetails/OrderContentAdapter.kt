@@ -8,34 +8,31 @@ import androidx.recyclerview.widget.RecyclerView
 import com.brandsin.user.R
 import com.brandsin.user.databinding.RawOrderContentItemBinding
 import com.brandsin.user.model.order.details.OrderItem
-import kotlin.collections.ArrayList
 
-class OrderContentAdapter : RecyclerView.Adapter<OrderContentAdapter.CartsHolder>()
-{
+class OrderContentAdapter : RecyclerView.Adapter<OrderContentAdapter.CartsHolder>() {
     var itemsList: ArrayList<OrderItem> = ArrayList()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartsHolder
-    {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartsHolder {
         val context = parent.context
         val layoutInflater = LayoutInflater.from(context)
-        val binding: RawOrderContentItemBinding = DataBindingUtil.inflate(layoutInflater, R.layout.raw_order_content_item, parent, false)
+        val binding: RawOrderContentItemBinding =
+            DataBindingUtil.inflate(layoutInflater, R.layout.raw_order_content_item, parent, false)
         return CartsHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: CartsHolder, position: Int)
-    {
-        val  orderDetailsAddonsAdapter= OrderDetailsAddonsAdapter()
+    override fun onBindViewHolder(holder: CartsHolder, position: Int) {
+        val orderDetailsAddonsAdapter = OrderDetailsAddonsAdapter()
         orderDetailsAddonsAdapter.updateList(itemsList[position].addons)
-        val itemViewModel = ItemOrderContentViewModel(itemsList[position],orderDetailsAddonsAdapter)
+        val itemViewModel =
+            ItemOrderContentViewModel(itemsList[position], orderDetailsAddonsAdapter)
         holder.binding.viewModel = itemViewModel
 
-        if (itemsList.size-1 == position)
-        {
+        if (itemsList.size - 1 == position) {
             holder.binding.seperator.visibility = View.GONE
         }
     }
 
-    fun getItem(pos:Int):OrderItem{
+    fun getItem(pos: Int): OrderItem {
         return itemsList[pos]
     }
 
@@ -48,5 +45,6 @@ class OrderContentAdapter : RecyclerView.Adapter<OrderContentAdapter.CartsHolder
         notifyDataSetChanged()
     }
 
-    inner class CartsHolder(val binding: RawOrderContentItemBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class CartsHolder(val binding: RawOrderContentItemBinding) :
+        RecyclerView.ViewHolder(binding.root)
 }

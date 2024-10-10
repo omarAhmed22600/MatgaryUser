@@ -1,31 +1,30 @@
-<?xml
-    version="1.0"
-    encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.brandsin.user.ui.main.home.story.ItemStoryViewModel" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
-        android:layout_height="wrap_content"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
         app:cardCornerRadius="5dp">
 
-
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/bg"
-                android:layout_height="150dp"
                 android:layout_width="0dp"
+                android:layout_height="170dp"
                 android:scaleType="fitXY"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="H,1:0.7"
@@ -35,9 +34,9 @@
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/store_img"
-                android:layout_height="30dp"
-                android:layout_margin="10dp"
                 android:layout_width="35dp"
+                android:layout_height="30dp"
+                android:layout_margin="6dp"
                 android:src="@drawable/app_logo"
                 app:civ_border_color="@color/grey_subcategory"
                 app:civ_border_overlay="false"
@@ -45,8 +44,20 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/icVideo"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:scaleType="fitXY"
+                android:src="@drawable/story_video"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/bg"
+                app:layout_constraintEnd_toEndOf="@id/bg"
+                app:layout_constraintStart_toStartOf="@id/bg"
+                app:layout_constraintTop_toTopOf="@id/bg" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-
     </com.google.android.material.card.MaterialCardView>
+
 </layout>

@@ -13,9 +13,8 @@ import com.brandsin.user.utils.PrefMethods
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class AboutViewModel : BaseViewModel()
-{
-    var aboutAdapter  = AboutAdapter()
+class AboutViewModel : BaseViewModel() {
+    var aboutAdapter = AboutAdapter()
     var obsVersion = ObservableField<String>()
     var socialLinks = SocialLinks()
 
@@ -23,7 +22,7 @@ class AboutViewModel : BaseViewModel()
         getSocialLinks()
         val aboutList = arrayListOf(
             AboutItem(1, context.getString(R.string.FAQ)),
-           AboutItem(2, context.getString(R.string.share_your_rate_about_app))
+            AboutItem(2, context.getString(R.string.share_your_rate_about_app))
         )
         aboutAdapter.updateList(aboutList)
     }
@@ -44,12 +43,21 @@ class AboutViewModel : BaseViewModel()
         setValue(Codes.OPEN_TWITTER)
     }
 
+    fun onTikTokClicked() {
+        setValue(Codes.TIKTOK_CLICKED)
+    }
 
-    fun getSocialLinks()
-    {
+    private fun getSocialLinks() {
         obsIsFull.set(false)
         obsIsLoading.set(true)
-        requestCall<SocialLinksResponse?>({ withContext(Dispatchers.IO) { return@withContext getApiRepo().getSocialLinks("social_links" , PrefMethods.getLanguage()) } })
+        requestCall<SocialLinksResponse?>({
+            withContext(Dispatchers.IO) {
+                return@withContext getApiRepo().getSocialLinks(
+                    "social_links",
+                    PrefMethods.getLanguage()
+                )
+            }
+        })
         { res ->
             when (res!!.isSuccess) {
                 true -> {
@@ -57,6 +65,7 @@ class AboutViewModel : BaseViewModel()
                     obsIsLoading.set(false)
                     socialLinks = res.socialLinks!!
                 }
+
                 else -> {}
             }
         }

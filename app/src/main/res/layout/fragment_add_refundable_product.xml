@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.menu.refundableProducts.AddRefundableProductFragment">
+
+    <TextView
+        android:id="@+id/txtAddPhotoAndVideo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_12sdp"
+        android:layout_marginTop="@dimen/_12sdp"
+        android:fontFamily="@font/cairo_bold"
+        android:text="@string/add_a_photo_or_video"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_12ssp"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnAddPhotoAndVideo"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/_80sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:background="@drawable/about_item_bg"
+        android:drawableTop="@drawable/ic_camera"
+        android:drawableTint="@color/grey"
+        android:fontFamily="@font/cairoregular"
+        android:gravity="center"
+        android:hint="@string/your_opinion_in_driver"
+        android:paddingTop="@dimen/_16sdp"
+        android:text="@string/click_to_download"
+        android:textAllCaps="false"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_10ssp"
+        app:layout_constraintEnd_toEndOf="@+id/txtAddPhotoAndVideo"
+        app:layout_constraintStart_toStartOf="@+id/txtAddPhotoAndVideo"
+        app:layout_constraintTop_toBottomOf="@+id/txtAddPhotoAndVideo" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/imgAddPhotoAndVideo"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/_80sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:scaleType="fitXY"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/txtAddPhotoAndVideo"
+        app:layout_constraintStart_toStartOf="@+id/txtAddPhotoAndVideo"
+        app:layout_constraintTop_toBottomOf="@+id/txtAddPhotoAndVideo"
+        app:shapeAppearanceOverlay="@style/RoundedImageView" />
+
+    <VideoView
+        android:id="@+id/videoAddPhotoAndVideo"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/_80sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:scaleType="fitXY"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/txtAddPhotoAndVideo"
+        app:layout_constraintStart_toStartOf="@+id/txtAddPhotoAndVideo"
+        app:layout_constraintTop_toBottomOf="@+id/txtAddPhotoAndVideo"
+        app:shapeAppearanceOverlay="@style/RoundedImageView" />
+
+    <TextView
+        android:id="@+id/txtReasonRefundable"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_12sdp"
+        android:layout_marginTop="@dimen/_12sdp"
+        android:fontFamily="@font/cairo_bold"
+        android:text="@string/reason_for_return"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_12ssp"
+        app:layout_constraintTop_toBottomOf="@id/btnAddPhotoAndVideo" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvChooseReasonForReturn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_12sdp"
+        android:elevation="@dimen/_2sdp"
+        app:cardCornerRadius="@dimen/_8sdp"
+        app:layout_constraintTop_toBottomOf="@id/txtReasonRefundable">
+
+        <TextView
+            android:id="@+id/chooseReasonForReturn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_6sdp"
+            android:fontFamily="@font/cairo_semibold"
+            android:padding="@dimen/_6sdp"
+            android:text="@string/reason_for_return"
+            android:textColor="@color/grey"
+            android:textSize="@dimen/_12ssp"
+            app:drawableEndCompat="@drawable/ic_expand_down_arrow"
+            android:drawableTint="@color/color_primary"
+            app:layout_constraintTop_toBottomOf="@id/btnAddPhotoAndVideo" />
+
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/txtNotes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_12sdp"
+        android:layout_marginTop="@dimen/_12sdp"
+        android:fontFamily="@font/cairo_bold"
+        android:text="@string/notes"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_12ssp"
+        app:layout_constraintTop_toBottomOf="@id/cvChooseReasonForReturn" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvEnterNotes"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_100sdp"
+        android:layout_margin="@dimen/_12sdp"
+        android:elevation="@dimen/_2sdp"
+        app:cardCornerRadius="@dimen/_8sdp"
+        app:layout_constraintTop_toBottomOf="@id/txtNotes">
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/edtNotes"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_6sdp"
+            android:background="@android:color/transparent"
+            android:gravity="top|start"
+            android:hint="@string/choose_the_reason_for_the_return"
+            android:padding="@dimen/_8sdp"
+            android:textColorHint="@color/grey"
+            android:textSize="@dimen/_10ssp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.cardview.widget.CardView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnSubmit"
+        style="@style/Widget.MaterialComponents.Button"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_marginHorizontal="@dimen/_12sdp"
+        android:layout_marginVertical="@dimen/_20sdp"
+        android:fontFamily="@font/cairo_semibold"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:text="@string/submit_a_return_request"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_14ssp"
+        app:layout_constraintTop_toBottomOf="@id/cvEnterNotes" />
+
+    <include
+        android:id="@+id/progressBar"
+        layout="@layout/dialog_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

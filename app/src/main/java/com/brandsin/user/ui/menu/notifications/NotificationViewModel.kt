@@ -93,10 +93,10 @@ class NotificationViewModel : BaseViewModel()
                     obsHideRecycler.set(true)
                     res.data.let {
                         slidersResponse.value = res
-                        if (it!!.slides!!.isNotEmpty()) {
+                        if (it!!.slides.isNotEmpty()) {
 
                             /*slider*/
-                            moreSliderAdapter.updateList(it!!.slides)
+                            moreSliderAdapter.updateList(it.slides)
 
 
                         }

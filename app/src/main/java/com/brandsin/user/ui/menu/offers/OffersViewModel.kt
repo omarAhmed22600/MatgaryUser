@@ -3,7 +3,7 @@ package com.brandsin.user.ui.menu.offers
 import com.brandsin.user.database.BaseViewModel
 import com.brandsin.user.model.constants.Codes
 import com.brandsin.user.model.constants.Const
-import com.brandsin.user.model.menu.favourits.FavouritsResponse
+import com.brandsin.user.model.menu.favourits.FavouritesResponse
 import com.brandsin.user.model.menu.offers.OffersItemDetails
 import com.brandsin.user.model.menu.offers.OffersResponse
 import com.brandsin.user.model.order.homepage.StoriesItem
@@ -16,35 +16,33 @@ import com.brandsin.user.utils.SingleLiveEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class OffersViewModel : BaseViewModel()
-{
-    lateinit var storiesAdapter : StoriesAdapter
+class OffersViewModel : BaseViewModel() {
+
+    lateinit var storiesAdapter: StoriesAdapter
     var moreSliderAdapter = MoreSliderAdapter()
+    var offersAdapter = OffersAdapter()
+
     var slidersResponse = SingleLiveEvent<SlidersResponse>()
-    var offersAdapter  = OffersAdapter()
-    lateinit var latitude : String
-    lateinit var longitude : String
+
+    lateinit var latitude: String
+    lateinit var longitude: String
     private var isFirstTime = true
 
     fun onLoginClicked() {
         setValue(Codes.LOGIN_CLICKED)
     }
 
-    fun setStoriesListner(onStoryClickedListner: StoriesAdapter.OnStoryClickedListner){
-        storiesAdapter  = StoriesAdapter(onStoryClickedListner)
-
+    fun setStoriesListener(onStoryClickedListener: StoriesAdapter.OnStoryClickedListener) {
+        storiesAdapter = StoriesAdapter(onStoryClickedListener)
     }
-
 
     init {
         when {
             isFirstTime -> {
                 isFirstTime = false
                 getLatLng()
-
             }
         }
-
     }
 
     private fun getLatLng() {
@@ -57,18 +55,21 @@ class OffersViewModel : BaseViewModel()
                                 latitude = PrefMethods.getUserLocation()!!.lat.toString()
                                 longitude = PrefMethods.getUserLocation()!!.lng.toString()
                             }
+
                             else -> {
                                 latitude = Const.latitude.toString()
                                 longitude = Const.longitude.toString()
                             }
                         }
                     }
+
                     else -> {
                         latitude = Const.latitude.toString()
                         longitude = Const.longitude.toString()
                     }
                 }
             }
+
             else -> {
                 latitude = PrefMethods.getDefaultAddress()!!.lat.toString()
                 longitude = PrefMethods.getDefaultAddress()!!.lng.toString()
@@ -76,37 +77,34 @@ class OffersViewModel : BaseViewModel()
         }
     }
 
-
-    fun getOffersStories()
-    {
+    fun getOffersStories() {
         obsIsEmpty.set(false)
         obsIsFull.set(false)
         obsIsLoading.set(true)
-        requestCall<FavouritsResponse?>({
+        requestCall<FavouritesResponse?>({
             withContext(Dispatchers.IO) {
-                return@withContext getApiRepo().getOffersStories( )
+                return@withContext getApiRepo().getOffersStories()
             }
         })
         { res ->
-
             obsIsLoading.set(false)
             when (res!!.success) {
                 true -> {
                     res.let {
-                        if(it.stories!!.isNotEmpty())
-                        {
+                        if (it.stories!!.isNotEmpty()) {
                             obsIsEmpty.set(false)
                             obsIsFull.set(true)
                             obsIsLoadingStores.set(false)
                             obsHideRecycler.set(true)
-                            storiesAdapter.updateList(res.stories  as MutableList<ArrayList<StoriesItem>>)
-                        }
-                        else {
-                           // obsIsEmpty.set(true)
+
+                            storiesAdapter.updateList(res.stories as MutableList<ArrayList<StoriesItem>>)
+                        } else {
+                            // obsIsEmpty.set(true)
                             obsIsFull.set(false)
                         }
                     }
                 }
+
                 else -> {}
             }
         }
@@ -127,19 +125,20 @@ class OffersViewModel : BaseViewModel()
                     setShowProgress(false)
                     res.data.let {
                         slidersResponse.value = res
-                        if (it!!.slides!!.isNotEmpty()) {
+                        if (it!!.slides.isNotEmpty()) {
                             obsIsEmpty.set(false)
                             obsIsFull.set(true)
                             obsIsLoadingStores.set(false)
                             obsHideRecycler.set(true)
                             /*slider*/
-                            moreSliderAdapter.updateList(it!!.slides)
-                        }else {
-                          //  obsIsEmpty.set(true)
+                            moreSliderAdapter.updateList(it.slides)
+                        } else {
+                            //  obsIsEmpty.set(true)
                             obsIsFull.set(false)
                         }
                     }
                 }
+
                 else -> {
                     obsIsLoading.set(false)
                     //obsIsEmpty.set(true)
@@ -149,36 +148,41 @@ class OffersViewModel : BaseViewModel()
         }
     }
 
-    fun getOffers()
-    {
+    fun getOffers() {
         obsIsEmpty.set(false)
         obsIsFull.set(false)
         obsIsLoading.set(true)
         requestCall<OffersResponse?>({
             withContext(Dispatchers.IO) {
-                return@withContext getApiRepo().getOffers(10 , 0, PrefMethods.getLanguage(), latitude, longitude, "5")
+                return@withContext getApiRepo().getOffers(
+                    10,
+                    0,
+                    PrefMethods.getLanguage(),
+                    latitude,
+                    longitude,
+                    "5000"
+                )
             }
         })
         { res ->
-
             obsIsLoading.set(false)
             when (res!!.isSuccess) {
-                    true -> {
+                true -> {
                     res.let {
-                        if(it.offersList!!.isNotEmpty())
-                        {
+                        if (it.offersList!!.isNotEmpty()) {
                             obsIsEmpty.set(false)
                             obsIsFull.set(true)
                             obsIsLoadingStores.set(false)
                             obsHideRecycler.set(true)
+
                             offersAdapter.updateList(res.offersList as ArrayList<OffersItemDetails>)
-                        }
-                        else {
+                        } else {
                             //obsIsEmpty.set(true)
                             obsIsFull.set(false)
                         }
                     }
                 }
+
                 else -> {}
             }
         }

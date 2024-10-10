@@ -41,7 +41,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/slider_layout"
-                    android:backgroundTint="@color/red"
+                    android:backgroundTint="@color/raw_home_about_bg_color"
                     app:layout_constraintTop_toTopOf="parent"
                     app:cardElevation="0dp">
 

@@ -1,51 +1,106 @@
 package com.brandsin.user.model.order.SearchProdactAttr
 
+import android.os.Parcelable
 import com.brandsin.user.model.order.storedetails.StoreSkusItem
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
+import kotlinx.parcelize.RawValue
 
+@Parcelize
 data class SearchProductAttResponse(
+
+    @field:SerializedName("attributes")
     val attributes: ArrayList<StoreSkusItem>,
-    val images: List<Any>,
+
+    @field:SerializedName("images")
+    val images: @RawValue List<Any>,
+
+    @field:SerializedName("sku")
     val sku: Sku,
+
+    @field:SerializedName("sku_id")
     val sku_id: Int
-)
+): Parcelable
 
 //data class Attribute(
 //    val key: String,
 //    val values: List<StoreItemColors>
 //)
 
+@Parcelize
 data class Sku(
-    val allowed_quantity: Int?=null,
-    val code: String?=null,
-    val created_at: String?=null,
-    val created_by: Int?=null,
-    val deleted_at: Any?=null,
-    val free_refunding: Int?=null,
-    val free_shipping: Int?=null,
-    val id: Int?=null,
-    val inventory: String?=null,
-    val inventory_value: String?=null,
-    val media: List<Any>?=null,
-    val name: String?=null,
-    val price: String?=null,
-    val product_id: Int?=null,
-    val regular_price: String?=null,
-    val sale_price: Any?=null,
-    val secured: Int?=null,
-    val shipping: Any?=null,
-    val status: String?=null,
-    val unit_id: Any?=null,
-    val updated_at: String?=null,
-    val updated_by: Int?=null
-)
 
+    @field:SerializedName("allowed_quantity")
+    val allowed_quantity: Int? = null,
+
+    @field:SerializedName("code")
+    val code: String? = null,
+
+    @field:SerializedName("free_refunding")
+    val free_refunding: Int? = null,
+
+    @field:SerializedName("free_shipping")
+    val free_shipping: Int? = null,
+
+    @field:SerializedName("id")
+    val id: Int? = null,
+
+    @field:SerializedName("inventory")
+    val inventory: String? = null,
+
+    @field:SerializedName("inventory_value")
+    val inventory_value: String? = null,
+
+    val media: @RawValue List<Any>? = null,
+
+    @field:SerializedName("name")
+    val name: String? = null,
+
+    @field:SerializedName("price")
+    val price: String? = null,
+
+    @field:SerializedName("product_id")
+    val product_id: Int? = null,
+
+    @field:SerializedName("regular_price")
+    val regular_price: String? = null,
+
+    @field:SerializedName("sale_price")
+    val sale_price: String? = null,
+
+    @field:SerializedName("secured")
+    val secured: Int? = null,
+
+    val shipping: @RawValue Any? = null,
+
+    @field:SerializedName("status")
+    val status: String? = null,
+
+    val unit_id: @RawValue Any? = null,
+
+):Parcelable
+
+@Parcelize
 data class StoreItemColors(
-    val attribute_id: Int,
-    val is_disabled: Boolean,
-    val is_selected: Int,
-    val label: String,
-    val number_value: Int,
-    val sku_id: Int,
-    val value: String
-)
+
+    @field:SerializedName("attribute_id")
+    val attributeId: Int? = null,
+
+    @field:SerializedName("is_disabled")
+    val is_disabled: Boolean? = null,
+
+    @field:SerializedName("is_selected")
+    var is_selected: Int? = null,
+
+    @field:SerializedName("label")
+    val label: String? = null,
+
+    @field:SerializedName("number_value")
+    val numberValue: Int? = null,
+
+    @field:SerializedName("sku_id")
+    val skuId: Int? = null,
+
+    @field:SerializedName("value")
+    val value: String? = null
+) : Parcelable

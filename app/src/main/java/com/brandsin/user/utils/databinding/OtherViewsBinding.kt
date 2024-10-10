@@ -281,7 +281,7 @@ class OtherViewsBinding {
         @BindingAdapter("notifyRead")
         fun notifyRead(view: CardView, state: String?) {
             if (state != null) {
-                view.setBackgroundColor(ContextCompat.getColor(MyApp.context, R.color.white))
+                view.setBackgroundColor(ContextCompat.getColor(MyApp.getInstance(), R.color.white))
             } else {
                 when {
                     PrefMethods.getLanguage() == "en" -> {

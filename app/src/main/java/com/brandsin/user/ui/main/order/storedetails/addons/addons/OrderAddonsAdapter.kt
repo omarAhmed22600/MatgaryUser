@@ -8,23 +8,20 @@ import com.brandsin.user.R
 import com.brandsin.user.databinding.RawOrderAddonsBinding
 import com.brandsin.user.model.order.storedetails.StoreAddonsItem
 import com.brandsin.user.utils.SingleLiveEvent
-import kotlin.collections.ArrayList
 
-class OrderAddonsAdapter : RecyclerView.Adapter<OrderAddonsAdapter.OrderAddonsHolder>()
-{
+class OrderAddonsAdapter : RecyclerView.Adapter<OrderAddonsAdapter.OrderAddonsHolder>() {
     var orderAddonsList: ArrayList<StoreAddonsItem> = ArrayList()
     var orderAddonsLiveData = SingleLiveEvent<StoreAddonsItem>()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderAddonsHolder
-    {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderAddonsHolder {
         val context = parent.context
         val layoutInflater = LayoutInflater.from(context)
-        val binding: RawOrderAddonsBinding = DataBindingUtil.inflate(layoutInflater, R.layout.raw_order_addons, parent, false)
+        val binding: RawOrderAddonsBinding =
+            DataBindingUtil.inflate(layoutInflater, R.layout.raw_order_addons, parent, false)
         return OrderAddonsHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: OrderAddonsHolder, position: Int)
-    {
+    override fun onBindViewHolder(holder: OrderAddonsHolder, position: Int) {
         val itemViewModel = ItemOrderAddonsViewModel(orderAddonsList[position])
         holder.binding.viewModel = itemViewModel
 
@@ -36,6 +33,7 @@ class OrderAddonsAdapter : RecyclerView.Adapter<OrderAddonsAdapter.OrderAddonsHo
                     notifyItemChanged(position)
                     itemViewModel.item.isSelected = false
                 }
+
                 else -> {
                     holder.setSelected()
                     notifyItemChanged(position)
@@ -46,7 +44,7 @@ class OrderAddonsAdapter : RecyclerView.Adapter<OrderAddonsAdapter.OrderAddonsHo
         }
     }
 
-    fun getItem(pos:Int): StoreAddonsItem {
+    fun getItem(pos: Int): StoreAddonsItem {
         return orderAddonsList[pos]
     }
 
@@ -59,14 +57,14 @@ class OrderAddonsAdapter : RecyclerView.Adapter<OrderAddonsAdapter.OrderAddonsHo
         notifyDataSetChanged()
     }
 
-    inner class OrderAddonsHolder(val binding: RawOrderAddonsBinding) : RecyclerView.ViewHolder(binding.root)
-    {
-        fun setSelected()
-        {
+    inner class OrderAddonsHolder(val binding: RawOrderAddonsBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun setSelected() {
             when {
                 orderAddonsList[adapterPosition].isSelected -> {
                     binding.ivSelected.setImageResource(R.drawable.ic_size_check_box_24px)
                 }
+
                 else -> {
                     binding.ivSelected.setImageResource(R.drawable.ic_check_box_outline_blank_24px)
                 }

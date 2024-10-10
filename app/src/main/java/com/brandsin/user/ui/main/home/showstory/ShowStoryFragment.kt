@@ -2,7 +2,10 @@ package com.brandsin.user.ui.main.home.showstory
 
 import android.media.MediaPlayer
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.VideoView
 import androidx.databinding.DataBindingUtil
@@ -12,55 +15,63 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bolaware.viewstimerstory.Momentz
 import com.bolaware.viewstimerstory.MomentzCallback
-import com.bumptech.glide.Glide
 import com.brandsin.user.R
 import com.brandsin.user.databinding.HomeFragmentShowStoryBinding
 import com.brandsin.user.model.order.homepage.StoriesItem
 import com.brandsin.user.ui.activity.home.BaseHomeFragment
 import com.brandsin.user.utils.MyApp
-import java.util.ArrayList
+import com.bumptech.glide.Glide
 
+class ShowStoryFragment : BaseHomeFragment(), Observer<Any?>, MomentzCallback {
 
-class ShowStoryFragment :  BaseHomeFragment(), Observer<Any?>, MomentzCallback
-{
-    lateinit var binding : HomeFragmentShowStoryBinding
+    lateinit var binding: HomeFragmentShowStoryBinding
     lateinit var viewModel: ShowStoryViewModel
+
     private val fragmentArgs: ShowStoryFragmentArgs by navArgs()
+
     var storiesItem = StoriesItem()
-    var num = 0
+    private var num = 0
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
-    {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         // Inflate the layout for requireActivity() fragment
-        binding = DataBindingUtil.inflate(inflater, R.layout.home_fragment_show_story, container, false)
-
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.home_fragment_show_story, container, false)
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?)
-    {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this).get(ShowStoryViewModel::class.java)
 
+        viewModel = ViewModelProvider(this)[ShowStoryViewModel::class.java]
         binding.viewModel = viewModel
+
         storiesItem = fragmentArgs.storiesItem
+
         viewModel.storiesList = ArrayList()
+
         //viewModel.storiesList.add(storiesItem)
 
         viewModel.mutableLiveData.observe(viewLifecycleOwner, this)
 
-     //   Momentz(requireActivity(), viewModel.listOfViews, binding.container, this).removeAllViews()
-       // show()
+        // Momentz(requireActivity(), viewModel.listOfViews, binding.container, this).removeAllViews()
+        // show()
 
-        viewModel.showProgress().observe(viewLifecycleOwner, { aBoolean ->
+        viewModel.showProgress().observe(viewLifecycleOwner) { aBoolean ->
             if (!aBoolean!!) {
                 binding.progressLayout.visibility = View.GONE
-                requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
             } else {
                 binding.progressLayout.visibility = View.VISIBLE
-                requireActivity().window.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                requireActivity().window.setFlags(
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+                )
             }
-        })
+        }
 
         Glide.with(MyApp.context).load(storiesItem.store!!.thumbnail)
             .error(R.drawable.app_logo)
@@ -92,24 +103,23 @@ class ShowStoryFragment :  BaseHomeFragment(), Observer<Any?>, MomentzCallback
         }
     }
 
-    override fun onChanged(it: Any?)
-    {
-        if(it == null) return
-        when (it) {
+    override fun onChanged(value: Any?) {
+        if (value == null) return
+        when (value) {
 //            Codes.SHOW_STORY -> {
 //                viewModel.setShowProgress(false)
 //                show()
 //            }
             else -> {
-                if (it is String) {
-                    showToast(it.toString(), 1)
+                if (value is String) {
+                    showToast(value.toString(), 1)
                 }
                 viewModel.setShowProgress(false)
             }
         }
     }
 
-//    fun show(){
+    //    fun show(){
 //        viewModel.listOfViews = ArrayList()
 //        for (item in viewModel.storiesList) {
 //            if (item.media.isNullOrEmpty()){
@@ -156,21 +166,30 @@ class ShowStoryFragment :  BaseHomeFragment(), Observer<Any?>, MomentzCallback
 //
 //    }
     override fun done() {
-        if (num == 1 ){
-            view?.post {
-                val action =
-                    ShowStoryFragmentDirections.showStoryToAddedStories(storiesItem.storeId!!,storiesItem)
-                findNavController().navigate(action)
+        when (num) {
+            1 -> {
+                view?.post {
+                    val action =
+                        ShowStoryFragmentDirections.showStoryToAddedStories(
+                            storiesItem.storeId!!,
+                            storiesItem
+                        )
+                    findNavController().navigate(action)
+                }
             }
-        }else if (num == 2){
-            view?.post {
-                val action =
-                    ShowStoryFragmentDirections.showStoryToStoreDetails(storiesItem.storeId!!)
-                findNavController().navigate(action)
+
+            2 -> {
+                view?.post {
+                    val action =
+                        ShowStoryFragmentDirections.showStoryToStoreDetails(storiesItem.storeId!!)
+                    findNavController().navigate(action)
+                }
             }
-        }else{
-            view?.post {
-                findNavController().navigateUp()
+
+            else -> {
+                view?.post {
+                    findNavController().navigateUp()
+                }
             }
         }
     }
@@ -180,12 +199,11 @@ class ShowStoryFragment :  BaseHomeFragment(), Observer<Any?>, MomentzCallback
             momentz.pause(true)
             playVideo(view, index, momentz)
         } else if ((view is ImageView) && (view.drawable == null)) {
-//            momentz.pause(true)
-
+            // momentz.pause(true)
         }
     }
 
-    fun playVideo(videoView: VideoView, index: Int, momentz: Momentz) {
+    private fun playVideo(videoView: VideoView, index: Int, momentz: Momentz) {
 
         videoView.requestFocus()
         videoView.start()

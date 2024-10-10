@@ -34,24 +34,27 @@ import retrofit2.Callback
 import retrofit2.Response
 import timber.log.Timber
 
-class MyOrdersFragment : BaseHomeFragment(), Observer<Any?>
-{
-    private lateinit var binding : HomeFragmentMyordersBinding
+class MyOrdersFragment : BaseHomeFragment(), Observer<Any?> {
+    private lateinit var binding: HomeFragmentMyordersBinding
     private lateinit var viewModel: MyOrdersViewModel
 
-    var userCart : UserCart? = null
-    var cartStore : CartStoreData? = null
-    var cartItemsList : ArrayList<CartItem>? = null
+    var userCart: UserCart? = null
+    var cartStore: CartStoreData? = null
+    var cartItemsList: ArrayList<CartItem>? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.home_fragment_myorders, container, false)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.home_fragment_myorders, container, false)
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?)
-    {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MyOrdersViewModel::class.java)
+        viewModel = ViewModelProvider(this)[MyOrdersViewModel::class.java]
         binding.viewModel = viewModel
 
         setBarName(getString(R.string.my_orders))
@@ -65,32 +68,55 @@ class MyOrdersFragment : BaseHomeFragment(), Observer<Any?>
             viewModel.getMyOrders()
         }
 
+
         observe(viewModel.ordersAdapter.detailsLiveData) {
             val action = MyOrdersFragmentDirections.myOrdersToOrderDetails(it!!.id!!.toInt())
             findNavController().navigate(action)
         }
 
-        observe(viewModel.ordersAdapter.statusLiveData){
+        observe(viewModel.ordersAdapter.assessmentLiveData) {
+            val bundle = Bundle()
+            bundle.putInt("ORDER_ID", it?.id ?: 0)
+            findNavController().navigate(R.id.newRateOrderFragment, bundle)
+        }
+
+        observe(viewModel.ordersAdapter.statusLiveData) {
             when (it!!.status) {
                 "pending" -> {
                     val bundle = Bundle()
-                    bundle.putString(Params.DIALOG_CONFIRM_MESSAGE, MyApp.getInstance().getString(R.string.delete_order_warning))
-                    bundle.putString(Params.DIALOG_CONFIRM_POSITIVE, MyApp.getInstance().getString(R.string.confirm))
-                    bundle.putString(Params.DIALOG_CONFIRM_NEGATIVE, MyApp.getInstance().getString(R.string.ignore))
-                    bundle.putSerializable(Params.DIALOG_ORDER_ITEM, it)
-                    Utils.startDialogActivity(requireActivity(), DialogRemoveFragment::class.java.name, Codes.DIALOG_CONFIRM_REQUEST, bundle)
+                    bundle.putString(
+                        Params.DIALOG_CONFIRM_MESSAGE,
+                        MyApp.getInstance().getString(R.string.delete_order_warning)
+                    )
+                    bundle.putString(
+                        Params.DIALOG_CONFIRM_POSITIVE,
+                        MyApp.getInstance().getString(R.string.confirm)
+                    )
+                    bundle.putString(
+                        Params.DIALOG_CONFIRM_NEGATIVE,
+                        MyApp.getInstance().getString(R.string.ignore)
+                    )
+                    bundle.putParcelable(Params.DIALOG_ORDER_ITEM, it)
+                    Utils.startDialogActivity(
+                        requireActivity(),
+                        DialogRemoveFragment::class.java.name,
+                        Codes.DIALOG_CONFIRM_REQUEST,
+                        bundle
+                    )
                 }
+
                 "completed" -> {
-                    if (it.isRated !=null && it.isRated){
+                    if (it.isRated != null && it.isRated) {
 
                         viewModel.obsIsVisible.set(true)
                         getReOrder(it.id!!)
 
-                    }else{
+                    } else {
                         val action = MyOrdersFragmentDirections.myOrdersToRateOrder(it.id!!.toInt())
                         findNavController().navigate(action)
                     }
                 }
+
                 else -> {
                     val action = MyOrdersFragmentDirections.myOrdersToOrderStatus(it.id!!.toInt())
                     findNavController().navigate(action)
@@ -98,20 +124,21 @@ class MyOrdersFragment : BaseHomeFragment(), Observer<Any?>
             }
         }
 
-        observe(viewModel.ordersAdapter.orderItemLiveData){
+        observe(viewModel.ordersAdapter.orderItemLiveData) {
             val action = MyOrdersFragmentDirections.myOrdersToOrderStatus(it!!.id!!.toInt())
             findNavController().navigate(action)
         }
-
 
         observe(viewModel.apiResponseLiveData) {
             when (it.status) {
                 Status.ERROR_MESSAGE -> {
                     showToast(it.message.toString(), 1)
                 }
+
                 Status.SUCCESS_MESSAGE -> {
                     showToast(it.message.toString(), 2)
                 }
+
                 Status.SUCCESS -> {
                     when (it.data) {
                         is CancelOrderResponse -> {
@@ -122,6 +149,7 @@ class MyOrdersFragment : BaseHomeFragment(), Observer<Any?>
                         }
                     }
                 }
+
                 else -> {
                     Timber.e(it.message)
                 }
@@ -129,14 +157,17 @@ class MyOrdersFragment : BaseHomeFragment(), Observer<Any?>
         }
     }
 
-    override fun onChanged(it: Any?)
-    {
-        if(it == null) return
-        when (it)
-        {
+    override fun onChanged(value: Any?) {
+        if (value == null) return
+        when (value) {
             Codes.LOGIN_CLICKED -> {
                 PrefMethods.saveIsAskedToLogin(true)
-                startActivity(Intent(requireActivity(), AuthActivity::class.java).putExtra(Const.ACCESS_LOGIN , true))
+                startActivity(
+                    Intent(
+                        requireActivity(),
+                        AuthActivity::class.java
+                    ).putExtra(Const.ACCESS_LOGIN, true)
+                )
             }
         }
     }
@@ -152,17 +183,20 @@ class MyOrdersFragment : BaseHomeFragment(), Observer<Any?>
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
-    {
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == Codes.DIALOG_CONFIRM_REQUEST && data != null) {
             if (data.hasExtra(Params.DIALOG_CLICK_ACTION)) {
                 when {
-                    data.getIntExtra(Params.DIALOG_CLICK_ACTION,1) == 1 -> {
+                    data.getIntExtra(Params.DIALOG_CLICK_ACTION, 1) == 1 -> {
                         when {
                             data.hasExtra(Params.DIALOG_ORDER_ITEM) -> {
-                                val itemOrder = data.getSerializableExtra(Params.DIALOG_ORDER_ITEM) as MyOrderItem
+                                val itemOrder =
+                                    (requireArguments().getParcelable(Params.DIALOG_ORDER_ITEM) as MyOrderItem?)!!
+
+                                // data.getParcelableExtra(Params.DIALOG_ORDER_ITEM)!! as MyOrderItem
                                 viewModel.cancelOrder(itemOrder)
                             }
                         }
@@ -172,19 +206,22 @@ class MyOrdersFragment : BaseHomeFragment(), Observer<Any?>
         }
     }
 
-    fun getReOrder(orderId: Int){
+    private fun getReOrder(orderId: Int) {
         val baeRepo = BaseRepository()
         val responseCall: Call<ReOrderResponse?> = baeRepo.apiInterface
-            .getReOrder(orderId,PrefMethods.getLanguage())
+            .getReOrder(orderId, PrefMethods.getLanguage())
         responseCall.enqueue(object : Callback<ReOrderResponse?> {
-            override fun onResponse(call: Call<ReOrderResponse?>, response: Response<ReOrderResponse?>) {
+            override fun onResponse(
+                call: Call<ReOrderResponse?>,
+                response: Response<ReOrderResponse?>
+            ) {
                 viewModel.obsIsVisible.set(false)
                 if (response.isSuccessful) {
                     if (response.body()!!.success!!) {
 
                         userCart = UserCart()
                         cartStore = CartStoreData()
-                        cartItemsList = ArrayList<CartItem>()
+                        cartItemsList = ArrayList()
 
                         response.body()!!.items!!.forEach { index ->
                             val item = CartItem()
@@ -196,13 +233,13 @@ class MyOrdersFragment : BaseHomeFragment(), Observer<Any?>
                                     productImage = index.productImage
                                     productQuantity = index.quantity!!
                                     productUnitPrice = index.salePrice!!.toDouble() // unit price
-                                    if (index.addons!!.isEmpty()){
+                                    if (index.addons!!.isEmpty()) {
                                         addonsPrice = 0.0 // addons
-                                        addonsIds = ArrayList<String>()
-                                        addonsNames = ArrayList<String>()
-                                    }else{
-                                        addonsIds = ArrayList<String>()
-                                        addonsNames = ArrayList<String>()
+                                        addonsIds = ArrayList()
+                                        addonsNames = ArrayList()
+                                    } else {
+                                        addonsIds = ArrayList()
+                                        addonsNames = ArrayList()
                                         index.addons.forEach { addon ->
                                             addonsPrice += addon!!.price!! // addons
                                             addonsIds!!.add(addon.id.toString())
@@ -210,8 +247,10 @@ class MyOrdersFragment : BaseHomeFragment(), Observer<Any?>
                                         }
                                     }
 
-                                    productItemPrice = productUnitPrice + addonsPrice // addons + unit price
-                                    productTotalPrice = productItemPrice * index.quantity // item price * quantity
+                                    productItemPrice =
+                                        productUnitPrice + addonsPrice // addons + unit price
+                                    productTotalPrice =
+                                        productItemPrice * index.quantity // item price * quantity
                                     skuCode = index.skuCode
                                     skuName = ""
                                     if (index.userNotes != null) {
@@ -235,8 +274,12 @@ class MyOrdersFragment : BaseHomeFragment(), Observer<Any?>
 //                                tax = response.body()!!.order!!.store!!.taxes!![0]!!.rate!!.toDouble()
 //                            }
                             deliveryTime = response.body()!!.order!!.store!!.deliveryTime.toString()
-                            if (response.body()!!.order!!.store!!.minOrderPrice != null){
-                                minimumOrder = response.body()!!.order!!.store!!.minOrderPrice!!.toDouble()
+                            deliveryType = response.body()!!.order!!.store!!.deliveryType.toString()
+                            deliveryPrice = response.body()!!.order!!.store!!.deliveryPrice!!.toInt()
+
+                            if (response.body()!!.order!!.store!!.minOrderPrice != null) {
+                                minimumOrder =
+                                    response.body()!!.order!!.store!!.minOrderPrice!!.toDouble()
                             }
                         }
 
@@ -250,12 +293,13 @@ class MyOrdersFragment : BaseHomeFragment(), Observer<Any?>
 
                     }
                 } else {
-                    showToast(response.message(),1)
+                    showToast(response.message(), 1)
                 }
             }
+
             override fun onFailure(call: Call<ReOrderResponse?>, t: Throwable) {
                 viewModel.obsIsVisible.set(false)
-                showToast(t.message!!,1)
+                showToast(t.message!!, 1)
             }
         })
     }

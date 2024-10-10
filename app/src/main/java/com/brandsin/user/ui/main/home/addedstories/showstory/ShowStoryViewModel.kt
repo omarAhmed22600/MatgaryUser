@@ -25,7 +25,6 @@ class ShowStoryViewModel : BaseViewModel() {
 
     val listOfViews : ArrayList<MomentzView> = ArrayList()
 
-
     fun getListStories(storeId: Int) {
         obsIsEmpty.set(false)
         obsIsFull.set(false)
@@ -46,7 +45,7 @@ class ShowStoryViewModel : BaseViewModel() {
                             for (item in storiesList) {
                                 for (xItem in item.stories!!) {
                                     myStory = MyStory()
-                                    if (xItem!!.media.isNullOrEmpty()){
+                                    if (xItem.media.isNullOrEmpty()){
                                         myStory.url = ""
                                     }else{
                                         myStory.url = xItem.mediaUrl

@@ -95,10 +95,9 @@ data class DefaultAddressItem(
 		parcel.readValue(Int::class.java.classLoader) as? Int,
 		parcel.readValue(Int::class.java.classLoader) as? Int,
 		parcel.readString(),
-		) {
-	}
+		)
 
-	override fun toString(): String {
+    override fun toString(): String {
 		return "DefaultAddressItem(code=$code, lng=$lng, lastName=$lastName, type=$type, isDefault=$isDefault, streetName=$streetName, cityName=$cityName, stateName=$stateName, countryName=$countryName, phoneNumber=$phoneNumber, id=$id, stateId=$stateId, typeLabel=$typeLabel, firstName=$firstName, lat=$lat, countryId=$countryId, cityId=$cityId, status=$status)"
 	}
 

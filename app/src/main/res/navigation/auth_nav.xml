@@ -142,11 +142,8 @@
             app:argType="string" />
 
     </fragment>
+    <include app:graph="@navigation/home_nav" />
 
-<!--    condition-->
-    <fragment
-        android:id="@+id/navigation_condition"
-        android:name="com.brandsin.user.ui.auth.condition.ConditionFragment"
-        android:label="ConditionFragment" />
+    <!--    condition-->
 
 </navigation>

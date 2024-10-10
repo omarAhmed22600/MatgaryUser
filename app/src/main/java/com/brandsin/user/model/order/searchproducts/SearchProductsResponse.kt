@@ -1,7 +1,13 @@
 package com.brandsin.user.model.order.searchproducts
 
+import android.os.Parcelable
+import com.brandsin.user.model.order.homepage.ImagesItem
+import com.brandsin.user.model.order.reorder.CommercialRegister
+import com.brandsin.user.model.order.storedetails.CoversItem
 import com.brandsin.user.model.order.storedetails.TaxesItem
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
+import kotlinx.parcelize.RawValue
 import java.io.Serializable
 
 data class SearchProductsResponse(
@@ -100,10 +106,10 @@ data class Store(
     val deliveryTime: Int? = null,
 
     @field:SerializedName("commercial_register")
-    val commercialRegister: Any? = null,
+    val commercialRegister: @RawValue CommercialRegister? = null,
 
     @field:SerializedName("min_price_product")
-    val minPriceProduct: Double? = null,
+    val minPriceProduct: Any? = null,
 
     @field:SerializedName("thumbnail_id")
     val thumbnailId: Int? = null,
@@ -128,15 +134,6 @@ data class Store(
 
     @field:SerializedName("is_closed")
     val isClosed: Int? = null
-): Serializable
-
-data class ImagesIdsItem(
-
-    @field:SerializedName("id")
-    val id: Int? = null,
-
-    @field:SerializedName("url")
-    val url: String? = null
 ): Serializable
 
 data class SkusItem(
@@ -307,10 +304,11 @@ data class Shipping(
     val height: Int? = null
 ): Serializable
 
+@Parcelize
 data class SearchProductItem(
 
     @field:SerializedName("temp_id")
-    val tempId: Any? = null,
+    val tempId: @RawValue Any? = null,
 
     @field:SerializedName("image_relation")
     val imageRelation: ImageRelation? = null,
@@ -328,7 +326,7 @@ data class SearchProductItem(
     val type: String? = null,
 
     @field:SerializedName("external_url")
-    val externalUrl: Any? = null,
+    val externalUrl: @RawValue Any? = null,
 
     @field:SerializedName("shipping")
     val shipping: Shipping? = null,
@@ -346,37 +344,37 @@ data class SearchProductItem(
     val slug: String? = null,
 
     @field:SerializedName("deep_link")
-    val deepLink: Any? = null,
+    val deepLink: @RawValue Any? = null,
 
     @field:SerializedName("whatsapp_number")
-    val whatsappNumber: Any? = null,
+    val whatsappNumber: @RawValue Any? = null,
 
     @field:SerializedName("image")
     val image: String? = null,
 
     @field:SerializedName("images")
-    val images: List<String?>? = null,
+    val images: List<ImagesItem?>? = null,
 
     @field:SerializedName("meta_title")
-    val metaTitle: Any? = null,
+    val metaTitle: @RawValue Any? = null,
 
     @field:SerializedName("created_by")
     val createdBy: Int? = null,
 
     @field:SerializedName("deleted_at")
-    val deletedAt: Any? = null,
+    val deletedAt:@RawValue  Any? = null,
 
     @field:SerializedName("brand_id")
-    val brandId: Any? = null,
+    val brandId: @RawValue Any? = null,
 
     @field:SerializedName("is_used")
     val isUsed: Int? = null,
 
     @field:SerializedName("meta_description")
-    val metaDescription: Any? = null,
+    val metaDescription: @RawValue Any? = null,
 
     @field:SerializedName("user_id")
-    val userId: Any? = null,
+    val userId:@RawValue  Any? = null,
 
     @field:SerializedName("name")
     val name: String? = null,
@@ -385,19 +383,19 @@ data class SearchProductItem(
     val updatedBy: Int? = null,
 
     @field:SerializedName("files")
-    val files: Any? = null,
+    val files: @RawValue Any? = null,
 
     @field:SerializedName("country_id")
-    val countryId: Any? = null,
+    val countryId:@RawValue  Any? = null,
 
     @field:SerializedName("status")
     val status: String? = null,
 
     @field:SerializedName("city_id")
-    val cityId: Any? = null,
+    val cityId: @RawValue Any? = null,
 
     @field:SerializedName("code")
-    val code: Any? = null,
+    val code: @RawValue Any? = null,
 
     @field:SerializedName("flag")
     val flag: Int? = null,
@@ -406,31 +404,31 @@ data class SearchProductItem(
     val skus: List<SkusItem?>? = null,
 
     @field:SerializedName("display_order")
-    val displayOrder: Any? = null,
+    val displayOrder: @RawValue Any? = null,
 
     @field:SerializedName("description")
     val description: String? = null,
 
     @field:SerializedName("product_status")
-    val productStatus: Any? = null,
+    val productStatus: @RawValue Any? = null,
 
     @field:SerializedName("created_at")
     val createdAt: String? = null,
 
     @field:SerializedName("video")
-    val video: Any? = null,
+    val video: @RawValue Any? = null,
 
     @field:SerializedName("media")
     val media: List<MediaItem?>? = null,
 
     @field:SerializedName("meta_keywords")
-    val metaKeywords: Any? = null,
+    val metaKeywords:@RawValue  Any? = null,
 
     @field:SerializedName("related_products")
-    val relatedProducts: Any? = null,
+    val relatedProducts: @RawValue Any? = null,
 
     @field:SerializedName("video_url")
-    val videoUrl: Any? = null,
+    val videoUrl: @RawValue Any? = null,
 
     @field:SerializedName("updated_at")
     val updatedAt: String? = null,
@@ -442,16 +440,16 @@ data class SearchProductItem(
     val storeId: Int? = null,
 
     @field:SerializedName("images_ids")
-    val imagesIds: List<ImagesIdsItem?>? = null,
+    val imagesIds: List<ImagesItem?>? = null,
 
     @field:SerializedName("address")
-    val address: Any? = null,
+    val address: @RawValue Any? = null,
 
     @field:SerializedName("deep_link_ar")
-    val deepLinkAr: Any? = null,
+    val deepLinkAr: @RawValue Any? = null,
 
     @field:SerializedName("description_en")
-    val descriptionEn: Any? = null,
+    val descriptionEn: @RawValue Any? = null,
 
     @field:SerializedName("store")
     val store: Store? = null,
@@ -460,23 +458,15 @@ data class SearchProductItem(
     val isShareable: Int? = null,
 
     @field:SerializedName("sale_by_phone")
-    val saleByPhone: Any? = null,
+    val saleByPhone: @RawValue Any? = null,
 
     @field:SerializedName("properties")
-    val properties: Any? = null,
+    val properties: @RawValue Any? = null,
 
     @field:SerializedName("is_featured")
     val isFeatured: Boolean? = null,
 
     @field:SerializedName("name_en")
-    val nameEn: Any? = null
-): Serializable
+    val nameEn: @RawValue Any? = null
+): Parcelable
 
-data class CoversItem(
-
-    @field:SerializedName("id")
-    val id: Int? = null,
-
-    @field:SerializedName("url")
-    val url: String? = null
-): Serializable

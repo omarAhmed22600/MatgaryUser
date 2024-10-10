@@ -1,14 +1,9 @@
-<?xml
-    version="1.0"
-    encoding="utf-8"?>
-
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
-
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.brandsin.user.ui.main.order.storedetails.addons.skus.activity.banners.ItemBannerViewModel" />
@@ -21,11 +16,12 @@
 
         <ImageView
             android:id="@+id/iv_auto_image_slider"
+            storeImg="@{viewModel.item.url}"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            storeImg="@{viewModel.item.url}"
             android:scaleType="centerCrop"
             tools:ignore="ContentDescription" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

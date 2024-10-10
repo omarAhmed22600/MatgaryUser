@@ -48,7 +48,7 @@ class LoginWaysFragment : BaseAuthFragment(), Observer<Any?> , GoogleApiClient.O
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.auth_fragment_login_ways,
             container,
@@ -70,11 +70,11 @@ class LoginWaysFragment : BaseAuthFragment(), Observer<Any?> , GoogleApiClient.O
         viewModel.showProgress().observe(viewLifecycleOwner, { aBoolean ->
             if (!aBoolean!!) {
                 binding.progressLayout.visibility = View.GONE
-                requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
             } else {
                 binding.progressLayout.visibility = View.VISIBLE
                 requireActivity().window.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
             }
         })
 
@@ -100,7 +100,7 @@ class LoginWaysFragment : BaseAuthFragment(), Observer<Any?> , GoogleApiClient.O
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build()
 
-            val signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient)
+            val signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient!!)
             startActivityForResult(signInIntent, RC_SIGN_IN)
         }
     }
@@ -201,7 +201,7 @@ class LoginWaysFragment : BaseAuthFragment(), Observer<Any?> , GoogleApiClient.O
         super.onActivityResult(requestCode, resultCode, data)
         callbackManager!!.onActivityResult(requestCode, resultCode, data)
         if (requestCode == RC_SIGN_IN) {
-            val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
+            val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data!!)
             goLogin(result)
         }
     }

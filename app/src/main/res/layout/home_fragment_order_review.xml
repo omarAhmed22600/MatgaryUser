@@ -2,26 +2,26 @@
     version="1.0"
     encoding="utf-8"?>
 
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.brandsin.user.ui.main.order.orderreview.OrderReviewViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/btn_confirm">
+            app:layout_constraintBottom_toTopOf="@+id/btn_confirm"
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -30,26 +30,26 @@
                 tools:ignore="RtlSymmetry">
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/rv_contents"
                     adapter="@{viewModel.orderItemsAdapter}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    tools:listitem="@layout/raw_order_content_item"
-                    tools:itemCount="2"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:itemCount="2"
+                    tools:listitem="@layout/raw_order_content_item" />
 
                 <View
                     android:id="@+id/seperator"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_1sdp"
-                    android:background="#C9C9C9"
-                    android:layout_marginTop="@dimen/_8sdp"
                     android:layout_marginStart="@dimen/_16sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
                     android:layout_marginEnd="@dimen/_16sdp"
+                    android:background="#C9C9C9"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/rv_contents" />
 
@@ -57,22 +57,22 @@
                     android:id="@+id/tv_addressTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_16sdp"
                     android:layout_marginStart="@dimen/_16sdp"
-                    android:text="@string/delivery_address"
-                    android:textSize="@dimen/_14ssp"
-                    android:textAlignment="viewStart"
+                    android:layout_marginTop="@dimen/_16sdp"
                     android:fontFamily="@font/cairo_semibold"
+                    android:text="@string/delivery_address"
+                    android:textAlignment="viewStart"
                     android:textColor="@color/black"
+                    android:textSize="@dimen/_14ssp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/seperator" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/address_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/address_layout"
-                    android:layout_marginTop="@dimen/_8sdp"
                     android:layout_marginStart="@dimen/_16sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
                     android:layout_marginEnd="@dimen/_24sdp"
                     android:layout_marginBottom="@dimen/_8sdp"
                     android:background="@drawable/about_item_bg"
@@ -80,15 +80,15 @@
                     app:layout_constraintTop_toBottomOf="@+id/tv_addressTitle">
 
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/map_layout"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_100sdp"
-                        android:id="@+id/map_layout"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:cardCornerRadius="@dimen/_8sdp"
+                        android:background="@drawable/about_bg"
                         android:backgroundTint="@color/grey_subcategory"
-                        app:layout_constraintStart_toStartOf="parent"
+                        app:cardCornerRadius="@dimen/_8sdp"
                         app:layout_constraintEnd_toEndOf="parent"
-                        android:background="@drawable/about_bg">
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
 
                         <fragment
                             android:id="@+id/map_view"
@@ -102,163 +102,276 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/_12sdp"
+                        android:padding="@dimen/_10sdp"
                         app:layout_constraintTop_toBottomOf="@+id/map_layout">
 
                         <ImageView
                             android:id="@+id/iv_location"
                             android:layout_width="@dimen/_20sdp"
                             android:layout_height="@dimen/_20sdp"
-                            android:duplicateParentState="false"
                             android:background="?actionBarItemBackground"
+                            android:duplicateParentState="false"
                             android:src="@drawable/ic_place_24px"
                             android:textAlignment="viewStart"
                             android:textColor="@color/black"
-                            app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
                             tools:text="@tools:sample/lorem/random" />
 
                         <TextView
                             android:id="@+id/tv_address"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_8sdp"
                             android:duplicateParentState="false"
                             android:fontFamily="@font/cairo_semibold"
-                            tools:text="وسط البلد"
                             android:text="@{viewModel.orderData.addressType}"
-                            android:layout_marginStart="@dimen/_8sdp"
-                            android:textSize="@dimen/_11ssp"
                             android:textAlignment="viewStart"
                             android:textColor="@color/black"
+                            android:textSize="@dimen/_11ssp"
+                            app:layout_constraintStart_toEndOf="@+id/iv_location"
                             app:layout_constraintTop_toTopOf="@+id/iv_location"
-                            app:layout_constraintStart_toEndOf="@+id/iv_location" />
+                            tools:text="وسط البلد" />
 
                         <TextView
                             android:id="@+id/tv_addressDetails"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_8sdp"
                             android:duplicateParentState="false"
                             android:fontFamily="@font/cairoregular"
-                            android:layout_marginStart="@dimen/_8sdp"
                             android:text="@{viewModel.orderData.streetName + ` ` + viewModel.orderData.lansmark}"
-                            tools:text="شارع طلعت حرب, عماره 12, شقه 24"
-                            android:textSize="@dimen/_10ssp"
                             android:textAlignment="viewStart"
+                            android:textSize="@dimen/_10ssp"
+                            app:layout_constraintStart_toEndOf="@+id/iv_location"
                             app:layout_constraintTop_toBottomOf="@+id/tv_address"
-                            app:layout_constraintStart_toEndOf="@+id/iv_location" />
+                            tools:text="شارع طلعت حرب, عماره 12, شقه 24" />
 
                         <TextView
                             android:id="@+id/tv_phoneNumber"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_8sdp"
                             android:duplicateParentState="false"
                             android:fontFamily="@font/cairoregular"
-                            android:layout_marginStart="@dimen/_8sdp"
-                            tools:text="رقم الهاتف : 01095525115"
                             android:text="@{@string/phone_number  + `: ` + viewModel.orderData.phoneNumber}"
-                            android:textSize="@dimen/_10ssp"
                             android:textAlignment="viewStart"
+                            android:textSize="@dimen/_10ssp"
+                            app:layout_constraintStart_toEndOf="@+id/iv_location"
                             app:layout_constraintTop_toBottomOf="@+id/tv_addressDetails"
-                            app:layout_constraintStart_toEndOf="@+id/iv_location" />
+                            tools:text="رقم الهاتف : 01095525115" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <TextView
                     android:id="@+id/tv_deliveryTime"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_16sdp"
-                    android:layout_marginStart="@dimen/_16sdp"
-                    android:text="@string/delivery_time"
-                    android:textSize="@dimen/_12ssp"
-                    android:textAlignment="viewStart"
+                    android:layout_marginStart="@dimen/_14sdp"
+                    android:layout_marginTop="@dimen/_14sdp"
                     android:fontFamily="@font/cairo_semibold"
+                    android:text="@string/delivery_time_2"
+                    android:textAlignment="viewStart"
                     android:textColor="@color/black"
+                    android:textSize="@dimen/_12ssp"
+                    app:layout_constraintEnd_toStartOf="@+id/tv_paymentMethod"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/address_layout" />
 
-<!--                android:text="@{viewModel.orderData.deliveryTime}"-->
+                <!--                android:text="@{viewModel.orderData.deliveryTime}"-->
                 <TextView
                     android:id="@+id/tv_Time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_16sdp"
-                    tools:text="الثلاثاء 3.12  20:30"
-                    android:textSize="@dimen/_12ssp"
-                    android:textAlignment="viewStart"
+                    android:layout_marginStart="@dimen/_12sdp"
                     android:fontFamily="@font/cairoregular"
+                    android:textAlignment="viewStart"
                     android:textColor="@color/black"
+                    android:textSize="@dimen/_12ssp"
+                    android:text="@{viewModel.orderData.deliveryTime}"
                     app:layout_constraintStart_toStartOf="@id/tv_deliveryTime"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_deliveryTime" />
-
-                <TextView
-                    android:id="@+id/tv_totalPrices"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_8sdp"
-                    android:layout_marginStart="@dimen/_16sdp"
-                    android:text="@string/total_payment"
-                    tools:text="@string/total_payment"
-                    android:textSize="@dimen/_12ssp"
-                    android:textAlignment="viewStart"
-                    android:fontFamily="@font/cairo_semibold"
-                    android:textColor="@color/black"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_Time" />
-
-                <TextView
-                    android:id="@+id/tv_total"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_16sdp"
-                    tools:text="70.50 ر.س"
-                    android:text="@{viewModel.obsOrderAmount}"
-                    android:textSize="@dimen/_12ssp"
-                    android:textAlignment="viewStart"
-                    android:fontFamily="@font/cairoregular"
-                    android:textColor="@color/black"
-                    app:layout_constraintStart_toStartOf="@id/tv_totalPrices"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_totalPrices" />
+                    app:layout_constraintTop_toBottomOf="@+id/tv_deliveryTime"
+                    tools:text="الثلاثاء 3.12  20:30" />
 
                 <TextView
                     android:id="@+id/tv_paymentMethod"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_8sdp"
-                    android:layout_marginStart="@dimen/_16sdp"
-                    android:text="@string/payment_method"
-                    android:textSize="@dimen/_12ssp"
-                    android:textAlignment="viewStart"
+                    android:layout_marginStart="@dimen/_14sdp"
+                    android:layout_marginTop="@dimen/_14sdp"
+                    android:layout_marginEnd="@dimen/_14sdp"
+                    android:paddingEnd="@dimen/_14sdp"
                     android:fontFamily="@font/cairo_semibold"
+                    android:text="@string/payment_method"
+                    android:textAlignment="textEnd"
                     android:textColor="@color/black"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_total" />
+                    android:textSize="@dimen/_12ssp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tv_deliveryTime"
+                    app:layout_constraintTop_toBottomOf="@+id/address_layout" />
 
                 <TextView
                     android:id="@+id/tv_payment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_16sdp"
-                    tools:text="فيزا"
-                    android:text="@={viewModel.obsPaymentMethod}"
-                    android:textSize="@dimen/_12ssp"
-                    android:textAlignment="viewStart"
+                    android:layout_marginEnd="@dimen/_18sdp"
                     android:fontFamily="@font/cairoregular"
+                    android:text="@={viewModel.obsPaymentMethod}"
+                    android:textAlignment="viewStart"
                     android:textColor="@color/black"
-                    app:layout_constraintStart_toStartOf="@id/tv_paymentMethod"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_paymentMethod" />
+                    android:textSize="@dimen/_12ssp"
+                    app:layout_constraintEnd_toEndOf="@id/tv_paymentMethod"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_paymentMethod"
+                    tools:text="فيزا" />
+
+                <TextView
+                    android:id="@+id/tvDiscount"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_14sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:fontFamily="@font/cairo_semibold"
+                    android:text="@string/discount"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/black"
+                    android:visibility="visible"
+                    android:textSize="@dimen/_12ssp"
+                    app:layout_constraintEnd_toStartOf="@id/tvDeliveryFees"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_Time"
+                    tools:text="@string/discount" />
+
+                <TextView
+                    android:id="@+id/discount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:layout_marginEnd="@dimen/_12sdp"
+                    android:fontFamily="@font/cairoregular"
+                    android:text="@{viewModel.orderData.discountValue.toString()}"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/black"
+                    android:visibility="visible"
+                    android:textSize="@dimen/_12ssp"
+                    app:layout_constraintStart_toStartOf="@id/tvDiscount"
+                    app:layout_constraintTop_toBottomOf="@+id/tvDiscount"
+                    tools:text="70.50 ر.س" />
+
+                <TextView
+                    android:id="@+id/tvDeliveryFees"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_14sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:layout_marginEnd="@dimen/_14sdp"
+                    android:paddingEnd="@dimen/_12sdp"
+                    android:fontFamily="@font/cairo_semibold"
+                    android:text="@string/extra_fees"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12ssp"
+                    app:layout_constraintStart_toEndOf="@id/tvDiscount"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_Time"
+                    tools:text="@string/extra_fees" />
+
+                <TextView
+                    android:id="@+id/deliveryFees"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_18sdp"
+                    android:layout_marginStart="@dimen/_18sdp"
+                    android:fontFamily="@font/cairoregular"
+                    android:text="@{viewModel.orderData.extraFees + ` ` + @string/currency}"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12ssp"
+                    app:layout_constraintStart_toStartOf="@id/tvDeliveryFees"
+                    app:layout_constraintEnd_toEndOf="@id/tvDeliveryFees"
+                    app:layout_constraintTop_toBottomOf="@+id/tvDeliveryFees"
+                    tools:text="70.50 ر.س" />
+
+                <TextView
+                    android:id="@+id/txtPackaging"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_14sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:layout_marginEnd="@dimen/_14sdp"
+                    android:visibility="gone"
+                    android:fontFamily="@font/cairo_semibold"
+                    android:text="@string/it_is_sent_by"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12ssp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/deliveryFees"
+                    tools:text="@string/it_is_sent_by" />
+
+                <TextView
+                    android:id="@+id/packagingPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:layout_marginBottom="@dimen/_8sdp"
+                    android:fontFamily="@font/cairoregular"
+                    android:text="@{@string/packaging + ` ` + viewModel.obsPackagingPrice + ` ` + @string/currency}"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/black"
+                    android:visibility="gone"
+                    android:textSize="@dimen/_12ssp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/txtPackaging"
+                    app:layout_constraintTop_toBottomOf="@id/txtPackaging"
+                    tools:text="تغليف 70.50 ر.س " />
+
+                <TextView
+                    android:id="@+id/tv_totalPrices"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_14sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:layout_marginEnd="@dimen/_14sdp"
+                    android:fontFamily="@font/cairo_semibold"
+                    android:text="@string/total_payment"
+                    android:paddingEnd="@dimen/_12sdp"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12ssp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/txtPackaging"
+                    app:layout_constraintTop_toBottomOf="@+id/deliveryFees"
+                    tools:text="@string/total_payment" />
+
+                <TextView
+                    android:id="@+id/tv_total"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_8sdp"
+                    android:layout_marginHorizontal="@dimen/_12sdp"
+                    android:fontFamily="@font/cairoregular"
+                    android:text="@{viewModel.obsOrderAmount + ` ` + @string/currency}"
+                    android:textAlignment="textEnd"
+                    android:paddingHorizontal="@dimen/_10sdp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12ssp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/tv_totalPrices"
+                    app:layout_constraintStart_toStartOf="@id/tv_totalPrices"
+                    app:layout_constraintTop_toBottomOf="@id/tv_totalPrices"
+                    tools:text="70.50 ر.س" />
 
                 <ProgressBar
+                    isVisible="@{viewModel.obsIsVisible}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
-                    isVisible="@{viewModel.obsIsVisible}"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -266,21 +379,22 @@
         </androidx.core.widget.NestedScrollView>
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_confirm"
+            style="@style/Widget.MaterialComponents.Button"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_42sdp"
             android:layout_marginStart="@dimen/_24sdp"
             android:layout_marginEnd="@dimen/_24sdp"
-            android:id="@+id/btn_confirm"
             android:layout_marginBottom="@dimen/_8sdp"
-            app:layout_constraintBottom_toBottomOf="parent"                        android:insetTop="0dp"
+            android:fontFamily="@font/cairo_semibold"
+            android:insetTop="0dp"
             android:insetBottom="0dp"
+            android:text="@string/confirm_order"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            android:text="@string/confirm"
-            style="@style/Widget.MaterialComponents.Button"
+            android:textSize="@dimen/_14ssp"
             app:cornerRadius="@dimen/_6sdp"
-            android:fontFamily="@font/cairo_semibold"
-            android:textSize="@dimen/_14ssp" />
+            app:layout_constraintBottom_toBottomOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

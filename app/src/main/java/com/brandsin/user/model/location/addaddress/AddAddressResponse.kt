@@ -37,6 +37,9 @@ data class NewAddressResponse(
 	@field:SerializedName("street_name")
 	val streetName: String? = null,
 
+	@field:SerializedName("address_name")
+	val addressName: String? = null,
+
 	@field:SerializedName("city_name")
 	val cityName: String? = null,
 

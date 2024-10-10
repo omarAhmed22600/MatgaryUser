@@ -25,20 +25,22 @@ import com.brandsin.user.utils.Utils
 import com.brandsin.user.utils.map.observe
 import timber.log.Timber
 
-class ListAddressesActivity : AppCompatActivity(), Observer<Any?>
-{
-    lateinit var binding : ProfileFragmentAddressBinding
-    lateinit var viewModel : ListAddressViewModel
-    var flag : Int = 1
-    lateinit var addressItem : AddressListItem
+class ListAddressesActivity : AppCompatActivity(), Observer<Any?> {
 
-    override fun onCreate(savedInstanceState: Bundle?)
-    {
+    lateinit var binding: ProfileFragmentAddressBinding
+    lateinit var viewModel: ListAddressViewModel
+
+    var flag: Int = 1
+
+    private lateinit var addressItem: AddressListItem
+
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.profile_fragment_address)
-        viewModel = ViewModelProvider(this).get(ListAddressViewModel::class.java)
+
+        viewModel = ViewModelProvider(this)[ListAddressViewModel::class.java]
         binding.viewModel = viewModel
-        
+
         viewModel.mutableLiveData.observe(this, this)
 
         when {
@@ -52,9 +54,11 @@ class ListAddressesActivity : AppCompatActivity(), Observer<Any?>
                 Status.ERROR_MESSAGE -> {
                     showToast(it.message.toString(), 1)
                 }
+
                 Status.SUCCESS_MESSAGE -> {
                     showToast(it.message.toString(), 2)
                 }
+
                 Status.SUCCESS -> {
 //                    when (flag) {
 //                        3 -> {
@@ -79,6 +83,7 @@ class ListAddressesActivity : AppCompatActivity(), Observer<Any?>
 //                        }
 //                    }
                 }
+
                 else -> {
                     Timber.e(it.message)
                 }
@@ -95,6 +100,7 @@ class ListAddressesActivity : AppCompatActivity(), Observer<Any?>
                                     addressItem = it
                                     viewModel.setDefaultAddress(it)
                                 }
+
                                 else -> {
                                     val bundle = Bundle()
                                     bundle.putParcelable(Params.ADDRESS_ITEM, it)
@@ -105,6 +111,7 @@ class ListAddressesActivity : AppCompatActivity(), Observer<Any?>
                                 }
                             }
                         }
+
                         else -> {
                             viewModel.setDefaultAddress(it)
                             val bundle = Bundle()
@@ -122,8 +129,10 @@ class ListAddressesActivity : AppCompatActivity(), Observer<Any?>
         observe(viewModel.addressAdapter.changeLiveData) {
             when (it) {
                 is AddressListItem -> {
-                    startActivityForResult((Intent(this, ChangeAddressActivity::class.java))
-                        .putExtra(Params.ADDRESS_ITEM , it), Codes.CHANGE_ADDRESS_REQUEST_CODE)
+                    startActivityForResult(
+                        (Intent(this, ChangeAddressActivity::class.java))
+                            .putExtra(Params.ADDRESS_ITEM, it), Codes.CHANGE_ADDRESS_REQUEST_CODE
+                    )
                 }
             }
         }
@@ -132,26 +141,50 @@ class ListAddressesActivity : AppCompatActivity(), Observer<Any?>
             when (it) {
                 is AddressListItem -> {
                     val bundle = Bundle()
-                    bundle.putString(Params.DIALOG_CONFIRM_MESSAGE, MyApp.getInstance().getString(R.string.delete_address_warninng))
-                    bundle.putString(Params.DIALOG_CONFIRM_POSITIVE, MyApp.getInstance().getString(R.string.confirm))
-                    bundle.putString(Params.DIALOG_CONFIRM_NEGATIVE, MyApp.getInstance().getString(R.string.ignore))
+                    bundle.putString(
+                        Params.DIALOG_CONFIRM_MESSAGE,
+                        MyApp.getInstance().getString(R.string.delete_address_warninng)
+                    )
+                    bundle.putString(
+                        Params.DIALOG_CONFIRM_POSITIVE,
+                        MyApp.getInstance().getString(R.string.confirm)
+                    )
+                    bundle.putString(
+                        Params.DIALOG_CONFIRM_NEGATIVE,
+                        MyApp.getInstance().getString(R.string.ignore)
+                    )
                     bundle.putParcelable(Params.DIALOG_ADDRESS_ITEM, it)
-                    Utils.startDialogActivity(this, DialogConfirmFragment::class.java.name, Codes.DIALOG_CONFIRM_REQUEST, bundle)
+                    Utils.startDialogActivity(
+                        this,
+                        DialogConfirmFragment::class.java.name,
+                        Codes.DIALOG_CONFIRM_REQUEST,
+                        bundle
+                    )
                 }
             }
         }
     }
 
     override fun onChanged(t: Any?) {
-        if(t == null) return
+        if (t == null) return
         when (t) {
             Codes.ADD_ADDRESS_CLICKED -> {
-                startActivityForResult((Intent(this, AddAddressActivity::class.java)) ,  Codes.ADD_ADDRESS_REQUEST_CODE)
+                startActivityForResult(
+                    (Intent(this, AddAddressActivity::class.java)),
+                    Codes.ADD_ADDRESS_REQUEST_CODE
+                )
             }
+
             Codes.LOGIN_CLICKED -> {
                 PrefMethods.saveIsAskedToLogin(true)
-                startActivity(Intent(this, AuthActivity::class.java).putExtra(Const.ACCESS_LOGIN , true))
+                startActivity(
+                    Intent(this, AuthActivity::class.java).putExtra(
+                        Const.ACCESS_LOGIN,
+                        true
+                    )
+                )
             }
+
             Codes.BACK_PRESSED -> {
                 val intent = Intent()
                 intent.putExtra(Params.DIALOG_CLICK_ACTION, 0)
@@ -169,7 +202,8 @@ class ListAddressesActivity : AppCompatActivity(), Observer<Any?>
             requestCode == Codes.ADD_ADDRESS_REQUEST_CODE && data != null -> {
                 when {
                     data.hasExtra(Params.ADDED_ADDRESS) -> {
-                        val addressItem = data.getParcelableExtra<AddedAddress>(Params.ADDED_ADDRESS)
+                        val addressItem =
+                            data.getParcelableExtra<AddedAddress>(Params.ADDED_ADDRESS)
                         when {
                             addressItem != null -> {
                                 viewModel.getDeliveryAddresses()
@@ -177,8 +211,10 @@ class ListAddressesActivity : AppCompatActivity(), Observer<Any?>
                                 viewModel.obsIsFull.set(false)
                                 viewModel.obsIsLogin.set(true)
                                 viewModel.obsIsEmpty.set(false)
-                            } }
-                    } }
+                            }
+                        }
+                    }
+                }
             }
         }
 
@@ -188,7 +224,7 @@ class ListAddressesActivity : AppCompatActivity(), Observer<Any?>
                 when {
                     data.hasExtra(Params.EDITED_ADDRESS) -> {
                         when {
-                            data.getBooleanExtra(Params.EDITED_ADDRESS,false) -> {
+                            data.getBooleanExtra(Params.EDITED_ADDRESS, false) -> {
                                 viewModel.getDeliveryAddresses()
                                 viewModel.obsIsLoading.set(true)
                                 viewModel.obsIsFull.set(false)
@@ -207,11 +243,12 @@ class ListAddressesActivity : AppCompatActivity(), Observer<Any?>
                 when {
                     data.hasExtra(Params.DIALOG_CLICK_ACTION) -> {
                         when {
-                            data.getIntExtra(Params.DIALOG_CLICK_ACTION,1) == 1 -> {
+                            data.getIntExtra(Params.DIALOG_CLICK_ACTION, 1) == 1 -> {
                                 when {
                                     data.hasExtra(Params.DIALOG_ADDRESS_ITEM) -> {
                                         val itemAddress = data.getParcelableExtra<AddressListItem>(
-                                            Params.DIALOG_ADDRESS_ITEM)
+                                            Params.DIALOG_ADDRESS_ITEM
+                                        )
                                         viewModel.deleteDeliveryAddress(itemAddress!!)
                                     }
                                 }
@@ -234,27 +271,32 @@ class ListAddressesActivity : AppCompatActivity(), Observer<Any?>
         }
     }
 
-    fun showToast(msg : String, type : Int) {
-        //succss 2
+    fun showToast(msg: String, type: Int) {
+        //success 2
         //false  1
         val bundle = Bundle()
         bundle.putString(Params.DIALOG_TOAST_MESSAGE, msg)
         bundle.putInt(Params.DIALOG_TOAST_TYPE, type)
-        Utils.startDialogActivity(this, DialogToastFragment::class.java.name, Codes.DIALOG_TOAST_REQUEST, bundle)
+        Utils.startDialogActivity(
+            this,
+            DialogToastFragment::class.java.name,
+            Codes.DIALOG_TOAST_REQUEST,
+            bundle
+        )
     }
 
-    override fun onBackPressed()
-    {
+    override fun onBackPressed() {
         super.onBackPressed()
 
-        when(flag) {
-            1-> {
+        when (flag) {
+            1 -> {
                 val intent = Intent()
                 intent.putExtra(Params.DIALOG_CLICK_ACTION, 0)
                 setResult(Codes.SHOW_DELIVERY_ADDRESSES_CODE, intent)
                 finish()
             }
-            2-> {
+
+            2 -> {
                 when {
                     // User clicked back without choosing any address >> make him back to CART
                     PrefMethods.getDefaultAddress() == null -> {

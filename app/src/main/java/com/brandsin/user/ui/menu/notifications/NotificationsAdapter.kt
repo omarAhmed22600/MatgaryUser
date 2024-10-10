@@ -8,24 +8,26 @@ import com.brandsin.user.R
 import com.brandsin.user.databinding.RawHomeNotificationBinding
 import com.brandsin.user.model.menu.notifications.NotificationItem
 import com.brandsin.user.utils.SingleLiveEvent
-import java.util.*
 
-class NotificationsAdapter : RecyclerView.Adapter<NotificationsAdapter.NotificationHolder>()
-{
-    var notificationsList: ArrayList<NotificationItem> = ArrayList()
+class NotificationsAdapter : RecyclerView.Adapter<NotificationsAdapter.NotificationHolder>() {
+
+    private var notificationsList: ArrayList<NotificationItem> = ArrayList()
+
     var notificationsLiveData = SingleLiveEvent<NotificationItem>()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotificationHolder
-    {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotificationHolder {
         val context = parent.context
         val layoutInflater = LayoutInflater.from(context)
-        val binding: RawHomeNotificationBinding = DataBindingUtil.inflate(layoutInflater, R.layout.raw_home_notification, parent, false)
+        val binding: RawHomeNotificationBinding =
+            DataBindingUtil.inflate(layoutInflater, R.layout.raw_home_notification, parent, false)
         return NotificationHolder(binding)
     }
 
     override fun onBindViewHolder(holder: NotificationHolder, position: Int) {
         val itemViewModel = ItemNotificationViewModel(notificationsList[position])
         holder.binding.viewModel = itemViewModel
+
+
 
         holder.binding.rawLayout.setOnClickListener {
             notificationsLiveData.value = itemViewModel.itemNotification
@@ -41,5 +43,6 @@ class NotificationsAdapter : RecyclerView.Adapter<NotificationsAdapter.Notificat
         notifyDataSetChanged()
     }
 
-    inner class NotificationHolder(val binding: RawHomeNotificationBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class NotificationHolder(val binding: RawHomeNotificationBinding) :
+        RecyclerView.ViewHolder(binding.root)
 }

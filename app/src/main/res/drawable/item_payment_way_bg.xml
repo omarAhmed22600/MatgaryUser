@@ -7,9 +7,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <corners
-        android:radius="@dimen/_12sdp" />
+        android:radius="@dimen/_8sdp" />
 
 
-    <stroke android:width="@dimen/_1sdp" android:color="@color/white"/>
+    <stroke android:width="@dimen/_1sdp" android:color="@color/raw_home_about_bg_color"/>
 
 </shape>

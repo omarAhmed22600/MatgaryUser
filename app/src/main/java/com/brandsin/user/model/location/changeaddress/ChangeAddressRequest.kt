@@ -6,6 +6,7 @@ data class ChangeAddressRequest(
     @SerializedName("first_name") var firstName: String? = null,
     @SerializedName("last_name") var lastName: String? = null,
     @SerializedName("street_name") var streetName: String? = null,
+    @SerializedName("address_name") var addressName: String? = null,
     @SerializedName("country_id") var countryId: Int? = null,
     @SerializedName("city_id") var cityId: Int? = null,
     @SerializedName("state_id") var stateId: Int? = null,

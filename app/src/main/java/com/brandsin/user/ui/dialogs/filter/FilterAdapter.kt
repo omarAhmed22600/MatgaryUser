@@ -59,7 +59,5 @@ class FilterAdapter : RecyclerView.Adapter<FilterAdapter.FilterHolder>() {
         notifyDataSetChanged()
     }
 
-    inner class FilterHolder(val binding: ItemFilterBinding) : RecyclerView.ViewHolder(binding.root) {
-
-    }
+    inner class FilterHolder(val binding: ItemFilterBinding) : RecyclerView.ViewHolder(binding.root)
 }

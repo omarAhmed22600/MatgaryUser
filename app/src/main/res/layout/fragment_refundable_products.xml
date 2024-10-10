@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".ui.menu.refundableProducts.RefundableProductsFragment">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvRefundableProducts"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:itemCount="5"
+        tools:listitem="@layout/item_refundable_product"
+        tools:visibility="visible" />
+
+    <!-- Shimmer Favorite Product layout -->
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer"
+        isLoading="@{viewModel.obsIsLoadingStores}"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:paddingBottom="@dimen/_16sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shimmer_demo_angle="20"
+        app:shimmer_demo_layout="@layout/shimmer_home"
+        app:shimmer_demo_layout_manager_type="linear_vertical"
+        app:shimmer_demo_shimmer_color="@color/shimmer_color"
+        app:shimmer_demo_view_holder_item_background="@drawable/bg_sharp_card">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include layout="@layout/shimmer_item_favorite_product" />
+
+            <include layout="@layout/shimmer_item_favorite_product" />
+
+            <include layout="@layout/shimmer_item_favorite_product" />
+
+            <include layout="@layout/shimmer_item_favorite_product" />
+
+            <include layout="@layout/shimmer_item_favorite_product" />
+
+            <include layout="@layout/shimmer_item_favorite_product" />
+
+            <include layout="@layout/shimmer_item_favorite_product" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

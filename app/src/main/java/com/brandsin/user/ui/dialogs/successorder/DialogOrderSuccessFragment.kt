@@ -10,36 +10,31 @@ import com.brandsin.user.databinding.DialogOrderSuccessBinding
 import com.brandsin.user.model.constants.Codes
 import com.brandsin.user.model.constants.Params
 
-class DialogOrderSuccessFragment : DialogFragment()
-{
+class DialogOrderSuccessFragment : DialogFragment() {
     private lateinit var binding: DialogOrderSuccessBinding
     var message = ""
-    var orderId  = 0
+    var orderId = 0
 
-    override fun onCreate(savedInstanceState: Bundle?)
-    {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (arguments != null)
-        {
-            if (requireArguments().containsKey(Params.ORDER_ID))
-            {
+        if (arguments != null) {
+            if (requireArguments().containsKey(Params.ORDER_ID)) {
                 message = requireArguments().getString(Params.DIALOG_ORDER_SUCCESS, "")
                 orderId = requireArguments().getInt(Params.ORDER_ID, 0)
             }
         }
     }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View
-    {
+    ): View {
         binding = DialogOrderSuccessBinding.inflate(inflater, container, false)
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?)
-    {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnHome.setOnClickListener {

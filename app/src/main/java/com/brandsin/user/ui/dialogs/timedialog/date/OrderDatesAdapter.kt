@@ -10,18 +10,20 @@ import com.brandsin.user.databinding.RawOrderDateBinding
 import com.brandsin.user.model.order.storedetails.StoreTimeItem
 import com.brandsin.user.utils.MyApp
 import com.brandsin.user.utils.SingleLiveEvent
-import kotlin.collections.ArrayList
 
-class OrderDatesAdapter : RecyclerView.Adapter<OrderDatesAdapter.OrderDateHolder>()
-{
-    var datesList: List<StoreTimeItem> = ArrayList()
+class OrderDatesAdapter : RecyclerView.Adapter<OrderDatesAdapter.OrderDateHolder>() {
+
+    private var datesList: List<StoreTimeItem> = ArrayList()
+
     var dateLiveData = SingleLiveEvent<StoreTimeItem>()
+
     var selectedPosition = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderDateHolder {
         val context = parent.context
         val layoutInflater = LayoutInflater.from(context)
-        val binding: RawOrderDateBinding = DataBindingUtil.inflate(layoutInflater, R.layout.raw_order_date, parent, false)
+        val binding: RawOrderDateBinding =
+            DataBindingUtil.inflate(layoutInflater, R.layout.raw_order_date, parent, false)
         return OrderDateHolder(binding)
     }
 
@@ -63,16 +65,30 @@ class OrderDatesAdapter : RecyclerView.Adapter<OrderDatesAdapter.OrderDateHolder
         notifyDataSetChanged()
     }
 
-    inner class OrderDateHolder(val binding: RawOrderDateBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class OrderDateHolder(val binding: RawOrderDateBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun setSelected() {
             when (selectedPosition) {
                 adapterPosition -> {
-                    binding.tvDate.setTextColor(ContextCompat.getColor(MyApp.getInstance(), R.color.white))
-                    binding.tvDate.background = (ContextCompat.getDrawable(MyApp.getInstance(), R.drawable.date_bg))
-                    binding.rawItem.background = (ContextCompat.getDrawable(MyApp.getInstance(), R.drawable.day_bg))
+                    binding.tvDate.setTextColor(
+                        ContextCompat.getColor(
+                            MyApp.getInstance(),
+                            R.color.white
+                        )
+                    )
+                    binding.tvDate.background =
+                        (ContextCompat.getDrawable(MyApp.getInstance(), R.drawable.date_bg))
+                    binding.rawItem.background =
+                        (ContextCompat.getDrawable(MyApp.getInstance(), R.drawable.day_bg))
                 }
+
                 else -> {
-                    binding.tvDate.setTextColor(ContextCompat.getColor(MyApp.getInstance(), R.color.hint_color))
+                    binding.tvDate.setTextColor(
+                        ContextCompat.getColor(
+                            MyApp.getInstance(),
+                            R.color.hint_color
+                        )
+                    )
                     binding.tvDate.background = null
                     binding.rawItem.background = null
                 }

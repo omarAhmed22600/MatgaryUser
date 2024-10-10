@@ -85,7 +85,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_address"
             android:textSize="@dimen/_12ssp"
             app:layout_constraintEnd_toStartOf="@+id/btn_delete"
-            android:text="@string/edit"
+            android:text="@string/change"
             android:textColor="#00C7BD" />
 
         <View

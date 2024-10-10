@@ -1,25 +1,19 @@
-<?xml
-    version="1.0"
-    encoding="utf-8"?>
-
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.brandsin.user.ui.main.order.orderdetails.OrderDetailsViewModel" />
 
-
-
-
     </data>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:layout_width="match_parent"
         android:id="@+id/swipe_layout"
+        android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <androidx.core.widget.NestedScrollView
@@ -31,30 +25,30 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <!-- Detaals layout -->
+                <!-- Details layout -->
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/order_details_layout"
+                    isFull="@{viewModel.obsIsFull}"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    isFull="@{viewModel.obsIsFull}"
-                    android:id="@+id/order_details_layout"
                     android:paddingStart="@dimen/_16sdp"
                     android:paddingBottom="@dimen/_24sdp"
+                    app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="RtlSymmetry">
 
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/materialCardView3"
                         android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/_10sdp"
                         android:elevation="@dimen/_8sdp"
                         app:cardCornerRadius="@dimen/_8sdp"
                         app:cardElevation="@dimen/_8sdp"
-                        app:strokeColor="#C9C9C9"
-                        app:strokeWidth="@dimen/_1sdp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="@dimen/_10sdp"
                         app:layout_constraintEnd_toEndOf="@+id/orderStatusLayout"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:strokeColor="#C9C9C9"
+                        app:strokeWidth="@dimen/_1sdp">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
@@ -62,12 +56,12 @@
 
                             <ImageView
                                 android:id="@+id/img_store"
+                                storeImg="@{viewModel.orderDetails.order.store.thumbnail}"
                                 android:layout_width="@dimen/_58sdp"
                                 android:layout_height="@dimen/_45sdp"
+                                android:layout_marginHorizontal="@dimen/_10sdp"
                                 android:layout_weight="1"
                                 android:padding="@dimen/_5sdp"
-                                storeImg="@{viewModel.orderDetails.order.store.thumbnail}"
-                                android:layout_marginHorizontal="@dimen/_10sdp"
                                 android:scaleType="centerCrop"
                                 android:src="@drawable/app_logo"
                                 app:layout_constraintBottom_toBottomOf="parent"
@@ -75,22 +69,21 @@
                                 app:layout_constraintTop_toTopOf="parent"
                                 tools:ignore="ContentDescription" />
 
-
                             <TextView
                                 android:id="@+id/tv_storeName"
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginHorizontal="@dimen/_10sdp"
                                 android:fontFamily="@font/cairo_semibold"
                                 android:text="@{viewModel.orderDetails.order.store.name}"
+                                tools:text="Clotho"
                                 android:textAlignment="viewStart"
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/_14ssp"
-                                app:layout_constraintEnd_toStartOf="@+id/linearLayout3"
+                                app:layout_constraintEnd_toStartOf="@+id/icChat"
                                 app:layout_constraintHorizontal_bias="0.0"
                                 app:layout_constraintStart_toEndOf="@+id/img_store"
                                 app:layout_constraintTop_toTopOf="@+id/img_store" />
-
 
                             <TextView
                                 android:id="@+id/tv_orderNum"
@@ -108,6 +101,18 @@
                                 app:layout_constraintTop_toBottomOf="@+id/tv_storeName"
                                 tools:text="@string/order_number" />
 
+                            <ImageView
+                                android:id="@+id/icChat"
+                                android:layout_width="@dimen/_25sdp"
+                                android:layout_height="@dimen/_25sdp"
+                                android:layout_weight="1"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/ic_chat"
+                                android:layout_marginEnd="@dimen/_6sdp"
+                                app:tint="#00C7BD"
+                                app:layout_constraintEnd_toStartOf="@id/linearLayout3"
+                                app:layout_constraintTop_toTopOf="@id/linearLayout3"/>
+
                             <LinearLayout
                                 android:id="@+id/linearLayout3"
                                 android:layout_width="wrap_content"
@@ -123,22 +128,24 @@
                                     android:layout_width="@dimen/_25sdp"
                                     android:layout_height="@dimen/_25sdp"
                                     android:layout_weight="1"
-                                    android:tint="#00C7BD"
-                                    android:src="@drawable/ic_baseline_phone_in_talk_24"
                                     android:onClick="@{()-> viewModel.onPhoneClicked()}"
-                                    android:scaleType="centerCrop" />
+                                    android:scaleType="centerCrop"
+                                    android:src="@drawable/ic_baseline_phone_in_talk_24"
+                                    app:tint="#00C7BD" />
 
                                 <ImageView
                                     android:layout_width="@dimen/_25sdp"
                                     android:layout_height="@dimen/_25sdp"
-                                    android:tint="#00C7BD"
-                                    android:padding="2dp"
-                                    android:onClick="@{()-> viewModel.onWhatsClicked()}"
                                     android:layout_marginTop="@dimen/_10sdp"
                                     android:layout_weight="1"
+                                    android:onClick="@{()-> viewModel.onWhatsClicked()}"
+                                    android:padding="2dp"
+                                    android:scaleType="centerCrop"
                                     android:src="@drawable/ic_whatsapp_svgrepo_com"
-                                    android:scaleType="centerCrop"/>
+                                    app:tint="#00C7BD" />
+
                             </LinearLayout>
+
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
                     </com.google.android.material.card.MaterialCardView>
@@ -199,12 +206,12 @@
                                         android:layout_marginTop="@dimen/_16sdp"
                                         android:layout_marginEnd="@dimen/_8sdp"
                                         android:orientation="vertical"
+                                        android:visibility="gone"
                                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                                         app:layout_constraintEnd_toEndOf="parent"
                                         app:layout_constraintStart_toStartOf="parent"
                                         app:layout_constraintTop_toBottomOf="@+id/tv_orderCode"
                                         tools:itemCount="3"
-                                        android:visibility="gone"
                                         tools:listitem="@layout/raw_order_item" />
 
                                     <LinearLayout
@@ -220,46 +227,42 @@
                                         app:layout_constraintStart_toStartOf="parent"
                                         app:layout_constraintTop_toBottomOf="@+id/rv_orderContents">
 
-                                        <ImageView
+                                        <androidx.appcompat.widget.AppCompatImageView
                                             android:id="@+id/img_pending"
                                             android:layout_width="0dp"
                                             android:layout_height="@dimen/_45sdp"
                                             android:layout_weight="1"
                                             android:padding="@dimen/_5sdp"
                                             android:scaleType="centerCrop"
-                                            android:src="@drawable/one_undone"
-                                            tools:ignore="ContentDescription" />
+                                            android:src="@drawable/one_undone" />
 
                                         <ImageView
                                             android:layout_width="@dimen/_45sdp"
                                             android:layout_height="wrap_content"
                                             tools:ignore="ContentDescription" />
 
-                                        <ImageView
+                                        <androidx.appcompat.widget.AppCompatImageView
                                             android:id="@+id/img_onRoad"
                                             android:layout_width="0dp"
                                             android:layout_height="@dimen/_45sdp"
                                             android:layout_weight="1"
                                             android:padding="@dimen/_5sdp"
                                             android:scaleType="centerCrop"
-                                            android:src="@drawable/two_undone"
-                                            tools:ignore="ContentDescription" />
+                                            android:src="@drawable/two_undone" />
 
                                         <ImageView
-
                                             android:layout_width="@dimen/_45sdp"
                                             android:layout_height="wrap_content"
                                             tools:ignore="ContentDescription" />
 
-                                        <ImageView
+                                        <androidx.appcompat.widget.AppCompatImageView
                                             android:id="@+id/img_delivered"
                                             android:layout_width="0dp"
                                             android:layout_height="@dimen/_45sdp"
                                             android:layout_weight="1"
                                             android:padding="@dimen/_5sdp"
                                             android:scaleType="centerCrop"
-                                            android:src="@drawable/three_undone"
-                                            tools:ignore="ContentDescription" />
+                                            android:src="@drawable/three_undone" />
 
                                     </LinearLayout>
 
@@ -369,27 +372,42 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_contents"
+                        adapter="@{viewModel.orderItemsAdapter}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_16sdp"
-                        android:id="@+id/rv_contents"
-                        adapter="@{viewModel.orderItemsAdapter}"
                         android:orientation="vertical"
-                        tools:listitem="@layout/raw_order_content_item"
-                        tools:itemCount="2"
+                        android:visibility="invisible"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        app:layout_constraintTop_toBottomOf="@id/orderStatusLayout"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent" />
+                        app:layout_constraintTop_toBottomOf="@id/orderStatusLayout"
+                        tools:itemCount="2"
+                        tools:listitem="@layout/raw_order_content_item" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvOrderOffers"
+                        adapter="@{viewModel.orderItemsAdapter}"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_16sdp"
+                        android:orientation="vertical"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/orderStatusLayout"
+                        tools:itemCount="2"
+                        tools:listitem="@layout/raw_order_content_item" />
 
                     <View
                         android:id="@+id/seperator"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_1sdp"
-                        android:background="#C9C9C9"
-                        android:layout_marginTop="@dimen/_8sdp"
                         android:layout_marginStart="@dimen/_16sdp"
+                        android:layout_marginTop="@dimen/_8sdp"
                         android:layout_marginEnd="@dimen/_16sdp"
+                        android:background="#C9C9C9"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/rv_contents" />
 
@@ -397,22 +415,22 @@
                         android:id="@+id/tv_addressTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_16sdp"
                         android:layout_marginStart="@dimen/_16sdp"
-                        android:text="العنوان"
-                        android:textSize="@dimen/_14ssp"
-                        android:textAlignment="viewStart"
+                        android:layout_marginTop="@dimen/_16sdp"
                         android:fontFamily="@font/cairo_semibold"
+                        android:text="العنوان"
+                        android:textAlignment="viewStart"
                         android:textColor="@color/black"
+                        android:textSize="@dimen/_14ssp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/seperator" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/address_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/address_layout"
-                        android:layout_marginTop="@dimen/_8sdp"
                         android:layout_marginStart="@dimen/_24sdp"
+                        android:layout_marginTop="@dimen/_8sdp"
                         android:layout_marginEnd="@dimen/_24sdp"
                         android:layout_marginBottom="@dimen/_8sdp"
                         android:background="@drawable/about_item_bg"
@@ -420,15 +438,15 @@
                         app:layout_constraintTop_toBottomOf="@+id/tv_addressTitle">
 
                         <androidx.cardview.widget.CardView
+                            android:id="@+id/map_layout"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/_100sdp"
-                            android:id="@+id/map_layout"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:cardCornerRadius="@dimen/_8sdp"
+                            android:background="@drawable/about_bg"
                             android:backgroundTint="@color/grey_subcategory"
-                            app:layout_constraintStart_toStartOf="parent"
+                            app:cardCornerRadius="@dimen/_8sdp"
                             app:layout_constraintEnd_toEndOf="parent"
-                            android:background="@drawable/about_bg">
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
 
                             <fragment
                                 android:id="@+id/map_view"
@@ -437,7 +455,6 @@
                                 android:layout_height="match_parent" />
 
                         </androidx.cardview.widget.CardView>
-
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
@@ -449,74 +466,75 @@
                                 android:id="@+id/iv_location"
                                 android:layout_width="@dimen/_20sdp"
                                 android:layout_height="@dimen/_20sdp"
-                                android:duplicateParentState="false"
                                 android:background="?actionBarItemBackground"
+                                android:duplicateParentState="false"
                                 android:src="@drawable/ic_place_24px"
                                 android:textAlignment="viewStart"
                                 android:textColor="@color/black"
-                                app:layout_constraintTop_toTopOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
                                 tools:text="@tools:sample/lorem/random" />
 
+                            <!-- android:text="@{viewModel.orderDetails.order.streetName}" -->
                             <TextView
                                 android:id="@+id/tv_address"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_8sdp"
                                 android:duplicateParentState="false"
                                 android:fontFamily="@font/cairo_semibold"
-                                tools:text="وسط البلد"
                                 android:lineSpacingExtra="-8dp"
-                                android:text="@{viewModel.orderDetails.order.streetName}"
-                                android:layout_marginStart="@dimen/_8sdp"
-                                android:textSize="@dimen/_12ssp"
                                 android:textAlignment="viewStart"
                                 android:textColor="@color/black"
+                                android:textSize="@dimen/_12ssp"
+                                app:layout_constraintStart_toEndOf="@+id/iv_location"
                                 app:layout_constraintTop_toTopOf="@+id/iv_location"
-                                app:layout_constraintStart_toEndOf="@+id/iv_location" />
+                                tools:text="وسط البلد" />
 
+                            <!-- android:text="@{viewModel.orderDetails.order.streetName}"-->
                             <TextView
                                 android:id="@+id/tv_addressDetails"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_8sdp"
                                 android:duplicateParentState="false"
                                 android:fontFamily="@font/cairoregular"
-                                android:layout_marginStart="@dimen/_8sdp"
                                 android:lineSpacingExtra="-8dp"
-                                android:text="@{viewModel.orderDetails.order.streetName}"
-                                tools:text="شارع طلعت حرب, عماره 12, شقه 24"
-                                android:textSize="@dimen/_10ssp"
                                 android:textAlignment="viewStart"
+                                android:textSize="@dimen/_10ssp"
+                                app:layout_constraintStart_toEndOf="@+id/iv_location"
                                 app:layout_constraintTop_toBottomOf="@+id/tv_address"
-                                app:layout_constraintStart_toEndOf="@+id/iv_location" />
+                                tools:text="شارع طلعت حرب, عماره 12, شقه 24" />
 
+                            <!-- android:text="@{@string/phone_number  + `: ` + viewModel.orderDetails.order.phoneNumber}"-->
                             <TextView
                                 android:id="@+id/tv_phoneNumber"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_8sdp"
                                 android:duplicateParentState="false"
                                 android:fontFamily="@font/cairoregular"
-                                android:layout_marginStart="@dimen/_8sdp"
-                                tools:text="رقم الهاتف : 01095525115"
-                                android:text="@{@string/phone_number  + `: ` + viewModel.orderDetails.order.phoneNumber}"
-                                android:textSize="@dimen/_10ssp"
                                 android:textAlignment="viewStart"
+                                android:textSize="@dimen/_10ssp"
+                                app:layout_constraintStart_toEndOf="@+id/iv_location"
                                 app:layout_constraintTop_toBottomOf="@+id/tv_addressDetails"
-                                app:layout_constraintStart_toEndOf="@+id/iv_location" />
+                                tools:text="رقم الهاتف : 01095525115" />
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
+
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <TextView
                         android:id="@+id/tv_deliveryTime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_14sdp"
                         android:layout_marginTop="@dimen/_16sdp"
-                        android:layout_marginStart="@dimen/_16sdp"
-                        android:text="@string/delivery_time"
-                        android:textSize="@dimen/_12ssp"
-                        android:textAlignment="viewStart"
                         android:fontFamily="@font/cairo_semibold"
+                        android:text="@string/delivery_time"
+                        android:textAlignment="viewStart"
                         android:textColor="@color/black"
+                        android:textSize="@dimen/_12ssp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/address_layout" />
 
@@ -524,83 +542,163 @@
                         android:id="@+id/tv_Time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_16sdp"
-                        tools:text="الثلاثاء 3.12  20:30"
-                        android:textSize="@dimen/_11ssp"
+                        android:fontFamily="@font/cairoregular"
                         android:text="@{viewModel.orderDetails.order.deliveryTime}"
                         android:textAlignment="viewStart"
-                        android:fontFamily="@font/cairoregular"
                         android:textColor="@color/black"
-                        app:layout_constraintStart_toStartOf="@id/tv_deliveryTime"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_deliveryTime" />
-
-                    <TextView
-                        android:id="@+id/tv_totalPrices"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_8sdp"
-                        android:layout_marginStart="@dimen/_16sdp"
-                        android:text="@string/total_payment"
-                        tools:text="@string/total_payment"
-                        android:textSize="@dimen/_12ssp"
-                        android:textAlignment="viewStart"
-                        android:fontFamily="@font/cairo_semibold"
-                        android:textColor="@color/black"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_Time" />
-
-                    <TextView
-                        android:id="@+id/tv_total"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_16sdp"
-                        tools:text="70.50 ر.س"
                         android:textSize="@dimen/_11ssp"
-                        android:text="@{viewModel.orderDetails.order.amount}"
-                        android:textAlignment="viewStart"
-                        android:fontFamily="@font/cairoregular"
-                        android:textColor="@color/black"
-                        app:layout_constraintStart_toStartOf="@id/tv_totalPrices"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_totalPrices" />
+                        app:layout_constraintStart_toStartOf="@id/tv_deliveryTime"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_deliveryTime"
+                        tools:text="الثلاثاء 3.12  20:30" />
 
                     <TextView
                         android:id="@+id/tv_paymentMethod"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_8sdp"
-                        android:layout_marginStart="@dimen/_16sdp"
-                        android:text="@string/payment_method"
-                        android:textSize="@dimen/_12ssp"
-                        android:textAlignment="viewStart"
+                        android:layout_marginEnd="@dimen/_14sdp"
                         android:fontFamily="@font/cairo_semibold"
+                        android:text="@string/payment_method"
+                        android:textAlignment="viewStart"
                         android:textColor="@color/black"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_total" />
+                        android:textSize="@dimen/_12ssp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/tv_deliveryTime" />
 
                     <TextView
                         android:id="@+id/tv_payment"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_16sdp"
-                        tools:text="فيزا"
-                        android:text="@{viewModel.obsPaymentMethod}"
-                        android:textSize="@dimen/_11ssp"
-                        android:textAlignment="viewStart"
                         android:fontFamily="@font/cairoregular"
+                        android:text="@{viewModel.obsPaymentMethod}"
+                        android:textAlignment="viewStart"
                         android:textColor="@color/black"
+                        android:textSize="@dimen/_11ssp"
                         app:layout_constraintStart_toStartOf="@id/tv_paymentMethod"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_paymentMethod" />
+                        app:layout_constraintTop_toBottomOf="@+id/tv_paymentMethod"
+                        tools:text="فيزا" />
+
+                    <TextView
+                        android:id="@+id/tvDeliveryFees"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_14sdp"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:fontFamily="@font/cairo_semibold"
+                        android:text="@string/extra_fees"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12ssp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_Time" />
+
+                    <TextView
+                        android:id="@+id/deliveryFees"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/cairoregular"
+                        android:text="@{viewModel.orderDetails.payment.delivery + ` ` + @string/currency}"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_11ssp"
+                        app:layout_constraintStart_toStartOf="@id/tvDeliveryFees"
+                        app:layout_constraintTop_toBottomOf="@+id/tvDeliveryFees"
+                        tools:text="70.50 ر.س" />
+
+                    <TextView
+                        android:id="@+id/txtPackaging"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/_14sdp"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:fontFamily="@font/cairo_semibold"
+                        android:text="@string/it_is_sent_by"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12ssp"
+                        app:layout_constraintStart_toStartOf="@id/tv_paymentMethod"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_Time" />
+
+                    <TextView
+                        android:id="@+id/packagingPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/cairoregular"
+                        android:text="@{viewModel.orderDetails.order.packagingPrice + ` ` + @string/currency}"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_11ssp"
+                        app:layout_constraintStart_toStartOf="@id/txtPackaging"
+                        app:layout_constraintTop_toBottomOf="@+id/txtPackaging"
+                        tools:text="70.50 ر.س" />
+
+                    <TextView
+                        android:id="@+id/tv_totalPrices"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_14sdp"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:fontFamily="@font/cairo_semibold"
+                        android:text="@string/total_payment"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12ssp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/deliveryFees"
+                        tools:text="@string/total_payment" />
+
+                    <TextView
+                        android:id="@+id/tv_total"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/cairoregular"
+                        android:text="@{viewModel.orderDetails.order.amount + ` ` + @string/currency}"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_11ssp"
+                        app:layout_constraintStart_toStartOf="@id/tv_totalPrices"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_totalPrices"
+                        tools:text="70.50 ر.س" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvGiftCode"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:scrollbars="vertical"
+                        android:visibility="gone"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_total"
+                        tools:itemCount="3"
+                        tools:listitem="@layout/item_gift_code" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnReviewOrder"
+                        style="@style/Widget.MaterialComponents.Button"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_40sdp"
+                        android:layout_marginHorizontal="@dimen/_12sdp"
+                        android:layout_marginVertical="@dimen/_20sdp"
+                        android:fontFamily="@font/cairo_semibold"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        android:text="@string/assessment"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_14ssp"
+                        android:visibility="gone"
+                        app:layout_constraintTop_toBottomOf="@+id/rvGiftCode" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <!-- Shimmer Layout -->
                 <com.facebook.shimmer.ShimmerFrameLayout
                     android:id="@+id/shimmerFrameLayout"
+                    isLoading="@{viewModel.obsIsLoading}"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:background="#FAFAFA"
-                    isLoading="@{viewModel.obsIsLoading}"
                     android:orientation="vertical"
                     android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.brandsin.user.ui.main.home.story.ItemStoryViewModel" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_2sdp"
+        app:cardCornerRadius="5dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/bg"
+                android:layout_width="@dimen/_90sdp"
+                android:layout_height="170dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/app_logo_with_title"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/bgTextStory"
+                android:layout_width="@dimen/_90sdp"
+                android:layout_height="170dp"
+                android:background="@color/black"
+                android:scaleType="fitXY"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/storyText"
+                tools:text="Mohamed Mohamed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:scaleType="fitXY"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_12ssp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/bgTextStory"
+                app:layout_constraintEnd_toEndOf="@+id/bgTextStory"
+                app:layout_constraintStart_toStartOf="@+id/bgTextStory"
+                app:layout_constraintTop_toTopOf="@+id/bgTextStory" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/icVideo"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:scaleType="fitXY"
+                android:src="@drawable/story_video"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/bg"
+                app:layout_constraintEnd_toEndOf="@id/bg"
+                app:layout_constraintStart_toStartOf="@id/bg"
+                app:layout_constraintTop_toTopOf="@id/bg" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</layout>

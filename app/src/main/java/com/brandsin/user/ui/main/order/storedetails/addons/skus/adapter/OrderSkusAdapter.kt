@@ -3,22 +3,25 @@ package com.brandsin.user.ui.main.order.storedetails.addons.skus.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.brandsin.user.R
 import com.brandsin.user.databinding.RawOrderSkusBinding
 import com.brandsin.user.model.order.SearchProdactAttr.StoreItemColors
 import com.brandsin.user.model.order.storedetails.StoreSkusItem
-import com.brandsin.user.utils.MyApp.Companion.context
 import com.brandsin.user.utils.SingleLiveEvent
-import com.brandsin.user.utils.map.observe
-import kotlin.collections.ArrayList
 
 class OrderSkusAdapter : RecyclerView.Adapter<OrderSkusAdapter.OrderSizeHolder>() {
-    var orderSkusList: ArrayList<StoreSkusItem> = ArrayList()
-   var orderSkusLiveData = SingleLiveEvent<StoreItemColors>()
+
+    private var orderSkusList: ArrayList<StoreSkusItem> = ArrayList()
+
+    var orderSkusLiveData = SingleLiveEvent<StoreItemColors>()
+
     var selectedPosition = 0
+
+    var selectedSkuId = 0
+    var selectedAttributeId = 0
+    var selectedNumberValue = 0
+    var selectedSkuName = ""
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderSizeHolder {
         val context = parent.context
@@ -44,9 +47,14 @@ class OrderSkusAdapter : RecyclerView.Adapter<OrderSkusAdapter.OrderSizeHolder>(
 //            }
 //        }
 
-        itemViewModel.skuChildAdapter.orderSkusColorLiveData.observeForever({
-            orderSkusLiveData.value=it
-        })
+        itemViewModel.skuChildAdapter.orderSkusColorLiveData.observeForever {
+            orderSkusLiveData.value = it
+        }
+
+        selectedSkuId = itemViewModel.skuChildAdapter.selectedSkuId
+        selectedAttributeId = itemViewModel.skuChildAdapter.selectedAttributeId
+        selectedNumberValue = itemViewModel.skuChildAdapter.selectedNumberValue
+        selectedSkuName = itemViewModel.skuChildAdapter.selectedSkuName
     }
 
     fun getItem(pos: Int): StoreSkusItem {
@@ -60,7 +68,6 @@ class OrderSkusAdapter : RecyclerView.Adapter<OrderSkusAdapter.OrderSizeHolder>(
     fun updateList(models: ArrayList<StoreSkusItem>) {
         //models[0].isSelected = true
         orderSkusList = models
-
         notifyDataSetChanged()
     }
 

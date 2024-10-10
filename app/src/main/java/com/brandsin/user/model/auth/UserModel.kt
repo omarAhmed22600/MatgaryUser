@@ -45,10 +45,13 @@ data class UserModel(
 
     @field:SerializedName("email")
     val email: String? = null,
+
     @field:SerializedName("birthdate")
     val birthdate: String? = null,
+
     @field:SerializedName("gender")
     val gender: String? = null,
+
     @field:SerializedName("country_id")
     val countryId: Int? = null,
 

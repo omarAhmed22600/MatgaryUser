@@ -15,8 +15,34 @@
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/storyDisplayImage"
         android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/consTxtStory"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop" />
+        android:background="@color/black">
+
+        <TextView
+            android:id="@+id/tvTxtStory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text=""
+            android:textSize="@dimen/_13ssp"
+            android:textColor="@color/white"
+            android:fontFamily="@font/cairo_semibold"
+            android:maxLines="4"
+            android:layout_margin="@dimen/_8sdp"
+            android:ellipsize="end"
+            android:paddingStart="@dimen/_5sdp"
+            android:paddingEnd="@dimen/_5sdp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ProgressBar
         android:id="@+id/storyDisplayVideoProgress"
@@ -25,10 +51,10 @@
         android:layout_height="40dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="10dp"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -47,7 +73,6 @@
             android:layout_height="match_parent"
             android:layout_weight="3" />
     </LinearLayout>
-
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/storyOverlay"
@@ -81,15 +106,33 @@
             app:layout_constraintTop_toBottomOf="@+id/storiesProgressView">
 
             <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/icNormalShare"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:layout_margin="8dp"
+                android:padding="@dimen/_4sdp"
+                android:src="@drawable/ic_normal_share" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/icSound"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:layout_margin="8dp"
+                android:padding="@dimen/_4sdp"
+                android:src="@drawable/ic_sound_on" />
+
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/storyDisplayProfilePicture"
                 android:layout_width="34dp"
                 android:layout_height="34dp"
-                android:layout_margin="8dp" />
+                android:layout_margin="8dp"
+                android:visibility="gone" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/storyDisplayNick"
@@ -105,11 +148,166 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#ffffff"
-                    android:visibility="gone"
                     android:textSize="12sp"
+                    android:visibility="gone"
                     tools:text="nm ago" />
 
             </LinearLayout>
+
         </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintTagXAndY"
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="@dimen/_60sdp"
+            android:visibility="invisible"
+            android:background="@drawable/card_tag_x_and_y"
+            android:backgroundTint="#6D6D6C6C"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/productName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginEnd="@dimen/_6sdp"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:fontFamily="@font/cairo_semibold"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_10ssp"
+                android:maxLines="1"
+                android:lines="1"
+                app:layout_constraintEnd_toStartOf="@+id/icArrow"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Product name" />
+
+            <TextView
+                android:id="@+id/productPrice"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginEnd="@dimen/_6sdp"
+                android:layout_marginBottom="@dimen/_6sdp"
+                android:fontFamily="@font/cairo_semibold"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_10ssp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/icArrow"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/productName"
+                tools:text="Product price" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/icArrow"
+                android:layout_width="@dimen/_12sdp"
+                android:layout_height="@dimen/_12sdp"
+                android:src="@drawable/ic_lright_arrow"
+                android:layout_marginEnd="@dimen/_8sdp"
+                app:tint="@color/offers_bg_color"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!--<androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/black"
+            android:padding="@dimen/_10sdp"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imgStore"
+                android:layout_width="@dimen/_46sdp"
+                android:layout_height="@dimen/_50sdp"
+                android:scaleType="fitXY"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/app_logo" />
+
+            <TextView
+                android:id="@+id/storeName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_8sdp"
+                android:fontFamily="@font/cairo_bold"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_12ssp"
+                app:layout_constraintEnd_toStartOf="@id/linFavoriteCount"
+                app:layout_constraintStart_toEndOf="@id/imgStore"
+                app:layout_constraintTop_toTopOf="@id/imgStore"
+                tools:text="Store Name" />
+
+            <TextView
+                android:id="@+id/storeFollow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_8sdp"
+                android:fontFamily="@font/cairo_bold"
+                android:text="@string/follow"
+                android:textColor="@color/blue"
+                android:textSize="@dimen/_12ssp"
+                app:layout_constraintBottom_toBottomOf="@id/imgStore"
+                app:layout_constraintStart_toEndOf="@id/imgStore"
+                app:layout_constraintTop_toBottomOf="@id/storeName" />
+
+            <LinearLayout
+                android:id="@+id/linFavoriteCount"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="@id/imgStore"
+                app:layout_constraintEnd_toStartOf="@id/followersCount"
+                app:layout_constraintStart_toEndOf="@id/storeName"
+                app:layout_constraintTop_toTopOf="@id/storeName">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/imgFavorite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top|center"
+                    android:scaleType="fitXY"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_normal_favorite" />
+
+                <TextView
+                    android:id="@+id/favoriteCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="bottom|center"
+                    android:fontFamily="@font/cairo_semibold"
+                    android:gravity="bottom|center"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_12ssp"
+                    tools:text="1" />
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/followersCount"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:fontFamily="@font/cairo_semibold"
+                android:gravity="bottom|center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_12ssp"
+                app:drawableTopCompat="@drawable/ic_normal_eye"
+                app:layout_constraintBottom_toBottomOf="@id/imgStore"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/linFavoriteCount"
+                app:layout_constraintTop_toTopOf="@id/storeName"
+                tools:text="1" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>-->
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

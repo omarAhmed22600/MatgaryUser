@@ -3,7 +3,6 @@ package com.brandsin.user.utils.storyviewer
 import android.animation.Animator
 import android.animation.ValueAnimator
 import android.graphics.Color
-import com.brandsin.user.R
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
@@ -11,34 +10,42 @@ import android.text.TextUtils
 import android.util.DisplayMetrics
 import android.util.Log
 import android.util.SparseIntArray
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.WindowManager
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.bumptech.glide.Glide
-import com.danikula.videocache.HttpProxyCacheServer
-import com.google.android.exoplayer2.upstream.*
-import com.google.android.exoplayer2.upstream.cache.*
+import com.brandsin.user.R
 import com.brandsin.user.databinding.DialogStoriesBinding
+import com.brandsin.user.model.constants.Codes
+import com.brandsin.user.model.constants.Params
 import com.brandsin.user.model.order.homepage.StoriesItem
+import com.brandsin.user.network.ResponseHandler
+import com.brandsin.user.ui.dialogs.toast.DialogToastFragment
 import com.brandsin.user.ui.main.home.showstory.ShowStoryViewModel
 import com.brandsin.user.utils.MyApp
+import com.brandsin.user.utils.PrefMethods
 import com.brandsin.user.utils.PullDismissLayout
+import com.brandsin.user.utils.Utils
 import com.brandsin.user.utils.storyviewer.callBack.TouchCallbacks
 import com.brandsin.user.utils.storyviewer.customview.StoryPagerAdapter
 import com.brandsin.user.utils.storyviewer.utils.CubeOutTransformer
-import kotlinx.android.synthetic.main.dialog_stories.*
-import kotlinx.android.synthetic.main.fragment_story_display.*
+import com.bumptech.glide.Glide
+import com.danikula.videocache.HttpProxyCacheServer
+import com.google.android.exoplayer2.upstream.DataSpec
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 
+class StoryView(
+    var currentPage: Int,
+    private val storiesList: MutableList<ArrayList<StoriesItem>>
+) : DialogFragment(), PullDismissLayout.Listener, Observer<Any?>, PageViewOperator, TouchCallbacks {
 
-class StoryView(var currentPage: Int, val storiesList: MutableList<ArrayList<StoriesItem>>) :
-    DialogFragment(),
-    PullDismissLayout.Listener, Observer<Any?>, PageViewOperator,
-    TouchCallbacks {
     lateinit var binding: DialogStoriesBinding
     private lateinit var pagerAdapter: StoryPagerAdapter
 
@@ -55,9 +62,9 @@ class StoryView(var currentPage: Int, val storiesList: MutableList<ArrayList<Sto
     private var height: Int = 0
     private var xValue = 0f
     private var yValue: Float = 0f
-    var num = 0
+    private var num = 0
     private val isRtl = false
-    private  var storyViewListener: StoryViewListener?=null
+    private var storyViewListener: StoryViewListener? = null
 
     /**
      * Change ViewPage sliding programmatically(not using reflection).
@@ -70,18 +77,16 @@ class StoryView(var currentPage: Int, val storiesList: MutableList<ArrayList<Sto
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        dialog!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+    ): View {
+        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
         // Inflate the layout for requireActivity() fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.dialog_stories, container, false)
-
         return binding.root
     }
 
     fun setStoryViewListener(storyViewListener: StoryViewListener?) {
-
-            this.storyViewListener = storyViewListener
-
+        this.storyViewListener = storyViewListener
     }
 
     interface StoryViewListener {
@@ -90,46 +95,83 @@ class StoryView(var currentPage: Int, val storiesList: MutableList<ArrayList<Sto
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val displaymetrics = DisplayMetrics()
-        activity!!.windowManager.defaultDisplay.getMetrics(displaymetrics)
-        width = displaymetrics.widthPixels
-        height = displaymetrics.heightPixels
-        viewModel = ViewModelProvider(this).get(ShowStoryViewModel::class.java)
+
+        val displayMetrics = DisplayMetrics()
+        requireActivity().windowManager.defaultDisplay.getMetrics(displayMetrics)
+        width = displayMetrics.widthPixels
+        height = displayMetrics.heightPixels
+
+        viewModel = ViewModelProvider(this)[ShowStoryViewModel::class.java]
         binding.viewModel = viewModel
-        //   storiesItem = fragmentArgs.storiesItem
+
+        // storiesItem = fragmentArgs.storiesItem
         viewModel.storiesList = ArrayList()
         viewModel.storiesList = storiesList
         // viewModel.storiesList.add(storiesItem)
 
         viewModel.mutableLiveData.observe(viewLifecycleOwner, this)
+
+        initView()
         setUpPager()
         // Get field from view
 //        readArguments()
 //        setupViews(view)
 //        setupStories()
-        (view.findViewById<View>(R.id.pull_dismiss_layout) as PullDismissLayout).setListener(
-            this
-        )
-        (view.findViewById<View>(R.id.pull_dismiss_layout) as PullDismissLayout).setmTouchCallbacks(
-            this
-        )
+
+        (view.findViewById<View>(R.id.pull_dismiss_layout) as PullDismissLayout).setListener(this)
+
+        (view.findViewById<View>(R.id.pull_dismiss_layout) as PullDismissLayout)
+            .setmTouchCallbacks(this)
 
 //        binding.storyClose.setOnClickListener {
 //            num = 0
 //            done()
 //        }
-        if(storyViewListener==null){
-            binding.seeStore.visibility=View.GONE
+
+        if (storyViewListener == null) {
+            binding.seeStore.visibility = View.GONE
         }
+
+        setBtnListener()
+        subscribeData()
+    }
+
+    private fun initView() {
+        Glide.with(this)
+            .load(viewModel.storiesList[currentPage][0].store?.thumbnail)
+            .error(R.drawable.app_logo)
+            .into(binding.imgStore)
+
+        binding.storeName.text =
+            viewModel.storiesList[currentPage][0].store?.name
+
+        binding.favoriteCount.text =
+            viewModel.storiesList[currentPage][0].favCount.toString()
+
+        binding.followersCount.text =
+            viewModel.storiesList[currentPage][0].views.toString()
+
+        if (viewModel.storiesList[currentPage][0].isFavorite == true) {
+            binding.imgFavorite.setImageResource(R.drawable.ic_primary_favorite)
+        } else {
+            binding.imgFavorite.setImageResource(R.drawable.ic_normal_favorite)
+        }
+
+        if (viewModel.storiesList[currentPage][0].store?.isFollowed == true) {
+            binding.storeFollow.text = getString(R.string.followed)
+        } else {
+            binding.storeFollow.text = getString(R.string.follow)
+        }
+    }
+
+    private fun setBtnListener() {
         binding.btnShowStories.setOnClickListener {
             num = 1
             dismiss()
             dismissAllowingStateLoss()
-            storyViewListener!!.onDoneClicked(
+            storyViewListener?.onDoneClicked(
                 num,
-                viewModel.storiesList[currentPage].get(
-                    0
-                )
+                viewModel.storiesList[currentPage][0]
             )
         }
 
@@ -138,37 +180,146 @@ class StoryView(var currentPage: Int, val storiesList: MutableList<ArrayList<Sto
             dismissAllowingStateLoss()
         }
 
-        binding.btnShowStore.setOnClickListener {
+        // binding.btnShowStore.setOnClickListener {}
+        binding.imgStore.setOnClickListener {
             num = 2
             dismiss()
             dismissAllowingStateLoss()
-            storyViewListener!!.onDoneClicked(
+            storyViewListener?.onDoneClicked(
                 num,
-                viewModel.storiesList[currentPage].get(
-                    0
-                )
+                viewModel.storiesList[currentPage][0]
             )
         }
 
         binding.seeStore.setOnClickListener {
-//            Momentz(requireActivity(), listOf(), binding.container, this).pause(false)
+            // Momentz(requireActivity(), listOf(), binding.container, this).pause(false)
             binding.imageView6.visibility = View.GONE
             binding.textView11.visibility = View.GONE
             binding.btnShowStories.visibility = View.VISIBLE
             binding.btnShowStore.visibility = View.VISIBLE
         }
+
+        binding.linFavoriteCount.setOnClickListener {
+            // call api store follow
+            if (PrefMethods.getLoginState(context)) {
+                viewModel.addAndRemoveFavorite(viewModel.storiesList[currentPage][0].id)
+            } else {
+                showToast("please login first", 1)
+            }
+        }
+
+        binding.storeFollow.setOnClickListener {
+            // call api store follow
+            if (PrefMethods.getLoginState(context)) {
+                viewModel.newFollowStore(viewModel.storiesList[currentPage][0].storeId)
+            } else {
+                showToast("please login first", 1)
+            }
+        }
     }
 
+    private fun subscribeData() {
+        /*observe(viewModel.followResponse) {
+            when (it!!.success) {
+                true -> {
+                    showToast(it.message.toString(), 2)
+                    // viewModel.getStoreDetails(storeArgs.storeId)
+                }
 
-//    override fun onNextCalled(view: View, momentz: Momentz, index: Int) {
-//        if (view is VideoView) {
+                else -> {
+                    Timber.e(it.message)
+                }
+            }
+        }*/
+
+        viewModel.getFollowResponseResponse.observe(viewLifecycleOwner) {
+            when (it) {
+                is ResponseHandler.Success -> {
+                    // showToast(it.data?.message.toString(), 2)
+                    Toast.makeText(
+                        requireActivity(),
+                        it.data?.message.toString(),
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+
+                is ResponseHandler.Error -> {
+                    // show error message
+                    // viewModel.obsIsEmpty.set(true)
+                }
+
+                is ResponseHandler.Loading -> {
+                    // show a progress bar
+                    // viewModel.obsIsLoading.set(true)
+                }
+
+                is ResponseHandler.StopLoading -> {
+                    // show a progress bar
+                    // viewModel.obsIsLoading.set(false)
+                }
+
+                else -> {}
+            }
+        }
+
+        viewModel.addAndRemoveFavoriteResponse.observe(viewLifecycleOwner) {
+            when (it) {
+                is ResponseHandler.Success -> {
+                    // showToast(it.data?.message.toString(), 2)
+                    // viewModel.getAllFavoriteProduct()
+                    if (it.data?.message.toString() == getString(R.string.added_story_to_my_favorite)) {
+                        binding.imgFavorite.setImageResource(R.drawable.ic_primary_favorite)
+                    } else {
+                        binding.imgFavorite.setImageResource(R.drawable.ic_normal_favorite)
+                    }
+
+                    binding.animationFavorite.visibility = View.VISIBLE
+                    binding.animationFavorite.playAnimation()
+                }
+
+                is ResponseHandler.Error -> {
+                    // show error message
+                    viewModel.obsIsEmpty.set(true)
+                }
+
+                is ResponseHandler.Loading -> {
+                    // show a progress bar
+                    viewModel.obsIsLoading.set(true)
+                }
+
+                is ResponseHandler.StopLoading -> {
+                    // show a progress bar
+                    viewModel.obsIsLoading.set(false)
+                }
+
+                else -> {}
+            }
+        }
+    }
+
+    fun showToast(msg: String, type: Int) {
+        // Success 2
+        // False  1
+        val bundle = Bundle()
+        bundle.putString(Params.DIALOG_TOAST_MESSAGE, msg)
+        bundle.putInt(Params.DIALOG_TOAST_TYPE, type)
+        Utils.startDialogActivity(
+            requireActivity(),
+            DialogToastFragment::class.java.name,
+            Codes.DIALOG_TOAST_REQUEST,
+            bundle
+        )
+    }
+
+    /*override fun onNextCalled(view: View, momentz: Momentz, index: Int) {
+        if (view is VideoView) {
+            momentz.pause(true)
+            //   playVideo(view, index, momentz)
+        } else if ((view is ImageView) && (view.drawable == null)) {
 //            momentz.pause(true)
-//            //   playVideo(view, index, momentz)
-//        } else if ((view is ImageView) && (view.drawable == null)) {
-////            momentz.pause(true)
-//
-//        }
-//    }
+
+        }
+    }*/
 
     override fun onDismissed() {
         dismissAllowingStateLoss()
@@ -177,7 +328,6 @@ class StoryView(var currentPage: Int, val storiesList: MutableList<ArrayList<Sto
     override fun onShouldInterceptTouchEvent(): Boolean {
         return false
     }
-
 
     private fun setUpPager() {
         // val storyUserList = StoryGenerator.generateStories()
@@ -198,18 +348,18 @@ class StoryView(var currentPage: Int, val storiesList: MutableList<ArrayList<Sto
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 currentPage = position
-                Log.d("TAG", "onPageSelected: " + currentPage)
+                Log.d("TAG", "onPageSelected: $currentPage")
             }
 
             override fun onPageScrollCanceled() {
-                currentFragment()?.resumeCurrentStory()
+                currentFragment().resumeCurrentStory()
             }
         })
     }
 
     override fun backPageView() {
         //if (viewPagerFixedViewPager != null) {
-        if (viewPagerFixedViewPager.currentItem > 0) {
+        if (binding.viewPagerFixedViewPager.currentItem > 0) {
             try {
                 fakeDrag(false)
             } catch (e: Exception) {
@@ -221,7 +371,7 @@ class StoryView(var currentPage: Int, val storiesList: MutableList<ArrayList<Sto
 
     override fun nextPageView() {
         // if (viewPagerFixedViewPager != null) {
-        if (viewPagerFixedViewPager.currentItem + 1 < viewPagerFixedViewPager.adapter?.count ?: 0) {
+        if (binding.viewPagerFixedViewPager.currentItem + 1 < binding.viewPagerFixedViewPager.adapter?.count ?: 0) {
             try {
                 fakeDrag(true)
             } catch (e: Exception) {
@@ -230,48 +380,46 @@ class StoryView(var currentPage: Int, val storiesList: MutableList<ArrayList<Sto
         } else {
             dismiss()
             dismissAllowingStateLoss()
-            //there is no next story
+            // there is no next story
             // Toast.makeText(context, "All stories displayed.", Toast.LENGTH_LONG).show()
         }
         //   }
-
     }
-
 
     private fun fakeDrag(forward: Boolean) {
         //if (viewPagerFixedViewPager != null) {
-        if (prevDragPosition == 0 && viewPagerFixedViewPager.beginFakeDrag()) {
-            ValueAnimator.ofInt(0, viewPagerFixedViewPager.width).apply {
+        if (prevDragPosition == 0 && binding.viewPagerFixedViewPager.beginFakeDrag()) {
+            ValueAnimator.ofInt(0, binding.viewPagerFixedViewPager.width).apply {
                 duration = 400L
                 interpolator = FastOutSlowInInterpolator()
                 addListener(object : Animator.AnimatorListener {
-                    override fun onAnimationRepeat(p0: Animator?) {}
+                    override fun onAnimationRepeat(animation: Animator) {}
 
-                    override fun onAnimationEnd(animation: Animator?) {
+                    override fun onAnimationEnd(animation: Animator) {
                         removeAllUpdateListeners()
-                        if (viewPagerFixedViewPager.isFakeDragging) {
-                            viewPagerFixedViewPager.endFakeDrag()
+                        if (binding.viewPagerFixedViewPager.isFakeDragging) {
+                            binding.viewPagerFixedViewPager.endFakeDrag()
                         }
                         prevDragPosition = 0
                     }
 
-                    override fun onAnimationCancel(animation: Animator?) {
+                    override fun onAnimationCancel(animation: Animator) {
                         removeAllUpdateListeners()
-                        if (viewPagerFixedViewPager.isFakeDragging) {
-                            viewPagerFixedViewPager.endFakeDrag()
+                        if (binding.viewPagerFixedViewPager.isFakeDragging) {
+                            binding.viewPagerFixedViewPager.endFakeDrag()
                         }
                         prevDragPosition = 0
                     }
 
-                    override fun onAnimationStart(p0: Animator?) {}
+                    override fun onAnimationStart(animation: Animator) {}
                 })
                 addUpdateListener {
-                    if (!viewPagerFixedViewPager.isFakeDragging) return@addUpdateListener
+                    if (!binding.viewPagerFixedViewPager.isFakeDragging) return@addUpdateListener
                     val dragPosition: Int = it.animatedValue as Int
                     val dragOffset: Float =
                         ((dragPosition - prevDragPosition) * if (forward) -1 else 1).toFloat()
                     prevDragPosition = dragPosition
-                    viewPagerFixedViewPager.fakeDragBy(dragOffset)
+                    binding.viewPagerFixedViewPager.fakeDragBy(dragOffset)
                 }
             }.start()
         }
@@ -336,8 +484,8 @@ class StoryView(var currentPage: Int, val storiesList: MutableList<ArrayList<Sto
 ////                }
 ////            }
 //        }
-       // preLoadVideos(videoList)
-       // preLoadImages(imageList)
+        // preLoadVideos(videoList)
+        // preLoadImages(imageList)
         //preLoadImages(imageList)
     }
 
@@ -345,12 +493,14 @@ class StoryView(var currentPage: Int, val storiesList: MutableList<ArrayList<Sto
 
         videoList.map { data ->
             GlobalScope.async {
-                Log.d("TAG", "preLoadVideos: "+data.mediaUrl)
+                Log.d("TAG", "preLoadVideos: " + data.mediaUrl)
                 val proxy: HttpProxyCacheServer = MyApp.getInstance().getProxy(requireActivity())!!
                 val proxyUrl = proxy.getProxyUrl(data.mediaUrl.toString())
                 val dataUri = Uri.parse(proxyUrl)
-                val dataSpec = DataSpec(dataUri,0,
-                    DataSpec.FLAG_DONT_CACHE_IF_LENGTH_UNKNOWN.toLong(), null)
+                val dataSpec = DataSpec(
+                    dataUri, 0,
+                    DataSpec.FLAG_DONT_CACHE_IF_LENGTH_UNKNOWN.toLong(), null
+                )
 //                val dataSource =
 //                    DefaultDataSourceFactory(
 //                        context,
@@ -395,15 +545,12 @@ class StoryView(var currentPage: Int, val storiesList: MutableList<ArrayList<Sto
         }
     }
 
-
-
     override fun onResume() {
         super.onResume()
-        val params: WindowManager.LayoutParams = dialog!!.window!!.attributes
-        params.width = ViewGroup.LayoutParams.MATCH_PARENT
-        params.height = ViewGroup.LayoutParams.MATCH_PARENT
-        dialog!!.window!!.attributes = params
-
+        val params: WindowManager.LayoutParams? = dialog?.window?.attributes
+        params?.width = ViewGroup.LayoutParams.MATCH_PARENT
+        params?.height = ViewGroup.LayoutParams.MATCH_PARENT
+        dialog?.window?.attributes = params
     }
 
 //    Override fun pauseStories() {
@@ -416,7 +563,7 @@ class StoryView(var currentPage: Int, val storiesList: MutableList<ArrayList<Sto
         }
     }
 
-    private fun currentFragment(): StoryDisplayFragment? {
+    private fun currentFragment(): StoryDisplayFragment {
         return pagerAdapter.findFragmentByPosition(
             binding.viewPagerFixedViewPager,
             currentPage
@@ -431,7 +578,7 @@ class StoryView(var currentPage: Int, val storiesList: MutableList<ArrayList<Sto
     override fun touchPull() {
         elapsedTime = 0
         //stopTimer()
-        storiesProgressView.pause()
+        // binding.storiesProgressView.pause()
     }
 
     override fun touchDown(xValue: Float, yValue: Float) {
@@ -470,20 +617,20 @@ class StoryView(var currentPage: Int, val storiesList: MutableList<ArrayList<Sto
         } else {
             //  stopTimer()
             //setHeadingVisibility(View.VISIBLE)
-            storiesProgressView.resume()
+            // binding.storiesProgressView.resume()
         }
         elapsedTime = 0
     }
 
-    override fun onChanged(it: Any?) {
-        if (it == null) return
-        when (it) {
+    override fun onChanged(value: Any?) {
+        if (value == null) return
+        when (value) {
 //            Codes.SHOW_STORY -> {
 //                viewModel.setShowProgress(false)
 //                show()
 //            }
             else -> {
-                if (it is String) {
+                if (value is String) {
                     //   showToast(it.toString(), 1)
                 }
                 viewModel.setShowProgress(false)
