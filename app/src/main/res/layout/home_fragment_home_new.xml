@@ -367,6 +367,7 @@
                         <!-- More Items -->
 
                         <!-- Empty products list -->
+
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/rv_more"
                             adapter="@{viewModel.moreAdapter}"

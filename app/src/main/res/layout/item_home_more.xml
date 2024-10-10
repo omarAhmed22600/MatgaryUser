@@ -79,6 +79,7 @@
                 android:fontFamily="@font/cairo_semibold"
                 android:gravity="center"
                 android:text="@string/show_more"
+                android:textColor="@color/black"
                 android:textAllCaps="false"
                 android:textSize="@dimen/_12ssp"
                 app:layout_constraintBottom_toBottomOf="parent"
