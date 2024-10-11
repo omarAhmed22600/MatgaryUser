@@ -1,0 +1,20 @@
+{
+  "version": 3,
+  "artifactType": {
+    "type": "APK",
+    "kind": "Directory"
+  },
+  "applicationId": "com.brandsin.user",
+  "variantName": "release",
+  "elements": [
+    {
+      "type": "SINGLE",
+      "filters": [],
+      "attributes": [],
+      "versionCode": 36,
+      "versionName": "3.0.16",
+      "outputFile": "brandsinUser_v_3.0.16-release.apk"
+    }
+  ],
+  "elementType": "File"
+}
