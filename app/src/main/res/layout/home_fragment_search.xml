@@ -156,7 +156,7 @@
 
                 <TextView
                     android:id="@+id/store"
-                    android:layout_width="@dimen/_75sdp"
+                    android:layout_width="wrap_content"
                     android:layout_height="@dimen/_28sdp"
                     android:layout_margin="@dimen/_6sdp"
                     android:background="@drawable/bg_selected_text_search"
@@ -172,7 +172,7 @@
 
                 <TextView
                     android:id="@+id/products"
-                    android:layout_width="@dimen/_80sdp"
+                    android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:layout_marginStart="@dimen/_6sdp"
                     android:background="@drawable/bg_unselected_text_search"

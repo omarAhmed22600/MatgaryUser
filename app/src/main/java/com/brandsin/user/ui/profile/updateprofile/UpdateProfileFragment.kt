@@ -95,7 +95,13 @@ class UpdateProfileFragment : BaseHomeFragment(), Observer<Any?> {
         }
 
         binding.imgLayout.setOnClickListener {
-            checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, STORAGE_PERMISSION_CODE)
+            if (checkIfAllPermissionsGranted().not())
+            {
+                checkAndRequestAllPermissions()
+            } else {
+                val chooseImageIntent = CustomImagePicker.getPickImageIntent(requireActivity())
+                startActivityForResult(chooseImageIntent, PICK_IMAGE_ID)
+            }
         }
     }
 

@@ -13,7 +13,9 @@
     <string name="msg_subscribe_failed">Failed to subscribe to weather topic</string>
     <string name="fcm_message">FCM Message</string>
     <string name="pick_image_intent_text">Select image</string>
-
+    <string name="permission_granted_try_again">Permission Granted Try Again!</string>
+    <string name="permissions_are_needed_to_access_your_media">Permissions are needed to access your media.</string>
+    <string name="permissions_denied_please_enable_them_in_settings">Permissions denied. Please enable them in settings.</string>
     <string name="permit_my_location"> Allow us to obtain your geographic location so that we can view all the stores near you and deliver your orders more easily and accurately.</string>
     <string name="permit_description">If we get your geographical location, we will deliver everything you need with a higher accuracy</string>
     <string name="location">geographical location</string>
@@ -50,7 +52,9 @@
     <string name="_00000">0000</string>
     <string name="reset_title">Enter new password</string>
     <string name="reset_desc">Enter your new password</string>
-    <string name="terms_text">لكي تصبح عضواً في تطبيق حاجاتي على الشبكة، يتعين عليك في البداية أن تقوم بتعبئة استمارة التسجيل، ثم الموافقة والتعهد على الالتزام بأحكام إتفاقية مستخدم طلبات دوت کوم، وعند تعبئة واعتماد استمارة التسجيل أو الحصول على أية خدمات أو طلب وجبة باستخدام الموقع؛ ف</string>
+    <string name="terms_text">
+    To become a member of the BrandsIn app on the network, you must first fill out the registration form, then agree and commit to the terms of the Talabat.com User Agreement. Upon completing and approving the registration form or obtaining any services or ordering a meal using the site;
+</string>
     <string name="accept">Accept</string>
     <string name="reject">Reject</string>
     <string name="title_activity_home">HomeActivity</string>

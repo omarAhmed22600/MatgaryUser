@@ -1,6 +1,5 @@
 package com.brandsin.user.ui.chat
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -13,7 +12,6 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -99,7 +97,6 @@ class MessageFragment : BaseFragment() {
         setBtnListeners()
         initRecycler()
         subscribeData()
-        subscribePermissions()
         subscribeActivityResult()
     }
 
@@ -152,9 +149,9 @@ class MessageFragment : BaseFragment() {
 
         binding.btnSendImage.setOnClickListener {
             viewModel.isImageUploaded = false
-            if (isPermissionGranted(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            if (checkIfAllPermissionsGranted())
                 performCameraAndGalleyAction()
-            } else launchPermission(storagePermissions)
+
         }
     }
 
@@ -227,27 +224,6 @@ class MessageFragment : BaseFragment() {
         }
     }
 
-    private fun subscribePermissions() {
-        permissionsResultsLive.observe(viewLifecycleOwner) {
-            it?.keys.apply {
-                this?.forEach { st ->
-                    when (st) {
-                        Manifest.permission.READ_EXTERNAL_STORAGE -> {
-                            if (it?.get(Manifest.permission.READ_EXTERNAL_STORAGE) == true) {
-                                performCameraAndGalleyAction()
-                            } else {
-                                showExplanation(
-                                    getString(R.string.permission_needed),
-                                    getString(R.string.picture_permission_explanation),
-                                    storagePermissions
-                                )
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
 
     private fun performCameraAndGalleyAction() {
         val i = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)

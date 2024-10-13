@@ -4,7 +4,6 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.location.LocationManager
 import android.net.Uri
@@ -14,7 +13,6 @@ import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -26,11 +24,9 @@ import com.brandsin.user.model.location.UserLocation
 import com.brandsin.user.ui.activity.auth.AuthActivity
 import com.brandsin.user.ui.activity.auth.BaseAuthFragment
 import com.brandsin.user.ui.activity.home.HomeActivity
-import com.brandsin.user.ui.dialogs.permission.DialogPermissionFragment
 import com.brandsin.user.ui.location.map.MapsActivity
 import com.brandsin.user.ui.location.permission.GpsUtils.onGpsListener
 import com.brandsin.user.utils.PrefMethods
-import com.brandsin.user.utils.Utils
 import com.brandsin.user.utils.map.MapUtil
 import com.brandsin.user.utils.map.PermissionUtil
 import com.google.android.gms.location.*
@@ -147,7 +143,15 @@ class PermissionFragment : BaseAuthFragment(), Observer<Any?> {
 
     /* Checking the LOCATION permission state before asking the user runtime permission */
     private fun requestLocationPermission() {
-        /* If user selected NEVER ASK AGAIN OR device policy prohibits the app from having that permission */
+        if (checkIfAllPermissionsGranted().not())
+        {
+            checkAndRequestAllPermissions {
+                openLocationFromApp()
+            }
+        }else{
+            openLocationFromApp()
+        }
+        /* If user selected NEVER ASK AGAIN OR device policy prohibits the app from having that permission *//*
         when {
             PrefMethods.getIsPermissionDeniedForEver() -> {
                 Utils.startDialogActivity(
@@ -157,7 +161,7 @@ class PermissionFragment : BaseAuthFragment(), Observer<Any?> {
                     null
                 )
             }
-            /* If user clicked deny once Or this the first time to open the application */
+            *//* If user clicked deny once Or this the first time to open the application *//*
             else -> {
                 ActivityCompat.requestPermissions(
                     requireActivity(),
@@ -165,11 +169,12 @@ class PermissionFragment : BaseAuthFragment(), Observer<Any?> {
                     Codes.ACCESS_LOCATION_REQUEST_CODE
                 )
             }
-        }
+        }*/
+
     }
 
     /* Handling actions when user click on Permissions dialog */
-    override fun onRequestPermissionsResult(
+    /*override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<String>,
         grantResults: IntArray,
@@ -203,7 +208,7 @@ class PermissionFragment : BaseAuthFragment(), Observer<Any?> {
                 return
             }
         }
-    }
+    }*/
 
     private fun saveLocationAndCloseFragment(location: UserLocation) {
         PrefMethods.saveUserLocation(

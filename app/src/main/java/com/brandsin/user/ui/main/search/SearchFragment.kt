@@ -182,8 +182,17 @@ SearchFragment : BaseHomeFragment(), Observer<Any?> {
         }
 
         observe(viewModel.storesAdapter.storesLiveData) {
-            val action = SearchFragmentDirections.searchToStoreDetails(it!!.id!!.toInt())
-            findNavController().navigate(action)
+            if (searchFor == "product")
+            {
+                val bundle = Bundle()
+                bundle.putInt("productID", it?.id?.toInt() ?: -1)
+
+                findNavController().navigate(R.id.dialogOrderAddonsFragment,bundle)
+            }
+            else {
+                val action = SearchFragmentDirections.searchToStoreDetails(it!!.id!!.toInt())
+                findNavController().navigate(action)
+            }
         }
 
         setBtnListener()

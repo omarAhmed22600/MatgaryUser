@@ -258,13 +258,21 @@ class AuthActivity : ParentActivity() {
         networkConnectionManager = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
         networkConnectionCallback = object : ConnectivityManager.NetworkCallback() {
             override fun onAvailable(network: Network) {
+                try {
                 // there is internet
                 binding.noWifi.visibility = View.GONE
+                }catch (e:Exception) {
+                    Timber.e(e.stackTraceToString())
+                }
             }
 
             override fun onLost(network: Network) {
-                // there is no internet
-                binding.noWifi.visibility = View.VISIBLE
+                try {
+                    // there is no internet
+                    binding.noWifi.visibility = View.VISIBLE
+                }catch (e:Exception) {
+                    Timber.e(e.stackTraceToString())
+                }
             }
         }
         networkConnectionManager.registerDefaultNetworkCallback(networkConnectionCallback)
