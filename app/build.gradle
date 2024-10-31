@@ -27,8 +27,8 @@ android {
         applicationId "com.brandsin.userapp"
         minSdk 23
         targetSdk 34
-        versionCode 6
-        versionName "1.0-testing"
+        versionCode 21
+        versionName "1.2"
         archivesBaseName = "brandsinUser_v_" + versionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

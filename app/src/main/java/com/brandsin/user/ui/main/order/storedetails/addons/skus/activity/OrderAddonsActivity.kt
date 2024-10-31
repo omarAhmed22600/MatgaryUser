@@ -150,6 +150,7 @@ class OrderAddonsActivity : AppCompatActivity(), Observer<Any?>,
             val storeProductItem: Parcelable? = bundle.getParcelable(Params.STORE_PRODUCT_ITEM)
             val searchProductItem: Parcelable? = bundle.getParcelable(Params.SEARCH_PRODUCT_ITEM)
             val shareProductItem: String = bundle.getString(Params.STORE_PRODUCT_ITEM) ?: ""
+            val resultSearch :Int = bundle.getInt("prod_id",-1)
             when { // bundle.getParcelable(Params.STORE_PRODUCT_ITEM) != null
                 storeProductItem != null -> {
                     product =
@@ -177,6 +178,13 @@ class OrderAddonsActivity : AppCompatActivity(), Observer<Any?>,
                     viewModel.getSearchProductAttr(productId)
                     viewModel.getProductDetails(productId)
                 }
+                (resultSearch != -1) -> {
+                    viewModel.obsIsVisible.set(true)
+                    productId = resultSearch
+                    viewModel.getSearchProductAttr(resultSearch)
+                    viewModel.getProductDetails(resultSearch)
+                }
+
             }
         }
 

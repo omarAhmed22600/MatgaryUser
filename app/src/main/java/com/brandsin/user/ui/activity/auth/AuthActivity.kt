@@ -45,7 +45,7 @@ class AuthActivity : ParentActivity() {
     private var chatId = -1
     private var refundableId = -1
     private var walletId = -1
-
+    private var shouldNavigate = false
 
     private lateinit var networkConnectionManager: ConnectivityManager
     private lateinit var networkConnectionCallback: ConnectivityManager.NetworkCallback
@@ -66,15 +66,19 @@ class AuthActivity : ParentActivity() {
         if (intent.getStringExtra("chat_id") != null) {
             Timber.e("chat")
             chatId = intent.getStringExtra("chat_id")?.toInt()?:-1
+            shouldNavigate = true
         } else if (intent.getStringExtra("order_id") != null) {
             Timber.e("order")
             orderId = intent.getStringExtra("order_id")?.toInt()?:-1
+            shouldNavigate = true
         } else if (intent.getStringExtra("refundable_id") != null) {
             Timber.e("refund")
             refundableId = intent.getStringExtra("refundable_id")?.toInt()?:-1
+            shouldNavigate = true
         } else if (intent.getStringExtra("wallet_id") != null) {
             Timber.e("wallet")
             walletId = intent.getStringExtra("wallet_id")?.toInt()?:-1
+            shouldNavigate = true
         }
         Timber.e("activity ${intent.extras}")
         // Data from NotificationOpenedHandler
@@ -236,7 +240,7 @@ class AuthActivity : ParentActivity() {
     }
 
     private fun startIntent() {
-//        if (orderId != -1) {
+        if (shouldNavigate) {
             if (PrefMethods.getLoginState()) {
                 val intent = Intent(this@AuthActivity, HomeActivity::class.java)
                 if (orderId != -1)
@@ -250,7 +254,7 @@ class AuthActivity : ParentActivity() {
                 startActivity(intent)
                 finish()
             }
-//        }
+        }
 
     }
 

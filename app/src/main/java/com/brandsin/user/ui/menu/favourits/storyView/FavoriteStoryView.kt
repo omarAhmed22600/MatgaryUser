@@ -34,6 +34,7 @@ import com.brandsin.user.utils.storyviewer.PageViewOperator
 import com.brandsin.user.utils.storyviewer.callBack.TouchCallbacks
 import com.brandsin.user.utils.storyviewer.utils.CubeOutTransformer
 import com.bumptech.glide.Glide
+import timber.log.Timber
 
 class FavoriteStoryView(
     var currentPage: Int,
@@ -135,11 +136,11 @@ class FavoriteStoryView(
             binding.imgFavorite.setImageResource(R.drawable.ic_normal_favorite)
         }
 
-        if (viewModel.storyItem?.store?.isFollowed == true) {
+//        if (viewModel.storyItem?.store?.isFollowed == true) {
             binding.storeFollow.text = getString(R.string.followed)
-        } else {
+/*        } else {
             binding.storeFollow.text = getString(R.string.follow)
-        }
+        }*/
     }
 
     private fun setBtnListener() {
@@ -188,6 +189,13 @@ class FavoriteStoryView(
         viewModel.getFollowResponseResponse.observe(viewLifecycleOwner) {
             when (it) {
                 is ResponseHandler.Success -> {
+                    if (it.data?.message.toString() == "Store followed" || it.data?.message.toString() == "تم متابعة المتجر")
+                    {
+                        binding.storeFollow.text = getString(R.string.followed)
+                    } else {
+                        binding.storeFollow.text = getString(R.string.follow)
+
+                    }
                     // showToast(it.data?.message.toString(), 2)
                     Toast.makeText(
                         requireActivity(),
@@ -220,9 +228,15 @@ class FavoriteStoryView(
                 is ResponseHandler.Success -> {
                     // showToast(it.data?.message.toString(), 2)
                     // viewModel.getAllFavoriteProduct()
+                    Timber.e("fav response")
+
                     if (it.data?.message.toString() == getString(R.string.added_story_to_my_favorite)) {
+                        /*binding.favoriteCount.text =
+                            binding.favoriteCount.text.toString().toInt().plus(1).toString()*/
                         binding.imgFavorite.setImageResource(R.drawable.ic_primary_favorite)
                     } else {
+                        /*binding.favoriteCount.text =
+                            binding.favoriteCount.text.toString().toInt().plus(1).toString()*/
                         binding.imgFavorite.setImageResource(R.drawable.ic_normal_favorite)
                     }
 

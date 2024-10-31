@@ -13,6 +13,7 @@ import android.webkit.URLUtil
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
@@ -132,6 +133,12 @@ fun <responseBody : Any?> BaseViewModel.requestCall(
             postResult(ApiResponse.errorMessage(e.getExceptionMessage()))
         }
     }
+}
+@BindingAdapter("setSelection")
+fun View.setSelection(
+    isViewSelected: Boolean
+) {
+    isSelected = isViewSelected
 }
 
 inline fun <reified T : Any?, L : LiveData<T>> LifecycleOwner.observe(

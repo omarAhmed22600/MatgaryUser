@@ -18,6 +18,7 @@ import com.brandsin.user.model.order.homenew.PopupsItem
 import com.brandsin.user.model.order.homenew.SectionsItem
 import com.brandsin.user.model.order.homepage.HomePageResponse
 import com.brandsin.user.model.order.homepage.StoriesItem
+import com.brandsin.user.model.order.productdetails.ProductDetailsResponse
 import com.brandsin.user.model.order.storedetails.StoreDetailsData
 import com.brandsin.user.model.order.storedetails.StoreDetailsResponse
 import com.brandsin.user.model.order.storedetails.StoreProductItem
@@ -62,7 +63,7 @@ class HomeNewViewModel : BaseViewModel() {
     var storiesList = mutableListOf<ArrayList<StoriesItem>>()
 
     var slidersResponse = SingleLiveEvent<SlidersResponse>()
-    var moreSliderAdapter = MoreSliderAdapter()
+    var moreSliderAdapter = MoreSliderAdapter(){}
 
     var cartStore: CartStoreData? = null
 
@@ -95,6 +96,24 @@ class HomeNewViewModel : BaseViewModel() {
                 obsCartCount.set(0)
             }
         }
+    }
+
+    suspend fun getProductStatus(id: Int): String {
+        var result = ""
+        withContext(Dispatchers.IO) {
+            val response = getApiRepo().getProductDetails(
+                id,
+                PrefMethods.getUserData()!!.id!!,
+                PrefMethods.getLanguage()
+            )
+
+            response?.let { res ->
+                if (res.success == true) {
+                    result = res.data?.type.orEmpty()
+                }
+            }
+        }
+        return result
     }
 
     private fun getCartCount() {

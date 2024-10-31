@@ -34,6 +34,8 @@ import com.brandsin.user.utils.MyApp
 import com.brandsin.user.utils.PrefMethods
 import com.brandsin.user.utils.Utils
 import com.brandsin.user.utils.map.observe
+import timber.log.Timber
+import java.util.Timer
 
 class
 SearchFragment : BaseHomeFragment(), Observer<Any?> {
@@ -184,10 +186,19 @@ SearchFragment : BaseHomeFragment(), Observer<Any?> {
         observe(viewModel.storesAdapter.storesLiveData) {
             if (searchFor == "product")
             {
-                val bundle = Bundle()
-                bundle.putInt("productID", it?.id?.toInt() ?: -1)
+                Timber.e("it $it")
+                if (it?.type.orEmpty() == "simple")
+                {
+                    val bundle = Bundle()
+                    bundle.putInt("productID", it?.id?.toInt() ?: -1)
 
-                findNavController().navigate(R.id.dialogOrderAddonsFragment,bundle)
+                    findNavController().navigate(R.id.dialogOrderAddonsFragment,bundle)
+                } else {
+                    val intent = Intent(requireActivity(), OrderAddonsActivity::class.java)
+                    intent.putExtra("prod_id", it?.id)
+                    intent.putExtra(Params.DIALOG_CLICK_ACTION, 0)
+                    startActivityForResult(intent, Codes.SELECT_ORDER_ADDONS_ACTIVITY)
+                }
             }
             else {
                 val action = SearchFragmentDirections.searchToStoreDetails(it!!.id!!.toInt())

@@ -105,7 +105,7 @@ class DialogOrderAddonsViewModel : BaseViewModel() {
                 return@withContext getApiRepo()
                     .getProductDetails(
                         productId,
-                        PrefMethods.getUserData()!!.id!!,
+                        PrefMethods.getUserData()?.id?:0,
                         PrefMethods.getLanguage()
                     )
             }

@@ -33,7 +33,7 @@ import retrofit2.Response
 
 class HomeViewModel : BaseViewModel() {
 
-    var moreSliderAdapter = MoreSliderAdapter()
+    var moreSliderAdapter = MoreSliderAdapter(){}
 
     var homePageResponse = HomePageResponse()
 

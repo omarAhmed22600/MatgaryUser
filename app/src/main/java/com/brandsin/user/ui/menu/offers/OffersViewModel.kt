@@ -19,7 +19,7 @@ import kotlinx.coroutines.withContext
 class OffersViewModel : BaseViewModel() {
 
     lateinit var storiesAdapter: StoriesAdapter
-    var moreSliderAdapter = MoreSliderAdapter()
+    var moreSliderAdapter = MoreSliderAdapter(){}
     var offersAdapter = OffersAdapter()
 
     var slidersResponse = SingleLiveEvent<SlidersResponse>()

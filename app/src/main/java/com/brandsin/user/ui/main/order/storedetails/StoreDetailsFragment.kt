@@ -37,6 +37,7 @@ import com.brandsin.user.ui.main.home.story.StoriesAdapter
 import com.brandsin.user.ui.main.order.storedetails.addons.skus.activity.OrderAddonsActivity
 import com.brandsin.user.ui.main.order.storedetails.addons.skus.dialog.DialogOrderAddonsFragment
 import com.brandsin.user.ui.main.order.storedetails.banners.BannersAdapter
+import com.brandsin.user.ui.main.order.storedetails.products.StoreProductsAdapter_V2
 import com.brandsin.user.utils.MyApp
 import com.brandsin.user.utils.PrefMethods
 import com.brandsin.user.utils.Utils
@@ -100,7 +101,7 @@ class StoreDetailsFragment : BaseHomeFragment(), Observer<Any?>,
 
         viewModel = ViewModelProvider(this)[StoreDetailsViewModel::class.java]
         binding.viewModel = viewModel
-
+binding.lifecycleOwner = this
         viewModel.setBannerListener(this)
         viewModel.setStoriesListener(this)
 
@@ -124,6 +125,9 @@ class StoreDetailsFragment : BaseHomeFragment(), Observer<Any?>,
 
         binding.ibBack.setOnClickListener {
             findNavController().navigateUp()
+        }
+        binding.changeViewLayout.setOnClickListener {
+
         }
 
         viewModel.mutableLiveData.observe(viewLifecycleOwner, this)
@@ -215,11 +219,11 @@ class StoreDetailsFragment : BaseHomeFragment(), Observer<Any?>,
                             currentPage = 0
                             if (limit < viewModel.productsList.size) {
                                 productsListLimit.addAll(viewModel.productsList.subList(0, limit))
-                                viewModel.productsAdapter.addItems(productsListLimit)
+                                viewModel.productsAdapter.addItems(productsListLimit.filter { it.status != "inactive" }.toMutableList())
                                 //  currentPage++
                             } else {
                                 productsListLimit.addAll(viewModel.productsList)
-                                viewModel.productsAdapter.addItems(productsListLimit)
+                                viewModel.productsAdapter.addItems(productsListLimit.filter { it.status != "inactive" }.toMutableList())
                                 isLastPage = true
                             }
                             val pages = (viewModel.productsList.size / 10).toInt()
@@ -264,6 +268,26 @@ class StoreDetailsFragment : BaseHomeFragment(), Observer<Any?>,
                         viewModel.storeData
                     )
                 findNavController().navigate(action)
+            }
+        }
+        viewModel.isGrid.observe(viewLifecycleOwner)
+        {
+            if (it)
+            {
+                val tmpAdapter = viewModel.productsAdapter
+                tmpAdapter.isGrid = it
+                binding.rvMealsGrid.adapter = tmpAdapter
+                binding.rvMealsGrid.visibility = View.VISIBLE
+                binding.rvMeals.visibility = View.GONE
+                binding.changeViewLayout.setImageResource(R.drawable.list)
+            } else
+            {
+                val tmpAdapter = viewModel.productsAdapter
+                tmpAdapter.isGrid = it
+                binding.rvMeals.adapter = tmpAdapter
+                binding.rvMealsGrid.visibility = View.GONE
+                binding.rvMeals.visibility = View.VISIBLE
+                binding.changeViewLayout.setImageResource(R.drawable.ic_grid)
             }
         }
 
@@ -385,12 +409,12 @@ class StoreDetailsFragment : BaseHomeFragment(), Observer<Any?>,
                 viewModel.productsList.subList(
                     listSize2,
                     listSize2 + limit
-                )
+                ).filter { it.status != "inactive" }.toMutableList()
             )
         } else {
             productsListLimit.addAll(viewModel.productsList.subList(listSize2, listSize))
             viewModel.productsAdapter.addItems(
-                viewModel.productsList.subList(listSize2, listSize)
+                viewModel.productsList.subList(listSize2, listSize).filter { it.status != "inactive" }.toMutableList()
             )
             isLastPage = true
         }
@@ -678,7 +702,7 @@ class StoreDetailsFragment : BaseHomeFragment(), Observer<Any?>,
             viewModel.obsIsVisible.set(false)
         }
 
-        viewModel.productsAdapter.updateList(viewModel.productsList)
+        viewModel.productsAdapter.updateList(viewModel.productsList.filter { it.status != "inactive" } as ArrayList)
 
         if (viewModel.storeCategoriesList.isNotEmpty()) {
             if (storeCategoryId == 0) {

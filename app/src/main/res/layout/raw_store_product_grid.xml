@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.brandsin.user.ui.main.order.storedetails.products.ItemStoreProductViewModel" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/raw_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_12sdp"
+        android:layout_marginBottom="@dimen/_4sdp"
+        android:layout_marginHorizontal="@dimen/_2sdp"
+        android:background="?selectableItemBackground"
+        app:cardCornerRadius="@dimen/_8sdp"
+        app:cardElevation="@dimen/_4sdp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/_5sdp">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/img_product"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/_8sdp"
+                app:layout_constraintHeight_percent="0.7"
+                android:elevation="@dimen/_4sdp"
+                app:cardCornerRadius="@dimen/_6sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0">
+
+                <ImageView
+                    storeImg="@{viewModel.item.image}"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription"
+                    tools:src="@drawable/app_logo" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:fontFamily="@font/cairo_semibold"
+                android:lineSpacingExtra="-8dp"
+                android:maxLines="2"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:paddingEnd="@dimen/_4sdp"
+                android:text="@{viewModel.item.name}"
+                android:textAlignment="viewStart"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_11ssp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/img_product"
+                tools:text="Store Name Store Name Store Name " />
+
+            <TextView
+                android:id="@+id/tv_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:ellipsize="end"
+                android:fontFamily="@font/cairo_semibold"
+                android:lineSpacingExtra="-8dp"
+                android:maxLines="2"
+                android:paddingEnd="@dimen/_4sdp"
+                android:textAlignment="viewStart"
+                android:textColor="@color/grey"
+                android:textSize="@dimen/_10ssp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_title"
+                tools:text="Store Description Store Description" />
+
+            <TextView
+                android:id="@+id/tv_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_16sdp"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:ellipsize="end"
+                android:fontFamily="@font/cairo_semibold"
+                android:maxLines="2"
+                android:paddingEnd="@dimen/_4sdp"
+                android:text="@{viewModel.obsProductPrice}"
+                android:textAlignment="viewStart"
+                android:textColor="#1976D2"
+                android:textSize="@dimen/_10ssp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/tv_description"
+                app:layout_constraintTop_toBottomOf="@+id/tv_description"
+                tools:text="100.0 SAR" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/_2sdp"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:src="@drawable/ic_increase_order_quantity"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_price"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:visibility="gone"
+                app:layout_constraintTop_toTopOf="@+id/tv_price" />
+
+            <!--            <TextView-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                app:strokeWidth="@dimen/_1sdp"-->
+            <!--                android:insetTop="0dp"-->
+            <!--                android:id="@+id/btn_add"-->
+            <!--                android:insetBottom="0dp"-->
+            <!--                android:paddingStart="@dimen/_13sdp"-->
+            <!--                android:paddingEnd="@dimen/_13sdp"-->
+            <!--                android:paddingTop="@dimen/_2sdp"-->
+            <!--                android:paddingBottom="@dimen/_2sdp"-->
+            <!--                android:background="@drawable/btn_add_unselected"-->
+            <!--                android:text="@string/add"-->
+            <!--                android:textColor="@color/black"-->
+            <!--                android:fontFamily="@font/cairo_semibold"-->
+            <!--                android:layout_marginEnd="@dimen/_2sdp"-->
+            <!--                app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                app:layout_constraintBottom_toBottomOf="parent"-->
+            <!--                tools:text="اضافة" />-->
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</layout>
+

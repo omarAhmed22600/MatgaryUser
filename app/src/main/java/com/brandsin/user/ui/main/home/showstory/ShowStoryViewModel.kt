@@ -21,6 +21,7 @@ class ShowStoryViewModel : BaseViewModel() {
     var storiesList: MutableList<ArrayList<StoriesItem>> = ArrayList()
     var listOfViews: ArrayList<MomentzView> = ArrayList()
 
+    val currentPosition = MutableLiveData(0)
     var storyItem: StoriesItem? = null
 
     /*    fun getListStories(){
@@ -104,6 +105,7 @@ class ShowStoryViewModel : BaseViewModel() {
                 )
             }.collect {
                 _getFollowResponseResponse.value = it
+
             }
         }
     }

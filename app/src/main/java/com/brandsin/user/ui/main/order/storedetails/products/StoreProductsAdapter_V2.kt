@@ -1,25 +1,27 @@
 package com.brandsin.user.ui.main.order.storedetails.products
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.brandsin.user.R
 import com.brandsin.user.databinding.DialogProgressBinding
 import com.brandsin.user.databinding.RawStoreProductBinding
+import com.brandsin.user.databinding.RawStoreProductGridBinding
 import com.brandsin.user.model.order.storedetails.StoreProductItem
 import com.brandsin.user.utils.SingleLiveEvent
 import com.brandsin.user.utils.Utils
 import org.jsoup.Jsoup
 
-class StoreProductsAdapter_V2 : RecyclerView.Adapter<BaseViewHolder>() {
+class StoreProductsAdapter_V2(var isGrid: Boolean=false) : RecyclerView.Adapter<BaseViewHolder>() {
 
     var productsList: MutableList<StoreProductItem> = ArrayList()
     var productLiveData2 = SingleLiveEvent<String>()
     var productLiveData = SingleLiveEvent<StoreProductItem>()
-
     private val VIEW_TYPE_LOADING = 0
     private val VIEW_TYPE_NORMAL = 1
+    private val VIEW_TYPE_GRID = 2
     var lastScrollPosition = -1
     private var isLoaderVisible = false
 
@@ -27,13 +29,24 @@ class StoreProductsAdapter_V2 : RecyclerView.Adapter<BaseViewHolder>() {
         val layoutInflater = LayoutInflater.from(parent.context)
         return when (viewType) {
             VIEW_TYPE_NORMAL -> {
-                val binding: RawStoreProductBinding = DataBindingUtil.inflate(
-                    layoutInflater,
-                    R.layout.raw_store_product,
-                    parent,
-                    false
-                )
-                ViewHolder(binding)
+                if (isGrid.not()) {
+                    val binding: RawStoreProductBinding = DataBindingUtil.inflate(
+                        layoutInflater,
+                        R.layout.raw_store_product,
+                        parent,
+                        false
+                    )
+                    ViewHolder(binding)
+                } else
+                {
+                    val binding: RawStoreProductGridBinding = DataBindingUtil.inflate(
+                        layoutInflater,
+                        R.layout.raw_store_product_grid,
+                        parent,
+                        false
+                    )
+                    ViewHolderGrid(binding)
+                }
             }
 
             VIEW_TYPE_LOADING -> {
@@ -122,6 +135,56 @@ class StoreProductsAdapter_V2 : RecyclerView.Adapter<BaseViewHolder>() {
     }
 
     inner class ViewHolder internal constructor(val binding: RawStoreProductBinding) :
+        BaseViewHolder(binding.root) {
+        override fun clear() {}
+
+        override fun onBind(position: Int) {
+            super.onBind(position)
+            val itemViewModel = ItemStoreProductViewModel(productsList[position])
+            binding.viewModel = itemViewModel
+
+            // binding.tvPrice.paintFlags = binding.tvPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+
+            if (itemViewModel.item.description == null || itemViewModel.item.description == "null") {
+                binding.tvDescription.text = ""
+            } else {
+                binding.tvDescription.text = Utils.html2text(itemViewModel.item.description.toString())
+            }
+
+            // setSelected(position)
+            // binding.btnAdd.setOnClickListener {
+            // productLiveData.value = itemViewModel.item
+            // }
+
+            binding.rawLayout.setOnClickListener {
+                productLiveData.value = itemViewModel.item
+            }
+
+            itemView.setOnClickListener {
+//            if(itemViewModel.isClosed==0) {
+//            moreSubLiveData.value = itemViewModel.itemMoreSub
+//            }
+                productLiveData.value = itemViewModel.item
+            }
+        }
+
+        /*fun setSelected(position: Int) {
+            when (productsList[position].isSelected) {
+                true -> {
+                    binding.btnAdd.setBackgroundResource(R.drawable.btn_add_selected)
+                    binding.btnAdd.setTextColor(ContextCompat.getColor(MyApp.context, R.color.white))
+                    binding.btnAdd.text = MyApp.context.getString(R.string.addedd)
+                }
+                else -> {
+                    binding.btnAdd.setBackgroundResource(R.drawable.btn_add_unselected)
+                    binding.btnAdd.setTextColor(ContextCompat.getColor(MyApp.context, R.color.black))
+                    binding.btnAdd.text = MyApp.context.getString(R.string.add)
+                }
+            }
+        }*/
+
+    }
+    inner class ViewHolderGrid internal constructor(val binding: RawStoreProductGridBinding) :
         BaseViewHolder(binding.root) {
         override fun clear() {}
 

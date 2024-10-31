@@ -20,6 +20,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <!-- Details layout -->
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/store_details_layout"
             isFull="@{viewModel.obsIsFull}"
@@ -28,6 +29,20 @@
             android:background="#FAFAFA"
             app:layout_constraintTop_toTopOf="parent"
             tools:layout_editor_absoluteX="-163dp">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/changeViewLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:layout_marginBottom="@dimen/_8sdp"
+                android:clickable="true"
+                android:onClick="@{()->viewModel.onChangeViewClicked()}"
+                app:backgroundTint="@color/white"
+                app:tint="@color/black"
+                android:src="@drawable/ic_grid"
+                app:layout_constraintBottom_toBottomOf="@+id/content"
+                app:layout_constraintEnd_toEndOf="parent" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/store_header_layout"
@@ -479,6 +494,24 @@
                         app:layout_constraintTop_toBottomOf="@+id/rv_categories"
                         tools:itemCount="5"
                         tools:listitem="@layout/raw_store_product" />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_meals_grid"
+                        adapter="@{viewModel.productsAdapter}"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="true"
+                        android:layout_marginBottom="@dimen/_1sdp"
+                        android:orientation="vertical"
+                        android:visibility="gone"
+                        android:paddingStart="@dimen/_8sdp"
+                        android:paddingEnd="@dimen/_8sdp"
+                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/rv_categories"
+                        tools:itemCount="5"
+                        app:spanCount="2"
+                        tools:listitem="@layout/raw_store_product_grid" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         isEmpty="@{viewModel.obsIsEmpty}"

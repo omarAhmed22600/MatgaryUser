@@ -147,6 +147,9 @@ data class SearchStoresOrProducts(
     @field:SerializedName("updated_at")
     val updatedAt: String? = null,
 
+    @field:SerializedName("type")
+    val type: String? = null,
+
     /*@field:SerializedName("avg_rating")
     val avgRating: Any? = null,*/
 

@@ -66,14 +66,22 @@
 
     <TextView
         android:id="@+id/textView19"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
+        android:ellipsize="marquee"
+        android:focusable="true"
+        android:maxLines="1"
+        app:setSelection="@{true}"
+        android:focusableInTouchMode="true"
         android:fontFamily="@font/cairo_semibold"
+        android:marqueeRepeatLimit="marquee_forever"
         android:text="@{viewModel.item.name}"
         android:textAlignment="viewStart"
         android:textColor="#3D3D3D"
-        android:textSize="@dimen/_18sdp"
+        android:textSize="@dimen/_15sdp"
+        app:layout_constraintEnd_toStartOf="@+id/linearLayout5"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/materialCardView"
         app:layout_constraintTop_toTopOf="@+id/materialCardView"
         tools:text="Kfc" />
@@ -146,6 +154,7 @@
 
 
     <LinearLayout
+        android:id="@+id/linearLayout5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/white"

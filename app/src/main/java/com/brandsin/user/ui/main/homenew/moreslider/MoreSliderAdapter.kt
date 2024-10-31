@@ -13,7 +13,7 @@ import com.brandsin.user.utils.SingleLiveEvent
 import com.smarteist.autoimageslider.SliderViewAdapter
 import java.util.ArrayList
 
-class MoreSliderAdapter : SliderViewAdapter<MoreSliderAdapter.SliderHolder>() {
+class MoreSliderAdapter(var clickListener: (SlidesItem) -> Unit) : SliderViewAdapter<MoreSliderAdapter.SliderHolder>() {
     var itemsList: List<SlidesItem> = ArrayList()
     var moreSliderLiveData = SingleLiveEvent<SlidesItem>()
 
@@ -29,6 +29,11 @@ class MoreSliderAdapter : SliderViewAdapter<MoreSliderAdapter.SliderHolder>() {
         val itemViewModel = ItemMoreSliderViewModel(itemsList[position])
         holder.binding.viewModel = itemViewModel
 
+        // Setting up click listener
+        holder.binding.root.setOnClickListener {
+            clickListener.invoke(itemViewModel.item)
+        }
+
         if (PrefMethods.getLanguage() == "ar") {
             if (itemViewModel.item.content.isNullOrEmpty()) {
                 Glide.with(MyApp.context).load(R.drawable.app_logo).error(R.drawable.app_logo)
@@ -38,24 +43,20 @@ class MoreSliderAdapter : SliderViewAdapter<MoreSliderAdapter.SliderHolder>() {
                     if (!(itemViewModel.item.content.toString()
                             .contains(MyApp.context.getString(R.string.app_url)))
                     )
-                        //MyApp.context.getString(R.string.app_url) +
-                                itemViewModel.item.content else itemViewModel.item.content
-                )
-                    .error(R.drawable.app_logo).into(holder.binding.ivAutoImageSlider)
+                        itemViewModel.item.content else itemViewModel.item.content
+                ).error(R.drawable.app_logo).into(holder.binding.ivAutoImageSlider)
             }
         } else if (PrefMethods.getLanguage() == "en") {
             if (itemViewModel.item.contentEn.isNullOrEmpty()) {
                 Glide.with(MyApp.context).load(R.drawable.app_logo).error(R.drawable.app_logo)
                     .into(holder.binding.ivAutoImageSlider)
             } else {
-                Glide.with(MyApp.context)
-                    .load(
-                        if (!(itemViewModel.item.contentEn.toString()
-                                .contains(MyApp.context.getString(R.string.app_url)))
-                        ) //MyApp.context.getString(R.string.app_url) +
-                                itemViewModel.item.contentEn else itemViewModel.item.contentEn
+                Glide.with(MyApp.context).load(
+                    if (!(itemViewModel.item.contentEn.toString()
+                            .contains(MyApp.context.getString(R.string.app_url)))
                     )
-                    .error(R.drawable.app_logo).into(holder.binding.ivAutoImageSlider)
+                        itemViewModel.item.contentEn else itemViewModel.item.contentEn
+                ).error(R.drawable.app_logo).into(holder.binding.ivAutoImageSlider)
             }
         }
 
@@ -73,11 +74,10 @@ class MoreSliderAdapter : SliderViewAdapter<MoreSliderAdapter.SliderHolder>() {
         notifyDataSetChanged()
     }
 
-    inner class SliderHolder(val binding: ItemHomeMoreSliderBinding) :
-        ViewHolder(binding.root)
+    inner class SliderHolder(val binding: ItemHomeMoreSliderBinding) : ViewHolder(binding.root)
 
     override fun getCount(): Int {
         return itemsList.size
     }
-
 }
+

@@ -19,7 +19,7 @@ class NotificationViewModel : BaseViewModel()
     var notificationAdapter  = NotificationsAdapter()
     var notificationsList : ArrayList<NotificationItem> = ArrayList()
     var slidersResponse = SingleLiveEvent<SlidersResponse>()
-    var moreSliderAdapter = MoreSliderAdapter()
+    var moreSliderAdapter = MoreSliderAdapter(){}
 
     init {
         getUserStatus()

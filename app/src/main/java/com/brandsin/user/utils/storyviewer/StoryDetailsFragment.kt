@@ -88,6 +88,7 @@ class StoryDetailsFragment : BaseHomeFragment(), MomentzCallback {
     }
 
     private fun initView(data: StoryItem?) {
+        Timber.e("story:$data")
         Glide.with(requireContext())
             .load(data?.store?.thumbnail)
             .error(R.drawable.app_logo)
@@ -226,6 +227,13 @@ class StoryDetailsFragment : BaseHomeFragment(), MomentzCallback {
             when (it) {
                 is ResponseHandler.Success -> {
                     if (it.data?.success == true) {
+                        if (it.data?.message.toString() == "Store followed" || it.data?.message.toString() == "تم متابعة المتجر")
+                        {
+                            binding.storeFollow.text = getString(R.string.followed)
+                        } else {
+                            binding.storeFollow.text = getString(R.string.follow)
+
+                        }
                         showToast(it.data.message.toString(), 2)
                         viewModel.getStoryDetailsById(storyId ?: 0)
                     } else {
@@ -257,9 +265,15 @@ class StoryDetailsFragment : BaseHomeFragment(), MomentzCallback {
                 is ResponseHandler.Success -> {
                     // showToast(it.data?.message.toString(), 2)
                     // viewModel.getAllFavoriteProduct()
+                    Timber.e("story details response")
+
                     if (it.data?.message.toString() == getString(R.string.added_story_to_my_favorite)) {
+                        /*binding.favoriteCount.text =
+                            binding.favoriteCount.text.toString().toInt().plus(1).toString()*/
                         binding.imgFavorite.setImageResource(R.drawable.ic_favorite_selected)
                     } else {
+                        /*binding.favoriteCount.text =
+                            binding.favoriteCount.text.toString().toInt().minus(1).toString()*/
                         binding.imgFavorite.setImageResource(R.drawable.ic_normal_favorite)
                     }
 
@@ -417,5 +431,6 @@ class StoryDetailsFragment : BaseHomeFragment(), MomentzCallback {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+//        viewModel.currentPosition.value = 0
     }
 }

@@ -20,6 +20,7 @@ import com.brandsin.user.ui.activity.auth.BaseAuthFragment
 import com.brandsin.user.ui.activity.home.HomeActivity
 import com.brandsin.user.utils.PrefMethods
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.io.File
 
 class SplashFragment : BaseAuthFragment(), MediaPlayer.OnCompletionListener {
@@ -94,6 +95,7 @@ class SplashFragment : BaseAuthFragment(), MediaPlayer.OnCompletionListener {
     }
 
     private fun startVideo() {
+        Timber.e("Video Starting")
         val url: Uri =
             Uri.parse("android.resource://" + requireActivity().packageName.toString() + "/" + R.raw.new_splash)
         val file = File(url.toString())
@@ -107,6 +109,7 @@ class SplashFragment : BaseAuthFragment(), MediaPlayer.OnCompletionListener {
     }
 
     override fun onCompletion(p0: MediaPlayer?) {
+        Timber.e("video completed")
         lifecycleScope.launch {
             //delay(2000)
 

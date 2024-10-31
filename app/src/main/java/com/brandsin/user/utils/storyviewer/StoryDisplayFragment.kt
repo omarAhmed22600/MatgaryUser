@@ -11,6 +11,8 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModelProvider
 import com.brandsin.user.R
 import com.brandsin.user.databinding.FragmentStoryDisplayBinding
 import com.brandsin.user.model.constants.Codes
@@ -52,9 +54,10 @@ class StoryDisplayFragment(val pageViewOperator: PageViewOperator) : BaseHomeFra
     private var _binding: FragmentStoryDisplayBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: ShowStoryViewModel by viewModels()
+    lateinit var viewModel: ShowStoryViewModel
 
-    private val position: Int by
+
+    val position: Int by
     lazy { arguments?.getInt(EXTRA_POSITION) ?: 0 }
 
     private val storyUser: ArrayList<StoriesItem> by
@@ -69,8 +72,7 @@ class StoryDisplayFragment(val pageViewOperator: PageViewOperator) : BaseHomeFra
     private var simpleExoPlayer: ExoPlayer? = null
     private lateinit var mediaDataSourceFactory: DataSource.Factory
 
-    // var pageViewOperator: PageViewOperator? = null
-    private var counter = 0
+    var counter = MutableLiveData(0)
     private var pressTime = 0L
     private var limit = 500L
     private var onResumeCalled = false
@@ -90,10 +92,14 @@ class StoryDisplayFragment(val pageViewOperator: PageViewOperator) : BaseHomeFra
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.storyDisplayVideo.useController = false
+        viewModel = ViewModelProvider(requireActivity()).get(ShowStoryViewModel::class.java)
         setUpUi()
         updateStory()
-        // subscribeData()
-
+        counter.observe(viewLifecycleOwner)
+        {
+            viewModel.currentPosition.value = it
+            Timber.e("counter chaged $it")
+        }
         if (PrefMethods.getSoundStory() == 0f) { // true
             simpleExoPlayer?.volume = PrefMethods.getSoundStory()
             binding.icSound.setImageResource(R.drawable.ic_sound_off)
@@ -105,14 +111,14 @@ class StoryDisplayFragment(val pageViewOperator: PageViewOperator) : BaseHomeFra
 
     override fun onStart() {
         super.onStart()
-        counter = restorePosition()
+        counter.value = restorePosition()
     }
 
     override fun onResume() {
         super.onResume()
         onResumeCalled = true
-        if (counter < stories.size) {
-            if (stories[counter].mediaUrl?.endsWith(".mp4", true) == true && !onVideoPrepared) {
+        if (counter!!.value!! < stories.size) {
+            if (stories[counter!!.value!!].mediaUrl?.endsWith(".mp4", true) == true && !onVideoPrepared) {
                 simpleExoPlayer?.playWhenReady = false
                 simpleExoPlayer?.volume = PrefMethods.getSoundStory()
                 return
@@ -122,12 +128,12 @@ class StoryDisplayFragment(val pageViewOperator: PageViewOperator) : BaseHomeFra
         simpleExoPlayer?.seekTo(5)
         simpleExoPlayer?.playWhenReady = true
         simpleExoPlayer?.volume = PrefMethods.getSoundStory()
-        if (counter == 0) {
+        if (counter!!.value!! == 0) {
             binding.storiesProgressView.startStories()
         } else {
             // restart animation
-            counter = StoryView.progressState.get(arguments?.getInt(EXTRA_POSITION) ?: 0)
-            binding.storiesProgressView.startStories(counter)
+            counter.value = StoryView.progressState.get(arguments?.getInt(EXTRA_POSITION) ?: 0)
+            binding.storiesProgressView.startStories(counter!!.value!!)
         }
     }
 
@@ -144,18 +150,18 @@ class StoryDisplayFragment(val pageViewOperator: PageViewOperator) : BaseHomeFra
     }
 
     override fun onPrev() {
-        if (counter - 1 < 0) return
-        --counter
-        savePosition(counter)
+        if (counter!!.value!! - 1 < 0) return
+        counter.value = counter.value!! - 1
+        savePosition(counter!!.value!!)
         updateStory()
     }
 
     override fun onNext() {
-        if (stories.size <= counter + 1) {
+        if (stories.size <= counter!!.value!! + 1) {
             return
         }
-        ++counter
-        savePosition(counter)
+        counter.value = counter.value!! + 1
+        savePosition(counter!!.value!!)
         updateStory()
     }
 
@@ -174,23 +180,20 @@ class StoryDisplayFragment(val pageViewOperator: PageViewOperator) : BaseHomeFra
 
         simpleExoPlayer?.stop()
 
-        viewModel.updateViewStory(stories[counter].id ?: 0)
-        /*
-         simpleExoPlayer null
-         D  stories[counter] StoriesItem(inOffersPage=1, storeId=65, createdAt=2023-07-28 13:11:29, id=436, title=مُد للعود, text=null, store=Store(minPriceProduct=25, image=https://brandsin.net/media/user_v1oz1Yz27j/4665/conversions/image_350x350_0.jpeg, thumbnail=https://brandsin.net/media/user_v1oz1Yz27j/4665/conversions/image_350x350_0.jpeg, images=[{id=4600.0, url=https://brandsin.net/media/user_v1oz1Yz27j/4600/Certificate.jpg}], thumbnailId=4665, avgRating=5.0, name=مُـد للعود, id=65, commercialRegister={id=4666.0, url=https://brandsin.net/media/user_v1oz1Yz27j/4666/image.jpeg}, covers=[CoversItem(id=4660, url=https://brandsin.net/media/user_v1oz1Yz27j/4660/image.jpeg), CoversItem(id=4661, url=https://brandsin.net/media/user_v1oz1Yz27j/4661/image.jpeg), CoversItem(id=4662, url=https://brandsin.net/media/user_v1oz1Yz27j/4662/image.jpeg), CoversItem(id=4663, url=https://brandsin.net/media/user_v1oz1Yz27j/4663/image.jpeg), CoversItem(id=4664, url=https://brandsin.net/media/user_v1oz1Yz27j/4664/image.jpeg)]), media=null, mediaUrl=https://brandsin.net/media/user_/4731/story.mp4, views=85, isPinned=1, isPinnedHomepage=1)
-         D  simpleExoPlayer null
-         */
-        if (stories[counter].mediaUrl?.endsWith(".mp4", true) == true) {
+        viewModel.updateViewStory(stories[counter!!.value!!].id ?: 0)
+
+        if (stories[counter!!.value!!].mediaUrl?.endsWith(".mp4", true) == true) {
             binding.storyDisplayVideo.show()
             binding.storyDisplayImage.hide()
             binding.consTxtStory.hide()
             binding.tvTxtStory.hide()
             binding.icSound.show()
             binding.storyDisplayVideoProgress.show()
+
             initializePlayer()
-        } else if ((stories[counter].mediaUrl?.endsWith(".png", true) == true ||
-                    stories[counter].mediaUrl?.endsWith(".jpg", true) == true ||
-                    stories[counter].mediaUrl?.endsWith(".jpeg", true) == true)
+        } else if ((stories[counter!!.value!!].mediaUrl?.endsWith(".png", true) == true ||
+                    stories[counter!!.value!!].mediaUrl?.endsWith(".jpg", true) == true ||
+                    stories[counter!!.value!!].mediaUrl?.endsWith(".jpeg", true) == true)
         ) {
             binding.storyDisplayVideo.hide()
             binding.consTxtStory.hide()
@@ -201,7 +204,7 @@ class StoryDisplayFragment(val pageViewOperator: PageViewOperator) : BaseHomeFra
 
             // set image of story
             Glide.with(requireContext())
-                .load(stories[counter].mediaUrl)
+                .load(stories[counter!!.value!!].mediaUrl)
                 .addListener(object : RequestListener<Drawable> {
                     override fun onLoadFailed(
                         exeption: GlideException?,
@@ -211,7 +214,7 @@ class StoryDisplayFragment(val pageViewOperator: PageViewOperator) : BaseHomeFra
                     ): Boolean {
                         pauseCurrentStory()
                         // Handle the case where image loading failed
-                        // This method is called if Glide encounters an error during image loading
+                        // This method is called if Glide encounter!!.value!!s an error during image loading
                         // You can show an error placeholder or handle it in another way
                         return false // Return false to allow Glide to display its default error drawable
                     }
@@ -233,8 +236,8 @@ class StoryDisplayFragment(val pageViewOperator: PageViewOperator) : BaseHomeFra
                 })
                 .into(binding.storyDisplayImage)
 
-        } else if (stories[counter].mediaUrl.isNullOrEmpty() &&
-            stories[counter].text?.isNotEmpty() == true
+        } else if (stories[counter!!.value!!].mediaUrl.isNullOrEmpty() &&
+            stories[counter!!.value!!].text?.isNotEmpty() == true
         ) {
             binding.storyDisplayVideo.hide()
             binding.consTxtStory.show()
@@ -243,14 +246,14 @@ class StoryDisplayFragment(val pageViewOperator: PageViewOperator) : BaseHomeFra
             binding.storyDisplayImage.hide()
             binding.storyDisplayVideoProgress.hide()
             // set text of story with image of story
-            binding.tvTxtStory.text = stories[counter].text.toString()
+            binding.tvTxtStory.text = stories[counter!!.value!!].text.toString()
         } else {
             binding.storyDisplayVideo.hide()
             binding.storyDisplayVideoProgress.hide()
             binding.icSound.hide()
             binding.storyDisplayImage.show()
             Glide.with(requireContext())
-                .load(stories[counter].mediaUrl)
+                .load(stories[counter!!.value!!].mediaUrl)
                 .addListener(object : RequestListener<Drawable> {
                     override fun onLoadFailed(
                         exeption: GlideException?,
@@ -260,7 +263,7 @@ class StoryDisplayFragment(val pageViewOperator: PageViewOperator) : BaseHomeFra
                     ): Boolean {
                         pauseCurrentStory()
                         // Handle the case where image loading failed
-                        // This method is called if Glide encounters an error during image loading
+                        // This method is called if Glide encounter!!.value!!s an error during image loading
                         // You can show an error placeholder or handle it in another way
                         return false // Return false to allow Glide to display its default error drawable
                     }
@@ -280,13 +283,9 @@ class StoryDisplayFragment(val pageViewOperator: PageViewOperator) : BaseHomeFra
                         return false // Return false to allow Glide to display the loaded image
                     }
                 })
+
                 .into(binding.storyDisplayImage)
         }
-
-//        val cal: Calendar = Calendar.getInstance(Locale.ENGLISH).apply {
-//            timeInMillis = stories[counter].createdAt
-//        }
-        // storyDisplayTime.text = DateFormat.format("MM-dd-yyyy HH:mm:ss", cal).toString()
     }
 
     private fun initializePlayer() {
@@ -304,26 +303,8 @@ class StoryDisplayFragment(val pageViewOperator: PageViewOperator) : BaseHomeFra
             ).build()
         }
 
-//        mediaDataSourceFactory = CacheDataSourceFactory(
-//            MyApp.simpleCache,
-//            DefaultHttpDataSourceFactory(
-//                Util.getUserAgent(
-//                    context,
-//                    Util.getUserAgent(requireContext(), getString(R.string.app_name))
-//                ),null,DefaultHttpDataSource.DEFAULT_CONNECT_TIMEOUT_MILLIS,
-//                DefaultHttpDataSource.DEFAULT_READ_TIMEOUT_MILLIS,
-//                false
-//            )
-//        )
-
         val proxy: HttpProxyCacheServer = MyApp.getInstance().getProxy(requireActivity())!!
-        val proxyUrl = proxy.getProxyUrl(stories[counter].mediaUrl ?: "")
-
-//        val mediaSource = ProgressiveMediaSource.Factory(mediaDataSourceFactory).createMediaSource(
-//            Uri.parse(proxyUrl)
-//        )
-        // simpleExoPlayer?.prepare(mediaSource, false, false)
-
+        val proxyUrl = proxy.getProxyUrl(stories[counter!!.value!!].mediaUrl ?: "")
         val videoUri = Uri.parse(proxyUrl)
         val mediaItem: MediaItem = MediaItem.fromUri(videoUri)
         val httpDataSourceFactory: DefaultHttpDataSource.Factory =
@@ -347,10 +328,11 @@ class StoryDisplayFragment(val pageViewOperator: PageViewOperator) : BaseHomeFra
         binding.storyDisplayVideo.player = simpleExoPlayer
 
         simpleExoPlayer?.addListener(object : Player.Listener {
+
             override fun onPlayerError(error: PlaybackException) {
                 super.onPlayerError(error)
                 binding.storyDisplayVideoProgress.hide()
-                if (counter == stories.size.minus(1)) {
+                if (counter!!.value!! == stories.size.minus(1)) {
                     pageViewOperator.nextPageView()
                 } else {
                     binding.storiesProgressView.skip()
@@ -365,9 +347,10 @@ class StoryDisplayFragment(val pageViewOperator: PageViewOperator) : BaseHomeFra
                     pressTime = System.currentTimeMillis()
                     pauseCurrentStory()
                 } else {
+                    Timber.e("exoplayer onLoadingChanged")
                     binding.storyDisplayVideoProgress.hide()
                     try {
-                        binding.storiesProgressView.getProgressWithIndex(counter)
+                        binding.storiesProgressView.getProgressWithIndex(counter!!.value!!)
                             .setDuration(simpleExoPlayer?.duration ?: 8000L)
                     } catch (exc: Exception) {
                         Log.d("StoryDisplay", "onLoadingChanged ${exc.localizedMessage}")
@@ -380,6 +363,7 @@ class StoryDisplayFragment(val pageViewOperator: PageViewOperator) : BaseHomeFra
     }
 
     private fun setUpUi() {
+        Timber.e("setup called")
         val touchListener = object : OnSwipeTouchListener(requireActivity()) {
             override fun onSwipeTop() {
                 //  Toast.makeText(activity, "onSwipeTop", Toast.LENGTH_LONG).show()
@@ -394,7 +378,7 @@ class StoryDisplayFragment(val pageViewOperator: PageViewOperator) : BaseHomeFra
                     binding.next -> {
                         onResumeCalled = true
                         binding.constraintTagXAndY.hide()
-                        if (counter == stories.size - 1) {
+                        if (counter!!.value!! == stories.size - 1) {
                             pageViewOperator.nextPageView()
                         } else {
                             binding.storiesProgressView.skip()
@@ -404,7 +388,7 @@ class StoryDisplayFragment(val pageViewOperator: PageViewOperator) : BaseHomeFra
                     binding.previous -> {
                         onResumeCalled = true
                         binding.constraintTagXAndY.hide()
-                        if (counter == 0) {
+                        if (counter!!.value!! == 0) {
                             pageViewOperator.backPageView()
                         } else {
                             binding.storiesProgressView.reverse()
@@ -416,10 +400,10 @@ class StoryDisplayFragment(val pageViewOperator: PageViewOperator) : BaseHomeFra
             override fun onLongClick() {
                 hideStoryOverlay()
 
-                if ((stories[counter].mediaUrl?.endsWith(".png", true) == true ||
-                            stories[counter].mediaUrl?.endsWith(".jpg", true) == true ||
-                            stories[counter].mediaUrl?.endsWith(".jpeg", true) == true)
-                    && stories[counter].text.isNullOrEmpty() && stories[counter].x != null && stories[counter].y != null
+                if ((stories[counter!!.value!!].mediaUrl?.endsWith(".png", true) == true ||
+                            stories[counter!!.value!!].mediaUrl?.endsWith(".jpg", true) == true ||
+                            stories[counter!!.value!!].mediaUrl?.endsWith(".jpeg", true) == true)
+                    && stories[counter!!.value!!].text.isNullOrEmpty() && stories[counter!!.value!!].x != null && stories[counter!!.value!!].y != null
                 ) {
                     // pauseCurrentStory()
                     onResumeCalled = false
@@ -428,25 +412,25 @@ class StoryDisplayFragment(val pageViewOperator: PageViewOperator) : BaseHomeFra
                     binding.constraintTagXAndY.show()
                     setPositionWithOffset(
                         binding.constraintTagXAndY,
-                        stories[counter].x?.toFloat() ?: 0.0f,
-                        stories[counter].y?.toFloat() ?: 0.0f
+                        stories[counter!!.value!!].x?.toFloat() ?: 0.0f,
+                        stories[counter!!.value!!].y?.toFloat() ?: 0.0f
                     )
-                    binding.productName.text = stories[counter].product?.name.toString()
+                    binding.productName.text = stories[counter!!.value!!].product?.name.toString()
                     binding.productPrice.text =
-                        stories[counter].product?.skus?.get(0)?.price.toString() + " " + getString(R.string.currency)
+                        stories[counter!!.value!!].product?.skus?.get(0)?.price.toString() + " " + getString(R.string.currency)
 
                     Glide.with(requireContext())
-                        .load(stories[counter].mediaUrl)
+                        .load(stories[counter!!.value!!].mediaUrl)
                         .error(R.drawable.app_logo)
                         .into(binding.storyDisplayImage)
 
                     binding.constraintTagXAndY.setOnClickListener {
-                        when (stories[counter].product?.type) {
+                        when (stories[counter!!.value!!].product?.type) {
                             "simple" -> {
                                 val bundle = Bundle()
                                 bundle.putParcelable(
                                     Params.STORE_PRODUCT_ITEM,
-                                    stories[counter].product
+                                    stories[counter!!.value!!].product
                                 )
                                 Utils.startDialogActivity(
                                     requireActivity(),
@@ -458,7 +442,7 @@ class StoryDisplayFragment(val pageViewOperator: PageViewOperator) : BaseHomeFra
 
                             "variable" -> {
                                 val intent = Intent(requireActivity(), OrderAddonsActivity::class.java)
-                                intent.putExtra(Params.STORE_PRODUCT_ITEM, stories[counter].product)
+                                intent.putExtra(Params.STORE_PRODUCT_ITEM, stories[counter!!.value!!].product)
                                 intent.putExtra(Params.DIALOG_CLICK_ACTION, 0)
                                 startActivityForResult(intent, Codes.SELECT_ORDER_ADDONS_ACTIVITY)
                             }
@@ -535,33 +519,33 @@ class StoryDisplayFragment(val pageViewOperator: PageViewOperator) : BaseHomeFra
     }
 
     private fun generateDynamicLink() {
+        val validPosition = if (position < storyUser.size) position else storyUser.size - 1
+        val store = storyUser[validPosition].store
+
+        val coverUrl = if (store?.covers != null && position < store.covers.size) {
+            store.covers[position]?.url
+        } else {
+            ""
+        }
+
         FirebaseDynamicLinks.getInstance().createDynamicLink()
             .setLink(
                 Uri.parse(
-                    "https://dev.brandsin.net/story?story_Id=${
-                        storyUser[if (position < storyUser.size) position else storyUser.size - 1]
-                            .id ?: ""
-                    }"
+                    "https://dev.brandsin.net/story?story_Id=${storyUser[validPosition].id ?: ""}"
                 )
-            ) // Replace with your deep link URL
-            .setDomainUriPrefix("https://brandsin.page.link") // Replace with your Firebase Dynamic Links domain
+            )
+            .setDomainUriPrefix("https://brandsin.page.link")
             .setAndroidParameters(
                 DynamicLink.AndroidParameters.Builder(requireContext().packageName)
                     .setFallbackUrl(Uri.parse("YOUR_FALLBACK_URL_HERE"))
-                    .setMinimumVersion(1) // Optional: Minimum app version required
+                    .setMinimumVersion(1)
                     .build()
             )
             .setSocialMetaTagParameters(
                 DynamicLink.SocialMetaTagParameters.Builder()
-                    .setTitle(
-                        storyUser[if (position < storyUser.size) position else storyUser.size - 1]
-                            .store?.name ?: ""
-                    ) // "Your Title"
+                    .setTitle(store?.name ?: "")
                     .setDescription("Your Description")
-                    .setImageUrl(
-                        // Uri.parse(storyUser[if (position < storyUser.size) position else storyUser.size - 1].store?.thumbnail ?: "")
-                        Uri.parse(storyUser[if (position < storyUser.size) position else storyUser.size - 1].store?.covers?.get(position)?.url ?: "")
-                    ) // Optional: Image URL for sharing ("https://www.example.com/image.png")
+                    .setImageUrl(Uri.parse(coverUrl ?: ""))
                     .build()
             )
             .buildShortDynamicLink()
@@ -569,12 +553,9 @@ class StoryDisplayFragment(val pageViewOperator: PageViewOperator) : BaseHomeFra
                 if (task.isSuccessful) {
                     val shortLink = task.result.shortLink
                     val flowchartLink = task.result.previewLink
-                    // Handle the short link (e.g., display it or share it)
                     println("dynamicLink == Short Link: $shortLink")
                     println("dynamicLink == Preview Link: $flowchartLink")
- 
-                    // Handle the short link (e.g., share it)
-                    // shortLink.toString() contains the shortened URL
+
                     val share = Intent(Intent.ACTION_SEND)
                     share.type = "text/Share"
                     val shareBody = shortLink.toString()
@@ -583,7 +564,6 @@ class StoryDisplayFragment(val pageViewOperator: PageViewOperator) : BaseHomeFra
                     share.putExtra(Intent.EXTRA_TEXT, shareBody)
                     startActivity(Intent.createChooser(share, "Share using"))
                 } else {
-                    // Handle error https://dev.brandsin.net/api/hajaty/store/show?store_id=66&user_id=817&locale=ar&page=0&limit=50 (1841ms)
                     println("dynamicLink == exception Link: ${task.exception}")
                 }
             }

@@ -1,6 +1,7 @@
 package com.brandsin.user.ui.main.order.storedetails
 
 import androidx.databinding.ObservableField
+import androidx.lifecycle.MutableLiveData
 import com.brandsin.user.R
 import com.brandsin.user.database.BaseViewModel
 import com.brandsin.user.model.constants.Codes
@@ -31,7 +32,7 @@ class StoreDetailsViewModel : BaseViewModel() {
 
     var catAdapter = StoreCatAdapter()
     var productsAdapter = StoreProductsAdapter_V2()// StoreProductsAdapter()
-
+    val isGrid = MutableLiveData(false)
     var productsList: ArrayList<StoreProductItem> = ArrayList()
     var storeCategoriesList: List<StoreCategoryItem> = ArrayList()
 
@@ -75,6 +76,9 @@ class StoreDetailsViewModel : BaseViewModel() {
         }
     }
 
+    fun onChangeViewClicked(){
+        isGrid.value = isGrid.value!!.not()
+    }
     private fun getDeliveryTime() = when (storeData.deliveryTime) {
         null -> {
             obsDeliveryTime.set(""" 0 ${getString(R.string.minute)}""")
@@ -213,7 +217,7 @@ class StoreDetailsViewModel : BaseViewModel() {
             else -> {
                 obsHideRecycler.set(true)
                 obsIsEmpty.set(false)
-                productsAdapter.updateList(filteredList)
+                productsAdapter.updateList(filteredList.filter { it.status != "inactive" } as ArrayList)
             }
         }
     }

@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.brandsin.user.R
@@ -56,6 +57,7 @@ import com.google.firebase.iid.FirebaseInstanceId
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType
 import com.smarteist.autoimageslider.SliderAnimations
 import com.smarteist.autoimageslider.SliderView
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.*
 
@@ -137,6 +139,7 @@ class HomeNewFragment : BaseHomeFragment(), Observer<Any?>, StoryView.StoryViewL
             when (it) {
                 is CategoriesItem -> {
                     categoryId = it.categoryId!!.toString()
+                    Timber.e("id:$categoryId")
                     val action = HomeNewFragmentDirections.homeNewToHome(
                         categoryId, it.thumbnail.toString(),
                         emptyArray()
@@ -150,6 +153,7 @@ class HomeNewFragment : BaseHomeFragment(), Observer<Any?>, StoryView.StoryViewL
             when (it) {
                 is CategoriesItem -> {
                     categoryId = it.categoryId!!.toString()
+                    Timber.e("id:$categoryId")
                     val action = HomeNewFragmentDirections.homeNewToHome(
                         categoryId, it.thumbnail.toString(),
                         emptyArray()
@@ -836,6 +840,89 @@ class HomeNewFragment : BaseHomeFragment(), Observer<Any?>, StoryView.StoryViewL
     private fun setupSlider(sliders: List<SlidesItem?>?) {
         viewModel.moreSliderAdapter.updateList(sliders as List<SlidesItem>)
         sliderView = requireActivity().findViewById(R.id.bannerSlider)
+        viewModel.moreSliderAdapter.clickListener = {slidesItem ->
+            when (slidesItem.type) {
+                "discover" -> {
+                    findNavController().navigate(R.id.nav_discover)
+                }
+                "favorites" -> {
+                    findNavController().navigate(R.id.nav_favorites)
+                }
+                "wallet" -> {
+                    findNavController().navigate(R.id.nav_payment)
+                }
+                "offers" -> {
+                    findNavController().navigate(R.id.nav_offers)
+                }
+                "help" -> {
+                    findNavController().navigate(R.id.nav_help)
+                }
+                "store" -> {
+                    if (slidesItem.storeIdsArray.orEmpty().size > 1) {
+                        val action = HomeNewFragmentDirections.homeNewToHome(
+                            "",
+                            "",
+                            slidesItem.storeIdsArray.orEmpty().toTypedArray()
+                        )
+                        findNavController().navigate(action)
+                    } else {
+                        val action =
+                            HomeNewFragmentDirections.homeNewToStoreDetails(
+                                slidesItem.storeIdsArray?.get(0)?.toInt()?:-1)
+                        findNavController().navigate(action)
+                    }
+                }
+                "category" -> {
+                    /*categoryId = slidesItem.categoryId.toString().orEmpty()
+                    Timber.e("id:$categoryId")
+                   *//* if (categoryId.isNullOrEmpty())
+                    {
+                        findNavController().navigate(HomeNewFragmentDirections.homeNewToHome(
+                            "",
+                            "",
+                            arrayOf()
+                        ))
+                    }else{*//*
+                        val action = HomeNewFragmentDirections.homeNewToHome(
+                            categoryId, if (PrefMethods.getLanguage()=="ar")slidesItem.content.orEmpty() else slidesItem.contentEn.orEmpty(),
+                            emptyArray()
+                        )
+                        findNavController().navigate(action)
+//                    }*/
+
+                }
+                "product" -> {
+                    lifecycleScope.launch {
+
+                        when (viewModel.getProductStatus(slidesItem.productId ?: -1)) {
+                            "simple", "Simple" -> {
+                                val bundle = Bundle().apply {
+                                    putInt("productID", slidesItem.productId ?: -1)
+                                }
+                                Utils.startDialogActivity(
+                                    requireActivity(),
+                                    DialogOrderAddonsFragment::class.java.name,
+                                    Codes.SELECT_ORDER_ADDONS_DIALOG,
+                                    bundle
+                                )
+                            }
+
+                            "variable", "Variable" -> {
+                                val intent = Intent(requireActivity(), OrderAddonsActivity::class.java).apply {
+                                    putExtra(Params.STORE_PRODUCT_ITEM, slidesItem.productId ?: -1)
+                                    putExtra(Params.DIALOG_CLICK_ACTION, 0)
+                                }
+                                startActivityForResult(intent, Codes.SELECT_ORDER_ADDONS_ACTIVITY)
+                            }
+                        }
+                    }
+
+                }
+                else ->{
+                    Timber.e("Wrong Type")
+                }
+            }
+        }
         sliderView.setSliderAdapter(viewModel.moreSliderAdapter)
         sliderView.setIndicatorAnimation(IndicatorAnimationType.WORM)
         sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION)

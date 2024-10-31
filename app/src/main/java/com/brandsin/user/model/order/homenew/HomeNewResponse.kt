@@ -99,7 +99,7 @@ data class SlidesItem(
     val storeIds: String? = null,
 
     @field:SerializedName("product_id")
-    val productId: @RawValue Any? = null,
+    val productId: Int? = null,
 
     @field:SerializedName("store_ids_array")
     val storeIdsArray: ArrayList<String>? = null,

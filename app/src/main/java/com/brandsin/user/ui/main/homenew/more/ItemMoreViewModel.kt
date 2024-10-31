@@ -12,7 +12,7 @@ class ItemMoreViewModel(var itemMore: SectionsItem) : BaseViewModel() {
     var moreSubAdapter = MoreSubAdapter()
     var moreSubList = mutableListOf<StoresDataItem>()
 
-    var moreSliderAdapter = MoreSliderAdapter()
+    var moreSliderAdapter = MoreSliderAdapter(){}
     var moreSliderList = mutableListOf<SlidesItem>()
 
 }
