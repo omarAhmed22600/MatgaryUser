@@ -232,7 +232,7 @@
 
         <meta-data
             android:name="com.facebook.sdk.ClientToken"
-            android:value="519bcee7747ed77c7fd11db84ad961b6" />
+            android:value="" />
     </application>
 
 </manifest>

@@ -24,7 +24,7 @@ android {
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.brandsin.userapp"
+        applicationId "com.brandsin.user"
         minSdk 23
         targetSdk 34
         versionCode 21
