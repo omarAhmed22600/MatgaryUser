@@ -1,10 +1,9 @@
 package com.brandsin.user.model.constants
 
 object Params {
-    // const val BASE_URL = "https://hagaty-app.com"
-    // const val BASE_URL = "https://brandsin.net"
-    const val BASE_URL = "https://backend.brandsin.net/" // https://backend.brandsin.net/
-    // const val BASE_URL = "https://dev.brandsin.net/"
+
+    const val BASE_URL = ""
+
 
     /* SHARED PREFERENCES NAME */
     const val SHARED_PREF_NAME = "HAGATY"

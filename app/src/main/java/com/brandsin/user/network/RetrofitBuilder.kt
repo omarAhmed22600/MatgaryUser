@@ -12,10 +12,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 
-// private const val BASE_URL = "https://hagaty-app.com/"
-// private const val BASE_URL = "https://backend.brandsin.net/"
-// private const val BASE_URL = "https://dev.brandsin.net/"
-
 fun getHeaderInterceptor(): Interceptor {
     return object : Interceptor {
         override fun intercept(chain: Interceptor.Chain): Response {
